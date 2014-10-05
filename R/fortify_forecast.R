@@ -27,8 +27,9 @@ fortify.forecast <- function(forecast.data) {
 #' @export
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
-#' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
-#' ggplot2::autoplot(d.forecast)
+#' ggplot2::autoplot(forecast::forecast(d.arima, h = 50))
+#' ggplot2::autoplot(forecast::forecast(d.arima, level = c(95), h = 50))
+#' ggplot2::autoplot(forecast::forecast(d.arima, level = c(80), h = 50))
 autoplot.forecast <- function(forecast.data) {
   plot.data <- ggplot2::fortify(forecast.data)
   lower = '`Lo 95`'  # prioritize to use 95%
