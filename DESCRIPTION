@@ -1,9 +1,21 @@
 Package: ggfortify
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Define fortify and autoplot to allow ggplot2 to draw some popular
+    packages.
+Version: 0.0.1
 Date: 2014-10-05
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: sinhrks
+Maintainer: sinhrks <sinhrks@gmail.com>
+Description: Define fortify and autoplot to allow ggplot2 to draw some popular
+    packages. - forecast - survival
+License: GPL-2
+Imports:
+    zoo,
+    scales,
+    reshape2,
+    ggplot2,
+    dplyr
+Suggests:
+    testthat,
+    forecast,
+    survival
