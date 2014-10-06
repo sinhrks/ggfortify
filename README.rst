@@ -5,7 +5,7 @@
 ggfortify
 =========
 
-Define `fortify` functions to allow `ggplot2` to handle some popular R packages.
+Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle some popular R packages.
 
 This covers following classes:
 
