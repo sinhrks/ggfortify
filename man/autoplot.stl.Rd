@@ -3,13 +3,13 @@
 \alias{autoplot.stl}
 \title{Autoplot \code{stats::stl}.}
 \usage{
-\method{autoplot}{stl}(stl.data)
+\method{autoplot}{stl}(data)
 }
 \arguments{
-\item{stl.data}{\code{stats::stl} instance}
+\item{data}{\code{stats::stl} instance}
 }
 \value{
-data.frame
+ggplot
 }
 \description{
 Autoplot \code{stats::stl}.

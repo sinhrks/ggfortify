@@ -3,13 +3,13 @@
 \alias{autoplot.survfit}
 \title{Autoplot \code{survival::survfit}.}
 \usage{
-\method{autoplot}{survfit}(survfit.data)
+\method{autoplot}{survfit}(data)
 }
 \arguments{
-\item{survfit.data}{\code{survival::survfit} instance}
+\item{data}{\code{survival::survfit} instance}
 }
 \value{
-data.frame
+ggplot
 }
 \description{
 Autoplot \code{survival::survfit}.

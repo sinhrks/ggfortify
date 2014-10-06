@@ -1,18 +1,18 @@
 #' Convert \code{forecast::forecast} to data.frame.
 #' 
-#' @param forecast.data \code{forecast::forecast} instance
+#' @param data \code{forecast::forecast} instance
 #' @return data.frame
 #' @export
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 #' ggplot2::fortify(d.forecast)
-fortify.forecast <- function(forecast.data) {
-  forecasted <- as.data.frame(forecast.data)
-  forecasted$Time <- zoo::as.Date(time(forecast.data$mean))
-  fitted <- data.frame(Time = zoo::as.Date(time(forecast.data$fitted)),
-                       Original = forecast.data$x,
-                       Fitted = forecast.data$fitted)
+fortify.forecast <- function(data) {
+  forecasted <- as.data.frame(data)
+  forecasted$Time <- zoo::as.Date(time(data$mean))
+  fitted <- data.frame(Time = zoo::as.Date(time(data$fitted)),
+                       Original = data$x,
+                       Fitted = data$fitted)
   
   rownames(fitted) <- NULL
   rownames(forecasted) <- NULL
@@ -22,16 +22,16 @@ fortify.forecast <- function(forecast.data) {
 
 #' Autoplot \code{forecast::forecast}.
 #' 
-#' @param forecast.data \code{forecast::forecast} instance
-#' @return data.frame
+#' @param data \code{forecast::forecast} instance
+#' @return ggplot
 #' @export
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' ggplot2::autoplot(forecast::forecast(d.arima, h = 50))
 #' ggplot2::autoplot(forecast::forecast(d.arima, level = c(95), h = 50))
 #' ggplot2::autoplot(forecast::forecast(d.arima, level = c(80), h = 50))
-autoplot.forecast <- function(forecast.data) {
-  plot.data <- ggplot2::fortify(forecast.data)
+autoplot.forecast <- function(data) {
+  plot.data <- ggplot2::fortify(data)
   lower = '`Lo 95`'  # prioritize to use 95%
   upper = '`Hi 95`'
   

@@ -3,10 +3,10 @@
 \alias{fortify.acf}
 \title{Convert \code{stats::acf} to data.frame.}
 \usage{
-\method{fortify}{acf}(acf.data)
+\method{fortify}{acf}(data)
 }
 \arguments{
-\item{acf.data}{\code{stats::acf} instance}
+\item{data}{\code{stats::acf} instance}
 }
 \value{
 data.frame

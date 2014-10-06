@@ -3,10 +3,10 @@
 \alias{fortify.stl}
 \title{Convert \code{stats::stl} to data.frame.}
 \usage{
-\method{fortify}{stl}(stl.data)
+\method{fortify}{stl}(data)
 }
 \arguments{
-\item{stl.data}{\code{stats::stl} instance}
+\item{data}{\code{stats::stl} instance}
 }
 \value{
 data.frame

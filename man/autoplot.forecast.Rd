@@ -3,13 +3,13 @@
 \alias{autoplot.forecast}
 \title{Autoplot \code{forecast::forecast}.}
 \usage{
-\method{autoplot}{forecast}(forecast.data)
+\method{autoplot}{forecast}(data)
 }
 \arguments{
-\item{forecast.data}{\code{forecast::forecast} instance}
+\item{data}{\code{forecast::forecast} instance}
 }
 \value{
-data.frame
+ggplot
 }
 \description{
 Autoplot \code{forecast::forecast}.

@@ -17,5 +17,7 @@ Imports:
     dplyr
 Suggests:
     testthat,
+    changepoint,
     forecast,
-    survival
+    survival,
+    vars

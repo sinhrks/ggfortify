@@ -3,13 +3,13 @@
 \alias{autoplot.acf}
 \title{Autoplot \code{stats::acf}.}
 \usage{
-\method{autoplot}{acf}(acf.data)
+\method{autoplot}{acf}(data)
 }
 \arguments{
-\item{acf.data}{\code{stats::acf} instance}
+\item{data}{\code{stats::acf} instance}
 }
 \value{
-data.frame
+ggplot
 }
 \description{
 Autoplot \code{stats::acf}.

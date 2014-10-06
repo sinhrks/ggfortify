@@ -3,10 +3,10 @@
 \alias{fortify.forecast}
 \title{Convert \code{forecast::forecast} to data.frame.}
 \usage{
-\method{fortify}{forecast}(forecast.data)
+\method{fortify}{forecast}(data)
 }
 \arguments{
-\item{forecast.data}{\code{forecast::forecast} instance}
+\item{data}{\code{forecast::forecast} instance}
 }
 \value{
 data.frame

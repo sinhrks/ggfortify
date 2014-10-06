@@ -3,10 +3,10 @@
 \alias{fortify.survfit}
 \title{Convert \code{survival::survfit} to data.frame.}
 \usage{
-\method{fortify}{survfit}(survfit.data)
+\method{fortify}{survfit}(data)
 }
 \arguments{
-\item{survfit.data}{\code{survival::survfit} instance}
+\item{data}{\code{survival::survfit} instance}
 }
 \value{
 data.frame
