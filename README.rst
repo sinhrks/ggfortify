@@ -11,9 +11,10 @@ This covers following classes:
 
 - ``changepoint::cpt``
 - ``forecast::forecast``
-- ``stats::stl``
 - ``stats::acf``
 - ``stats::spec``
+- ``stats::stl``
+- ``stats::ts``
 - ``survival::survfit``
 - ``survival::survfit.cox``
 - ``vars::varprd``

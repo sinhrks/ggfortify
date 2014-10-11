@@ -3,10 +3,12 @@
 \alias{autoplot.stl}
 \title{Autoplot \code{stats::stl}.}
 \usage{
-\method{autoplot}{stl}(data)
+\method{autoplot}{stl}(data, scales = "free_y")
 }
 \arguments{
 \item{data}{\code{stats::stl} instance}
+
+\item{scales}{Scale value passed to \code{ggplot2}}
 }
 \value{
 ggplot

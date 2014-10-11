@@ -7,6 +7,9 @@
 #' ggfortify:::get.dtindex(UKgas)
 get.dtindex <- function(data) {
   dtindex <- attr(data, which='tsp')
+  if (is.null(dtindex)) {
+    stop('Failed to convert ts object index to date')
+  }
   dtindex <- seq(from = dtindex[1], to = dtindex[2], by= 1 / dtindex[3])
   dtindex <- zoo::as.Date.yearmon(dtindex)
   dtindex
@@ -21,7 +24,10 @@ get.dtindex <- function(data) {
 #' ggfortify:::get.dtindex.continuous(AirPassengers, length = 10)
 #' ggfortify:::get.dtindex.continuous(UKgas, length = 10)
 get.dtindex.continuous <- function(data, length) {
-  dtindex <- attr(data, which='tsp')
+  dtindex <- attr(data, which = 'tsp')
+  if (is.null(dtindex)) {
+    stop('Failed to convert ts object index to date')
+  }
   dt.by <- 1 / dtindex[3]
   dtindex <- seq(from = dtindex[2] + dt.by, length = length, by = dt.by)
   dtindex <- zoo::as.Date.yearmon(dtindex)

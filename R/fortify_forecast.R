@@ -9,8 +9,8 @@
 #' ggplot2::fortify(d.forecast)
 fortify.forecast <- function(data) {
   forecasted <- forecast:::as.data.frame.forecast(data)
-  forecasted$Time <- zoo::as.Date(time(data$mean))
-  fitted <- data.frame(Time = zoo::as.Date(time(data$fitted)),
+  forecasted$Time <- get.dtindex(data$mean)
+  fitted <- data.frame(Time = get.dtindex(data$fitted),
                        Original = data$x,
                        Fitted = data$fitted)
   

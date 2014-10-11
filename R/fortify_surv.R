@@ -27,6 +27,7 @@ fortify.survfit <- function(data) {
 #' @examples
 #' d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
 #' ggplot2::autoplot(d.survfit)
+#' ggplot2::autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
 #' @export
 autoplot.survfit <- function(data, conf.int = TRUE, censor = TRUE) {
   plot.data <- ggplot2::fortify(data)
