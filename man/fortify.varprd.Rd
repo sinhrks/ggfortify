@@ -3,10 +3,12 @@
 \alias{fortify.varprd}
 \title{Convert \code{vars::varprd} to data.frame.}
 \usage{
-\method{fortify}{varprd}(data)
+\method{fortify}{varprd}(data, melt = FALSE)
 }
 \arguments{
 \item{data}{\code{vars::varprd} instance}
+
+\item{melt}{Logical flag indicating whether to melt each timeseries as variable}
 }
 \value{
 data.frame

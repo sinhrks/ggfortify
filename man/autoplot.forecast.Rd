@@ -3,10 +3,12 @@
 \alias{autoplot.forecast}
 \title{Autoplot \code{forecast::forecast}.}
 \usage{
-\method{autoplot}{forecast}(data)
+\method{autoplot}{forecast}(data, conf.int = TRUE)
 }
 \arguments{
 \item{data}{\code{forecast::forecast} instance}
+
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 }
 \value{
 ggplot

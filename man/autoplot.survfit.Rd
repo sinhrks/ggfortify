@@ -3,10 +3,14 @@
 \alias{autoplot.survfit}
 \title{Autoplot \code{survival::survfit}.}
 \usage{
-\method{autoplot}{survfit}(data)
+\method{autoplot}{survfit}(data, conf.int = TRUE, censor = TRUE)
 }
 \arguments{
 \item{data}{\code{survival::survfit} instance}
+
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{conf.int}{Logical flag indicating whether to plot censors}
 }
 \value{
 ggplot

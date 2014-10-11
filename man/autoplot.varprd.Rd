@@ -3,10 +3,12 @@
 \alias{autoplot.varprd}
 \title{Autoplot \code{vars::varprd}.}
 \usage{
-\method{autoplot}{varprd}(data)
+\method{autoplot}{varprd}(data, conf.int = TRUE)
 }
 \arguments{
 \item{data}{\code{vars::varpred} instance}
+
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 }
 \value{
 ggplot
