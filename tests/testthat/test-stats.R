@@ -36,17 +36,17 @@ test_that('fortify.prcomp works for iris', {
   pcs <- c('PC1', 'PC2', 'PC3', 'PC4')
   expected_names <- c(names(df), pcs)
   
-  fortified <- ggplot2::fortify(stats::prcomp(df))
+  fortified <- ggplot2::fortify(stats::prcomp(df, center = TRUE, scale = TRUE))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
 
-  fortified <- ggplot2::fortify(stats::prcomp(df, center = FALSE))
+  fortified <- ggplot2::fortify(stats::prcomp(df, center = FALSE, scale = TRUE))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
   
-  fortified <- ggplot2::fortify(stats::prcomp(df, scale = FALSE))
+  fortified <- ggplot2::fortify(stats::prcomp(df, center = TRUE, scale = FALSE))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
@@ -69,17 +69,17 @@ test_that('fortify.princomp works for iris', {
   pcs <- c('Comp.1', 'Comp.2', 'Comp.3', 'Comp.4')
   expected_names <- c(names(df), pcs)
   
-  fortified <- ggplot2::fortify(stats::princomp(df))
+  fortified <- ggplot2::fortify(stats::princomp(df, center = TRUE, scale = TRUE))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
   
-  fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE))
+  fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE, scale = TRUE))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
   
-  fortified <- ggplot2::fortify(stats::princomp(df, scale = FALSE))
+  fortified <- ggplot2::fortify(stats::princomp(df, center = TRUE, scale = FALSE))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
