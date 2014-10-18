@@ -141,29 +141,40 @@ autoplot.spec <- function(data) {
 #' Convert \code{stats::prcomp} to data.frame.
 #' 
 #' @param data \code{stats::prcomp} instance
+#' @param original Joined to PCA result if provided. Intended to be used for attaching
+#' non-numeric values original data has. Numeric values are automatically attached.
 #' @return data.frame
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::fortify(stats::prcomp(df))
+#' ggplot2::fortify(stats::prcomp(df), original = iris)
 #' @export
-fortify.prcomp <- function(data) {
+fortify.prcomp <- function(data, original = NULL) {
   d <- as.data.frame(data$x)
-  original <- data$x %*% t(data$rotation)
-  original <- ggfortify::unscale(original, center = data$center,
-                                 scale = data$scale)
-  cbind(original, d)
+  values <- data$x %*% t(data$rotation)
+  values <- ggfortify::unscale(values, center = data$center,
+                               scale = data$scale)
+  if (!is.null(original)) {
+    dots <- names(original)[! names(original) %in% names(values)]
+    original <- dplyr::select_(original, .dots = dots)
+    values <- cbind(values, original)
+  }
+  cbind(values, d)
 }
 
 #' Autoplot \code{stats::prcomp}.
 #' 
 #' @param data \code{stats::prcomp} instance
+#' @param original Joined to PCA result if provided. Intended to be used for attaching
+#' non-numeric values original data has. Numeric values are automatically attached.
 #' @return ggplot
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::prcomp(df))
+#' ggplot2::autoplot(stats::prcomp(df), original = iris)
 #' @export
-autoplot.prcomp <- function(data) {
-  plot.data <- ggplot2::fortify(data)
+autoplot.prcomp <- function(data, original = NULL) {
+  plot.data <- ggplot2::fortify(data, original = original)
   ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = PC1, y = PC2)) +
     ggplot2::geom_point()
 }
@@ -171,29 +182,40 @@ autoplot.prcomp <- function(data) {
 #' Convert \code{stats::princomp} to data.frame.
 #' 
 #' @param data \code{stats::princomp} instance
+#' @param original Joined to PCA result if provided. Intended to be used for attaching
+#' non-numeric values original data has. Numeric values are automatically attached.
 #' @return data.frame
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::fortify(stats::princomp(df))
+#' ggplot2::fortify(stats::princomp(df), original = iris)
 #' @export
-fortify.princomp <- function(data) {
+fortify.princomp <- function(data, original = NULL) {
   d <- as.data.frame(data$scores)
-  original <- data$scores %*% t(data$loadings[,])
-  original <- ggfortify::unscale(original, center = data$center,
-                                 scale = data$scale)
-  cbind(original, d)
+  values <- data$scores %*% t(data$loadings[,])
+  values <- ggfortify::unscale(values, center = data$center,
+                               scale = data$scale)
+  if (!is.null(original)) {
+    dots <- names(original)[! names(original) %in% names(values)]
+    original <- dplyr::select_(original, .dots = dots)
+    values <- cbind(values, original)
+  }
+  cbind(values, d)
 }
 
 #' Autoplot \code{stats::princomp}.
 #' 
 #' @param data \code{stats::princomp} instance
+#' @param original Joined to PCA result if provided. Intended to be used for attaching
+#' non-numeric values original data has. Numeric values are automatically attached.
 #' @return ggplot
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::princomp(df))
+#' ggplot2::autoplot(stats::princomp(df), original = iris)
 #' @export
-autoplot.princomp <- function(data) {
-  plot.data <- ggplot2::fortify(data)
+autoplot.princomp <- function(data, original = NULL) {
+  plot.data <- ggplot2::fortify(data, original = original)
   ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = Comp.1, y = Comp.2)) +
     ggplot2::geom_point()
 }

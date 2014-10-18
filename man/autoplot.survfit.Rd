@@ -10,7 +10,7 @@
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
-\item{conf.int}{Logical flag indicating whether to plot censors}
+\item{censor}{Logical flag indicating whether to plot censors}
 }
 \value{
 ggplot

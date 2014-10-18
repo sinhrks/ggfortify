@@ -55,7 +55,13 @@ test_that('fortify.prcomp works for iris', {
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
-  
+ 
+  # attach original
+  expected_names <- c(names(df), 'Species', pcs)
+  fortified <- ggplot2::fortify(stats::prcomp(df), original = iris)
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4, 5)], iris)
 })
 
 test_that('fortify.princomp works for iris', {
@@ -82,5 +88,11 @@ test_that('fortify.princomp works for iris', {
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified[c(1, 2, 3, 4)], df)
-  
+ 
+  # attach original
+  expected_names <- c(names(df), 'Species', pcs)
+  fortified <- ggplot2::fortify(stats::princomp(df), original = iris)
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4, 5)], iris)
 })

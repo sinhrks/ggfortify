@@ -22,7 +22,7 @@ fortify.survfit <- function(data) {
 #' 
 #' @param data \code{survival::survfit} instance
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int Logical flag indicating whether to plot censors
+#' @param censor Logical flag indicating whether to plot censors
 #' @return ggplot
 #' @examples
 #' d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)

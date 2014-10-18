@@ -3,10 +3,13 @@
 \alias{autoplot.prcomp}
 \title{Autoplot \code{stats::prcomp}.}
 \usage{
-\method{autoplot}{prcomp}(data)
+\method{autoplot}{prcomp}(data, original = NULL)
 }
 \arguments{
 \item{data}{\code{stats::prcomp} instance}
+
+\item{original}{Joined to PCA result if provided. Intended to be used for attaching
+non-numeric values original data has. Numeric values are automatically attached.}
 }
 \value{
 ggplot
@@ -17,5 +20,6 @@ Autoplot \code{stats::prcomp}.
 \examples{
 df <- iris[c(1, 2, 3, 4)]
 ggplot2::autoplot(stats::prcomp(df))
+ggplot2::autoplot(stats::prcomp(df), original = iris)
 }
 

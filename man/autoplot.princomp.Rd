@@ -3,10 +3,13 @@
 \alias{autoplot.princomp}
 \title{Autoplot \code{stats::princomp}.}
 \usage{
-\method{autoplot}{princomp}(data)
+\method{autoplot}{princomp}(data, original = NULL)
 }
 \arguments{
 \item{data}{\code{stats::princomp} instance}
+
+\item{original}{Joined to PCA result if provided. Intended to be used for attaching
+non-numeric values original data has. Numeric values are automatically attached.}
 }
 \value{
 ggplot
@@ -17,5 +20,6 @@ Autoplot \code{stats::princomp}.
 \examples{
 df <- iris[c(1, 2, 3, 4)]
 ggplot2::autoplot(stats::princomp(df))
+ggplot2::autoplot(stats::princomp(df), original = iris)
 }
 

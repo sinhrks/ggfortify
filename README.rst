@@ -12,6 +12,8 @@ This covers following classes:
 - ``changepoint::cpt``
 - ``forecast::forecast``
 - ``stats::acf``
+- ``stats::prcomp``
+- ``stats::princomp``
 - ``stats::spec``
 - ``stats::stl``
 - ``stats::ts``

@@ -3,10 +3,13 @@
 \alias{fortify.princomp}
 \title{Convert \code{stats::princomp} to data.frame.}
 \usage{
-\method{fortify}{princomp}(data)
+\method{fortify}{princomp}(data, original = NULL)
 }
 \arguments{
 \item{data}{\code{stats::princomp} instance}
+
+\item{original}{Joined to PCA result if provided. Intended to be used for attaching
+non-numeric values original data has. Numeric values are automatically attached.}
 }
 \value{
 data.frame
@@ -17,5 +20,6 @@ Convert \code{stats::princomp} to data.frame.
 \examples{
 df <- iris[c(1, 2, 3, 4)]
 ggplot2::fortify(stats::princomp(df))
+ggplot2::fortify(stats::princomp(df), original = iris)
 }
 
