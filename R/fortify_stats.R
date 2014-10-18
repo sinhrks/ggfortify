@@ -138,3 +138,63 @@ autoplot.spec <- function(data) {
     ggplot2::scale_y_log10()
 }
 
+#' Convert \code{stats::prcomp} to data.frame.
+#' 
+#' @param data \code{stats::prcomp} instance
+#' @return data.frame
+#' @examples
+#' df <- iris[c(1, 2, 3, 4)]
+#' ggplot2::fortify(stats::prcomp(df))
+#' @export
+fortify.prcomp <- function(data) {
+  d <- as.data.frame(data$x)
+  original <- data$x %*% t(data$rotation)
+  original <- ggfortify::unscale(original, center = data$center,
+                                 scale = data$scale)
+  cbind(original, d)
+}
+
+#' Autoplot \code{stats::prcomp}.
+#' 
+#' @param data \code{stats::prcomp} instance
+#' @return ggplot
+#' @examples
+#' df <- iris[c(1, 2, 3, 4)]
+#' ggplot2::autoplot(stats::prcomp(df))
+#' @export
+autoplot.prcomp <- function(data) {
+  plot.data <- ggplot2::fortify(data)
+  ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = PC1, y = PC2)) +
+    ggplot2::geom_point()
+}
+
+#' Convert \code{stats::princomp} to data.frame.
+#' 
+#' @param data \code{stats::princomp} instance
+#' @return data.frame
+#' @examples
+#' df <- iris[c(1, 2, 3, 4)]
+#' ggplot2::fortify(stats::princomp(df))
+#' @export
+fortify.princomp <- function(data) {
+  d <- as.data.frame(data$scores)
+  original <- data$scores %*% t(data$loadings[,])
+  original <- ggfortify::unscale(original, center = data$center,
+                                 scale = data$scale)
+  cbind(original, d)
+}
+
+#' Autoplot \code{stats::princomp}.
+#' 
+#' @param data \code{stats::princomp} instance
+#' @return ggplot
+#' @examples
+#' df <- iris[c(1, 2, 3, 4)]
+#' ggplot2::autoplot(stats::princomp(df))
+#' @export
+autoplot.princomp <- function(data) {
+  plot.data <- ggplot2::fortify(data)
+  ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = Comp.1, y = Comp.2)) +
+    ggplot2::geom_point()
+}
+

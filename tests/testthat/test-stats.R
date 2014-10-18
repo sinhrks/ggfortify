@@ -30,3 +30,57 @@ test_that('fortify.stl works for AirPassengers', {
   expect_equal(fortified$time[1], as.Date('1949-01-01'))
   expect_equal(fortified$time[nrow(fortified)], as.Date('1960-12-01'))
 })
+
+test_that('fortify.prcomp works for iris', {
+  df <- iris[c(1, 2, 3, 4)]
+  pcs <- c('PC1', 'PC2', 'PC3', 'PC4')
+  expected_names <- c(names(df), pcs)
+  
+  fortified <- ggplot2::fortify(stats::prcomp(df))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+
+  fortified <- ggplot2::fortify(stats::prcomp(df, center = FALSE))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+  fortified <- ggplot2::fortify(stats::prcomp(df, scale = FALSE))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+  fortified <- ggplot2::fortify(stats::prcomp(df, center = FALSE, scale = FALSE))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+})
+
+test_that('fortify.princomp works for iris', {
+  df <- iris[c(1, 2, 3, 4)]
+  pcs <- c('Comp.1', 'Comp.2', 'Comp.3', 'Comp.4')
+  expected_names <- c(names(df), pcs)
+  
+  fortified <- ggplot2::fortify(stats::princomp(df))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+  fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+  fortified <- ggplot2::fortify(stats::princomp(df, scale = FALSE))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+  fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE, scale = FALSE))
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  
+})

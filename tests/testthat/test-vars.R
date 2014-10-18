@@ -28,5 +28,5 @@ test_that('vars.varored works for Canada', {
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$time[1], as.Date('1980-01-01'))
   expect_equal(fortified$time[nrow(fortified)], as.Date('2013-04-01'))
-  
+
 })
