@@ -6,7 +6,7 @@
 \method{autoplot}{kmeans}(data, original = NULL)
 }
 \arguments{
-\item{data}{\code{stats::princomp} instance}
+\item{data}{\code{stats::kmeans} instance}
 
 \item{original}{Original data used for K-means. Mandatory for plotting.}
 }
@@ -18,6 +18,6 @@ Autoplot \code{stats::kmeans}.
 }
 \examples{
 df <- iris[c(1, 2, 3, 4)]
-ggplot2::autoplot(stats::princomp(df), original = iris)
+ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
 }
 

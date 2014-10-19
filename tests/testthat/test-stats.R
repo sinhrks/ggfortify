@@ -97,6 +97,20 @@ test_that('fortify.princomp works for iris', {
   expect_equal(data.frame(fortified[c(1, 2, 3, 4, 5)]), iris)
 })
 
+test_that('fortify.factanal works for state.x77', {
+  d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
+  pcs <- c('Factor1', 'Factor2', 'Factor3')
+  
+  fortified <- ggplot2::fortify(d.factanal)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  expect_equal(names(fortified), pcs)
+ 
+  # attach original
+  fortified <- ggplot2::fortify(d.factanal, original = state.x77)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  expect_equal(names(fortified), c(colnames(state.x77), pcs))
+})
+
 test_that('fortify.kmeans works for iris', {
   df <- iris[c(1, 2, 3, 4)]
   expected_names <- c('cluster')

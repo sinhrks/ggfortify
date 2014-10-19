@@ -169,9 +169,9 @@ autoplot.spec <- function(data) {
     ggplot2::scale_y_log10()
 }
 
-#' Convert \code{stats::prcomp} to data.frame.
+#' Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
 #' 
-#' @param data \code{stats::prcomp} instance
+#' @param data \code{stats::prcomp} or \code{stats::princomp} instance
 #' @param original Joined to PCA result if provided. Intended to be used for attaching
 #' non-numeric values original data has. Numeric values are automatically attached.
 #' @return data.frame
@@ -179,10 +179,21 @@ autoplot.spec <- function(data) {
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::fortify(stats::prcomp(df))
 #' ggplot2::fortify(stats::prcomp(df), original = iris)
+#' 
+#' ggplot2::fortify(stats::princomp(df))
+#' ggplot2::fortify(stats::princomp(df), original = iris)
 #' @export
 fortify.prcomp <- function(data, original = NULL) {
-  d <- as.data.frame(data$x)
-  values <- data$x %*% t(data$rotation)
+  if (is(data, 'prcomp')) {
+    d <- as.data.frame(data$x)
+    values <- data$x %*% t(data$rotation)
+  } else if (is(data, 'princomp')) {
+    d <- as.data.frame(data$scores)
+    values <- data$scores %*% t(data$loadings[,])
+  } else {
+    stop(paste0('Unsupported class for fortify.pca_common: ', class(data)))
+  }
+
   values <- ggfortify::unscale(values, center = data$center,
                                scale = data$scale)
   if (!is.null(original)) {
@@ -194,68 +205,128 @@ fortify.prcomp <- function(data, original = NULL) {
   dplyr::tbl_df(d)
 }
 
-#' Autoplot \code{stats::prcomp}.
+
+#' @export
+fortify.princomp <- fortify.prcomp
+
+
+#' Convert \code{stats::factanal} to data.frame.
 #' 
-#' @param data \code{stats::prcomp} instance
-#' @param original Joined to PCA result if provided. Intended to be used for attaching
-#' non-numeric values original data has. Numeric values are automatically attached.
+#' @param data \code{stats::factanal} instance
+#' @param original Joined to Factanal result if provided.
+#' @return data.frame
+#' @examples
+#' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
+#' ggplot2::fortify(d.factanal)
+#' ggplot2::fortify(d.factanal, original = state.x77)
+#' @export
+fortify.factanal <- function(data, original = NULL) {
+  if (is.null(data$scores)) {
+    stop(paste0('Unable to fortify factanal result without scores, ',
+                'specify scores="regression", or "Bartlett" when calling factanal'))
+  }
+  d <- as.data.frame(data$scores)
+  if (!is.null(original)) {
+    d <- cbind(original, d)
+  }
+  dplyr::tbl_df(d)
+}
+
+#' Autoplot PCA-likes.
+#' 
+#' @param data PCA-like instance
+#' @param original Joined to fitting result if provided.
 #' @param colour Column name string to specify colorize points 
+#' @param label Logical value whether to display data labels
+#' @param label.size Text size for data labels
+#' @param loadings Logical value whether to display loadings arrows
+#' @param loadings.colour Point colour for data
+#' @param loadings.label Logical value whether to display loadings labels
+#' @param loadings.label.colour Text colour for loadings labels
+#' @param loadings.label.size Text size for loadings labels
 #' @return ggplot
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::prcomp(df))
 #' ggplot2::autoplot(stats::prcomp(df), original = iris)
 #' ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
-#' @export
-autoplot.prcomp <- function(data, original = NULL, colour = NULL) {
-  plot.data <- ggplot2::fortify(data, original = original)
-  ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = PC1, y = PC2)) +
-    ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
-}
-
-#' Convert \code{stats::princomp} to data.frame.
+#' ggplot2::autoplot(stats::prcomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #' 
-#' @param data \code{stats::princomp} instance
-#' @param original Joined to PCA result if provided. Intended to be used for attaching
-#' non-numeric values original data has. Numeric values are automatically attached.
-#' @return data.frame
-#' @examples
-#' df <- iris[c(1, 2, 3, 4)]
-#' ggplot2::fortify(stats::princomp(df))
-#' ggplot2::fortify(stats::princomp(df), original = iris)
-#' @export
-fortify.princomp <- function(data, original = NULL) {
-  d <- as.data.frame(data$scores)
-  values <- data$scores %*% t(data$loadings[,])
-  values <- ggfortify::unscale(values, center = data$center,
-                               scale = data$scale)
-  if (!is.null(original)) {
-    dots <- names(original)[! names(original) %in% names(values)]
-    original <- dplyr::select_(original, .dots = dots)
-    values <- cbind(values, original)
-  }
-  d <- cbind(values, d)
-  dplyr::tbl_df(d)
-}
-
-#' Autoplot \code{stats::princomp}.
-#' 
-#' @param data \code{stats::princomp} instance
-#' @param original Joined to PCA result if provided. Intended to be used for attaching
-#' non-numeric values original data has. Numeric values are automatically attached.
-#' @param colour Column name string to specify colorize points 
-#' @return ggplot
-#' @examples
-#' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::princomp(df))
 #' ggplot2::autoplot(stats::princomp(df), original = iris)
 #' ggplot2::autoplot(stats::princomp(df), original = iris, colour = 'Species')
-#' @export
-autoplot.princomp <- function(data, original = NULL, colour = NULL) {
+#' ggplot2::autoplot(stats::princomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' 
+#' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
+#' ggplot2::autoplot(d.factanal)
+#' ggplot2::autoplot(d.factanal, original = state.x77, colour = 'Income')
+#' ggplot2::autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
+autoplot.pca_common <- function(data, original = NULL,
+                                colour = NULL, 
+                                label = FALSE, label.size = 4,
+                                loadings = FALSE, loadings.colour = '#FF0000',
+                                loadings.label = FALSE,
+                                loadings.label.colour = '#FF0000', loadings.label.size = 4) {
+  
   plot.data <- ggplot2::fortify(data, original = original)
-  ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = Comp.1, y = Comp.2)) +
+  plot.data$rownames <- rownames(plot.data)
+  
+  if (is(data, 'prcomp')) {
+    mapping = ggplot2::aes(x = PC1, y = PC2, label = rownames)
+    loadings.mapping <- ggplot2::aes(x = 0, y = 0, xend = PC1, yend = PC2)
+    loadings.column = 'rotation'
+  } else if (is(data, 'princomp')) {
+    mapping = ggplot2::aes(x = Comp.1, y = Comp.2, label = rownames)
+    loadings.mapping <- ggplot2::aes(x = 0, y = 0, xend = Comp.1, yend = Comp.2)
+    loadings.column = 'loadings'
+  } else if (is(data, 'factanal')) {
+    mapping <- ggplot2::aes(x = Factor1, y = Factor2, label = rownames)
+    loadings.mapping <- ggplot2::aes(x = 0, y = 0, xend = Factor1, yend = Factor2)
+    loadings.column = 'loadings'
+  } else {
+    stop(paste0('Unsupported class for autoplot.pca_common: ', class(data)))
+  }
+  
+  p <- ggplot2::ggplot(data = plot.data, mapping = mapping) + 
     ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
+  
+  if (label) {
+    p <- p + ggplot2::geom_text(mapping = ggplot2::aes_string(colour = colour),
+                                size = label.size)
+  }
+  
+  if (loadings.label && !loadings) {
+    # If loadings.label is TRUE, draw loadings 
+    loadings <- TRUE
+  }
+  
+  if (loadings) {
+    loadings.data = as.data.frame(data[[loadings.column]][,])
+    loadings.data$rownames <- rownames(loadings.data)
+    
+    p <- p + geom_segment(data = loadings.data,
+                          mapping = loadings.mapping,
+                          arrow = grid::arrow(length = grid::unit(8, 'points')),
+                          colour = loadings.colour)
+    
+    if (loadings.label) {
+      p <- p + geom_text(data = loadings.data,
+                         colour = loadings.label.colour,
+                         size = loadings.label.size)
+    }
+  }
+  p
 }
+
+#' @export
+autoplot.prcomp <- autoplot.pca_common
+
+#' @export
+autoplot.princomp <- autoplot.pca_common
+
+#' @export
+autoplot.factanal <- autoplot.pca_common
+
 
 #' Convert \code{stats::kmeans} to data.frame.
 #' 
@@ -276,14 +347,15 @@ fortify.kmeans <- function(data, original = NULL) {
   dplyr::tbl_df(d)
 }
 
+
 #' Autoplot \code{stats::kmeans}.
 #' 
-#' @param data \code{stats::princomp} instance
+#' @param data \code{stats::kmeans} instance
 #' @param original Original data used for K-means. Mandatory for plotting.
 #' @return ggplot
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
-#' ggplot2::autoplot(stats::princomp(df), original = iris)
+#' ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
 #' @export
 autoplot.kmeans <- function(data, original = NULL) {
   if (is.null(original)) {
