@@ -3,14 +3,29 @@
 \alias{autoplot.survfit}
 \title{Autoplot \code{survival::survfit}.}
 \usage{
-\method{autoplot}{survfit}(data, conf.int = TRUE, censor = TRUE)
+\method{autoplot}{survfit}(data, conf.int = TRUE, surv.colour = "#000000",
+  surv.linetype = "solid", conf.int.fill = "#000000",
+  conf.int.alpha = 0.3, censor = TRUE, censor.shape = "+",
+  censor.size = 3)
 }
 \arguments{
 \item{data}{\code{survival::survfit} instance}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
+\item{surv.colour}{Line colour for survival curve (used when data doesn't have \code{strata})}
+
+\item{surv.linetype}{Line type for survival curve}
+
+\item{conf.int.fill}{Fill colour for confidence intervals}
+
+\item{conf.int.alpha}{Alpha for confidence intervals}
+
 \item{censor}{Logical flag indicating whether to plot censors}
+
+\item{censor.shape}{Shape for censors}
+
+\item{censor.size}{Size for censors}
 }
 \value{
 ggplot

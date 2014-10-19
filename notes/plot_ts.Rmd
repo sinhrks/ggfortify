@@ -52,8 +52,6 @@ autoplot(Canada, facet = FALSE)
 * `acf`, `pacf`, `ccf`
 * `spec.ar`, `spec.pgram`
 
-
-
 ```{r, message = FALSE, fig.width=6, fig.height=3}
 autoplot(stl(AirPassengers, s.window = 'periodic'))
 ```
@@ -71,7 +69,7 @@ autoplot(spec.ar(AirPassengers, plot = FALSE))
 
 ```{r, message = FALSE, fig.width=6, fig.height=3}
 library(forecast)
-d.arima <- forecast::auto.arima(AirPassengers)
+d.arima <- auto.arima(AirPassengers)
 d.forecast <- forecast(d.arima, level = c(95), h = 50)
 autoplot(d.forecast)
 ```
@@ -89,14 +87,14 @@ autoplot(d.forecast, ts.colour = 'green', predict.colour = 'red',
 
 ```{r, message = FALSE, fig.width=6, fig.height=3}
 library(vars)
-d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
-d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
+d.vselect <- VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
+d.var <- VAR(Canada, p = d.vselect, type = 'const')
 ```
 
 Available options are the same as `forecast`.
 
 ```{r, message = FALSE, fig.width=6, fig.height=3}
-autoplot(stats::predict(d.var, n.ahead = 50), ts.colour = 'green',
+autoplot(predict(d.var, n.ahead = 50), ts.colour = 'green',
          predict.colour = 'blue', predict.linetype = 'dashed')
 ```
 
