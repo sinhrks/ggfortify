@@ -3,10 +3,12 @@
 \alias{fortify.cpt}
 \title{Convert \code{changepoint::cpt} to data.frame.}
 \usage{
-\method{fortify}{cpt}(data)
+\method{fortify}{cpt}(data, keep.original = TRUE)
 }
 \arguments{
 \item{data}{\code{chantepoint::cpt} instance}
+
+\item{keep.original}{Logical value whether to keep original \code{stats::ts}}
 }
 \value{
 data.frame

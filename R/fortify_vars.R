@@ -47,24 +47,47 @@ fortify.varprd <- function(data, melt = FALSE){
 #' Autoplot \code{vars::varprd}.
 #' 
 #' @param data \code{vars::varpred} instance
+#' @param scales Scale value passed to \code{ggplot2}
+
+#' @param ts.colour Line colour for \code{stats::ts}
+#' @param ts.linetype Line type for \code{stats::ts}
+#' @param predict.colour Line colour for predicted \code{stats::ts}
+#' @param predict.linetype Line type for predicted \code{stats::ts}
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
 #' @return ggplot
-#' @export
 #' @examples
 #' data(Canada, package = 'vars')
 #' d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
 #' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50))
-autoplot.varprd <- function(data, conf.int = TRUE) {
+#' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
+#' @export
+autoplot.varprd <- function(data, scales = 'free_y',
+                            ts.colour = '#000000', ts.linetype = 'solid',
+                            predict.colour = '#0000FF', predict.linetype = 'solid',
+                            conf.int = TRUE,
+                            conf.int.fill = '#000000', conf.int.alpha = 0.3) {
   plot.data <- ggplot2::fortify(data, melt = TRUE)
+  
+  # Filter existing values to avoid warnings
+  original.data <- dplyr::filter(plot.data, !is.na(original))
+  predict.data <- dplyr::filter(plot.data, !is.na(fcst))
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = time)) +
-    ggplot2::geom_line(mapping = ggplot2::aes(y = original)) +
-    ggplot2::geom_line(mapping = ggplot2::aes(y = fcst), colour='blue') + 
-    ggplot2::facet_grid(variable ~ ., scales = 'free_y')
+  p <- ggplot2::ggplot(data = plot.data,
+                       mapping = ggplot2::aes(x = time)) +
+    ggplot2::geom_line(data = original.data,
+                       mapping = ggplot2::aes(y = original),
+                       colour = ts.colour, linetype = ts.linetype) +
+    ggplot2::geom_line(data = predict.data,
+                       mapping = ggplot2::aes(y = fcst),
+                       colour = predict.colour, linetype = predict.linetype) + 
+    ggplot2::facet_grid(variable ~ ., scales = scales)
   if (conf.int) {
-    p <- p + ggplot2::geom_ribbon(mapping = ggplot2::aes(ymin = lower, ymax = upper),
-                                  alpha = 0.5)
+    p <- p + ggplot2::geom_ribbon(data = predict.data,
+                                  mapping = ggplot2::aes(ymin = lower, ymax = upper),
+                                  fill = conf.int.fill, alpha = conf.int.alpha)
   }
   p 
 }

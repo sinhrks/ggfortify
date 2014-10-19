@@ -3,12 +3,29 @@
 \alias{autoplot.varprd}
 \title{Autoplot \code{vars::varprd}.}
 \usage{
-\method{autoplot}{varprd}(data, conf.int = TRUE)
+\method{autoplot}{varprd}(data, scales = "free_y", ts.colour = "#000000",
+  ts.linetype = "solid", predict.colour = "#0000FF",
+  predict.linetype = "solid", conf.int = TRUE, conf.int.fill = "#000000",
+  conf.int.alpha = 0.3)
 }
 \arguments{
 \item{data}{\code{vars::varpred} instance}
 
+\item{scales}{Scale value passed to \code{ggplot2}}
+
+\item{ts.colour}{Line colour for \code{stats::ts}}
+
+\item{ts.linetype}{Line type for \code{stats::ts}}
+
+\item{predict.colour}{Line colour for predicted \code{stats::ts}}
+
+\item{predict.linetype}{Line type for predicted \code{stats::ts}}
+
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{conf.int.fill}{Fill colour for confidence intervals}
+
+\item{conf.int.alpha}{Alpha for confidence intervals}
 }
 \value{
 ggplot
@@ -21,5 +38,6 @@ data(Canada, package = 'vars')
 d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
 ggplot2::autoplot(stats::predict(d.var, n.ahead = 50))
+ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 }
 

@@ -2,7 +2,7 @@ context('test stats')
 
 test_that('fortify.ts works for AirPassengers', {
   fortified <- ggplot2::fortify(AirPassengers)
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   
   expected_names <- c('time', 'x')
   expect_equal(names(fortified), expected_names)
@@ -13,7 +13,7 @@ test_that('fortify.ts works for AirPassengers', {
 test_that('fortify.ts works for Canada', {
   data(Canada, package = 'vars')
   fortified <- ggplot2::fortify(Canada)
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   
   expected_names <- c('time', 'e', 'prod', 'rw', 'U')
   expect_equal(names(fortified), expected_names)
@@ -23,7 +23,7 @@ test_that('fortify.ts works for Canada', {
 
 test_that('fortify.stl works for AirPassengers', {
   fortified <- ggplot2::fortify(stats::stl(AirPassengers, s.window = 'periodic'))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   
   expected_names <- c('time', 'data', 'seasonal', 'trend', 'remainder')
   expect_equal(names(fortified), expected_names)
@@ -37,31 +37,31 @@ test_that('fortify.prcomp works for iris', {
   expected_names <- c(names(df), pcs)
   
   fortified <- ggplot2::fortify(stats::prcomp(df, center = TRUE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
 
   fortified <- ggplot2::fortify(stats::prcomp(df, center = FALSE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
   
   fortified <- ggplot2::fortify(stats::prcomp(df, center = TRUE, scale = FALSE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
   
   fortified <- ggplot2::fortify(stats::prcomp(df, center = FALSE, scale = FALSE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
  
   # attach original
   expected_names <- c(names(df), 'Species', pcs)
   fortified <- ggplot2::fortify(stats::prcomp(df), original = iris)
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4, 5)], iris)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4, 5)]), iris)
 })
 
 test_that('fortify.princomp works for iris', {
@@ -70,29 +70,44 @@ test_that('fortify.princomp works for iris', {
   expected_names <- c(names(df), pcs)
   
   fortified <- ggplot2::fortify(stats::princomp(df, center = TRUE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
   
   fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
   
   fortified <- ggplot2::fortify(stats::princomp(df, center = TRUE, scale = FALSE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
   
   fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE, scale = FALSE))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4)], df)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
  
   # attach original
   expected_names <- c(names(df), 'Species', pcs)
   fortified <- ggplot2::fortify(stats::princomp(df), original = iris)
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(names(fortified), expected_names)
-  expect_equal(fortified[c(1, 2, 3, 4, 5)], iris)
+  expect_equal(data.frame(fortified[c(1, 2, 3, 4, 5)]), iris)
+})
+
+test_that('fortify.kmeans works for iris', {
+  df <- iris[c(1, 2, 3, 4)]
+  expected_names <- c('cluster')
+  
+  fortified <- ggplot2::fortify(stats::kmeans(df, 3))
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  expect_equal(names(fortified), c('cluster'))
+  expect_equal(is.factor(fortified$cluster), TRUE)
+ 
+  fortified <- ggplot2::fortify(stats::kmeans(df, 3), original = iris)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  expect_equal(names(fortified), c(names(iris), 'cluster'))
+  expect_equal(is.factor(fortified$cluster), TRUE)
 })

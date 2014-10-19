@@ -3,12 +3,17 @@
 \alias{autoplot.stl}
 \title{Autoplot \code{stats::stl}.}
 \usage{
-\method{autoplot}{stl}(data, scales = "free_y")
+\method{autoplot}{stl}(data, scales = "free_y", ts.colour = "#000000",
+  ts.linetype = "solid")
 }
 \arguments{
 \item{data}{\code{stats::stl} instance}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
+
+\item{ts.colour}{Line colour for \code{stats::ts}}
+
+\item{ts.linetype}{Line type for \code{stats::ts}}
 }
 \value{
 ggplot

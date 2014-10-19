@@ -7,15 +7,16 @@
 #' ggplot2::fortify(d.survfit)
 #' @export
 fortify.survfit <- function(data) {
-  data.frame(time = data$time,
-             n.risk = data$n.risk,
-             n.event = data$n.event,
-             n.censor = data$n.censor,
-             surv = data$surv,
-             std.err = data$std.err,
-             upper = data$upper,
-             lower = data$lower,
-             strata = rep(names(data$strata), data$strata))
+  d <- data.frame(time = data$time,
+                  n.risk = data$n.risk,
+                  n.event = data$n.event,
+                  n.censor = data$n.censor,
+                  surv = data$surv,
+                  std.err = data$std.err,
+                  upper = data$upper,
+                  lower = data$lower,
+                  strata = rep(names(data$strata), data$strata))
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{survival::survfit}.
@@ -35,10 +36,10 @@ autoplot.survfit <- function(data, conf.int = TRUE, censor = TRUE) {
   p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = time)) +
     ggplot2::scale_y_continuous(labels = scales::percent)
   if ('strata' %in% names(plot.data)) {
-    p <- p + ggplot2::geom_line(mapping = aes(y = surv, colour = strata))
+    p <- p + ggplot2::geom_line(mapping = ggplot2::aes(y = surv, colour = strata))
     conf.mapping <- ggplot2::aes(ymin = lower, ymax = upper, fill = strata)
   } else {
-    p <- p + ggplot2::geom_line(mapping = aes(y = surv))
+    p <- p + ggplot2::geom_line(mapping = ggplot2::aes(y = surv))
     conf.mapping <- ggplot2::aes(ymin = lower, ymax = upper)
   }
   
@@ -61,15 +62,16 @@ autoplot.survfit <- function(data, conf.int = TRUE, censor = TRUE) {
 #' ggplot2::fortify(survival::survfit(d.coxph))
 #' @export
 fortify.survfit.cox <- function(data) {
-  data.frame(time = data$time,
-             n.risk = data$n.risk,
-             n.event = data$n.event,
-             n.censor = data$n.censor,
-             surv = data$surv,
-             cumhaz = data$cumhaz,
-             std.err = data$std.err,
-             upper = data$upper,
-             lower = data$lower)
+  d <- data.frame(time = data$time,
+                  n.risk = data$n.risk,
+                  n.event = data$n.event,
+                  n.censor = data$n.censor,
+                  surv = data$surv,
+                  cumhaz = data$cumhaz,
+                  std.err = data$std.err,
+                  upper = data$upper,
+                  lower = data$lower)
+  dplyr::tbl_df(d)
 }
 
 autoplot.survfit.cox <- autoplot.survfit

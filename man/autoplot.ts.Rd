@@ -3,12 +3,19 @@
 \alias{autoplot.ts}
 \title{Autoplot \code{stats::ts}.}
 \usage{
-\method{autoplot}{ts}(data, scales = "free_y")
+\method{autoplot}{ts}(data, scales = "free_y", facet = TRUE,
+  ts.colour = "#000000", ts.linetype = "solid")
 }
 \arguments{
 \item{data}{\code{stats::ts} instance}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
+
+\item{facet}{Logical value to specify use facets for multivariate \code{stats::ts}.}
+
+\item{ts.colour}{Line colour for \code{stats::ts}}
+
+\item{ts.linetype}{Line type for \code{stats::ts}}
 }
 \value{
 ggplot
@@ -20,5 +27,6 @@ Autoplot \code{stats::ts}.
 data(Canada, package = 'vars')
 ggplot2::autoplot(AirPassengers)
 ggplot2::autoplot(Canada)
+ggplot2::autoplot(Canada, facet = FALSE)
 }
 

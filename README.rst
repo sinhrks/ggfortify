@@ -9,9 +9,12 @@ Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle som
 
 This covers following classes:
 
+- ``base::matrix``
+- ``base::table``
 - ``changepoint::cpt``
 - ``forecast::forecast``
 - ``stats::acf``
+- ``stats::kmeans``
 - ``stats::prcomp``
 - ``stats::princomp``
 - ``stats::spec``

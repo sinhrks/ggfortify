@@ -8,7 +8,7 @@ test_that('vars.varored works for Canada', {
   d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
   
   fortified <- ggplot2::fortify(stats::predict(d.var, n.ahead = 50))
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(nrow(fortified), 50 + nrow(Canada))
   
   expected_names <- c('time', 'e', 'prod', 'rw', 'U',
@@ -21,7 +21,7 @@ test_that('vars.varored works for Canada', {
   expect_equal(fortified$time[nrow(fortified)], as.Date('2013-04-01'))
   
   fortified <- ggplot2::fortify(stats::predict(d.var, n.ahead = 50), melt = TRUE)
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(nrow(fortified), (50 + nrow(Canada)) * 4)
   
   expected_names <- c('time', 'original', 'fcst', 'lower', 'upper', 'CI', 'variable')

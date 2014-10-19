@@ -7,21 +7,27 @@
 #' @export
 fortify.ts <- function(data) {
   dtindex <- get.dtindex(data) 
-  cbind(data.frame(time = dtindex),
-        as.data.frame(data))
+  d <- cbind(data.frame(time = dtindex),
+             as.data.frame(data))
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::ts}.
 #' 
 #' @param data \code{stats::ts} instance
 #' @param scales Scale value passed to \code{ggplot2}
+#' @param facet Logical value to specify use facets for multivariate \code{stats::ts}.
+#' @param ts.colour Line colour for \code{stats::ts}
+#' @param ts.linetype Line type for \code{stats::ts}
 #' @return ggplot
 #' @examples
 #' data(Canada, package = 'vars')
 #' ggplot2::autoplot(AirPassengers)
 #' ggplot2::autoplot(Canada)
+#' ggplot2::autoplot(Canada, facet = FALSE)
 #' @export
-autoplot.ts <- function(data, scales = 'free_y') {
+autoplot.ts <- function(data, scales = 'free_y', facet = TRUE,
+                        ts.colour = '#000000', ts.linetype = 'solid') {
   ts.label <- 'time'
   
   plot.data <- ggplot2::fortify(data)
@@ -29,14 +35,24 @@ autoplot.ts <- function(data, scales = 'free_y') {
   measures <- data.names[data.names != ts.label]
 
   if (length(measures) == 1) {
-    p <- ggplot2::ggplot(data = plot.data) +
-      ggplot2::geom_line(mapping = ggplot2::aes_string(x = ts.label, y = measures[1]))
+    p <- ggplot2::ggplot(data = plot.data,
+                         mapping = ggplot2::aes_string(x = ts.label, y = measures[1])) + 
+      ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype)
   } else { 
     plot.data <- reshape2::melt(plot.data, id.vars = c(ts.label),
                                 measure.vars = measures)
-    p <- ggplot2::ggplot(data = plot.data) +
-      ggplot2::geom_line(mapping = ggplot2::aes_string(x = ts.label, y = 'value')) +
-      ggplot2::facet_grid(variable ~ ., scales = scales)
+      
+    if (facet) {
+      mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
+      p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
+        ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype) + 
+        ggplot2::facet_grid(variable ~ ., scales = scales)
+    } else {
+      # ts.colour cannot be used
+      mapping <- ggplot2::aes_string(x = ts.label, y = 'value', colour = 'variable')
+      p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
+        ggplot2::geom_line(linetype = ts.linetype)
+    }
   }
   p + ggplot2::scale_y_continuous(name = '')
 }
@@ -55,26 +71,31 @@ fortify.stl <- function(data) {
   orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
   
   dtindex <- get.dtindex(ts.data)  
-  cbind(data.frame(time = dtindex, data = orig),
-        data.frame(data$time.series))
+  d <- cbind(data.frame(time = dtindex, data = orig),
+             data.frame(data$time.series))
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::stl}.
 #' 
 #' @param data \code{stats::stl} instance
 #' @param scales Scale value passed to \code{ggplot2}
+#' @param ts.colour Line colour for \code{stats::ts}
+#' @param ts.linetype Line type for \code{stats::ts}
 #' @return ggplot
 #' @examples
 #' d.stl <- stats::stl(AirPassengers, s.window = 'periodic')
 #' ggplot2::autoplot(d.stl)
 #' @export
-autoplot.stl <- function(data, scales = 'free_y') {
+autoplot.stl <- function(data, scales = 'free_y',
+                         ts.colour = '#000000', ts.linetype = 'solid') {
   plot.data <- ggplot2::fortify(data)
   measures <- c("data", "seasonal", "trend", "remainder")
   plot.data <- reshape2::melt(plot.data, id.vars = c('time'),
                               measure.vars = measures)
-  ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_line(mapping = ggplot2::aes(x = time, y = value)) +
+  ggplot2::ggplot(data = plot.data, 
+                  mapping = ggplot2::aes(x = time, y = value)) +
+    ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype) +
     ggplot2::facet_grid(variable ~ ., scales = scales) + 
     ggplot2::scale_y_continuous(name = '')
 }
@@ -89,8 +110,9 @@ autoplot.stl <- function(data, scales = 'free_y') {
 #' ggplot2::fortify(stats::ccf(AirPassengers, AirPassengers))
 #' @export
 fortify.acf <- function(data) {
-  data.frame(lag = data$lag,
-             acf = data$acf)
+  d <- data.frame(lag = data$lag,
+                  acf = data$acf)
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::acf}.
@@ -104,9 +126,17 @@ fortify.acf <- function(data) {
 #' @export
 autoplot.acf <- function(data) {
   plot.data <- ggplot2::fortify(data)
+
+  # Prepare ymax and ymin used for geom_linerange
+  plot.data <- dplyr::mutate(plot.data,
+                             ymax = ifelse(acf > 0, acf, 0),
+                             ymin = ifelse(acf < 0, acf, 0))
+
+  # ToDo: Calcurate Confidence Interval
+  # http://stackoverflow.com/questions/14266333/extract-confidence-interval-values-from-acf-correlogram
+
   ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_bar(mapping = ggplot2::aes(x = lag, y = acf),
-                      stat = 'identity')
+    ggplot2::geom_linerange(mapping = ggplot2::aes(x = lag, ymin = ymin, ymax = ymax))
 }
 
 #' Convert \code{stats::spec} to data.frame.
@@ -118,8 +148,9 @@ autoplot.acf <- function(data) {
 #' ggplot2::fortify(stats::spec.pgram(AirPassengers))
 #' @export
 fortify.spec <- function(data) {
-  data.frame(freq = data$freq,
-             spec = data$spec)
+  d <- data.frame(freq = data$freq,
+                  spec = data$spec)
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::spec}.
@@ -159,7 +190,8 @@ fortify.prcomp <- function(data, original = NULL) {
     original <- dplyr::select_(original, .dots = dots)
     values <- cbind(values, original)
   }
-  cbind(values, d)
+  d <- cbind(values, d)
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::prcomp}.
@@ -167,16 +199,18 @@ fortify.prcomp <- function(data, original = NULL) {
 #' @param data \code{stats::prcomp} instance
 #' @param original Joined to PCA result if provided. Intended to be used for attaching
 #' non-numeric values original data has. Numeric values are automatically attached.
+#' @param colour Column name string to specify colorize points 
 #' @return ggplot
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::prcomp(df))
 #' ggplot2::autoplot(stats::prcomp(df), original = iris)
+#' ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
 #' @export
-autoplot.prcomp <- function(data, original = NULL) {
+autoplot.prcomp <- function(data, original = NULL, colour = NULL) {
   plot.data <- ggplot2::fortify(data, original = original)
   ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = PC1, y = PC2)) +
-    ggplot2::geom_point()
+    ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
 }
 
 #' Convert \code{stats::princomp} to data.frame.
@@ -200,7 +234,8 @@ fortify.princomp <- function(data, original = NULL) {
     original <- dplyr::select_(original, .dots = dots)
     values <- cbind(values, original)
   }
-  cbind(values, d)
+  d <- cbind(values, d)
+  dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::princomp}.
@@ -208,15 +243,56 @@ fortify.princomp <- function(data, original = NULL) {
 #' @param data \code{stats::princomp} instance
 #' @param original Joined to PCA result if provided. Intended to be used for attaching
 #' non-numeric values original data has. Numeric values are automatically attached.
+#' @param colour Column name string to specify colorize points 
 #' @return ggplot
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::princomp(df))
 #' ggplot2::autoplot(stats::princomp(df), original = iris)
+#' ggplot2::autoplot(stats::princomp(df), original = iris, colour = 'Species')
 #' @export
-autoplot.princomp <- function(data, original = NULL) {
+autoplot.princomp <- function(data, original = NULL, colour = NULL) {
   plot.data <- ggplot2::fortify(data, original = original)
   ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = Comp.1, y = Comp.2)) +
-    ggplot2::geom_point()
+    ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
+}
+
+#' Convert \code{stats::kmeans} to data.frame.
+#' 
+#' @param data \code{stats::kmeans} instance
+#' @param original Joined to K-means result if provided. Intended to be used for attaching
+#' cluster labels to the original
+#' @return data.frame
+#' @examples
+#' df <- iris[c(1, 2, 3, 4)]
+#' ggplot2::fortify(stats::kmeans(df, 3))
+#' ggplot2::fortify(stats::kmeans(df, 3), original = iris)
+#' @export
+fortify.kmeans <- function(data, original = NULL) {
+  d <- data.frame(cluster = as.factor(data$cluster))
+  if (!is.null(original)) {
+    d <- cbind(original, d)
+  }
+  dplyr::tbl_df(d)
+}
+
+#' Autoplot \code{stats::kmeans}.
+#' 
+#' @param data \code{stats::princomp} instance
+#' @param original Original data used for K-means. Mandatory for plotting.
+#' @return ggplot
+#' @examples
+#' df <- iris[c(1, 2, 3, 4)]
+#' ggplot2::autoplot(stats::princomp(df), original = iris)
+#' @export
+autoplot.kmeans <- function(data, original = NULL) {
+  if (is.null(original)) {
+    stop("'original' data is mandatory for plotting kmeans instance")
+  }
+  cls.fortified <- ggplot2::fortify(data, original = original)
+  pca.data <- dplyr::select_(cls.fortified, .dots = colnames(data$center))
+  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = cls.fortified,
+                         colour = 'cluster')
+  p
 }
 

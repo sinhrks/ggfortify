@@ -3,12 +3,27 @@
 \alias{autoplot.forecast}
 \title{Autoplot \code{forecast::forecast}.}
 \usage{
-\method{autoplot}{forecast}(data, conf.int = TRUE)
+\method{autoplot}{forecast}(data, ts.colour = "#000000",
+  ts.linetype = "solid", predict.colour = "#0000FF",
+  predict.linetype = "solid", conf.int = TRUE, conf.int.fill = "#000000",
+  conf.int.alpha = 0.3)
 }
 \arguments{
 \item{data}{\code{forecast::forecast} instance}
 
+\item{ts.colour}{Line colour for \code{stats::ts}}
+
+\item{ts.linetype}{Line type for \code{stats::ts}}
+
+\item{predict.colour}{Line colour for predicted \code{stats::ts}}
+
+\item{predict.linetype}{Line type for predicted \code{stats::ts}}
+
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{conf.int.fill}{Fill colour for confidence intervals}
+
+\item{conf.int.alpha}{Alpha for confidence intervals}
 }
 \value{
 ggplot
@@ -20,6 +35,6 @@ Autoplot \code{forecast::forecast}.
 d.arima <- forecast::auto.arima(AirPassengers)
 ggplot2::autoplot(forecast::forecast(d.arima, h = 50))
 ggplot2::autoplot(forecast::forecast(d.arima, level = c(95), h = 50))
-ggplot2::autoplot(forecast::forecast(d.arima, level = c(80), h = 50))
+ggplot2::autoplot(forecast::forecast(d.arima, h = 50), conf.int = FALSE)
 }
 

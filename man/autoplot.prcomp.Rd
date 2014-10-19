@@ -3,13 +3,15 @@
 \alias{autoplot.prcomp}
 \title{Autoplot \code{stats::prcomp}.}
 \usage{
-\method{autoplot}{prcomp}(data, original = NULL)
+\method{autoplot}{prcomp}(data, original = NULL, colour = NULL)
 }
 \arguments{
 \item{data}{\code{stats::prcomp} instance}
 
 \item{original}{Joined to PCA result if provided. Intended to be used for attaching
 non-numeric values original data has. Numeric values are automatically attached.}
+
+\item{colour}{Column name string to specify colorize points}
 }
 \value{
 ggplot
@@ -21,5 +23,6 @@ Autoplot \code{stats::prcomp}.
 df <- iris[c(1, 2, 3, 4)]
 ggplot2::autoplot(stats::prcomp(df))
 ggplot2::autoplot(stats::prcomp(df), original = iris)
+ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
 }
 
