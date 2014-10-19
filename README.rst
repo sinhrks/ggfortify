@@ -24,3 +24,9 @@ This covers following classes:
 - ``survival::survfit``
 - ``survival::survfit.cox``
 - ``vars::varprd``
+
+Examples
+--------
+
+* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
