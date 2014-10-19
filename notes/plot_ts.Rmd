@@ -1,0 +1,116 @@
+---
+title: "Plotting Time Series with ggplot2 and ggfortify"
+output: html_document
+---
+
+This document explains time series related plotting using `ggplot2` and `ggfortify`. 
+
+# Installation
+
+First, install `ggfortify` from github.
+
+```{r, message = FALSE}
+library(devtools)
+install_github('sinhrks/ggfortify')
+```
+
+
+# Plotting ts objects
+
+`ggfortify` let `ggplot2` know how to interpret `ts` objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `ts` objects. 
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+library(ggplot2)
+library(ggfortify)
+autoplot(AirPassengers)
+```
+
+To change line colour and line type, use `ts.colour` and `ts.linetype` options. Use `help(autoplot.ts)` (or `help(autoplot.*)` for any other objects) to check available options.
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(AirPassengers, ts.colour = 'red', ts.linetype = 'dashed')
+```
+
+Multivariate time series will be drawn with facets. 
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+data(Canada, package = 'vars')
+autoplot(Canada)
+```
+
+Specify `facet = FALSE` to draw on single axes.
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(Canada, facet = FALSE)
+```
+
+# Plotting ts-related objects
+
+`ggfortify` supports following time series related functions in `stats` package:
+
+* `stl`
+* `acf`, `pacf`, `ccf`
+* `spec.ar`, `spec.pgram`
+
+
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(stl(AirPassengers, s.window = 'periodic'))
+```
+
+**NOTE** With `acf` and `spec.*`, specify `plot = FALSE` to suppress default plotting outputs.
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(acf(AirPassengers, plot = FALSE))
+autoplot(spec.ar(AirPassengers, plot = FALSE))
+```
+
+# Plotting with forecast package
+
+`ggfortify` supports `forecast` object in `forecast` package. 
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+library(forecast)
+d.arima <- forecast::auto.arima(AirPassengers)
+d.forecast <- forecast(d.arima, level = c(95), h = 50)
+autoplot(d.forecast)
+```
+
+There are some options to change basic settings.
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(d.forecast, ts.colour = 'green', predict.colour = 'red',
+         predict.linetype = 'dashed', conf.int = FALSE)
+```
+
+# Plotting with vars package
+
+`ggfortify` supports `varpred` object in `vars` package. 
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+library(vars)
+d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
+d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
+```
+
+Available options are the same as `forecast`.
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(stats::predict(d.var, n.ahead = 50), ts.colour = 'green',
+         predict.colour = 'blue', predict.linetype = 'dashed')
+```
+
+# Plotting with changepoint package
+
+`ggfortify` supports `cpt` object in `changepoint` package. 
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+library(changepoint)
+autoplot(cpt.meanvar(AirPassengers))
+```
+
+You can change some options for `cpt`.
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+autoplot(cpt.meanvar(AirPassengers), cpt.colour = 'blue', cpt.linetype = 'solid')
+```

@@ -14,6 +14,7 @@ This covers following classes:
 - ``changepoint::cpt``
 - ``forecast::forecast``
 - ``stats::acf``
+- ``stats::factanal``
 - ``stats::kmeans``
 - ``stats::prcomp``
 - ``stats::princomp``
