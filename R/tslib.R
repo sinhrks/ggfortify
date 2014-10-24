@@ -33,3 +33,62 @@ get.dtindex.continuous <- function(data, length) {
   dtindex <- zoo::as.Date.yearmon(dtindex)
   dtindex
 }
+
+
+#' Calcurate confidence interval for \code{stats::acf}
+#' 
+#' @param x \code{stats::acf} instance
+#' @param ci Float value for confidence interval
+#' @param ci.type "white" or "ma"
+#' @return vector
+#' @examples
+#' air.acf <- acf(AirPassengers, plot = FALSE)
+#' ggfortify:::confint.acf(air.acf)
+#' ggfortify:::confint.acf(air.acf, ci.type = 'ma')
+confint.acf <- function (x, ci = 0.95, ci.type = "white") {
+  if ((nser <- ncol(x$lag)) < 1L) 
+    stop("x$lag must have at least 1 column")
+  with.ci <- ci > 0 && x$type != "covariance"
+  with.ci.ma <- with.ci && ci.type == "ma" && x$type == "correlation"
+
+  if (with.ci.ma && x$lag[1L, 1L, 1L] != 0L) {
+    warning("can use ci.type=\"ma\" only if first lag is 0")
+    with.ci.ma <- FALSE
+  }
+  clim0 <- if (with.ci) 
+    qnorm((1 + ci)/2)/sqrt(x$n.used)
+  else c(0, 0)
+  
+  Npgs <- 1L
+  nr <- nser
+  
+  if (nser > 1L) {
+    Npgs <- nser
+    nr <- ceiling(nser / Npgs)
+  }
+
+  for (I in 1L:Npgs) for (J in 1L:Npgs) {
+    iind <- (I - 1) * nr + 1L:nr
+    jind <- (J - 1) * nr + 1L:nr
+
+    for (i in iind) {
+      for (j in jind) {
+        if (!(max(i, j) > nser)) {
+          clim <- if (with.ci.ma && i == j) 
+            clim0 * sqrt(cumsum(c(1, 2 * x$acf[-1, i, j]^2)))
+          else clim0
+
+          if (with.ci && ci.type == "white") {
+            clim
+          } else if (with.ci.ma && i == j) {
+            clim <- clim[-length(clim)]
+          }
+        }
+      }
+    }
+  }
+  if (with.ci.ma && length(clim) < length(x$lag)) {
+    clim <- c(NA, clim)
+  }
+  return(clim)
+}

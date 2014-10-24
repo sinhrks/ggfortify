@@ -3,19 +3,17 @@
 \alias{autoplot.cpt}
 \title{Autoplot \code{changepoint::cpt}.}
 \usage{
-\method{autoplot}{cpt}(data, ts.colour = "#000000", ts.linetype = "solid",
-  cpt.colour = "#FF0000", cpt.linetype = "dashed")
+\method{autoplot}{cpt}(data, cpt.colour = "#FF0000",
+  cpt.linetype = "dashed", ...)
 }
 \arguments{
 \item{data}{\code{changepoint::cpt} instance}
 
-\item{ts.colour}{Line colour for \code{stats::ts}}
-
-\item{ts.linetype}{Line type for \code{stats::ts}}
-
 \item{cpt.colour}{Line colour for \code{changepoint::cpt}}
 
 \item{cpt.linetype}{Line type for \code{changepoint::cpt}}
+
+\item{...}{Keywords passed to autoplot.ts}
 }
 \value{
 ggplot

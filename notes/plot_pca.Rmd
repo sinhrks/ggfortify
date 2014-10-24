@@ -9,7 +9,7 @@ This document explains PCA/clustering related plotting using `ggplot2` and `ggfo
 
 First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
 
-```{r, message = FALSE}
+```{r, eval = FALSE, message = FALSE}
 library(devtools)
 install_github('sinhrks/ggfortify')
 ```
@@ -71,3 +71,9 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 df <- iris[c(1, 2, 3, 4)]
 autoplot(kmeans(df, 3), original = iris)
 ```
+
+# Resources related to ggfortify
+
+* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
+* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv>)

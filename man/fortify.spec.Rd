@@ -15,6 +15,7 @@ data.frame
 Convert \code{stats::spec} to data.frame.
 }
 \examples{
+ggplot2::fortify(spectrum(AirPassengers))
 ggplot2::fortify(stats::spec.ar(AirPassengers))
 ggplot2::fortify(stats::spec.pgram(AirPassengers))
 }
