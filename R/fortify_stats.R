@@ -60,7 +60,6 @@ autoplot.decomposed.ts <- autoplot.ts
 #' @param fitted.linetype Line type for fitted time-series
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
-#' @aliases fortify.decomposed.ts
 #' @examples
 #' ggplot2::autoplot(stats::HoltWinters(USAccDeaths))
 #' @export

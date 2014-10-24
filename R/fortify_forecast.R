@@ -80,7 +80,6 @@ autoplot.forecast <- function(data,
 #' 
 #' @param data \code{forecast::bats} or \code{forecast::ets} instance
 #' @return data.frame
-#' @aliases fortify.ar fortify.fracdiff
 #' @examples
 #' ggplot2::fortify(forecast::bats(UKgas))
 #' ggplot2::fortify(forecast::ets(UKgas))
