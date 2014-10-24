@@ -18,6 +18,6 @@ test_that('fortify.survfit.cox works for survival::lung', {
 
   expect_equal(is(fortified, 'tbl_df'), TRUE)
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
-                      'cumhaz', 'std.err', 'upper', 'lower') 
+                      'std.err', 'upper', 'lower', 'cumhaz') 
   expect_equal(names(fortified), expected_names)
 })

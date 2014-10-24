@@ -9,9 +9,9 @@
 \arguments{
 \item{data}{\code{changepoint::cpt} instance}
 
-\item{ts.colour}{Line colour for \code{stats::ts}}
+\item{ts.colour}{Line colour for time-series}
 
-\item{ts.linetype}{Line type for \code{stats::ts}}
+\item{ts.linetype}{Line type for time-series}
 
 \item{cpt.colour}{Line colour for \code{changepoint::cpt}}
 

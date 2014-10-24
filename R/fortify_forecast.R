@@ -9,8 +9,8 @@
 #' ggplot2::fortify(d.forecast)
 fortify.forecast <- function(data) {
   forecasted <- forecast:::as.data.frame.forecast(data)
-  forecasted$Time <- get.dtindex(data$mean)
-  fitted <- data.frame(Time = get.dtindex(data$fitted),
+  forecasted$Index <- get.dtindex(data$mean)
+  fitted <- data.frame(Index = get.dtindex(data$fitted),
                        Original = data$x,
                        Fitted = data$fitted)
   
@@ -24,10 +24,10 @@ fortify.forecast <- function(data) {
 #' Autoplot \code{forecast::forecast}.
 #' 
 #' @param data \code{forecast::forecast} instance
-#' @param ts.colour Line colour for \code{stats::ts}
-#' @param ts.linetype Line type for \code{stats::ts}
-#' @param predict.colour Line colour for predicted \code{stats::ts}
-#' @param predict.linetype Line type for predicted \code{stats::ts}
+#' @param ts.colour Line colour for time-series
+#' @param ts.linetype Line type for time-series
+#' @param predict.colour Line colour for predicted time-series
+#' @param predict.linetype Line type for predicted time-series
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
@@ -59,7 +59,7 @@ autoplot.forecast <- function(data,
   original.data <- dplyr::filter(plot.data, !is.na(Original))
   predict.data <- dplyr::filter(plot.data, !is.na(`Point Forecast`))
   
-  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = Time)) +
+  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = Index)) +
     ggplot2::geom_line(data = original.data,
                        mapping = ggplot2::aes(y = Original),
                        colour = ts.colour, linetype = ts.linetype) +

@@ -3,10 +3,17 @@
 \alias{autoplot.acf}
 \title{Autoplot \code{stats::acf}.}
 \usage{
-\method{autoplot}{acf}(data)
+\method{autoplot}{acf}(data, conf.int = TRUE, conf.int.fill = "#000000",
+  conf.int.alpha = 0.3)
 }
 \arguments{
 \item{data}{\code{stats::acf} instance}
+
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{conf.int.fill}{Fill colour for confidence intervals}
+
+\item{conf.int.alpha}{Alpha for confidence intervals}
 }
 \value{
 ggplot

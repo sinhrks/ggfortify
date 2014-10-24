@@ -13,13 +13,13 @@
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
-\item{ts.colour}{Line colour for \code{stats::ts}}
+\item{ts.colour}{Line colour for time-series}
 
-\item{ts.linetype}{Line type for \code{stats::ts}}
+\item{ts.linetype}{Line type for time-series}
 
-\item{predict.colour}{Line colour for predicted \code{stats::ts}}
+\item{predict.colour}{Line colour for predicted time-series}
 
-\item{predict.linetype}{Line type for predicted \code{stats::ts}}
+\item{predict.linetype}{Line type for predicted time-series}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 

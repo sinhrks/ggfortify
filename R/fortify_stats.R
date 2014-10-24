@@ -1,142 +1,160 @@
-#' Convert \code{stats::ts} to data.frame.
+#' Convert \code{stats::stl}, \code{stats::decomposed.ts} and
+#'  \code{stats::HoltWinters} to data.frame.
 #' 
-#' @param data \code{stats::ts} instance
+#' @param data \code{stats::stl}, \code{stats::decomposed.ts} or \code{stats::HoltWinters} instance
 #' @return data.frame
+#' @aliases fortify.decomposed.ts fortify.HoltWinters
 #' @examples
-#' ggplot2::fortify(AirPassengers)
-#' @export
-fortify.ts <- function(data) {
-  dtindex <- get.dtindex(data) 
-  d <- cbind(data.frame(time = dtindex),
-             as.data.frame(data))
-  dplyr::tbl_df(d)
-}
-
-#' Autoplot \code{stats::ts}.
-#' 
-#' @param data \code{stats::ts} instance
-#' @param scales Scale value passed to \code{ggplot2}
-#' @param facet Logical value to specify use facets for multivariate \code{stats::ts}.
-#' @param ts.colour Line colour for \code{stats::ts}
-#' @param ts.linetype Line type for \code{stats::ts}
-#' @return ggplot
-#' @examples
-#' data(Canada, package = 'vars')
-#' ggplot2::autoplot(AirPassengers)
-#' ggplot2::autoplot(Canada)
-#' ggplot2::autoplot(Canada, facet = FALSE)
-#' @export
-autoplot.ts <- function(data, scales = 'free_y', facet = TRUE,
-                        ts.colour = '#000000', ts.linetype = 'solid') {
-  ts.label <- 'time'
-  
-  plot.data <- ggplot2::fortify(data)
-  data.names <- names(plot.data)
-  measures <- data.names[data.names != ts.label]
-
-  if (length(measures) == 1) {
-    p <- ggplot2::ggplot(data = plot.data,
-                         mapping = ggplot2::aes_string(x = ts.label, y = measures[1])) + 
-      ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype)
-  } else { 
-    plot.data <- reshape2::melt(plot.data, id.vars = c(ts.label),
-                                measure.vars = measures)
-      
-    if (facet) {
-      mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
-      p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-        ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype) + 
-        ggplot2::facet_grid(variable ~ ., scales = scales)
-    } else {
-      # ts.colour cannot be used
-      mapping <- ggplot2::aes_string(x = ts.label, y = 'value', colour = 'variable')
-      p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-        ggplot2::geom_line(linetype = ts.linetype)
-    }
-  }
-  p + ggplot2::scale_y_continuous(name = '')
-}
-
-#' Convert \code{stats::stl} to data.frame.
-#' 
-#' @param data \code{stats::stl} instance
-#' @return data.frame
-#' @examples
-#' d.stl <- stats::stl(AirPassengers, s.window = 'periodic')
-#' ggplot2::fortify(d.stl)
+#' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
+#' ggplot2::fortify(stats::decompose(UKgas))
+#' ggplot2::fortify(stats::HoltWinters(USAccDeaths))
 #' @export
 fortify.stl <- function(data) {
-  ts.data <- data$time.series
-  ncomp <- ncol(ts.data)
-  orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
+  if (is(data, 'stl')) {
+    # stl allows only univariate series
+    ts.data <- data$time.series
+    ncomp <- ncol(ts.data)
+    orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
   
-  dtindex <- get.dtindex(ts.data)  
-  d <- cbind(data.frame(time = dtindex, data = orig),
-             data.frame(data$time.series))
+    dtindex <- get.dtindex(ts.data)  
+    d <- cbind(data.frame(Index = dtindex, data = orig),
+               data.frame(data$time.series))
+  } else if (is(data, 'decomposed.ts')) {
+    dtframe <- ggplot2::fortify(data$x, data.name = 'data')
+    # trend and random can be multivariate
+    rndframe <- data$random
+    colnames(rndframe) <- NULL
+    dcframe <- data.frame(seasonal = data$seasonal,
+                          trend = data$trend,
+                          remainder = rndframe)
+    d <- cbind(dtframe, dcframe)
+    
+  } else if (is(data, 'HoltWinters')) {
+    # HoltWinters allows multivariate, but fitted value looks incorrect
+    # Thus ignore
+    dtframe <- ggplot2::fortify(data$x, data.name = 'data')
+    dcframe <- ggplot2::fortify(data$fitted)
+    d <- dplyr::left_join(dtframe, dcframe, by = 'Index') 
+  } else {
+    stop(paste0('Unsupported class for fortify.stl: ', class(data)))
+  }
   dplyr::tbl_df(d)
 }
 
-#' Autoplot \code{stats::stl}.
+#' @export
+fortify.decomposed.ts <- fortify.stl
+
+#' @export
+fortify.HoltWinters <- fortify.stl
+
+#' Autoplot \code{stats::stl} and \code{stats::decomposed.ts}
 #' 
-#' @param data \code{stats::stl} instance
+#' @param data \code{stats::stl} or \code{stats::decomposed.ts} instance
 #' @param scales Scale value passed to \code{ggplot2}
-#' @param ts.colour Line colour for \code{stats::ts}
-#' @param ts.linetype Line type for \code{stats::ts}
+#' @param ts.colour Line colour for time-series
+#' @param ts.linetype Line type for time-series
 #' @return ggplot
+#' @aliases fortify.decomposed.ts
 #' @examples
-#' d.stl <- stats::stl(AirPassengers, s.window = 'periodic')
-#' ggplot2::autoplot(d.stl)
+#' ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
+#' ggplot2::autoplot(stats::decompose(UKgas))
 #' @export
 autoplot.stl <- function(data, scales = 'free_y',
                          ts.colour = '#000000', ts.linetype = 'solid') {
   plot.data <- ggplot2::fortify(data)
-  measures <- c("data", "seasonal", "trend", "remainder")
-  plot.data <- reshape2::melt(plot.data, id.vars = c('time'),
-                              measure.vars = measures)
+  plot.data <- reshape2::melt(plot.data, id.vars = c('Index'))
   ggplot2::ggplot(data = plot.data, 
-                  mapping = ggplot2::aes(x = time, y = value)) +
+                  mapping = ggplot2::aes(x = Index, y = value)) +
     ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype) +
     ggplot2::facet_grid(variable ~ ., scales = scales) + 
     ggplot2::scale_y_continuous(name = '')
 }
 
+#' @export
+autoplot.decomposed.ts <- autoplot.stl
+
+#' Autoplot \code{stats::HoltWinters}
+#' 
+#' @param data \code{stats::HoltWinters} instance
+#' @param scales Scale value passed to \code{ggplot2}
+#' @param ts.colour Line colour for time-series
+#' @param ts.linetype Line type for time-series
+#' @param fitted.colour Line colour for fitted time-series
+#' @param fitted.linetype Line type for fitted time-series
+#' @return ggplot
+#' @aliases fortify.decomposed.ts
+#' @examples
+#' ggplot2::autoplot(stats::HoltWinters(USAccDeaths))
+#' @export
+autoplot.HoltWinters <- function(data, scales = 'free_y',
+                                 ts.colour = '#000000', ts.linetype = 'solid',
+                                 fitted.colour = '#FF0000', fitted.linetype = 'solid') {
+  plot.data <- ggplot2::fortify(data)
+  p <- ggplot2::ggplot(data = plot.data, 
+                       mapping = ggplot2::aes(x = Index)) +
+    ggplot2::geom_line(mapping = ggplot2::aes(y = data),
+                       colour = ts.colour, linetype = ts.linetype) + 
+    ggplot2::geom_line(mapping = ggplot2::aes(y = xhat),
+                       colour = fitted.colour, linetype = fitted.linetype)
+  p <- p + ggplot2::scale_y_continuous(name = '')
+  p
+}
+
 #' Convert \code{stats::acf} to data.frame.
 #' 
 #' @param data \code{stats::acf} instance
+#' @param conf.int Logical flag indicating whether to attach confidence intervals
+#' @param conf.int.value Coverage probability for confidence interval
+#' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
 #' @return data.frame
 #' @examples
 #' ggplot2::fortify(stats::acf(AirPassengers))
 #' ggplot2::fortify(stats::pacf(AirPassengers))
 #' ggplot2::fortify(stats::ccf(AirPassengers, AirPassengers))
+#' 
+#' ggplot2::fortify(stats::acf(AirPassengers), conf.int = TRUE)
 #' @export
-fortify.acf <- function(data) {
-  d <- data.frame(lag = data$lag,
-                  acf = data$acf)
+fortify.acf <- function(data, conf.int = TRUE, conf.int.value = 0.95,
+                        conf.int.type = 'white') {
+  d <- data.frame(lag = data$lag, acf = data$acf)
+  if (conf.int) {
+    cf <- ggfortify:::confint.acf(data, ci = conf.int.value, ci.type = conf.int.type)
+    cfd <- data.frame(lower = -cf, upper = cf)
+    d <- cbind(d, cfd)
+  }
   dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{stats::acf}.
 #' 
 #' @param data \code{stats::acf} instance
+#' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(stats::acf(AirPassengers))
 #' ggplot2::autoplot(stats::pacf(AirPassengers))
 #' ggplot2::autoplot(stats::ccf(AirPassengers, AirPassengers))
 #' @export
-autoplot.acf <- function(data) {
-  plot.data <- ggplot2::fortify(data)
+autoplot.acf <- function(data, conf.int = TRUE,
+                         conf.int.fill = '#000000', conf.int.alpha = 0.3) {
+  plot.data <- ggplot2::fortify(data, conf.int = conf.int)
 
   # Prepare ymax and ymin used for geom_linerange
   plot.data <- dplyr::mutate(plot.data,
                              ymax = ifelse(acf > 0, acf, 0),
                              ymin = ifelse(acf < 0, acf, 0))
 
-  # ToDo: Calcurate Confidence Interval
-  # http://stackoverflow.com/questions/14266333/extract-confidence-interval-values-from-acf-correlogram
+  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = lag)) +
+    ggplot2::geom_linerange(mapping = ggplot2::aes(ymin = ymin, ymax = ymax))
 
-  ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_linerange(mapping = ggplot2::aes(x = lag, ymin = ymin, ymax = ymax))
+  if (conf.int) {
+    p <- p + ggplot2::geom_ribbon(data = plot.data,
+                                  mapping = ggplot2::aes(ymin = lower, ymax = upper),
+                                  fill = conf.int.fill, alpha = conf.int.alpha)
+  }
+  p
 }
 
 #' Convert \code{stats::spec} to data.frame.
@@ -144,6 +162,7 @@ autoplot.acf <- function(data) {
 #' @param data \code{stats::spec} instance
 #' @return data.frame
 #' @examples
+#' ggplot2::fortify(spectrum(AirPassengers))
 #' ggplot2::fortify(stats::spec.ar(AirPassengers))
 #' ggplot2::fortify(stats::spec.pgram(AirPassengers))
 #' @export
@@ -169,12 +188,42 @@ autoplot.spec <- function(data) {
     ggplot2::scale_y_log10()
 }
 
+#' Convert \code{stats::arima} to data.frame.
+#' 
+#' @param data \code{stats::arima} instance
+#' @return data.frame
+#' @aliases fortify.ar
+#' @examples
+#' ggplot2::fortify(stats::arima(UKgas))
+#' ggplot2::fortify(stats::ar(AirPassengers))
+#' @export
+fortify.Arima <- function(data) {
+  if (is(data, 'Arima')) {
+    d <- ggplot2::fortify(data$residuals, data.name = 'Residuals')
+  } else if (is(data, 'ar')) {
+    d <- ggplot2::fortify(data$resid, data.name = 'Residuals')
+  } else {
+    stop(paste0('Unsupported class for fortify.Arima: ', class(data)))
+  }
+  dplyr::tbl_df(d)
+}
+
+#' @export
+fortify.ar <- fortify.Arima
+
+#' @export
+autoplot.Arima <- autoplot.ts
+
+#' @export
+autoplot.ar <- autoplot.ts
+
 #' Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
 #' 
 #' @param data \code{stats::prcomp} or \code{stats::princomp} instance
 #' @param original Joined to PCA result if provided. Intended to be used for attaching
 #' non-numeric values original data has. Numeric values are automatically attached.
 #' @return data.frame
+#' @aliases fortify.princomp
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::fortify(stats::prcomp(df))
@@ -205,10 +254,8 @@ fortify.prcomp <- function(data, original = NULL) {
   dplyr::tbl_df(d)
 }
 
-
 #' @export
 fortify.princomp <- fortify.prcomp
-
 
 #' Convert \code{stats::factanal} to data.frame.
 #' 
@@ -245,6 +292,7 @@ fortify.factanal <- function(data, original = NULL) {
 #' @param loadings.label.colour Text colour for loadings labels
 #' @param loadings.label.size Text size for loadings labels
 #' @return ggplot
+#' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal 
 #' @examples
 #' df <- iris[c(1, 2, 3, 4)]
 #' ggplot2::autoplot(stats::prcomp(df))
@@ -320,13 +368,10 @@ autoplot.pca_common <- function(data, original = NULL,
 
 #' @export
 autoplot.prcomp <- autoplot.pca_common
-
 #' @export
 autoplot.princomp <- autoplot.pca_common
-
 #' @export
 autoplot.factanal <- autoplot.pca_common
-
 
 #' Convert \code{stats::kmeans} to data.frame.
 #' 
@@ -346,7 +391,6 @@ fortify.kmeans <- function(data, original = NULL) {
   }
   dplyr::tbl_df(d)
 }
-
 
 #' Autoplot \code{stats::kmeans}.
 #' 

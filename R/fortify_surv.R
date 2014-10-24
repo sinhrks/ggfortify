@@ -2,9 +2,13 @@
 #' 
 #' @param data \code{survival::survfit} instance
 #' @return data.frame
+#' @aliases fortify.survfit.cox 
 #' @examples
 #' d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
 #' ggplot2::fortify(d.survfit)
+#' 
+#' d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
+#' ggplot2::fortify(survival::survfit(d.coxph))
 #' @export
 fortify.survfit <- function(data) {
   d <- data.frame(time = data$time,
@@ -14,8 +18,15 @@ fortify.survfit <- function(data) {
                   surv = data$surv,
                   std.err = data$std.err,
                   upper = data$upper,
-                  lower = data$lower,
-                  strata = rep(names(data$strata), data$strata))
+                  lower = data$lower)
+  
+  if (is(data, 'survfit.cox')) {
+    d <- cbind(d, data.frame(cumhaz = data$cumhaz))
+  } else if (is(data, 'survfit')) {
+    d <- cbind(d, data.frame(strata = rep(names(data$strata), data$strata)))
+  } else {
+    stop(paste0('Unsupported class for fortify.survfit: ', class(data)))
+  }
   dplyr::tbl_df(d)
 }
 
@@ -31,6 +42,7 @@ fortify.survfit <- function(data) {
 #' @param censor.shape Shape for censors
 #' @param censor.size Size for censors
 #' @return ggplot
+#' @aliases autoplot.survfit.cox
 #' @examples
 #' d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
 #' ggplot2::autoplot(d.survfit)
@@ -62,7 +74,7 @@ autoplot.survfit <- function(data,
                                     fill = conf.int.fill, alpha = conf.int.alpha)
     }
   }
-
+  
   if (censor) {
     p <- p + ggplot2::geom_point(data = plot.data[plot.data$n.censor > 0, ],
                                  ggplot2::aes(y = surv),
@@ -70,26 +82,3 @@ autoplot.survfit <- function(data,
   }
   p
 }
-
-#' Convert \code{survival::survfit.cox} to data.frame.
-#' 
-#' @param data \code{survival::survfit.cox} instance
-#' @return data.frame
-#' @examples
-#' d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-#' ggplot2::fortify(survival::survfit(d.coxph))
-#' @export
-fortify.survfit.cox <- function(data) {
-  d <- data.frame(time = data$time,
-                  n.risk = data$n.risk,
-                  n.event = data$n.event,
-                  n.censor = data$n.censor,
-                  surv = data$surv,
-                  cumhaz = data$cumhaz,
-                  std.err = data$std.err,
-                  upper = data$upper,
-                  lower = data$lower)
-  dplyr::tbl_df(d)
-}
-
-autoplot.survfit.cox <- autoplot.survfit

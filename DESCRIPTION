@@ -20,4 +20,7 @@ Suggests:
     changepoint,
     forecast,
     survival,
-    vars
+    timeSeries,
+    tseries,
+    vars,
+    xts

@@ -11,7 +11,7 @@
 #' @export
 fortify.varprd <- function(data, melt = FALSE){  
   dtindex <- get.dtindex(data$model$y)
-  fitted <- cbind(data.frame(time = dtindex),
+  fitted <- cbind(data.frame(Index = dtindex),
                   data.frame(data$model$y))
   rownames(fitted) <- NULL
   
@@ -24,9 +24,9 @@ fortify.varprd <- function(data, melt = FALSE){
     for (col in cols){
       pred <- data.frame(fcst[[col]])
       rownames(pred) <- NULL
-      pred$time <- dtindex.cont
-      obs <- fitted[, c('time', col)]
-      colnames(obs) <- c('time', 'original')
+      pred$Index <- dtindex.cont
+      obs <- fitted[, c('Index', col)]
+      colnames(obs) <- c('Index', 'original')
       binded <- dplyr::rbind_list(obs, pred)
       binded$variable <- col
       fcst[[col]] <- binded
@@ -37,7 +37,7 @@ fortify.varprd <- function(data, melt = FALSE){
       colnames(fcst[[col]]) <- paste0(col, '.', colnames(fcst[[col]]))
     }
     forecasted <- data.frame(do.call(cbind, fcst))
-    forecasted$time <- dtindex.cont
+    forecasted$Index <- dtindex.cont
     rownames(forecasted) <- NULL
     
     return(dplyr::rbind_list(fitted, forecasted))
@@ -49,10 +49,10 @@ fortify.varprd <- function(data, melt = FALSE){
 #' @param data \code{vars::varpred} instance
 #' @param scales Scale value passed to \code{ggplot2}
 
-#' @param ts.colour Line colour for \code{stats::ts}
-#' @param ts.linetype Line type for \code{stats::ts}
-#' @param predict.colour Line colour for predicted \code{stats::ts}
-#' @param predict.linetype Line type for predicted \code{stats::ts}
+#' @param ts.colour Line colour for time-series
+#' @param ts.linetype Line type for time-series
+#' @param predict.colour Line colour for predicted time-series
+#' @param predict.linetype Line type for predicted time-series
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
@@ -76,7 +76,7 @@ autoplot.varprd <- function(data, scales = 'free_y',
   predict.data <- dplyr::filter(plot.data, !is.na(fcst))
 
   p <- ggplot2::ggplot(data = plot.data,
-                       mapping = ggplot2::aes(x = time)) +
+                       mapping = ggplot2::aes(x = Index)) +
     ggplot2::geom_line(data = original.data,
                        mapping = ggplot2::aes(y = original),
                        colour = ts.colour, linetype = ts.linetype) +

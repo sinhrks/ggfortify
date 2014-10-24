@@ -14,7 +14,11 @@ This covers following classes:
 - ``changepoint::cpt``
 - ``forecast::forecast``
 - ``stats::acf``
+- ``stats::ar``
+- ``stats::Arima``
+- ``stats::decomposed.ts``
 - ``stats::factanal``
+- ``stats::HoltWinters``
 - ``stats::kmeans``
 - ``stats::prcomp``
 - ``stats::princomp``
@@ -23,10 +27,15 @@ This covers following classes:
 - ``stats::ts``
 - ``survival::survfit``
 - ``survival::survfit.cox``
+- ``timeSeries::timeSeries``
+- ``tseries::irts``
 - ``vars::varprd``
+- ``xts::xts``
+
 
 Examples
 --------
 
 * `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
 * `Plotting PCA/clustering results using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_pca>`_
+* `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_

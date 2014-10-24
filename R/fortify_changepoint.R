@@ -13,7 +13,7 @@ fortify.cpt <- function(data, keep.original = TRUE) {
   d <- ggplot2::fortify(data@data.set)
   
   cptindex <- get.dtindex(data@data.set)[data@cpts]
-  cptd <- data.frame(time = cptindex)
+  cptd <- data.frame(Index = cptindex)
   if ('mean' %in% names(data@param.est)) {
     cptd$mean <- data@param.est$mean
   }
@@ -21,7 +21,7 @@ fortify.cpt <- function(data, keep.original = TRUE) {
     cptd$variance <- data@param.est$variance
   }
   if (keep.original) {
-    d <- dplyr::left_join(d, cptd, by = 'time') 
+    d <- dplyr::left_join(d, cptd, by = 'Index') 
   } else {
     d <- cptd
   } 
@@ -31,8 +31,8 @@ fortify.cpt <- function(data, keep.original = TRUE) {
 #' Autoplot \code{changepoint::cpt}.
 #' 
 #' @param data \code{changepoint::cpt} instance
-#' @param ts.colour Line colour for \code{stats::ts}
-#' @param ts.linetype Line type for \code{stats::ts}
+#' @param ts.colour Line colour for time-series
+#' @param ts.linetype Line type for time-series
 #' @param cpt.colour Line colour for \code{changepoint::cpt}
 #' @param cpt.linetype Line type for \code{changepoint::cpt}
 #' @return ggplot
@@ -47,7 +47,7 @@ autoplot.cpt <- function(data,
   y = names(plot.data)[2]
   
   p <- ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_line(mapping = ggplot2::aes_string(x = 'time', y = y),
+    ggplot2::geom_line(mapping = ggplot2::aes_string(x = 'Index', y = y),
                        colour = ts.colour, linetyle = ts.linetype)
 
   if ('mean' %in% names(plot.data)) {
