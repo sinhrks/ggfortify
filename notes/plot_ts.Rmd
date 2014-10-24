@@ -9,11 +9,10 @@ This document explains time series related plotting using `ggplot2` and `ggforti
 
 First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
 
-```{r, message = FALSE}
+```{r, eval = FALSE, message = FALSE}
 library(devtools)
 install_github('sinhrks/ggfortify')
 ```
-
 
 # Plotting ts objects
 
@@ -42,6 +41,21 @@ Specify `facet = FALSE` to draw on single axes.
 
 ```{r, message = FALSE, fig.width=6, fig.height=3}
 autoplot(Canada, facet = FALSE)
+```
+
+Also, `autoplot` can handle other time-series-likes. Supported packages are:
+
+* `zoo::zooreg`
+* `xts::xts`
+* `timeSeries::timSeries`
+* `tseries::irts`
+
+```{r, message = FALSE, fig.width=6, fig.height=3}
+library(zoo)
+ggplot2::autoplot(xts::as.xts(AirPassengers), ts.colour = 'green')
+
+library(timeSeries)
+ggplot2::autoplot(timeSeries::as.timeSeries(AirPassengers), ts.colour = ('red'))
 ```
 
 # Plotting ts-related objects
@@ -112,3 +126,9 @@ You can change some options for `cpt`.
 ```{r, message = FALSE, fig.width=6, fig.height=3}
 autoplot(cpt.meanvar(AirPassengers), cpt.colour = 'blue', cpt.linetype = 'solid')
 ```
+
+# Resources related to ggfortify
+
+* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
+* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv>)

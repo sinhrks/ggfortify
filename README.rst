@@ -1,6 +1,6 @@
 
-.. image:: https://travis-ci.org/sinhrks/pyopendata.svg?branch=master
-    :target: https://travis-ci.org/sinhrks/pyopendata
+.. image:: https://travis-ci.org/sinhrks/ggfortify.svg?branch=master
+    :target: https://travis-ci.org/sinhrks/ggfortify
 
 ggfortify
 =========
@@ -12,7 +12,10 @@ This covers following classes:
 - ``base::matrix``
 - ``base::table``
 - ``changepoint::cpt``
+- ``forecast::bats``
 - ``forecast::forecast``
+- ``forecast::ets``
+- ``fracdiff::fracdiff``
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
@@ -31,6 +34,11 @@ This covers following classes:
 - ``tseries::irts``
 - ``vars::varprd``
 - ``xts::xts``
+
+Helper Functions
+----------------
+
+- `ggdistribution` to plot CDF/PDF
 
 
 Examples

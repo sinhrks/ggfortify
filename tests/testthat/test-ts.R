@@ -1,3 +1,6 @@
+library(timeSeries)
+library(vars)
+
 context('test timeseries')
 
 test_that('fortify.ts works for AirPassengers', {

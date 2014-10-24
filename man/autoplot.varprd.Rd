@@ -3,19 +3,15 @@
 \alias{autoplot.varprd}
 \title{Autoplot \code{vars::varprd}.}
 \usage{
-\method{autoplot}{varprd}(data, scales = "free_y", ts.colour = "#000000",
-  ts.linetype = "solid", predict.colour = "#0000FF",
-  predict.linetype = "solid", conf.int = TRUE, conf.int.fill = "#000000",
-  conf.int.alpha = 0.3)
+\method{autoplot}{varprd}(data, scales = "free_y",
+  predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
+  conf.int.colour = "#0000FF", conf.int.linetype = "none",
+  conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{data}{\code{vars::varpred} instance}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
-
-\item{ts.colour}{Line colour for time-series}
-
-\item{ts.linetype}{Line type for time-series}
 
 \item{predict.colour}{Line colour for predicted time-series}
 
@@ -23,9 +19,15 @@
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
+\item{conf.int.colour}{Line colour for confidence intervals}
+
+\item{conf.int.linetype}{Line type for confidence intervals}
+
 \item{conf.int.fill}{Fill colour for confidence intervals}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
+
+\item{...}{Keywords passed to autoplot.ts}
 }
 \value{
 ggplot

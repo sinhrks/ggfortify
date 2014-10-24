@@ -2,21 +2,27 @@
 \name{fortify.Arima}
 \alias{fortify.Arima}
 \alias{fortify.ar}
-\title{Convert \code{stats::arima} to data.frame.}
+\alias{fortify.fracdiff}
+\alias{fortify.nnetar}
+\title{Convert AR, ARIMA, ARFIMA-like to data.frame.}
 \usage{
 \method{fortify}{Arima}(data)
 }
 \arguments{
-\item{data}{\code{stats::arima} instance}
+\item{data}{\code{stats::ar}, \code{stats::arima}, \code{fracdiff::fracdiff}
+or \code{forecast::nnetar}instance}
 }
 \value{
 data.frame
 }
 \description{
-Convert \code{stats::arima} to data.frame.
+Convert AR, ARIMA, ARFIMA-like to data.frame.
 }
 \examples{
-ggplot2::fortify(stats::arima(UKgas))
 ggplot2::fortify(stats::ar(AirPassengers))
+ggplot2::fortify(stats::arima(UKgas))
+ggplot2::fortify(forecast::auto.arima(austres))
+ggplot2::fortify(forecast::arfima(AirPassengers))
+ggplot2::fortify(forecast::nnetar(UKgas))
 }
 

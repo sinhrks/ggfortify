@@ -42,8 +42,9 @@ get.dtindex.continuous <- function(data, length) {
 #' @param ci.type "white" or "ma"
 #' @return vector
 #' @examples
-#' confint(acf(AirPassengers))
-#' confint(acf(AirPassengers), ci.type = 'ma')
+#' air.acf <- acf(AirPassengers, plot = FALSE)
+#' ggfortify:::confint.acf(air.acf)
+#' ggfortify:::confint.acf(air.acf, ci.type = 'ma')
 confint.acf <- function (x, ci = 0.95, ci.type = "white") {
   if ((nser <- ncol(x$lag)) < 1L) 
     stop("x$lag must have at least 1 column")
@@ -61,8 +62,8 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
   Npgs <- 1L
   nr <- nser
   
-  if (nser > 1L && nser > max.mfrow) {
-    Npgs <- ceiling(nser / max.mfrow)
+  if (nser > 1L) {
+    Npgs <- nser
     nr <- ceiling(nser / Npgs)
   }
 

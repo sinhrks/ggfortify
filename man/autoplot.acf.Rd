@@ -3,13 +3,23 @@
 \alias{autoplot.acf}
 \title{Autoplot \code{stats::acf}.}
 \usage{
-\method{autoplot}{acf}(data, conf.int = TRUE, conf.int.fill = "#000000",
+\method{autoplot}{acf}(data, conf.int = TRUE, colour = "#000000",
+  linetype = "solid", conf.int.colour = "#0000FF",
+  conf.int.linetype = "dashed", conf.int.fill = NULL,
   conf.int.alpha = 0.3)
 }
 \arguments{
 \item{data}{\code{stats::acf} instance}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{colour}{Line colour}
+
+\item{linetype}{Line type}
+
+\item{conf.int.colour}{Line colour for confidence intervals}
+
+\item{conf.int.linetype}{Line type for confidence intervals}
 
 \item{conf.int.fill}{Fill colour for confidence intervals}
 

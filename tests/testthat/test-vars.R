@@ -24,7 +24,7 @@ test_that('vars.varored works for Canada', {
   expect_equal(is(fortified, 'tbl_df'), TRUE)
   expect_equal(nrow(fortified), (50 + nrow(Canada)) * 4)
   
-  expected_names <- c('Index', 'original', 'fcst', 'lower', 'upper', 'CI', 'variable')
+  expected_names <- c('Index', 'Data', 'fcst', 'lower', 'upper', 'CI', 'variable')
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$Index[1], as.Date('1980-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('2013-04-01'))

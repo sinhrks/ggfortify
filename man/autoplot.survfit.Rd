@@ -5,7 +5,8 @@
 \title{Autoplot \code{survival::survfit}.}
 \usage{
 \method{autoplot}{survfit}(data, surv.colour = "#000000",
-  surv.linetype = "solid", conf.int = TRUE, conf.int.fill = "#000000",
+  surv.linetype = "solid", conf.int = TRUE, conf.int.colour = "#0000FF",
+  conf.int.linetype = "none", conf.int.fill = "#000000",
   conf.int.alpha = 0.3, censor = TRUE, censor.shape = "+",
   censor.size = 3)
 }
@@ -17,6 +18,10 @@
 \item{surv.linetype}{Line type for survival curve}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{conf.int.colour}{Line colour for confidence intervals}
+
+\item{conf.int.linetype}{Line type for confidence intervals}
 
 \item{conf.int.fill}{Fill colour for confidence intervals}
 
@@ -38,5 +43,8 @@ Autoplot \code{survival::survfit}.
 d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
 ggplot2::autoplot(d.survfit)
 ggplot2::autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
+
+d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
+ggplot2::autoplot(survival::survfit(d.coxph))
 }
 

@@ -47,56 +47,30 @@ fortify.decomposed.ts <- fortify.stl
 #' @export
 fortify.HoltWinters <- fortify.stl
 
-#' Autoplot \code{stats::stl} and \code{stats::decomposed.ts}
-#' 
-#' @param data \code{stats::stl} or \code{stats::decomposed.ts} instance
-#' @param scales Scale value passed to \code{ggplot2}
-#' @param ts.colour Line colour for time-series
-#' @param ts.linetype Line type for time-series
-#' @return ggplot
-#' @aliases fortify.decomposed.ts
-#' @examples
-#' ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
-#' ggplot2::autoplot(stats::decompose(UKgas))
 #' @export
-autoplot.stl <- function(data, scales = 'free_y',
-                         ts.colour = '#000000', ts.linetype = 'solid') {
-  plot.data <- ggplot2::fortify(data)
-  plot.data <- reshape2::melt(plot.data, id.vars = c('Index'))
-  ggplot2::ggplot(data = plot.data, 
-                  mapping = ggplot2::aes(x = Index, y = value)) +
-    ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype) +
-    ggplot2::facet_grid(variable ~ ., scales = scales) + 
-    ggplot2::scale_y_continuous(name = '')
-}
+autoplot.stl <- autoplot.ts
 
 #' @export
-autoplot.decomposed.ts <- autoplot.stl
+autoplot.decomposed.ts <- autoplot.ts
 
 #' Autoplot \code{stats::HoltWinters}
 #' 
 #' @param data \code{stats::HoltWinters} instance
-#' @param scales Scale value passed to \code{ggplot2}
-#' @param ts.colour Line colour for time-series
-#' @param ts.linetype Line type for time-series
 #' @param fitted.colour Line colour for fitted time-series
 #' @param fitted.linetype Line type for fitted time-series
+#' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
 #' @aliases fortify.decomposed.ts
 #' @examples
 #' ggplot2::autoplot(stats::HoltWinters(USAccDeaths))
 #' @export
-autoplot.HoltWinters <- function(data, scales = 'free_y',
-                                 ts.colour = '#000000', ts.linetype = 'solid',
-                                 fitted.colour = '#FF0000', fitted.linetype = 'solid') {
+autoplot.HoltWinters <- function(data,
+                                 fitted.colour = '#FF0000', fitted.linetype = 'solid',
+                                 ...) {
   plot.data <- ggplot2::fortify(data)
-  p <- ggplot2::ggplot(data = plot.data, 
-                       mapping = ggplot2::aes(x = Index)) +
-    ggplot2::geom_line(mapping = ggplot2::aes(y = data),
-                       colour = ts.colour, linetype = ts.linetype) + 
-    ggplot2::geom_line(mapping = ggplot2::aes(y = xhat),
-                       colour = fitted.colour, linetype = fitted.linetype)
-  p <- p + ggplot2::scale_y_continuous(name = '')
+  p <- ggfortify:::autoplot.ts(plot.data, columns = 'data', ...)
+  p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'xhat'),
+                              colour = fitted.colour, linetype = fitted.linetype)
   p
 }
 
@@ -114,7 +88,8 @@ autoplot.HoltWinters <- function(data, scales = 'free_y',
 #' 
 #' ggplot2::fortify(stats::acf(AirPassengers), conf.int = TRUE)
 #' @export
-fortify.acf <- function(data, conf.int = TRUE, conf.int.value = 0.95,
+fortify.acf <- function(data,
+                        conf.int = TRUE, conf.int.value = 0.95,
                         conf.int.type = 'white') {
   d <- data.frame(lag = data$lag, acf = data$acf)
   if (conf.int) {
@@ -128,7 +103,11 @@ fortify.acf <- function(data, conf.int = TRUE, conf.int.value = 0.95,
 #' Autoplot \code{stats::acf}.
 #' 
 #' @param data \code{stats::acf} instance
+#' @param colour Line colour
+#' @param linetype Line type
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.colour Line colour for confidence intervals
+#' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
 #' @return ggplot
@@ -138,7 +117,9 @@ fortify.acf <- function(data, conf.int = TRUE, conf.int.value = 0.95,
 #' ggplot2::autoplot(stats::ccf(AirPassengers, AirPassengers))
 #' @export
 autoplot.acf <- function(data, conf.int = TRUE,
-                         conf.int.fill = '#000000', conf.int.alpha = 0.3) {
+                         colour = '#000000', linetype = 'solid',
+                         conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
+                         conf.int.fill = NULL, conf.int.alpha = 0.3) {
   plot.data <- ggplot2::fortify(data, conf.int = conf.int)
 
   # Prepare ymax and ymin used for geom_linerange
@@ -146,14 +127,15 @@ autoplot.acf <- function(data, conf.int = TRUE,
                              ymax = ifelse(acf > 0, acf, 0),
                              ymin = ifelse(acf < 0, acf, 0))
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = lag)) +
-    ggplot2::geom_linerange(mapping = ggplot2::aes(ymin = ymin, ymax = ymax))
+  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'lag')) +
+    ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
+                            colour = colour, linetype = linetype)
 
-  if (conf.int) {
-    p <- p + ggplot2::geom_ribbon(data = plot.data,
-                                  mapping = ggplot2::aes(ymin = lower, ymax = upper),
-                                  fill = conf.int.fill, alpha = conf.int.alpha)
-  }
+  p <- ggfortify:::plot.conf.int(p, conf.int = conf.int,
+                                 conf.int.colour = conf.int.colour,
+                                 conf.int.linetype = conf.int.linetype,
+                                 conf.int.fill = conf.int.fill,
+                                 conf.int.alpha = conf.int.alpha)
   p
 }
 
@@ -183,25 +165,35 @@ fortify.spec <- function(data) {
 autoplot.spec <- function(data) {
   plot.data <- ggplot2::fortify(data)
   ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_line(mapping = ggplot2::aes(x = freq, y = spec),
+    ggplot2::geom_line(mapping = ggplot2::aes_string(x = 'freq', y = 'spec'),
                       stat = 'identity') +
     ggplot2::scale_y_log10()
 }
 
-#' Convert \code{stats::arima} to data.frame.
+#' Convert AR, ARIMA, ARFIMA-like to data.frame.
 #' 
-#' @param data \code{stats::arima} instance
+#' @param data \code{stats::ar}, \code{stats::arima}, \code{fracdiff::fracdiff}
+#'  or \code{forecast::nnetar}instance
 #' @return data.frame
-#' @aliases fortify.ar
+#' @aliases fortify.ar fortify.fracdiff fortify.nnetar
 #' @examples
-#' ggplot2::fortify(stats::arima(UKgas))
 #' ggplot2::fortify(stats::ar(AirPassengers))
+#' ggplot2::fortify(stats::arima(UKgas))
+#' ggplot2::fortify(forecast::auto.arima(austres))
+#' ggplot2::fortify(forecast::arfima(AirPassengers))
+#' ggplot2::fortify(forecast::nnetar(UKgas))
 #' @export
 fortify.Arima <- function(data) {
   if (is(data, 'Arima')) {
     d <- ggplot2::fortify(data$residuals, data.name = 'Residuals')
   } else if (is(data, 'ar')) {
     d <- ggplot2::fortify(data$resid, data.name = 'Residuals')
+  } else if (is(data, 'fracdiff') || is(data, 'nnetar')) {
+    d <- ggplot2::fortify(data$x)
+    resid <- ggplot2::fortify(data$residuals, data.name = 'Residuals')
+    fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted')
+    d <- dplyr::left_join(d, fitted, by = 'Index')
+    d <- dplyr::left_join(d, resid, by = 'Index') 
   } else {
     stop(paste0('Unsupported class for fortify.Arima: ', class(data)))
   }
@@ -212,10 +204,22 @@ fortify.Arima <- function(data) {
 fortify.ar <- fortify.Arima
 
 #' @export
+fortify.fracdiff <- fortify.Arima
+
+#' @export
+fortify.nnetar <- fortify.Arima
+
+#' @export
 autoplot.Arima <- autoplot.ts
 
 #' @export
 autoplot.ar <- autoplot.ts
+
+#' @export
+autoplot.fracdiff <- autoplot.ts
+
+#' @export
+autoplot.nnetar <- autoplot.ts
 
 #' Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
 #' 
@@ -320,16 +324,16 @@ autoplot.pca_common <- function(data, original = NULL,
   plot.data$rownames <- rownames(plot.data)
   
   if (is(data, 'prcomp')) {
-    mapping = ggplot2::aes(x = PC1, y = PC2, label = rownames)
-    loadings.mapping <- ggplot2::aes(x = 0, y = 0, xend = PC1, yend = PC2)
+    mapping = ggplot2::aes_string(x = 'PC1', y = 'PC2', label = 'rownames')
+    loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = 'PC1', yend = 'PC2')
     loadings.column = 'rotation'
   } else if (is(data, 'princomp')) {
-    mapping = ggplot2::aes(x = Comp.1, y = Comp.2, label = rownames)
-    loadings.mapping <- ggplot2::aes(x = 0, y = 0, xend = Comp.1, yend = Comp.2)
+    mapping = ggplot2::aes_string(x = 'Comp.1', y = 'Comp.2', label = 'rownames')
+    loadings.mapping <- ggplot2::aes_string(x = I(0), y = 0, xend = 'Comp.1', yend = 'Comp.2')
     loadings.column = 'loadings'
   } else if (is(data, 'factanal')) {
-    mapping <- ggplot2::aes(x = Factor1, y = Factor2, label = rownames)
-    loadings.mapping <- ggplot2::aes(x = 0, y = 0, xend = Factor1, yend = Factor2)
+    mapping <- ggplot2::aes_string(x = 'Factor1', y = 'Factor2', label = 'rownames')
+    loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = 'Factor1', yend = 'Factor2')
     loadings.column = 'loadings'
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(data)))

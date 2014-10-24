@@ -12,9 +12,9 @@ License: GPL-2
 Imports:
     zoo,
     scales,
-    reshape2,
     ggplot2,
-    dplyr
+    dplyr,
+    tidyr
 Suggests:
     testthat,
     changepoint,

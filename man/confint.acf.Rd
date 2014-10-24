@@ -19,7 +19,8 @@ vector
 Calcurate confidence interval for \code{stats::acf}
 }
 \examples{
-confint(acf(AirPassengers))
-confint(acf(AirPassengers), ci.type = 'ma')
+air.acf <- acf(AirPassengers, plot = FALSE)
+ggfortify:::confint.acf(air.acf)
+ggfortify:::confint.acf(air.acf, ci.type = 'ma')
 }
 

@@ -4,22 +4,17 @@
 \alias{fortify.decomposed.ts}
 \title{Autoplot \code{stats::HoltWinters}}
 \usage{
-\method{autoplot}{HoltWinters}(data, scales = "free_y",
-  ts.colour = "#000000", ts.linetype = "solid", fitted.colour = "#FF0000",
-  fitted.linetype = "solid")
+\method{autoplot}{HoltWinters}(data, fitted.colour = "#FF0000",
+  fitted.linetype = "solid", ...)
 }
 \arguments{
 \item{data}{\code{stats::HoltWinters} instance}
 
-\item{scales}{Scale value passed to \code{ggplot2}}
-
-\item{ts.colour}{Line colour for time-series}
-
-\item{ts.linetype}{Line type for time-series}
-
 \item{fitted.colour}{Line colour for fitted time-series}
 
 \item{fitted.linetype}{Line type for fitted time-series}
+
+\item{...}{Keywords passed to autoplot.ts}
 }
 \value{
 ggplot

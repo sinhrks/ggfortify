@@ -23,7 +23,7 @@ Convert time-series-like to data.frame.
 ggplot2::fortify(AirPassengers)
 ggplot2::fortify(timeSeries::as.timeSeries(AirPassengers))
 
-its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), nrow=2))
+its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 ggplot2::fortify(its)
 }
 

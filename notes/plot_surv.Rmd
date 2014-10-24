@@ -9,7 +9,7 @@ This document explains Survival Curves related plotting using `ggplot2` and `ggf
 
 First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
 
-```{r, message = FALSE}
+```{r, eval = FALSE, message = FALSE}
 library(devtools)
 install_github('sinhrks/ggfortify')
 ```
@@ -32,3 +32,9 @@ There are some options to change survival curve output. Use `help(autoplot.survf
 autoplot(d.survfit, surv.linetype = 'dashed', conf.int = FALSE,
          censor.shape = '*', censor.size = 5)
 ```
+
+# Resources related to ggfortify
+
+* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
+* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv>)

@@ -45,17 +45,20 @@ fortify.irts <- fortify.ts
 #' Autoplot time-series-like.
 #' 
 #' @param data time-series-like instance
+#' @param columns Character vector specifies target column name(s)
 #' @param scales Scale value passed to \code{ggplot2}
-#' @param facet Logical value to specify use facets for multivariate time-series.
+#' @param facet Logical value to specify use facets for multivariate time-series
 #' @param ts.colour Line colour for time-series
 #' @param ts.linetype Line type for time-series
 #' @return ggplot
-#' @aliases autoplot.xts
+#' @aliases autoplot.xts autoplot.timeSeries autoplot.irts autoplot.Arima autoplot.ar
+#'  autoplot.fracdiff
 #' @examples
 #' data(Canada, package = 'vars')
 #' ggplot2::autoplot(AirPassengers)
 #' ggplot2::autoplot(UKgas)
 #' ggplot2::autoplot(Canada)
+#' ggplot2::autoplot(Canada, columns = 'e')
 #' ggplot2::autoplot(Canada, facet = FALSE)
 #' 
 #' library(zoo)
@@ -66,40 +69,47 @@ fortify.irts <- fortify.ts
 #' ggplot2::autoplot(timeSeries::as.timeSeries(AirPassengers))
 #' ggplot2::autoplot(timeSeries::as.timeSeries(Canada))
 #' 
-#' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), nrow=2))
+#' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 #' ggplot2::autoplot(its)
+#' 
+#' ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
+#' ggplot2::autoplot(stats::decompose(UKgas))
 #' 
 #' ggplot2::autoplot(stats::arima(UKgas))
 #' ggplot2::autoplot(stats::ar(AirPassengers))
+#' ggplot2::autoplot(forecast::auto.arima(AirPassengers))
+#' ggplot2::autoplot(forecast::arfima(AirPassengers))
+#' ggplot2::autoplot(forecast::nnetar(AirPassengers))
 #' @export
-autoplot.ts <- function(data, scales = 'free_y', facet = TRUE,
+autoplot.ts <- function(data, columns = NULL,
+                        scales = 'free_y', facet = TRUE,
                         ts.colour = '#000000', ts.linetype = 'solid') {
-  if (is(data, 'xts') || is(data, 'timeSeries') ||
-      is(data, 'irts') || is(data, 'ts') ||
-      is(data, 'Arima') || is(data, 'ar')) {
+  if (is.data.frame(data)) {
+    ts.label = 'Index'
+    plot.data <- data
+  } else {
     ts.label = 'Index'
     plot.data <- ggplot2::fortify(data)
-  } else {
-    stop(paste0('Unsupported class for autoplot.ts: ', class(data)))
   }
   
-  data.names <- names(plot.data)
-  measures <- data.names[data.names != ts.label]
+  if (is.null(columns)) {
+    data.names <- names(plot.data)
+    columns <- data.names[data.names != ts.label]
+  }
   
   ts.column <- plot.data[[ts.label]]
   if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
     plot.data[[ts.label]] <- zoo::as.Date(plot.data[[ts.label]])
   } 
   
-  if (length(measures) == 1) {
+  if (length(columns) == 1) {
     # plot.data <- dplyr::filter_(plot.data, paste0('!is.na(', measures[1], ')'))
     # Unable to use is.na because column can be ts object
     p <- ggplot2::ggplot(data = plot.data,
-                         mapping = ggplot2::aes_string(x = ts.label, y = measures[1])) + 
+                         mapping = ggplot2::aes_string(x = ts.label, y = columns[1])) + 
       ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype)
   } else { 
-    plot.data <- reshape2::melt(plot.data, id.vars = c(ts.label),
-                                measure.vars = measures)
+    plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
     # plot.data <- dplyr::filter(plot.data, !is.na(value))
     
     if (facet) {
@@ -118,6 +128,9 @@ autoplot.ts <- function(data, scales = 'free_y', facet = TRUE,
     ggplot2::scale_y_continuous(name = '') 
   p
 }
+
+#' @export
+autoplot.zooreg <- autoplot.ts
 
 #' @export
 autoplot.xts <- autoplot.ts
