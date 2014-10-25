@@ -34,7 +34,6 @@ get.dtindex.continuous <- function(data, length) {
   dtindex
 }
 
-
 #' Calcurate confidence interval for \code{stats::acf}
 #' 
 #' @param x \code{stats::acf} instance
@@ -91,4 +90,86 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     clim <- c(NA, clim)
   }
   return(clim)
+}
+
+#' Calcurate fitted values for \code{stats::ar}
+#' 
+#' @param object \code{stats::ar} instance
+#' @return ts An time series of the one-step forecasts
+#' @examples
+#' fitted(ar(WWWusage))
+#' @export
+fitted.ar <- function(object, ...) {
+  x <- forecast::getResponse(object)
+  if (is.null(x)) {
+    return(NULL)
+  }
+  return(x - object$resid)
+}
+
+#' Calcurate residuals for \code{stats::ar}
+#' 
+#' @param object \code{stats::ar} instance.
+#' @return ts Residuals extracted from the object object.
+#' @examples
+#' fitted(ar(WWWusage))
+#' @export
+residuals.ar <- function(object, ...) {
+  object$resid
+}
+
+#' Plots a cumulative periodogram.
+#' 
+#' @param x \code{stats::acf} instance
+#' @param taper Proportion tapered in forming the periodogram
+#' @param colour Line colour
+#' @param linetype Line type
+#' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.colour Line colour for confidence intervals
+#' @param conf.int.linetype Line type for confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
+#' @return ggplot
+#' @examples
+#' ggcpgram(AirPassengers)
+#' @export
+ggcpgram <- function (ts, taper = 0.1, 
+                      colour = '#000000', linetype = 'solid',
+                      conf.int = TRUE,
+                      conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
+                      conf.int.fill = NULL, conf.int.alpha = 0.3) {
+  if (NCOL(ts) > 1) 
+    stop("only implemented for univariate time series")
+  x <- as.vector(ts)
+  x <- x[!is.na(x)]
+  x <- spec.taper(scale(x, TRUE, FALSE), p = taper)
+  y <- Mod(fft(x)) ^ 2 / length(x)
+  y[1L] <- 0
+  n <- length(x)
+  x <- (0:(n / 2)) * frequency(ts) / n
+  if (length(x)%%2 == 0) {
+    n <- length(x) - 1
+    y <- y[1L:n]
+    x <- x[1L:n]
+  }
+  else y <- y[seq_along(x)]
+  xm <- frequency(ts) / 2
+  mp <- length(x) - 1
+  crit <- 1.358 / (sqrt(mp) + 0.12 + 0.11 / sqrt(mp))
+
+  d <- data.frame(x = x,
+                  y = cumsum(y) / sum(y),
+                  upper = 1 / xm * x + crit,
+                  lower = 1 / xm * x - crit)
+  p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes_string(x = 'x', y = 'y')) +
+    geom_line(colour = colour, linetype = linetype) +
+    ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
+    ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
+  
+  p <- ggfortify:::plot.conf.int(p, conf.int = conf.int,
+                                 conf.int.colour = conf.int.colour,
+                                 conf.int.linetype = conf.int.linetype,
+                                 conf.int.fill = conf.int.fill,
+                                 conf.int.alpha = conf.int.alpha)
+  p
 }

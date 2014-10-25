@@ -6,6 +6,7 @@ test_that('fortify.stl works for AirPassengers', {
   
   expected_names <- c('Index', 'data', 'seasonal', 'trend', 'remainder')
   expect_equal(names(fortified), expected_names)
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['data']]))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
   
@@ -14,32 +15,37 @@ test_that('fortify.stl works for AirPassengers', {
   
   expected_names <- c('Index', 'data', 'seasonal', 'trend', 'remainder')
   expect_equal(names(fortified), expected_names)
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['data']]))
+  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
+  expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))  
+})
+
+test_that('fortify.Arima works for AirPassengers', {
+  fortified <- ggplot2::fortify(stats::ar(AirPassengers))
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  
+  expected_names <- c('Index', 'Data', 'Fitted', 'Residuals')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['Data']]))
+  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
+  expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
+
+  fortified <- ggplot2::fortify(stats::arima(AirPassengers))
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  expected_names <- c('Index', 'Data', 'Fitted', 'Residuals')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['Data']]))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
   
   fortified <- ggplot2::fortify(stats::HoltWinters(AirPassengers))
   expect_equal(is(fortified, 'tbl_df'), TRUE)
   
-  expected_names <- c('Index', 'data', 'xhat', 'level', 'trend', 'season')
+  expected_names <- c('Index', 'Data', 'xhat', 'level', 'trend', 'season', 'Residuals')
   expect_equal(names(fortified), expected_names)
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['Data']]))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
-  
-})
-
-test_that('fortify.stl works for Canada', {
-  data(Canada, package = 'vars')
-  
-  #  stl doesn't only multivariate series
-  fortified <- ggplot2::fortify(stats::decompose(Canada))
-  expect_equal(is(fortified, 'tbl_df'), TRUE)
-  
-  expected_names <- c('Index', 'e', 'prod', 'rw', 'U', 'seasonal',
-                      'trend.1', 'trend.2', 'trend.3', 'trend.4',
-                      'remainder.1', 'remainder.2', 'remainder.3', 'remainder.4')
-  expect_equal(names(fortified), expected_names)
-  expect_equal(fortified$Index[1], as.Date('1980-01-01'))
-  expect_equal(fortified$Index[nrow(fortified)], as.Date('2000-10-01'))
 })
 
 test_that('fortify.prcomp works for iris', {

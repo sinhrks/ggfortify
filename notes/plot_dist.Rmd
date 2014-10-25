@@ -16,7 +16,7 @@ install_github('sinhrks/ggfortify')
 
 # Plotting Probability Distributions
 
-`ggfortify` has a helper function named `ggdistribution` to plot [Distributions in the stats package](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html) easier using `ggplot2`.
+`ggdistribution` is a helper function to plot [Distributions in the stats package](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html) easier using `ggplot2`.
 
 For example, plot standard normal distribution from -3 to +3:
 
@@ -41,9 +41,10 @@ p <- ggdistribution(dchisq, seq(0, 20, 0.1), df = 9, colour = 'green', p = p)
 ggdistribution(dchisq, seq(0, 20, 0.1), df = 11, colour = 'red', p = p)
 ```
 
-
 # Resources related to ggfortify
 
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
 * [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
-* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv>)
+* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
+* [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)

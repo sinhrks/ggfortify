@@ -31,10 +31,12 @@ plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
     if (conf.int.linetype != 'none') {
       p <- p + ggplot2::geom_line(data = data,
                                   mapping = mapping_lower, 
-                                  colour = conf.int.colour, linetype = conf.int.linetype) +
+                                  colour = conf.int.colour, linetype = conf.int.linetype,
+                                  na.rm = TRUE) +
         ggplot2::geom_line(data = data,
                            mapping = mapping_upper, 
-                           colour = conf.int.colour, linetype = conf.int.linetype)   
+                           colour = conf.int.colour, linetype = conf.int.linetype,
+                           na.rm = TRUE)   
     }
   }
   p

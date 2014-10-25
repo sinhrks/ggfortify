@@ -9,7 +9,12 @@ This document explains time series related plotting using `ggplot2` and `ggforti
 
 First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
 
-```{r, eval = FALSE, message = FALSE}
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='Figs/', warning=FALSE)
+```
+
+```{r, eval = FALSE}
 library(devtools)
 install_github('sinhrks/ggfortify')
 ```
@@ -18,7 +23,7 @@ install_github('sinhrks/ggfortify')
 
 `ggfortify` let `ggplot2` know how to interpret `ts` objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `ts` objects. 
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 library(ggplot2)
 library(ggfortify)
 autoplot(AirPassengers)
@@ -26,20 +31,21 @@ autoplot(AirPassengers)
 
 To change line colour and line type, use `ts.colour` and `ts.linetype` options. Use `help(autoplot.ts)` (or `help(autoplot.*)` for any other objects) to check available options.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 autoplot(AirPassengers, ts.colour = 'red', ts.linetype = 'dashed')
 ```
 
 Multivariate time series will be drawn with facets. 
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
-data(Canada, package = 'vars')
+```{r message = FALSE}
+library(vars)
+data(Canada)
 autoplot(Canada)
 ```
 
 Specify `facet = FALSE` to draw on single axes.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 autoplot(Canada, facet = FALSE)
 ```
 
@@ -50,38 +56,19 @@ Also, `autoplot` can handle other time-series-likes. Supported packages are:
 * `timeSeries::timSeries`
 * `tseries::irts`
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
-library(zoo)
-ggplot2::autoplot(xts::as.xts(AirPassengers), ts.colour = 'green')
+```{r, message = FALSE}
+library(xts)
+autoplot(as.xts(AirPassengers), ts.colour = 'green')
 
 library(timeSeries)
-ggplot2::autoplot(timeSeries::as.timeSeries(AirPassengers), ts.colour = ('red'))
-```
-
-# Plotting ts-related objects
-
-`ggfortify` supports following time series related functions in `stats` package:
-
-* `stl`
-* `acf`, `pacf`, `ccf`
-* `spec.ar`, `spec.pgram`
-
-```{r, message = FALSE, fig.width=6, fig.height=3}
-autoplot(stl(AirPassengers, s.window = 'periodic'))
-```
-
-**NOTE** With `acf` and `spec.*`, specify `plot = FALSE` to suppress default plotting outputs.
-
-```{r, message = FALSE, fig.width=6, fig.height=3}
-autoplot(acf(AirPassengers, plot = FALSE))
-autoplot(spec.ar(AirPassengers, plot = FALSE))
+autoplot(as.timeSeries(AirPassengers), ts.colour = ('red'))
 ```
 
 # Plotting with forecast package
 
 `ggfortify` supports `forecast` object in `forecast` package. 
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 library(forecast)
 d.arima <- auto.arima(AirPassengers)
 d.forecast <- forecast(d.arima, level = c(95), h = 50)
@@ -90,7 +77,7 @@ autoplot(d.forecast)
 
 There are some options to change basic settings.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 autoplot(d.forecast, ts.colour = 'green', predict.colour = 'red',
          predict.linetype = 'dashed', conf.int = FALSE)
 ```
@@ -99,7 +86,7 @@ autoplot(d.forecast, ts.colour = 'green', predict.colour = 'red',
 
 `ggfortify` supports `varpred` object in `vars` package. 
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 library(vars)
 d.vselect <- VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 d.var <- VAR(Canada, p = d.vselect, type = 'const')
@@ -107,7 +94,7 @@ d.var <- VAR(Canada, p = d.vselect, type = 'const')
 
 Available options are the same as `forecast`.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 autoplot(predict(d.var, n.ahead = 50), ts.colour = 'green',
          predict.colour = 'blue', predict.linetype = 'dashed')
 ```
@@ -116,19 +103,21 @@ autoplot(predict(d.var, n.ahead = 50), ts.colour = 'green',
 
 `ggfortify` supports `cpt` object in `changepoint` package. 
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 library(changepoint)
 autoplot(cpt.meanvar(AirPassengers))
 ```
 
 You can change some options for `cpt`.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r}
 autoplot(cpt.meanvar(AirPassengers), cpt.colour = 'blue', cpt.linetype = 'solid')
 ```
 
 # Resources related to ggfortify
 
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
 * [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
-* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv>)
+* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
+* [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)

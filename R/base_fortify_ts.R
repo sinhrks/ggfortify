@@ -103,15 +103,13 @@ autoplot.ts <- function(data, columns = NULL,
   } 
   
   if (length(columns) == 1) {
-    # plot.data <- dplyr::filter_(plot.data, paste0('!is.na(', measures[1], ')'))
     # Unable to use is.na because column can be ts object
     p <- ggplot2::ggplot(data = plot.data,
                          mapping = ggplot2::aes_string(x = ts.label, y = columns[1])) + 
       ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype)
   } else { 
     plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
-    # plot.data <- dplyr::filter(plot.data, !is.na(value))
-    
+
     if (facet) {
       mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
       p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
@@ -124,7 +122,7 @@ autoplot.ts <- function(data, columns = NULL,
         ggplot2::geom_line(linetype = ts.linetype)
     }
   }
-  p <- p +
+  p <- p + ggplot2::xlab('')  + 
     ggplot2::scale_y_continuous(name = '') 
   p
 }

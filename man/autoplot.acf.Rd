@@ -3,19 +3,19 @@
 \alias{autoplot.acf}
 \title{Autoplot \code{stats::acf}.}
 \usage{
-\method{autoplot}{acf}(data, conf.int = TRUE, colour = "#000000",
-  linetype = "solid", conf.int.colour = "#0000FF",
+\method{autoplot}{acf}(data, colour = "#000000", linetype = "solid",
+  conf.int = TRUE, conf.int.colour = "#0000FF",
   conf.int.linetype = "dashed", conf.int.fill = NULL,
-  conf.int.alpha = 0.3)
+  conf.int.alpha = 0.3, conf.int.value = 0.95, conf.int.type = "white")
 }
 \arguments{
 \item{data}{\code{stats::acf} instance}
 
-\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
-
 \item{colour}{Line colour}
 
 \item{linetype}{Line type}
+
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
 \item{conf.int.colour}{Line colour for confidence intervals}
 
@@ -24,6 +24,10 @@
 \item{conf.int.fill}{Fill colour for confidence intervals}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
+
+\item{conf.int.value}{Coverage probability for confidence interval}
+
+\item{conf.int.type}{Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model}
 }
 \value{
 ggplot
