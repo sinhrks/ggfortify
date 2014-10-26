@@ -34,8 +34,8 @@ ggplot
 Attach confidence interval to \code{ggplot2::ggplot}
 }
 \examples{
-d <- ggplot2::fortify(stats::acf(AirPassengers))
-p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = lag))
+d <- ggplot2::fortify(stats::acf(AirPassengers, plot = FALSE))
+p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = Lag))
 ggfortify:::plot.conf.int(p)
 }
 

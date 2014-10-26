@@ -3,12 +3,15 @@
 \alias{get.dtindex.continuous}
 \title{Get \code{Date} \code{vector} continue to \code{ts} index.}
 \usage{
-get.dtindex.continuous(data, length)
+get.dtindex.continuous(data, length, is.tsp = FALSE, is.date = NULL)
 }
 \arguments{
 \item{data}{\code{ts} instance}
 
 \item{length}{A number to continue}
+
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
 }
 \value{
 vector

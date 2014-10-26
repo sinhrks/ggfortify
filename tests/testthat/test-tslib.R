@@ -10,6 +10,28 @@ test_that('get.dtindex works for UKgas', {
   result <- ggfortify:::get.dtindex(UKgas)
   expect_equal(result[1], as.Date('1960-01-01'))
   expect_equal(result[length(result)], as.Date('1986-10-01'))
+
+  result <- ggfortify:::get.dtindex(UKgas, is.date = FALSE)
+  expect_equal(result[1], 1960)
+  expect_equal(result[length(result)], 1986.75)
+
+  result <- ggfortify:::get.dtindex(UKgas, is.date = TRUE)
+  expect_equal(result[1], as.Date('1960-01-01'))
+  expect_equal(result[length(result)], as.Date('1986-10-01'))
+})
+
+test_that('get.dtindex works for Nile', {
+  result <- ggfortify:::get.dtindex(Nile)
+  expect_equal(result[1], 1871)
+  expect_equal(result[length(result)], 1970)
+  
+  result <- ggfortify:::get.dtindex(Nile, is.date = FALSE)
+  expect_equal(result[1], 1871)
+  expect_equal(result[length(result)], 1970)
+  
+  result <- ggfortify:::get.dtindex(Nile, is.date = TRUE)
+  expect_equal(result[1], as.Date('1871-01-01'))
+  expect_equal(result[length(result)], as.Date('1970-01-01'))
 })
 
 test_that('get.dtindex.continuous works for AirPassengers', {

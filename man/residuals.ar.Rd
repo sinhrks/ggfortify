@@ -6,7 +6,7 @@
 \method{residuals}{ar}(object, ...)
 }
 \arguments{
-\item{object}{\code{stats::ar} instance.}
+\item{object}{\code{stats::ar} instance}
 }
 \value{
 ts Residuals extracted from the object object.
@@ -15,6 +15,6 @@ ts Residuals extracted from the object object.
 Calcurate residuals for \code{stats::ar}
 }
 \examples{
-fitted(ar(WWWusage))
+residuals(ar(WWWusage))
 }
 

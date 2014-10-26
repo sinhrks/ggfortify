@@ -9,6 +9,8 @@ ggcpgram(ts, taper = 0.1, colour = "#000000", linetype = "solid",
   conf.int.alpha = 0.3)
 }
 \arguments{
+\item{ts}{\code{stats::ts} instance}
+
 \item{taper}{Proportion tapered in forming the periodogram}
 
 \item{colour}{Line colour}
@@ -24,8 +26,6 @@ ggcpgram(ts, taper = 0.1, colour = "#000000", linetype = "solid",
 \item{conf.int.fill}{Fill colour for confidence intervals}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
-
-\item{x}{\code{stats::acf} instance}
 }
 \value{
 ggplot

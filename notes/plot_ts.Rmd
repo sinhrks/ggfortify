@@ -3,16 +3,16 @@ title: "Plotting Time Series with ggplot2 and ggfortify"
 output: html_document
 ---
 
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/ts-', warning=FALSE)
+```
+
 This document explains time series related plotting using `ggplot2` and `ggfortify`. 
 
 # Installation
 
 First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
-
-```{r global_options, include=FALSE}
-library(knitr)
-opts_chunk$set(fig.width=6, fig.height=3, fig.path='Figs/', warning=FALSE)
-```
 
 ```{r, eval = FALSE}
 library(devtools)
@@ -103,7 +103,7 @@ autoplot(predict(d.var, n.ahead = 50), ts.colour = 'green',
 
 `ggfortify` supports `cpt` object in `changepoint` package. 
 
-```{r}
+```{r message = FALSE}
 library(changepoint)
 autoplot(cpt.meanvar(AirPassengers))
 ```
@@ -112,6 +112,16 @@ You can change some options for `cpt`.
 
 ```{r}
 autoplot(cpt.meanvar(AirPassengers), cpt.colour = 'blue', cpt.linetype = 'solid')
+```
+
+# Plotting with strucchange package
+
+`ggfortify` supports `breakpoints` object in `strucchange` package. Same plotting options as `changepoint` are available.
+
+
+```{r message = FALSE}
+library(strucchange)
+autoplot(breakpoints(Nile ~ 1), cpt.colour = 'green', cpt.linetype = 'solid')
 ```
 
 # Resources related to ggfortify

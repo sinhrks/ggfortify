@@ -1,6 +1,8 @@
 #' Convert \code{vars::varprd} to data.frame.
 #' 
 #' @param data \code{vars::varprd} instance
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
@@ -9,14 +11,15 @@
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
 #' ggplot2::fortify(stats::predict(d.var, n.ahead = 50))
 #' @export
-fortify.varprd <- function(data, melt = FALSE){  
-  dtindex <- get.dtindex(data$model$y)
+fortify.varprd <- function(data, is.date = NULL, melt = FALSE){  
+  dtindex <- get.dtindex(data$model$y, is.date = is.date)
   fitted <- cbind(data.frame(Index = dtindex),
                   data.frame(data$model$y))
   rownames(fitted) <- NULL
   
   fcst <- data$fcst
-  dtindex.cont <- get.dtindex.continuous(data$model$y, length = nrow(fcst[[1]]))
+  dtindex.cont <- get.dtindex.continuous(data$model$y, length = nrow(fcst[[1]]),
+                                         is.date = is.date)
   cols <- names(fcst)
   
   if (melt) {
@@ -47,6 +50,8 @@ fortify.varprd <- function(data, melt = FALSE){
 #' Autoplot \code{vars::varprd}.
 #' 
 #' @param data \code{vars::varpred} instance
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param predict.colour Line colour for predicted time-series
 #' @param predict.linetype Line type for predicted time-series
@@ -61,16 +66,16 @@ fortify.varprd <- function(data, melt = FALSE){
 #' data(Canada, package = 'vars')
 #' d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
-#' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50))
+#' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
 #' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 #' @export
-autoplot.varprd <- function(data, scales = 'free_y',
+autoplot.varprd <- function(data, is.date = NULL, scales = 'free_y',
                             predict.colour = '#0000FF', predict.linetype = 'solid',
                             conf.int = TRUE,
                             conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                             conf.int.fill = '#000000', conf.int.alpha = 0.3,
                             ...) {
-  plot.data <- ggplot2::fortify(data, melt = TRUE)
+  plot.data <- ggplot2::fortify(data, is.date = is.date, melt = TRUE)
   
   # Filter existing values to avoid warnings
   original.data <- dplyr::filter(plot.data, !is.na(Data))

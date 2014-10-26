@@ -3,10 +3,15 @@
 \alias{get.dtindex}
 \title{Convert \code{ts} index to \code{Date} \code{vector}.}
 \usage{
-get.dtindex(data)
+get.dtindex(data, is.tsp = FALSE, is.date = NULL)
 }
 \arguments{
 \item{data}{\code{ts} instance}
+
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{tsp}{Logical frag whether data is \code{tsp} itself or not}
 }
 \value{
 vector
@@ -17,5 +22,7 @@ Convert \code{ts} index to \code{Date} \code{vector}.
 \examples{
 ggfortify:::get.dtindex(AirPassengers)
 ggfortify:::get.dtindex(UKgas)
+ggfortify:::get.dtindex(Nile, is.date = FALSE)
+ggfortify:::get.dtindex(Nile, is.date = TRUE)
 }
 

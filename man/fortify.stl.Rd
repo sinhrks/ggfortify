@@ -2,20 +2,21 @@
 \name{fortify.stl}
 \alias{fortify.decomposed.ts}
 \alias{fortify.stl}
-\title{Convert \code{stats::stl}, \code{stats::decomposed.ts} and
- \code{stats::HoltWinters} to data.frame.}
+\title{Convert decomposed time series to data.frame.}
 \usage{
-\method{fortify}{stl}(data)
+\method{fortify}{stl}(data, is.date = NULL)
 }
 \arguments{
-\item{data}{\code{stats::stl}, \code{stats::decomposed.ts} or \code{stats::HoltWinters} instance}
+\item{data}{\code{stats::stl} or \code{stats::decomposed.ts} instance}
+
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
 }
 \value{
 data.frame
 }
 \description{
-Convert \code{stats::stl}, \code{stats::decomposed.ts} and
- \code{stats::HoltWinters} to data.frame.
+Convert decomposed time series to data.frame.
 }
 \examples{
 ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))

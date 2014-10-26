@@ -3,6 +3,11 @@ title: "Plotting Probability Distributions with ggplot2 and ggfortify"
 output: html_document
 ---
 
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/dist-', warning=FALSE)
+```
+
 This document explains how to plot probability distributions using `ggplot2` and `ggfortify`. 
 
 # Installation
@@ -20,7 +25,7 @@ install_github('sinhrks/ggfortify')
 
 For example, plot standard normal distribution from -3 to +3:
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 library(ggplot2)
 library(ggfortify)
 ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
@@ -28,14 +33,14 @@ ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
 
 `ggdistribution` accepts PDF/CDF function, sequence, and options passed to PDF/CDF function. Also, it has some options to configure how plot looks. Use `help(ggdistribution)` to check available options.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 ggdistribution(pnorm, seq(-3, 3, 0.1), mean = 0, sd = 1, colour = 'red')
 ggdistribution(dpois, seq(0, 20), lambda = 9, fill = 'blue')
 ```
 
 If you want to plot some distributions overwrapped, use `p` keyword to pass `ggplot` instance.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 p <- ggdistribution(dchisq, seq(0, 20, 0.1), df = 7, colour = 'blue')
 p <- ggdistribution(dchisq, seq(0, 20, 0.1), df = 9, colour = 'green', p = p)
 ggdistribution(dchisq, seq(0, 20, 0.1), df = 11, colour = 'red', p = p)

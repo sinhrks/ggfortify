@@ -3,16 +3,16 @@ title: "Plotting Time Series Statistics with ggplot2 and ggfortify"
 output: html_document
 ---
 
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/tsstats-', warning=FALSE)
+```
+
 This document explains plotting time series statistics using `ggplot2` and `ggfortify`. 
 
 # Installation
 
 First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
-
-```{r global_options, include=FALSE}
-library(knitr)
-opts_chunk$set(fig.width=6, fig.height=3, fig.path='Figs/', warning=FALSE)
-```
 
 ```{r, eval = FALSE}
 library(devtools)
@@ -31,24 +31,23 @@ install_github('sinhrks/ggfortify')
 ```{r message = FALSE}
 library(ggplot2)
 library(ggfortify)
-autoplot(stl(AirPassengers, s.window = 'periodic'))
-autoplot(decompose(UKgas), ts.colour = 'blue')
+autoplot(stl(AirPassengers, s.window = 'periodic'), ts.colour = 'blue')
 ```
 
 **NOTE** With `acf` and `spec.*`, specify `plot = FALSE` to suppress default plotting outputs.
 
-```{r}
+```{r, fig.width = 4, fig.height = 2}
 autoplot(acf(AirPassengers, plot = FALSE))
 ```
 
 You can pass some options when plotting `acf` via `autoplot`. Built-in `acf` calcurates the confidence interval at plotting time and doesn't hold the result, equivalent options can be passed to `autoplot`. Following example shows to change the value of confidence interval and method (use `ma` assuming the input follows MA model).
 
-```{r echo = FALSE}
+```{r, fig.width = 4, fig.height = 2}
 autoplot(acf(AirPassengers, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma')
 ```
 
 
-```{r}
+```{r, fig.width = 4, fig.height = 2}
 autoplot(spec.ar(AirPassengers, plot = FALSE))
 ```
 
@@ -56,6 +55,19 @@ autoplot(spec.ar(AirPassengers, plot = FALSE))
 
 ```{r, message = FALSE, fig.width=3, fig.height=3}
 ggcpgram(arima.sim(list(ar = c(0.7, -0.5)), n = 50))
+```
+
+`ggtsdiag` should output the similar diagram as `tsdiag`.
+
+```{r, message = FALSE, fig.width = 5, fig.height = 5}
+library(forecast)
+ggtsdiag(auto.arima(AirPassengers))
+```
+
+`gglagplot` is for `lag.plot`.
+
+```{r, message = FALSE, fig.width = 4, fig.height = 4}
+gglagplot(AirPassengers, lags = 4)
 ```
 
 # Resources related to ggfortify

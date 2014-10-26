@@ -3,10 +3,13 @@
 \alias{fortify.forecast}
 \title{Convert \code{forecast::forecast} to data.frame.}
 \usage{
-\method{fortify}{forecast}(data)
+\method{fortify}{forecast}(data, is.date = NULL)
 }
 \arguments{
 \item{data}{\code{forecast::forecast} instance}
+
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
 }
 \value{
 data.frame

@@ -3,13 +3,16 @@
 \alias{autoplot.forecast}
 \title{Autoplot \code{forecast::forecast}.}
 \usage{
-\method{autoplot}{forecast}(data, predict.colour = "#0000FF",
-  predict.linetype = "solid", conf.int = TRUE,
+\method{autoplot}{forecast}(data, is.date = NULL,
+  predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{data}{\code{forecast::forecast} instance}
+
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{predict.colour}{Line colour for predicted time-series}
 
@@ -38,6 +41,7 @@ d.arima <- forecast::auto.arima(AirPassengers)
 ggplot2::autoplot(forecast::forecast(d.arima, h = 10))
 ggplot2::autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
 ggplot2::autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
+ggplot2::autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
 ggplot2::autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 ggplot2::autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 }

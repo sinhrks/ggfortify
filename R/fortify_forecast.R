@@ -1,17 +1,19 @@
 #' Convert \code{forecast::forecast} to data.frame.
 #' 
 #' @param data \code{forecast::forecast} instance
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @return data.frame
 #' @export
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 #' ggplot2::fortify(d.forecast)
-fortify.forecast <- function(data) {
+fortify.forecast <- function(data, is.date = NULL) {
   forecasted <- forecast:::as.data.frame.forecast(data)
-  forecasted$Index <- get.dtindex(data$mean)
-  d <- ggplot2::fortify(data$x)
-  fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted')
+  forecasted$Index <- get.dtindex(data$mean, is.date = is.date)
+  d <- ggplot2::fortify(data$x, is.date = is.date)
+  fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted', is.date = is.date)
   d <- dplyr::left_join(d, fitted, by = 'Index')
   rownames(d) <- NULL
   rownames(forecasted) <- NULL
@@ -23,6 +25,8 @@ fortify.forecast <- function(data) {
 #' Autoplot \code{forecast::forecast}.
 #' 
 #' @param data \code{forecast::forecast} instance
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @param predict.colour Line colour for predicted time-series
 #' @param predict.linetype Line type for predicted time-series
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
@@ -37,16 +41,17 @@ fortify.forecast <- function(data) {
 #' ggplot2::autoplot(forecast::forecast(d.arima, h = 10))
 #' ggplot2::autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
 #' ggplot2::autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
+#' ggplot2::autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
 #' ggplot2::autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 #' ggplot2::autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 #' @export
-autoplot.forecast <- function(data, 
+autoplot.forecast <- function(data, is.date = NULL,
                               predict.colour = '#0000FF', predict.linetype = 'solid',
                               conf.int = TRUE,
                               conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                               conf.int.fill = '#000000', conf.int.alpha = 0.3,
                               ...) {
-  plot.data <- ggplot2::fortify(data)
+  plot.data <- ggplot2::fortify(data, is.date = is.date)
   lower = '`Lo 95`'  # prioritize to use 95%
   upper = '`Hi 95`'
   

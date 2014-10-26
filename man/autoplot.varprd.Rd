@@ -3,13 +3,16 @@
 \alias{autoplot.varprd}
 \title{Autoplot \code{vars::varprd}.}
 \usage{
-\method{autoplot}{varprd}(data, scales = "free_y",
+\method{autoplot}{varprd}(data, is.date = NULL, scales = "free_y",
   predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{data}{\code{vars::varpred} instance}
+
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
@@ -39,7 +42,7 @@ Autoplot \code{vars::varprd}.
 data(Canada, package = 'vars')
 d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
-ggplot2::autoplot(stats::predict(d.var, n.ahead = 50))
+ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
 ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 }
 

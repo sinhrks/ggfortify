@@ -11,8 +11,8 @@
 #' @param conf.int.alpha Alpha for confidence intervals
 #' @return ggplot
 #' @examples
-#' d <- ggplot2::fortify(stats::acf(AirPassengers))
-#' p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = lag))
+#' d <- ggplot2::fortify(stats::acf(AirPassengers, plot = FALSE))
+#' p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = Lag))
 #' ggfortify:::plot.conf.int(p)
 plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper', 
                            conf.int = TRUE,

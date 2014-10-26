@@ -15,11 +15,14 @@ Imports:
     scales,
     ggplot2,
     dplyr,
-    tidyr
+    tidyr,
+    gridExtra
 Suggests:
     testthat,
     changepoint,
     forecast,
+    fGarch,
+    MSwM,
     survival,
     timeSeries,
     tseries,

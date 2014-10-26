@@ -12,10 +12,12 @@ This covers following classes:
 - ``base::matrix``
 - ``base::table``
 - ``changepoint::cpt``
+- ``fGarch::fGARCH``
 - ``forecast::bats``
 - ``forecast::forecast``
 - ``forecast::ets``
 - ``fracdiff::fracdiff``
+- ``MSwM::MSM.lm``
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
@@ -30,6 +32,8 @@ This covers following classes:
 - ``stats::ts``
 - ``survival::survfit``
 - ``survival::survfit.cox``
+- ``strucchange::breakpoints``
+- ``strucchange::breakpointsfull``
 - ``timeSeries::timeSeries``
 - ``tseries::irts``
 - ``vars::varprd``
@@ -41,7 +45,8 @@ Helper Functions
 
 - ``ggdistribution`` to plot PDF/CDF
 - ``ggcpgram`` to plot ``cpgram``
-
+- ``gglagplot`` to plot ``lag.plot``
+- ``ggtsdiag`` to plot ``tsdiag``
 
 Examples
 --------

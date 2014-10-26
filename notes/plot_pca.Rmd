@@ -3,6 +3,11 @@ title: "Plotting PCA/clustering results using ggplot2 and ggfortify"
 output: html_document
 ---
 
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/pca-', warning=FALSE)
+```
+
 This document explains PCA/clustering related plotting using `ggplot2` and `ggfortify`. 
 
 # Installation
@@ -18,7 +23,7 @@ install_github('sinhrks/ggfortify')
 
 `ggfortify` let `ggplot2` know how to interpret PCA objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `stats::prcomp` and `stats::princomp` objects. 
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 library(ggplot2)
 library(ggfortify)
 df <- iris[c(1, 2, 3, 4)]
@@ -27,25 +32,25 @@ autoplot(prcomp(df))
 
 PCA result should only contains numeric values. If you want to colorize by non-numeric values which original data has, pass original data using `original` keyword and then specify column name by `colour` keyword. Use `help(autoplot.prcomp)` (or `help(autoplot.*)` for any other objects) to check available options.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 autoplot(prcomp(df), original = iris, colour = 'Species')
 ```
 
 Passing `label = TRUE` draws each data label using `rownames`
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 autoplot(prcomp(df), original = iris, colour = 'Species', label = TRUE)
 ```
 
 Passing `loadings = TRUE` draws eigenvectors.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 autoplot(prcomp(df), original = iris, colour = 'Species', loadings = TRUE)
 ```
 
 You can attach eigenvector labels and change some options.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 autoplot(prcomp(df), original = iris, colour = 'Species',
          loadings = TRUE, loadings.colour = 'blue',
          loadings.label = TRUE, loadings.label.size = 3)
@@ -57,7 +62,7 @@ autoplot(prcomp(df), original = iris, colour = 'Species',
 
 **Important** You must specify `scores` option when calling `factanal` to calcurate sores (default `scores = NULL`). Otherwise, plotting will fail.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 d.factanal <- factanal(state.x77, factors = 3, scores = 'regression')
 autoplot(d.factanal, original = state.x77, colour = 'Income')
 autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
@@ -67,7 +72,7 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 
 `ggfortify` supports `stats::kmeans` object. You must explicitly pass original data to `autoplot` function via `original` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
 
-```{r, message = FALSE, fig.width=6, fig.height=3}
+```{r, message = FALSE}
 df <- iris[c(1, 2, 3, 4)]
 autoplot(kmeans(df, 3), original = iris)
 ```
