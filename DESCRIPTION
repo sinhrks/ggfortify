@@ -11,14 +11,18 @@ Description: Define fortify and autoplot to allow ggplot2 to draw some popular
 License: GPL-2
 Imports:
     zoo,
+    forecast,
     scales,
     ggplot2,
     dplyr,
-    tidyr
+    tidyr,
+    gridExtra
 Suggests:
     testthat,
     changepoint,
     forecast,
+    fGarch,
+    MSwM,
     survival,
     timeSeries,
     tseries,

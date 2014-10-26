@@ -1,17 +1,29 @@
 #' Convert \code{ts} index to \code{Date} \code{vector}.
 #' 
 #' @param data \code{ts} instance
+#' @param tsp Logical frag whether data is \code{tsp} itself or not
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @return vector
 #' @examples
 #' ggfortify:::get.dtindex(AirPassengers)
 #' ggfortify:::get.dtindex(UKgas)
-get.dtindex <- function(data) {
-  dtindex <- attr(data, which='tsp')
-  if (is.null(dtindex)) {
+#' ggfortify:::get.dtindex(Nile, is.date = FALSE)
+#' ggfortify:::get.dtindex(Nile, is.date = TRUE)
+get.dtindex <- function(data, is.tsp = FALSE, is.date = NULL) {
+  if (is.tsp) {
+    tsp <- data
+  } else {
+    tsp <- attr(data, which='tsp')
+  }
+  if (is.null(tsp)) {
     stop('Failed to convert ts object index to date')
   }
-  dtindex <- seq(from = dtindex[1], to = dtindex[2], by= 1 / dtindex[3])
-  dtindex <- zoo::as.Date.yearmon(dtindex)
+  dtindex <- seq(from = tsp[1], to = tsp[2], by= 1 / tsp[3])
+  if ((is.null(is.date) && any(tsp[3] == c(4, 12))) ||
+      (!is.null(is.date) && is.date)) {
+    dtindex <- zoo::as.Date.yearmon(dtindex)
+  }
   dtindex
 }
 
@@ -19,21 +31,29 @@ get.dtindex <- function(data) {
 #' 
 #' @param data \code{ts} instance
 #' @param length A number to continue
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12.  
 #' @return vector
 #' @examples
 #' ggfortify:::get.dtindex.continuous(AirPassengers, length = 10)
 #' ggfortify:::get.dtindex.continuous(UKgas, length = 10)
-get.dtindex.continuous <- function(data, length) {
-  dtindex <- attr(data, which = 'tsp')
-  if (is.null(dtindex)) {
+get.dtindex.continuous <- function(data, length, is.tsp = FALSE, is.date = NULL) {
+  if (is.tsp) {
+    tsp <- data
+  } else {
+    tsp <- attr(data, which='tsp')
+  }
+  if (is.null(tsp)) {
     stop('Failed to convert ts object index to date')
   }
-  dt.by <- 1 / dtindex[3]
-  dtindex <- seq(from = dtindex[2] + dt.by, length = length, by = dt.by)
-  dtindex <- zoo::as.Date.yearmon(dtindex)
+  dt.by <- 1 / tsp[3]
+  dtindex <- seq(from = tsp[2] + dt.by, length = length, by = dt.by)
+  if ((is.null(is.date) && any(tsp[3] == c(4, 12))) ||
+        (!is.null(is.date) && is.date)) {
+    dtindex <- zoo::as.Date.yearmon(dtindex)
+  }
   dtindex
 }
-
 
 #' Calcurate confidence interval for \code{stats::acf}
 #' 
@@ -91,4 +111,189 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     clim <- c(NA, clim)
   }
   return(clim)
+}
+
+#' Calcurate fitted values for \code{stats::ar}
+#' 
+#' @param object \code{stats::ar} instance
+#' @return ts An time series of the one-step forecasts
+#' @examples
+#' fitted(ar(WWWusage))
+#' @export
+fitted.ar <- function(object, ...) {
+# fitted.ar <- function(object, ...) {
+  x <- forecast::getResponse(object)
+  if (is.null(x)) {
+    return(NULL)
+  }
+  return(x - object$resid)
+}
+
+#' Calcurate residuals for \code{stats::ar}
+#' 
+#' @param object \code{stats::ar} instance
+#' @return ts Residuals extracted from the object object.
+#' @examples
+#' residuals(ar(WWWusage))
+#' @export
+residuals.ar <- function(object, ...) {
+# residuals.ar <- function(object, ...) {
+  return(object$resid)
+}
+
+#' Plots a cumulative periodogram.
+#' 
+#' @param ts \code{stats::ts} instance
+#' @param taper Proportion tapered in forming the periodogram
+#' @param colour Line colour
+#' @param linetype Line type
+#' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.colour Line colour for confidence intervals
+#' @param conf.int.linetype Line type for confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
+#' @return ggplot
+#' @examples
+#' ggcpgram(AirPassengers)
+#' @export
+ggcpgram <- function (ts, taper = 0.1, 
+                      colour = '#000000', linetype = 'solid',
+                      conf.int = TRUE,
+                      conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
+                      conf.int.fill = NULL, conf.int.alpha = 0.3) {
+  if (NCOL(ts) > 1) 
+    stop("only implemented for univariate time series")
+  x <- as.vector(ts)
+  x <- x[!is.na(x)]
+  x <- spec.taper(scale(x, TRUE, FALSE), p = taper)
+  y <- Mod(fft(x)) ^ 2 / length(x)
+  y[1L] <- 0
+  n <- length(x)
+  x <- (0:(n / 2)) * frequency(ts) / n
+  if (length(x)%%2 == 0) {
+    n <- length(x) - 1
+    y <- y[1L:n]
+    x <- x[1L:n]
+  }
+  else y <- y[seq_along(x)]
+  xm <- frequency(ts) / 2
+  mp <- length(x) - 1
+  crit <- 1.358 / (sqrt(mp) + 0.12 + 0.11 / sqrt(mp))
+
+  d <- data.frame(x = x,
+                  y = cumsum(y) / sum(y),
+                  upper = 1 / xm * x + crit,
+                  lower = 1 / xm * x - crit)
+  p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes_string(x = 'x', y = 'y')) +
+    geom_line(colour = colour, linetype = linetype) +
+    ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
+    ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
+  
+  p <- ggfortify:::plot.conf.int(p, conf.int = conf.int,
+                                 conf.int.colour = conf.int.colour,
+                                 conf.int.linetype = conf.int.linetype,
+                                 conf.int.fill = conf.int.fill,
+                                 conf.int.alpha = conf.int.alpha)
+  p
+}
+
+#' Plots time-series diagnostics.
+#' 
+#' @param object A fitted time-series model
+#' @param gof.lag The maximum number of lags for a Portmanteau goodness-of-fit test
+#' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.colour Line colour for confidence intervals
+#' @param conf.int.linetype Line type for confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
+#' @return ggplot
+#' @examples
+#' library(ggplot2)
+#' ggtsdiag(arima(AirPassengers))
+#' @export
+ggtsdiag <- function(object, gof.lag = 10, 
+                     conf.int = TRUE,
+                     conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
+                     conf.int.fill = NULL, conf.int.alpha = 0.3,
+                     ...) {
+  rs <- residuals(object)
+  if (is.null(rs)) {
+    rs <- object$residuals
+  }
+  if (is.null(rs)) {
+    rs <- object$resid
+  }
+  
+  stdres <- rs / sqrt(object$sigma2)
+  p.std <- ggplot2::autoplot(stdres) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle('Standardized Residuals')
+
+  acfobj <- stats::acf(rs, plot = FALSE, na.action = na.pass)
+  p.acf <- ggfortify:::autoplot.acf(acfobj, conf.int = conf.int,
+                                    conf.int.colour = conf.int.colour,
+                                    conf.int.linetype = conf.int.linetype,
+                                    conf.int.fill = conf.int.fill,
+                                    conf.int.alpha = conf.int.alpha)
+  p.acf <- p.acf + ggplot2::ggtitle('ACF of Residuals')
+  
+  nlag <- gof.lag
+  pval <- numeric(nlag)
+  for (i in 1L:nlag) pval[i] <- Box.test(rs, i, type = "Ljung-Box")$p.value
+  lb.df <- data.frame(Lag = 1L:nlag, `p value` = pval,
+                      lower = -0.05, upper = 0.05)
+  # Unnable to create column with space by above expression
+  colnames(lb.df) <- c('Lag', 'p value', 'lower', 'upper')
+  p.lb <- ggplot2::ggplot(data = lb.df, mapping = ggplot2::aes_string(x = 'Lag')) +
+    ggplot2::geom_point(mapping = ggplot2::aes_string(y = '`p value`')) +
+    ggplot2::scale_y_continuous(limits=c(0, 1)) +
+    ggplot2::ggtitle('p values for Ljung-Box statistic')
+  p.lb <- ggfortify:::plot.conf.int(p.lb, conf.int = conf.int,
+                                    conf.int.colour = conf.int.colour,
+                                    conf.int.linetype = conf.int.linetype,
+                                    conf.int.fill = conf.int.fill,
+                                    conf.int.alpha = conf.int.alpha)
+  # required to pass example check
+  gridExtra::grid.arrange(p.std, p.acf, p.lb, ncol = 1)
+}
+
+#' Plot time series against lagged versions of themselves.
+#' 
+#' @param ts \code{stats::ts} instance
+#' @param lags Number of lag plots desired
+#' @param nrow Number of plot rows
+#' @param ncol Number of plot columns
+#' @return ggplot
+#' @examples
+#' gglagplot(AirPassengers)
+#' @export
+gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
+  if (ncol(as.matrix(ts)) > 1) 
+    stop("only implemented for univariate time series")
+  
+  xnam <- deparse(substitute(ts))
+  n <- nrow(ts)
+  nser <- 1
+  tot.lags <- nser * lags
+  
+  if (is.null(nrow) && is.null(ncol)) {
+    nrow <- ceiling(sqrt(tot.lags))
+  }
+  
+  .lag <- function(k) {
+    result <- as.vector(lag(ts, k))
+    result <- data.frame(Data = as.vector(ts),
+                         Lag = result,
+                         Lag_dist = rep(k, length(result)))
+    result
+  }
+  lag.df <- dplyr::rbind_all(lapply(seq(1:lags), .lag))
+  lag.df <- dplyr::filter(lag.df, !is.na(Lag))
+  lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
+  
+  mapping = ggplot2::aes_string(x = 'Lag', y = 'Data')
+  p <- ggplot2::ggplot(data = lag.df, mapping = mapping) +
+    ggplot2::geom_point() +
+    ggplot2::facet_wrap(~ Lag_dist, nrow = nrow, ncol = ncol)
+  p
 }

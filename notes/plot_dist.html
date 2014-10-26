@@ -64,7 +64,7 @@ install_github('sinhrks/ggfortify')</code></pre>
 </div>
 <div id="plotting-probability-distributions" class="section level1">
 <h1>Plotting Probability Distributions</h1>
-<p><code>ggfortify</code> has a helper function named <code>ggdistribution</code> to plot <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html">Distributions in the stats package</a> easier using <code>ggplot2</code>.</p>
+<p><code>ggdistribution</code> is a helper function to plot <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html">Distributions in the stats package</a> easier using <code>ggplot2</code>.</p>
 <p>For example, plot standard normal distribution from -3 to +3:</p>
 <pre class="r"><code>library(ggplot2)
 library(ggfortify)
@@ -85,8 +85,10 @@ ggdistribution(dchisq, seq(0, 20, 0.1), df = 11, colour = 'red', p = p)</code></
 <h1>Resources related to ggfortify</h1>
 <ul>
 <li><a href="http://rpubs.com/sinhrks/plot_ts">Plotting Time Series with ggplot2 and ggfortify</a></li>
+<li><a href="http://rpubs.com/sinhrks/plot_tsstats">Plotting Time Series Statistics with ggplot2 and ggfortify</a></li>
 <li><a href="http://rpubs.com/sinhrks/plot_pca">Plotting PCA/clustering results using ggplot2 and ggfortify</a></li>
-<li><a href="http://rpubs.com/sinhrks/plot_surv&gt;">Plotting Survival Curves using ggplot2 and ggfortify</a></li>
+<li><a href="http://rpubs.com/sinhrks/plot_surv">Plotting Survival Curves using ggplot2 and ggfortify</a></li>
+<li><a href="http://rpubs.com/sinhrks/plot_dist">Plotting Probability Distributions with ggplot2 and ggfortify</a></li>
 </ul>
 </div>
 

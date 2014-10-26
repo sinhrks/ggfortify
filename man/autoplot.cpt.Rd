@@ -3,15 +3,18 @@
 \alias{autoplot.cpt}
 \title{Autoplot \code{changepoint::cpt}.}
 \usage{
-\method{autoplot}{cpt}(data, cpt.colour = "#FF0000",
+\method{autoplot}{cpt}(data, is.date = NULL, cpt.colour = "#FF0000",
   cpt.linetype = "dashed", ...)
 }
 \arguments{
 \item{data}{\code{changepoint::cpt} instance}
 
-\item{cpt.colour}{Line colour for \code{changepoint::cpt}}
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
+If not provided, regard the input as date when the frequency is 4 or 12.}
 
-\item{cpt.linetype}{Line type for \code{changepoint::cpt}}
+\item{cpt.colour}{Line colour for changepoints}
+
+\item{cpt.linetype}{Line type for changepoints}
 
 \item{...}{Keywords passed to autoplot.ts}
 }

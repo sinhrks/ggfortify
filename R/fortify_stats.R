@@ -1,26 +1,26 @@
-#' Convert \code{stats::stl}, \code{stats::decomposed.ts} and
-#'  \code{stats::HoltWinters} to data.frame.
+#' Convert decomposed time series to data.frame.
 #' 
-#' @param data \code{stats::stl}, \code{stats::decomposed.ts} or \code{stats::HoltWinters} instance
+#' @param data \code{stats::stl} or \code{stats::decomposed.ts} instance
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
+#' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @return data.frame
-#' @aliases fortify.decomposed.ts fortify.HoltWinters
+#' @aliases fortify.decomposed.ts
 #' @examples
 #' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
 #' ggplot2::fortify(stats::decompose(UKgas))
-#' ggplot2::fortify(stats::HoltWinters(USAccDeaths))
 #' @export
-fortify.stl <- function(data) {
+fortify.stl <- function(data, is.date = NULL) {
   if (is(data, 'stl')) {
     # stl allows only univariate series
     ts.data <- data$time.series
     ncomp <- ncol(ts.data)
     orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
   
-    dtindex <- get.dtindex(ts.data)  
+    dtindex <- get.dtindex(ts.data, is.date = is.date)  
     d <- cbind(data.frame(Index = dtindex, data = orig),
                data.frame(data$time.series))
   } else if (is(data, 'decomposed.ts')) {
-    dtframe <- ggplot2::fortify(data$x, data.name = 'data')
+    dtframe <- ggplot2::fortify(data$x, data.name = 'data', is.date = is.date)
     # trend and random can be multivariate
     rndframe <- data$random
     colnames(rndframe) <- NULL
@@ -28,13 +28,6 @@ fortify.stl <- function(data) {
                           trend = data$trend,
                           remainder = rndframe)
     d <- cbind(dtframe, dcframe)
-    
-  } else if (is(data, 'HoltWinters')) {
-    # HoltWinters allows multivariate, but fitted value looks incorrect
-    # Thus ignore
-    dtframe <- ggplot2::fortify(data$x, data.name = 'data')
-    dcframe <- ggplot2::fortify(data$fitted)
-    d <- dplyr::left_join(dtframe, dcframe, by = 'Index') 
   } else {
     stop(paste0('Unsupported class for fortify.stl: ', class(data)))
   }
@@ -45,33 +38,10 @@ fortify.stl <- function(data) {
 fortify.decomposed.ts <- fortify.stl
 
 #' @export
-fortify.HoltWinters <- fortify.stl
-
-#' @export
 autoplot.stl <- autoplot.ts
 
 #' @export
 autoplot.decomposed.ts <- autoplot.ts
-
-#' Autoplot \code{stats::HoltWinters}
-#' 
-#' @param data \code{stats::HoltWinters} instance
-#' @param fitted.colour Line colour for fitted time-series
-#' @param fitted.linetype Line type for fitted time-series
-#' @param ... Keywords passed to autoplot.ts
-#' @return ggplot
-#' @examples
-#' ggplot2::autoplot(stats::HoltWinters(USAccDeaths))
-#' @export
-autoplot.HoltWinters <- function(data,
-                                 fitted.colour = '#FF0000', fitted.linetype = 'solid',
-                                 ...) {
-  plot.data <- ggplot2::fortify(data)
-  p <- ggfortify:::autoplot.ts(plot.data, columns = 'data', ...)
-  p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'xhat'),
-                              colour = fitted.colour, linetype = fitted.linetype)
-  p
-}
 
 #' Convert \code{stats::acf} to data.frame.
 #' 
@@ -90,7 +60,7 @@ autoplot.HoltWinters <- function(data,
 fortify.acf <- function(data,
                         conf.int = TRUE, conf.int.value = 0.95,
                         conf.int.type = 'white') {
-  d <- data.frame(lag = data$lag, acf = data$acf)
+  d <- data.frame(Lag = data$lag, ACF = data$acf)
   if (conf.int) {
     cf <- ggfortify:::confint.acf(data, ci = conf.int.value, ci.type = conf.int.type)
     cfd <- data.frame(lower = -cf, upper = cf)
@@ -109,24 +79,30 @@ fortify.acf <- function(data,
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
+#' @param conf.int.value Coverage probability for confidence interval
+#' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(stats::acf(AirPassengers))
 #' ggplot2::autoplot(stats::pacf(AirPassengers))
 #' ggplot2::autoplot(stats::ccf(AirPassengers, AirPassengers))
 #' @export
-autoplot.acf <- function(data, conf.int = TRUE,
+autoplot.acf <- function(data, 
                          colour = '#000000', linetype = 'solid',
+                         conf.int = TRUE,
                          conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
-                         conf.int.fill = NULL, conf.int.alpha = 0.3) {
-  plot.data <- ggplot2::fortify(data, conf.int = conf.int)
+                         conf.int.fill = NULL, conf.int.alpha = 0.3,
+                         conf.int.value = 0.95, conf.int.type = 'white') {
+  plot.data <- ggplot2::fortify(data, conf.int = conf.int,
+                                conf.int.value = conf.int.value,
+                                conf.int.type = conf.int.type)
 
   # Prepare ymax and ymin used for geom_linerange
   plot.data <- dplyr::mutate(plot.data,
-                             ymax = ifelse(acf > 0, acf, 0),
-                             ymin = ifelse(acf < 0, acf, 0))
+                             ymax = ifelse(ACF > 0, ACF, 0),
+                             ymin = ifelse(ACF < 0, ACF, 0))
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'lag')) +
+  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'Lag')) +
     ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
                             colour = colour, linetype = linetype)
 
@@ -135,6 +111,7 @@ autoplot.acf <- function(data, conf.int = TRUE,
                                  conf.int.linetype = conf.int.linetype,
                                  conf.int.fill = conf.int.fill,
                                  conf.int.alpha = conf.int.alpha)
+  p <- p + ggplot2::ylab('ACF')
   p
 }
 
@@ -148,8 +125,8 @@ autoplot.acf <- function(data, conf.int = TRUE,
 #' ggplot2::fortify(stats::spec.pgram(AirPassengers))
 #' @export
 fortify.spec <- function(data) {
-  d <- data.frame(freq = data$freq,
-                  spec = data$spec)
+  d <- data.frame(Frequency = data$freq,
+                  Spectrum = data$spec)
   dplyr::tbl_df(d)
 }
 
@@ -163,62 +140,11 @@ fortify.spec <- function(data) {
 #' @export
 autoplot.spec <- function(data) {
   plot.data <- ggplot2::fortify(data)
+  mapping <- ggplot2::aes_string(x = 'Frequency', y = 'Spectrum')
   ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_line(mapping = ggplot2::aes_string(x = 'freq', y = 'spec'),
-                      stat = 'identity') +
+    ggplot2::geom_line(mapping = mapping, stat = 'identity') +
     ggplot2::scale_y_log10()
 }
-
-#' Convert AR, ARIMA, ARFIMA-like to data.frame.
-#' 
-#' @param data \code{stats::ar}, \code{stats::arima}, \code{fracdiff::fracdiff}
-#'  or \code{forecast::nnetar}instance
-#' @return data.frame
-#' @aliases fortify.ar fortify.fracdiff fortify.nnetar
-#' @examples
-#' ggplot2::fortify(stats::ar(AirPassengers))
-#' ggplot2::fortify(stats::arima(UKgas))
-#' ggplot2::fortify(forecast::auto.arima(austres))
-#' ggplot2::fortify(forecast::arfima(AirPassengers))
-#' ggplot2::fortify(forecast::nnetar(UKgas))
-#' @export
-fortify.Arima <- function(data) {
-  if (is(data, 'Arima')) {
-    d <- ggplot2::fortify(data$residuals, data.name = 'Residuals')
-  } else if (is(data, 'ar')) {
-    d <- ggplot2::fortify(data$resid, data.name = 'Residuals')
-  } else if (is(data, 'fracdiff') || is(data, 'nnetar')) {
-    d <- ggplot2::fortify(data$x)
-    resid <- ggplot2::fortify(data$residuals, data.name = 'Residuals')
-    fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted')
-    d <- dplyr::left_join(d, fitted, by = 'Index')
-    d <- dplyr::left_join(d, resid, by = 'Index') 
-  } else {
-    stop(paste0('Unsupported class for fortify.Arima: ', class(data)))
-  }
-  dplyr::tbl_df(d)
-}
-
-#' @export
-fortify.ar <- fortify.Arima
-
-#' @export
-fortify.fracdiff <- fortify.Arima
-
-#' @export
-fortify.nnetar <- fortify.Arima
-
-#' @export
-autoplot.Arima <- autoplot.ts
-
-#' @export
-autoplot.ar <- autoplot.ts
-
-#' @export
-autoplot.fracdiff <- autoplot.ts
-
-#' @export
-autoplot.nnetar <- autoplot.ts
 
 #' Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
 #' 
@@ -371,8 +297,10 @@ autoplot.pca_common <- function(data, original = NULL,
 
 #' @export
 autoplot.prcomp <- autoplot.pca_common
+
 #' @export
 autoplot.princomp <- autoplot.pca_common
+
 #' @export
 autoplot.factanal <- autoplot.pca_common
 

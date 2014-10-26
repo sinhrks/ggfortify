@@ -1,5 +1,3 @@
-library(forecast)
-
 context('test forecast')
 
 test_that('fortify.forecast works for AirPassengers', {

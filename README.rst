@@ -12,10 +12,12 @@ This covers following classes:
 - ``base::matrix``
 - ``base::table``
 - ``changepoint::cpt``
+- ``fGarch::fGARCH``
 - ``forecast::bats``
 - ``forecast::forecast``
 - ``forecast::ets``
 - ``fracdiff::fracdiff``
+- ``MSwM::MSM.lm``
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
@@ -30,20 +32,27 @@ This covers following classes:
 - ``stats::ts``
 - ``survival::survfit``
 - ``survival::survfit.cox``
+- ``strucchange::breakpoints``
+- ``strucchange::breakpointsfull``
 - ``timeSeries::timeSeries``
 - ``tseries::irts``
 - ``vars::varprd``
 - ``xts::xts``
+- ``zoo::zooreg``
 
 Helper Functions
 ----------------
 
-- `ggdistribution` to plot CDF/PDF
-
+- ``ggdistribution`` to plot PDF/CDF
+- ``ggcpgram`` to plot ``cpgram``
+- ``gglagplot`` to plot ``lag.plot``
+- ``ggtsdiag`` to plot ``tsdiag``
 
 Examples
 --------
 
 * `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
+* `Plotting Time Series Statistics with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_tsstats>`_
 * `Plotting PCA/clustering results using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_pca>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_
+* `Plotting Probability Distributions with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_dist>`_
