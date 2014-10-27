@@ -62,23 +62,10 @@ autoplot.MSM.lm <- function(data,
                          prob.colour = '#FF0000', prob.linetype = 'dashed',
                          ...) {
   plot.data <- ggplot2::fortify(data, melt = TRUE)
-
-  # temp
-  parse.formula <- function(formula) {
-    vars <- terms(as.formula(formula))
-    y <- if(attr(vars, "response"))
-      nlme::getResponseFormula(formula)
-    x <- nlme::getCovariateFormula(formula)
-    z <- nlme::getGroupsFormula(formula)
-    list(response = all.vars(y),
-         covariates = all.vars(x),
-         groups = all.vars(z))
-  }
   
   y = 'SmoProb'
   p <- ggfortify:::autoplot.ts(plot.data, columns = y, group = 'Model', ...)
-  p <- p + ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymax = 'FiltProb'),
-                             ymin = 0) + 
+  p <- p + ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymax = 'FiltProb'), ymin = 0) + 
     ggplot2::facet_wrap(~Model, ncol = 1) +
     ggplot2::scale_y_continuous(name = 'Smoothed Probabilities', labels = scales::percent) 
     

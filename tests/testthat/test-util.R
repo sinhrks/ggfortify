@@ -24,3 +24,15 @@ test_that('unscale', {
   expect_equal(ggfortify::unscale(scaled, center = FALSE, scale = FALSE), df)
 })
 
+test_that('parse.formula', {
+  result <- ggfortify:::parse.formula(y ~ x)
+  expect_equal(result$response, 'y')
+  expect_equal(result$covariates, 'x')
+  expect_equal(result$groups, character(0))
+  
+  result <- ggfortify:::parse.formula(z ~ u + v)
+  expect_equal(result$response, 'z')
+  expect_equal(result$covariates, c('u', 'v'))
+  expect_equal(result$groups, character(0))
+})
+

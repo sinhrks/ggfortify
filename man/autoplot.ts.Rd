@@ -9,8 +9,8 @@
 \title{Autoplot time-series-like.}
 \usage{
 \method{autoplot}{ts}(data, columns = NULL, group = NULL, is.date = NULL,
-  scales = "free_y", facet = TRUE, ts.colour = "#000000",
-  ts.linetype = "solid")
+  scales = "free_y", facet = TRUE, ts.geom = "line",
+  ts.colour = "#000000", ts.linetype = "solid")
 }
 \arguments{
 \item{data}{time-series-like instance}
@@ -23,6 +23,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 \item{scales}{Scale value passed to \code{ggplot2}}
 
 \item{facet}{Logical value to specify use facets for multivariate time-series}
+
+\item{ts.geom}{Geometric string for colour for time-series. 'line' or 'bar'.}
 
 \item{ts.colour}{Line colour for time-series}
 
@@ -39,7 +41,7 @@ Autoplot time-series-like.
 \examples{
 data(Canada, package = 'vars')
 ggplot2::autoplot(AirPassengers)
-ggplot2::autoplot(UKgas)
+ggplot2::autoplot(UKgas, ts.geom = 'bar')
 ggplot2::autoplot(Canada)
 ggplot2::autoplot(Canada, columns = 'e', is.date = TRUE)
 ggplot2::autoplot(Canada, facet = FALSE)

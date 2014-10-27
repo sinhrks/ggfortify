@@ -26,7 +26,7 @@ fortify.ts <- function(data, index.name = 'Index', data.name = 'Data',
     d <- as.data.frame(data$value)
     dtindex <- data$time
   } else if (is(data, 'ts')) {
-    d <- as.data.frame(data)
+    d <- as.data.frame(as.matrix(data))
     dtindex <- get.dtindex(data, is.date = is.date)
   } else {
     stop(paste0('Unsupported class for fortify.ts: ', class(data)))
@@ -55,6 +55,7 @@ fortify.irts <- fortify.ts
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param facet Logical value to specify use facets for multivariate time-series
+#' @param ts.geom Geometric string for colour for time-series. 'line' or 'bar'.
 #' @param ts.colour Line colour for time-series
 #' @param ts.linetype Line type for time-series
 #' @return ggplot
@@ -62,7 +63,7 @@ fortify.irts <- fortify.ts
 #' @examples
 #' data(Canada, package = 'vars')
 #' ggplot2::autoplot(AirPassengers)
-#' ggplot2::autoplot(UKgas)
+#' ggplot2::autoplot(UKgas, ts.geom = 'bar')
 #' ggplot2::autoplot(Canada)
 #' ggplot2::autoplot(Canada, columns = 'e', is.date = TRUE)
 #' ggplot2::autoplot(Canada, facet = FALSE)
@@ -83,13 +84,21 @@ fortify.irts <- fortify.ts
 #' @export
 autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
                         scales = 'free_y', facet = TRUE,
+                        ts.geom = 'line',
                         ts.colour = '#000000', ts.linetype = 'solid') {
+  ts.label = 'Index'
   if (is.data.frame(data)) {
-    ts.label = 'Index'
     plot.data <- data
   } else {
-    ts.label = 'Index'
     plot.data <- ggplot2::fortify(data, is.date = NULL)
+  }
+  
+  if (ts.geom == 'line') {
+    geomobj <- ggplot2::geom_line
+  } else if (ts.geom == 'bar') {
+    geomobj <- ggplot2::geom_bar
+  } else {
+    stop("Invalid geom is specified. It must be 'line' or 'bar'")
   }
   
   if (is.null(columns)) {
@@ -106,20 +115,20 @@ autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
     # Unable to use is.na because column can be ts object
     mapping = ggplot2::aes_string(x = ts.label, y = columns[1], group = group)
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping) + 
-      ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype)
+      geomobj(colour = ts.colour, linetype = ts.linetype, stat = 'identity')
   } else { 
     plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
 
     if (facet) {
       mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
       p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-        ggplot2::geom_line(colour = ts.colour, linetype = ts.linetype) + 
+        geomobj(colour = ts.colour, linetype = ts.linetype, stat = 'identity') + 
         ggplot2::facet_grid(variable ~ ., scales = scales)
     } else {
       # ts.colour cannot be used
       mapping <- ggplot2::aes_string(x = ts.label, y = 'value', colour = 'variable')
       p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-        ggplot2::geom_line(linetype = ts.linetype)
+        geomobj(linetype = ts.linetype, stat = 'identity')
     }
   }
   p <- p + ggplot2::xlab('')  + 
