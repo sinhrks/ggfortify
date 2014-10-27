@@ -70,6 +70,13 @@ ggtsdiag(auto.arima(AirPassengers))
 gglagplot(AirPassengers, lags = 4)
 ```
 
+`ggfreqplot` is a genelarized `month.plot`. You can pass `freq` if you want, otherwise time-series's frequency will be used.
+
+```{r, message = FALSE, fig.width = 4, fig.height = 4}
+ggfreqplot(AirPassengers)
+ggfreqplot(AirPassengers, freq = 4)
+```
+
 # Resources related to ggfortify
 
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)

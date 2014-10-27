@@ -139,7 +139,6 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' fitted(ar(WWWusage))
 #' @export
 fitted.ar <- function(object, ...) {
-# fitted.ar <- function(object, ...) {
   x <- forecast::getResponse(object)
   if (is.null(x)) {
     return(NULL)
@@ -155,7 +154,6 @@ fitted.ar <- function(object, ...) {
 #' residuals(ar(WWWusage))
 #' @export
 residuals.ar <- function(object, ...) {
-# residuals.ar <- function(object, ...) {
   return(object$resid)
 }
 

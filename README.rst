@@ -47,6 +47,7 @@ Helper Functions
 - ``ggcpgram`` to plot ``cpgram``
 - ``gglagplot`` to plot ``lag.plot``
 - ``ggtsdiag`` to plot ``tsdiag``
+- ``ggfreqplot`` to generalize ``monthplot``
 
 Examples
 --------
