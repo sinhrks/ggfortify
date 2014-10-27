@@ -23,3 +23,24 @@ unscale <- function(data, center = NULL, scale = NULL) {
   }
   as.data.frame(data)
 }
+
+#' Expand \code{stats::formula} expression 
+#' 
+#' @param data Scaled data
+#' @param center Centered vector
+#' @param scale Scale vector
+#' @return data.frame
+#' @examples
+#' ggfortify:::parse.formula(y ~ x)
+parse.formula <- function(formula) {
+  vars <- terms(as.formula(formula))
+  endog <- if(attr(vars, 'response'))
+    nlme::getResponseFormula(formula)
+  exog <- nlme::getCovariateFormula(formula)
+  group <- nlme::getGroupsFormula(formula)
+  
+  result <- list(response = all.vars(endog),
+                 covariates = all.vars(exog),
+                 groups = all.vars(group))
+  result
+}

@@ -55,6 +55,24 @@ get.dtindex.continuous <- function(data, length, is.tsp = FALSE, is.date = NULL)
   dtindex
 }
 
+#' Check if Validates number of \code{ts} variates
+#' 
+#' @param data \code{ts} instance
+#' @param raise Logical flag whether raise an error 
+#' @return logical
+#' @examples
+#' ggfortify:::is.univariate(AirPassengers)
+is.univariate <- function(data, raise = TRUE) {
+  if (ncol(as.matrix(data)) > 1) {
+    if (raise) {
+      stop("data must be univariate time series")
+    } else {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
+}
+
 #' Calcurate confidence interval for \code{stats::acf}
 #' 
 #' @param x \code{stats::acf} instance
@@ -161,8 +179,8 @@ ggcpgram <- function (ts, taper = 0.1,
                       conf.int = TRUE,
                       conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                       conf.int.fill = NULL, conf.int.alpha = 0.3) {
-  if (NCOL(ts) > 1) 
-    stop("only implemented for univariate time series")
+  is.univariate(ts)
+
   x <- as.vector(ts)
   x <- x[!is.na(x)]
   x <- spec.taper(scale(x, TRUE, FALSE), p = taper)
@@ -268,9 +286,8 @@ ggtsdiag <- function(object, gof.lag = 10,
 #' gglagplot(AirPassengers)
 #' @export
 gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
-  if (ncol(as.matrix(ts)) > 1) 
-    stop("only implemented for univariate time series")
-  
+  is.univariate(ts)
+
   xnam <- deparse(substitute(ts))
   n <- nrow(ts)
   nser <- 1
@@ -295,5 +312,65 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   p <- ggplot2::ggplot(data = lag.df, mapping = mapping) +
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~ Lag_dist, nrow = nrow, ncol = ncol)
+  p
+}
+
+#' Plot seasonal subseries of time series, generalization of \code{stats::monthplot}
+#' 
+#' @param ts \code{stats::ts} instance
+#' @param freq Length of frequency. If not provided, use time-series frequency
+#' @param nrow Number of plot rows
+#' @param ncol Number of plot columns
+#' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param conf.int.colour Line colour for confidence intervals
+#' @param conf.int.linetype Line type for confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
+#' @param ... Keywords passed to autoplot.ts
+#' @return ggplot
+#' @examples
+#' ggfreqplot(AirPassengers)
+#' ggfreqplot(AirPassengers, freq = 4)
+#' @export
+ggfreqplot <- function(data, freq = NULL,
+                       nrow = NULL, ncol = NULL,
+                       conf.int = FALSE,
+                       conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
+                       conf.int.fill = NULL, conf.int.alpha = 0.3,
+                       conf.int.value = 0.95,
+                       ...) {
+  is.univariate(data)
+  
+  if (is.null(freq)) {
+    freq <- frequency(data)
+  }
+  
+  if (is.null(nrow) && is.null(ncol)) {
+    nrow <- ceiling(sqrt(freq))
+  }
+  
+  d <- ggplot2::fortify(data)
+  freqd <- data.frame(Frequency = rep(1:freq, length.out = length(data)))
+  d <- cbind(d, freqd)
+
+  summarised <- dplyr::group_by_(d, 'Frequency') %>%
+    dplyr::summarise_(m = 'mean(Data)', s = 'sd(Data)')
+  
+  p <- (1 - conf.int.value) / 2
+  summarised <- dplyr::mutate(summarised,
+                              lower = qnorm(p, mean = m, sd = s),
+                              upper = qnorm(1 - p, mean = m, sd = s))
+  d <- dplyr::left_join(d, summarised, by = 'Frequency')
+  
+  p <- ggfortify:::autoplot.ts(d, columns = 'Data', ...)
+  p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'), 
+                       colour = conf.int.colour) +
+    ggplot2::facet_wrap(~Frequency)
+  p <- ggfortify:::plot.conf.int(p,
+                                 conf.int = conf.int,
+                                 conf.int.colour = conf.int.colour,
+                                 conf.int.linetype = conf.int.linetype,
+                                 conf.int.fill = conf.int.fill,
+                                 conf.int.alpha = conf.int.alpha)
   p
 }
