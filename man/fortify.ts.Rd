@@ -3,16 +3,20 @@
 \alias{fortify.ts}
 \title{Convert time-series-like to data.frame.}
 \usage{
-\method{fortify}{ts}(data, index.name = "Index", data.name = "Data",
-  is.date = NULL, columns = NULL, melt = FALSE)
+\method{fortify}{ts}(data, columns = NULL, is.date = NULL,
+  index.name = "Index", data.name = "Data", melt = FALSE)
 }
 \arguments{
 \item{data}{\code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance}
 
-\item{index.name}{Specify column name for time series index}
+\item{columns}{Character vector specifies target column name(s)}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{index.name}{Specify column name for time series index}
+
+\item{data.name}{Specify column name for univariate time series data. Ignored in multivariate time series.}
 
 \item{melt}{Logical flag indicating whether to melt each timeseries as variable}
 }

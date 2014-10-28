@@ -8,10 +8,10 @@ get.dtindex(data, is.tsp = FALSE, is.date = NULL)
 \arguments{
 \item{data}{\code{ts} instance}
 
+\item{is.tsp}{Logical frag whether data is \code{tsp} itself or not}
+
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
-
-\item{tsp}{Logical frag whether data is \code{tsp} itself or not}
 }
 \value{
 vector

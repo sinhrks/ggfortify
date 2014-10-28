@@ -9,8 +9,9 @@
 \title{Autoplot time-series-like.}
 \usage{
 \method{autoplot}{ts}(data, columns = NULL, group = NULL, is.date = NULL,
-  p = NULL, scales = "free_y", facet = TRUE, ts.geom = "line",
-  ts.colour = "#000000", ts.linetype = "solid", xlab = "", ylab = "")
+  index.name = "Index", p = NULL, scales = "free_y", facet = TRUE,
+  ts.geom = "line", ts.colour = "#000000", ts.linetype = "solid",
+  xlab = "", ylab = "")
 }
 \arguments{
 \item{data}{time-series-like instance}
@@ -21,6 +22,8 @@
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{index.name}{Specify column name for time series index when passing \code{data.frame} via data.}
 
 \item{p}{\code{ggplot2::ggplot} instance}
 

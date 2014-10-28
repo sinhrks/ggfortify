@@ -4,11 +4,11 @@ library(gridExtra)
 #' Convert time-series-like to data.frame.
 #' 
 #' @param data \code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance
-#' @param index.name Specify column name for time series index
-#' @param index.name Specify column name for univariate time series data. Ignored in multivariate time series. 
+#' @param columns Character vector specifies target column name(s)
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
-#' @param columns Character vector specifies target column name(s)
+#' @param index.name Specify column name for time series index
+#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series. 
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
@@ -18,10 +18,10 @@ library(gridExtra)
 #' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 #' ggplot2::fortify(its)
 #' @export
-fortify.ts <- function(data, index.name = 'Index', data.name = 'Data', 
-                       is.date = NULL, columns = NULL, melt = FALSE) {
+fortify.ts <- function(data, columns = NULL, is.date = NULL,
+                       index.name = 'Index', data.name = 'Data', 
+                       melt = FALSE) {
   # no need to define `fortify.xts` because zoo package has `fortify.zoo`
-  
   if (is(data, 'timeSeries')) {
     d <- as.data.frame(data)
     dtindex <- as.POSIXct(rownames(d))
@@ -68,6 +68,7 @@ fortify.irts <- fortify.ts
 #' @param group Character vector specifies grouping
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' @param index.name Specify column name for time series index when passing \code{data.frame} via data. 
 #' @param p \code{ggplot2::ggplot} instance
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param facet Logical value to specify use facets for multivariate time-series
@@ -100,7 +101,8 @@ fortify.irts <- fortify.ts
 #' ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
 #' ggplot2::autoplot(stats::decompose(UKgas))
 #' @export
-autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
+autoplot.ts <- function(data, columns = NULL, group = NULL,
+                        is.date = NULL, index.name = 'Index',
                         p = NULL, 
                         scales = 'free_y', facet = TRUE,
                         ts.geom = 'line',
@@ -111,14 +113,13 @@ autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
   if (is.data.frame(data)) {
     plot.data <- data
   } else {
-    plot.data <- ggplot2::fortify(data, is.date = is.date)
+    plot.data <- ggplot2::fortify(data, is.date = is.date, index.name = index.name)
   }
   
   # create ggplot instance if not passed
-  ts.label = 'Index'
   if (is.null(p)) {
     null.p <- TRUE
-    mapping = ggplot2::aes_string(x = ts.label)
+    mapping = ggplot2::aes_string(x = index.name)
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
   } else {
     null.p <- FALSE
@@ -134,7 +135,7 @@ autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
   
   if (is.null(columns)) {
     data.names <- names(plot.data)
-    columns <- data.names[data.names != ts.label]
+    columns <- data.names[data.names != index.name]
   }
   if (length(columns) > 1) {
     .is.univariate <- FALSE
@@ -144,13 +145,13 @@ autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
   plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
   
   # must be done here, because fortify.zoo is defined in zoo package
-  ts.column <- plot.data[[ts.label]]
+  ts.column <- plot.data[[index.name]]
   if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
-    plot.data[[ts.label]] <- zoo::as.Date(plot.data[[ts.label]])
+    plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
   } 
 
   if (facet) {
-    mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
+    mapping <- ggplot2::aes_string(x = index.name, y = 'value')
     p <- p + geomobj(data = plot.data, mapping = mapping,
                      colour = ts.colour, linetype = ts.linetype, stat = 'identity')
     if (!.is.univariate) {
@@ -158,7 +159,7 @@ autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
     }
   } else {
     # ts.colour cannot be used
-    mapping <- ggplot2::aes_string(x = ts.label, y = 'value', colour = 'variable')
+    mapping <- ggplot2::aes_string(x = index.name, y = 'value', colour = 'variable')
     p <- p + geomobj(data = plot.data, mapping = mapping,
                      linetype = ts.linetype, stat = 'identity')
   }
