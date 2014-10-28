@@ -3,13 +3,14 @@
 #' @param data \code{stats::stl} or \code{stats::decomposed.ts} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' @param index.name Specify column name for time series index
 #' @return data.frame
 #' @aliases fortify.decomposed.ts
 #' @examples
 #' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
 #' ggplot2::fortify(stats::decompose(UKgas))
 #' @export
-fortify.stl <- function(data, is.date = NULL) {
+fortify.stl <- function(data, is.date = NULL, index.name = 'Index') {
   if (is(data, 'stl')) {
     # stl allows only univariate series
     ts.data <- data$time.series
@@ -17,10 +18,14 @@ fortify.stl <- function(data, is.date = NULL) {
     orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
   
     dtindex <- get.dtindex(ts.data, is.date = is.date)  
-    d <- cbind(data.frame(Index = dtindex, data = orig),
+    dtframe <- data.frame(Index = dtindex)
+    colnames(dtframe) <- index.name
+    d <- cbind(dtframe,
+               data.frame(data = orig),
                data.frame(data$time.series))
   } else if (is(data, 'decomposed.ts')) {
-    dtframe <- ggplot2::fortify(data$x, data.name = 'data', is.date = is.date)
+    dtframe <- ggplot2::fortify(data$x, index.name = index.name,
+                                data.name = 'data', is.date = is.date)
     # trend and random can be multivariate
     rndframe <- data$random
     colnames(rndframe) <- NULL

@@ -116,6 +116,17 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
     plot.data <- ggplot2::fortify(data, is.date = is.date, index.name = index.name)
   }
   
+  if (is.null(columns)) {
+    data.names <- names(plot.data)
+    columns <- data.names[data.names != index.name]
+  }
+  if (length(columns) > 1) {
+    .is.univariate <- FALSE
+  } else {
+    .is.univariate <- TRUE
+  }
+  plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
+  
   # create ggplot instance if not passed
   if (is.null(p)) {
     null.p <- TRUE
@@ -132,17 +143,6 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
   } else {
     stop("Invalid geom is specified. It must be 'line' or 'bar'")
   }
-  
-  if (is.null(columns)) {
-    data.names <- names(plot.data)
-    columns <- data.names[data.names != index.name]
-  }
-  if (length(columns) > 1) {
-    .is.univariate <- FALSE
-  } else {
-    .is.univariate <- TRUE
-  }
-  plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
   
   # must be done here, because fortify.zoo is defined in zoo package
   ts.column <- plot.data[[index.name]]

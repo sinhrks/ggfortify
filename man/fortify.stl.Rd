@@ -4,13 +4,15 @@
 \alias{fortify.stl}
 \title{Convert decomposed time series to data.frame.}
 \usage{
-\method{fortify}{stl}(data, is.date = NULL)
+\method{fortify}{stl}(data, is.date = NULL, index.name = "Index")
 }
 \arguments{
 \item{data}{\code{stats::stl} or \code{stats::decomposed.ts} instance}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{index.name}{Specify column name for time series index}
 }
 \value{
 data.frame
