@@ -6,20 +6,15 @@
 parse.formula(formula)
 }
 \arguments{
-\item{data}{Scaled data}
-
-\item{center}{Centered vector}
-
-\item{scale}{Scale vector}
+\item{formula}{\code{stats::formula} instance}
 }
 \value{
-data.frame
+list
 }
 \description{
 Expand \code{stats::formula} expression
 }
 \examples{
-df <- iris[c(1, 2, 3, 4)]
 ggfortify:::parse.formula(y ~ x)
 }
 

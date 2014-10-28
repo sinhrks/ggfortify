@@ -4,7 +4,7 @@
 \title{Convert time-series-like to data.frame.}
 \usage{
 \method{fortify}{ts}(data, index.name = "Index", data.name = "Data",
-  is.date = NULL)
+  is.date = NULL, columns = NULL, melt = FALSE)
 }
 \arguments{
 \item{data}{\code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance}
@@ -13,6 +13,8 @@
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{melt}{Logical flag indicating whether to melt each timeseries as variable}
 }
 \value{
 data.frame

@@ -5,8 +5,11 @@ library(gridExtra)
 #' 
 #' @param data \code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance
 #' @param index.name Specify column name for time series index
+#' @param index.name Specify column name for univariate time series data. Ignored in multivariate time series. 
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' @param columns Character vector specifies target column name(s)
+#' @param melt Logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
 #' ggplot2::fortify(AirPassengers)
@@ -16,7 +19,7 @@ library(gridExtra)
 #' ggplot2::fortify(its)
 #' @export
 fortify.ts <- function(data, index.name = 'Index', data.name = 'Data', 
-                       is.date = NULL) {
+                       is.date = NULL, columns = NULL, melt = FALSE) {
   # no need to define `fortify.xts` because zoo package has `fortify.zoo`
   
   if (is(data, 'timeSeries')) {
@@ -37,6 +40,18 @@ fortify.ts <- function(data, index.name = 'Index', data.name = 'Data',
     colnames(d) <- data.name
   }
   d <- cbind(dtframe, d)
+  
+  # filtering columns
+  if (is.null(columns)) {
+    data.names <- names(d)
+    columns <- data.names[data.names != index.name]
+  } else {
+    d <- dplyr::select_(d, .dots = c(index.name, columns))
+  }
+  # unpivot
+  if (melt) {
+    d <- tidyr::gather_(d, 'variable', 'value', columns)
+  }  
   dplyr::tbl_df(d)
 }
 
@@ -50,14 +65,17 @@ fortify.irts <- fortify.ts
 #' 
 #' @param data time-series-like instance
 #' @param columns Character vector specifies target column name(s)
-#' @param columns Character vector specifies grouping
+#' @param group Character vector specifies grouping
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' @param p \code{ggplot2::ggplot} instance
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param facet Logical value to specify use facets for multivariate time-series
 #' @param ts.geom Geometric string for colour for time-series. 'line' or 'bar'.
 #' @param ts.colour Line colour for time-series
 #' @param ts.linetype Line type for time-series
+#' @param xlab Character vector or expression for x axis label
+#' @param ylab Character vector or expression for y axis label
 #' @return ggplot
 #' @aliases autoplot.xts autoplot.timeSeries autoplot.irts autoplot.stl autoplot.decomposed.ts
 #' @examples
@@ -83,14 +101,27 @@ fortify.irts <- fortify.ts
 #' ggplot2::autoplot(stats::decompose(UKgas))
 #' @export
 autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
+                        p = NULL, 
                         scales = 'free_y', facet = TRUE,
                         ts.geom = 'line',
-                        ts.colour = '#000000', ts.linetype = 'solid') {
-  ts.label = 'Index'
+                        ts.colour = '#000000', ts.linetype = 'solid', 
+                        xlab = '', ylab = '') {
+  
+  # fortify data
   if (is.data.frame(data)) {
     plot.data <- data
   } else {
-    plot.data <- ggplot2::fortify(data, is.date = NULL)
+    plot.data <- ggplot2::fortify(data, is.date = is.date)
+  }
+  
+  # create ggplot instance if not passed
+  ts.label = 'Index'
+  if (is.null(p)) {
+    null.p <- TRUE
+    mapping = ggplot2::aes_string(x = ts.label)
+    p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+  } else {
+    null.p <- FALSE
   }
   
   if (ts.geom == 'line') {
@@ -105,34 +136,38 @@ autoplot.ts <- function(data, columns = NULL, group = NULL, is.date = NULL,
     data.names <- names(plot.data)
     columns <- data.names[data.names != ts.label]
   }
+  if (length(columns) > 1) {
+    .is.univariate <- FALSE
+  } else {
+    .is.univariate <- TRUE
+  }
+  plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
   
+  # must be done here, because fortify.zoo is defined in zoo package
   ts.column <- plot.data[[ts.label]]
   if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
     plot.data[[ts.label]] <- zoo::as.Date(plot.data[[ts.label]])
   } 
-  
-  if (length(columns) == 1) {
-    # Unable to use is.na because column can be ts object
-    mapping = ggplot2::aes_string(x = ts.label, y = columns[1], group = group)
-    p <- ggplot2::ggplot(data = plot.data, mapping = mapping) + 
-      geomobj(colour = ts.colour, linetype = ts.linetype, stat = 'identity')
-  } else { 
-    plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
 
-    if (facet) {
-      mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
-      p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-        geomobj(colour = ts.colour, linetype = ts.linetype, stat = 'identity') + 
-        ggplot2::facet_grid(variable ~ ., scales = scales)
-    } else {
-      # ts.colour cannot be used
-      mapping <- ggplot2::aes_string(x = ts.label, y = 'value', colour = 'variable')
-      p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-        geomobj(linetype = ts.linetype, stat = 'identity')
+  if (facet) {
+    mapping <- ggplot2::aes_string(x = ts.label, y = 'value')
+    p <- p + geomobj(data = plot.data, mapping = mapping,
+                     colour = ts.colour, linetype = ts.linetype, stat = 'identity')
+    if (!.is.univariate) {
+      p <- p + ggplot2::facet_grid(variable ~ ., scales = scales)
     }
+  } else {
+    # ts.colour cannot be used
+    mapping <- ggplot2::aes_string(x = ts.label, y = 'value', colour = 'variable')
+    p <- p + geomobj(data = plot.data, mapping = mapping,
+                     linetype = ts.linetype, stat = 'identity')
   }
-  p <- p + ggplot2::xlab('')  + 
-    ggplot2::scale_y_continuous(name = '') 
+  if (null.p) {
+    p <- p +
+      ggplot2::xlab(xlab) +
+      ggplot2::ylab(ylab) +
+      ggplot2::scale_y_continuous() 
+  }
   p
 }
 

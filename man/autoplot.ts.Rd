@@ -9,16 +9,20 @@
 \title{Autoplot time-series-like.}
 \usage{
 \method{autoplot}{ts}(data, columns = NULL, group = NULL, is.date = NULL,
-  scales = "free_y", facet = TRUE, ts.geom = "line",
-  ts.colour = "#000000", ts.linetype = "solid")
+  p = NULL, scales = "free_y", facet = TRUE, ts.geom = "line",
+  ts.colour = "#000000", ts.linetype = "solid", xlab = "", ylab = "")
 }
 \arguments{
 \item{data}{time-series-like instance}
 
 \item{columns}{Character vector specifies target column name(s)}
 
+\item{group}{Character vector specifies grouping}
+
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{p}{\code{ggplot2::ggplot} instance}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
@@ -30,7 +34,9 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{ts.linetype}{Line type for time-series}
 
-\item{columns}{Character vector specifies grouping}
+\item{xlab}{Character vector or expression for x axis label}
+
+\item{ylab}{Character vector or expression for y axis label}
 }
 \value{
 ggplot

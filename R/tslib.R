@@ -1,7 +1,7 @@
 #' Convert \code{ts} index to \code{Date} \code{vector}.
 #' 
 #' @param data \code{ts} instance
-#' @param tsp Logical frag whether data is \code{tsp} itself or not
+#' @param is.tsp Logical frag whether data is \code{tsp} itself or not
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
 #' @return vector
@@ -31,6 +31,7 @@ get.dtindex <- function(data, is.tsp = FALSE, is.date = NULL) {
 #' 
 #' @param data \code{ts} instance
 #' @param length A number to continue
+#' @param is.tsp Logical frag whether data is \code{tsp} itself or not
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.  
 #' @return vector

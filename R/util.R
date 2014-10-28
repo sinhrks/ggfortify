@@ -24,12 +24,11 @@ unscale <- function(data, center = NULL, scale = NULL) {
   as.data.frame(data)
 }
 
+
 #' Expand \code{stats::formula} expression 
 #' 
-#' @param data Scaled data
-#' @param center Centered vector
-#' @param scale Scale vector
-#' @return data.frame
+#' @param formula \code{stats::formula} instance
+#' @return list
 #' @examples
 #' ggfortify:::parse.formula(y ~ x)
 parse.formula <- function(formula) {
