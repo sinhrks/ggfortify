@@ -9,6 +9,8 @@ ggfreqplot(data, freq = NULL, nrow = NULL, ncol = NULL,
   conf.int.alpha = 0.3, conf.int.value = 0.95, ...)
 }
 \arguments{
+\item{data}{\code{stats::ts} instance}
+
 \item{freq}{Length of frequency. If not provided, use time-series frequency}
 
 \item{nrow}{Number of plot rows}
@@ -25,9 +27,9 @@ ggfreqplot(data, freq = NULL, nrow = NULL, ncol = NULL,
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{conf.int.value}{Coverage probability for confidence interval}
 
-\item{ts}{\code{stats::ts} instance}
+\item{...}{Keywords passed to autoplot.ts}
 }
 \value{
 ggplot

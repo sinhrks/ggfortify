@@ -22,13 +22,15 @@ data.frame
 Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to data.frame.
 }
 \examples{
-ggplot2::fortify(changepoint::cpt.mean(AirPassengers))
-ggplot2::fortify(changepoint::cpt.var(AirPassengers))
-ggplot2::fortify(changepoint::cpt.meanvar(AirPassengers))
+library(changepoint)
+ggplot2::fortify(cpt.mean(AirPassengers))
+ggplot2::fortify(cpt.var(AirPassengers))
+ggplot2::fortify(cpt.meanvar(AirPassengers))
 
-bp.nile <- strucchange::breakpoints(Nile ~ 1)
+library(strucchange)
+bp.nile <- breakpoints(Nile ~ 1)
 ggplot2::fortify(bp.nile)
-ggplot2::fortify(strucchange::breakpoints(bp.nile, breaks = 2))
-ggplot2::fortify(strucchange::breakpoints(bp.nile, breaks = 2), original = Nile)
+ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
+ggplot2::fortify(breakpoints(bp.nile, breaks = 2), original = Nile)
 }
 

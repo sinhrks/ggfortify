@@ -4,7 +4,7 @@
 \title{Convert time-series-like to data.frame.}
 \usage{
 \method{fortify}{ts}(data, columns = NULL, is.date = NULL,
-  index.name = "Index", data.name = "Data", melt = FALSE)
+  index.name = "Index", data.name = "Data", scale = FALSE, melt = FALSE)
 }
 \arguments{
 \item{data}{\code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance}
@@ -17,6 +17,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 \item{index.name}{Specify column name for time series index}
 
 \item{data.name}{Specify column name for univariate time series data. Ignored in multivariate time series.}
+
+\item{scale}{Logical flag indicating whether to perform scaling each timeseries}
 
 \item{melt}{Logical flag indicating whether to melt each timeseries as variable}
 }
@@ -32,5 +34,8 @@ ggplot2::fortify(timeSeries::as.timeSeries(AirPassengers))
 
 its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 ggplot2::fortify(its)
+
+ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
+ggplot2::fortify(stats::decompose(UKgas))
 }
 

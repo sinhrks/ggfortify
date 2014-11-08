@@ -22,9 +22,11 @@ This covers following classes:
 - ``stats::ar``
 - ``stats::Arima``
 - ``stats::decomposed.ts``
+- ``stats::density``
 - ``stats::factanal``
 - ``stats::HoltWinters``
 - ``stats::kmeans``
+- ``stats::lm``
 - ``stats::prcomp``
 - ``stats::princomp``
 - ``stats::spec``

@@ -32,6 +32,10 @@ unscale <- function(data, center = NULL, scale = NULL) {
 #' @examples
 #' ggfortify:::parse.formula(y ~ x)
 parse.formula <- function(formula) {
+  
+  # not to replace forecast::getResponse
+  # library(nlme)
+  
   vars <- terms(as.formula(formula))
   endog <- if(attr(vars, 'response'))
     nlme::getResponseFormula(formula)
