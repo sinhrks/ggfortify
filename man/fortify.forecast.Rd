@@ -3,13 +3,15 @@
 \alias{fortify.forecast}
 \title{Convert \code{forecast::forecast} to data.frame.}
 \usage{
-\method{fortify}{forecast}(data, is.date = NULL)
+\method{fortify}{forecast}(data, is.date = NULL, ts.connect = FALSE)
 }
 \arguments{
 \item{data}{\code{forecast::forecast} instance}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 }
 \value{
 data.frame
@@ -21,5 +23,6 @@ Convert \code{forecast::forecast} to data.frame.
 d.arima <- forecast::auto.arima(AirPassengers)
 d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 ggplot2::fortify(d.forecast)
+ggplot2::fortify(d.forecast, ts.connect = TRUE)
 }
 

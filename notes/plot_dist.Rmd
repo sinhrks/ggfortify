@@ -46,6 +46,14 @@ p <- ggdistribution(dchisq, seq(0, 20, 0.1), df = 9, colour = 'green', p = p)
 ggdistribution(dchisq, seq(0, 20, 0.1), df = 11, colour = 'red', p = p)
 ```
 
+# Plotting Density
+
+Also, `autoplot` can accept `stats::density`.
+
+```{r, message = FALSE}
+autoplot(density(rnorm(1:50)), fill = 'green')
+```
+
 # Resources related to ggfortify
 
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)

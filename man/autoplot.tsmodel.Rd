@@ -8,12 +8,18 @@
 \alias{autoplot.tsmodel}
 \title{Autoplot time series models (like AR, ARIMA).}
 \usage{
-\method{autoplot}{tsmodel}(data, original = NULL, is.date = NULL,
-  fitted.colour = "#FF0000", fitted.linetype = "solid", ...)
+\method{autoplot}{tsmodel}(data, predict = NULL, original = NULL,
+  is.date = NULL, ts.connect = TRUE, fitted.colour = "#FF0000",
+  fitted.linetype = "solid", predict.colour = "#0000FF",
+  predict.linetype = "solid", conf.int = TRUE,
+  conf.int.colour = "#0000FF", conf.int.linetype = "none",
+  conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{data}{\code{stats::ar}, \code{stats::Arima}, \code{stats::HoltWinters},
 \code{fracdiff::fracdiff}, \code{forecast::nnetar} or \code{fGarch::fGARCH}instance}
+
+\item{predict}{Predicted \code{stats::ts}}
 
 \item{original}{Original data for \code{stats::ar}, \code{stats::Arima}.
 Not used in other models.
@@ -22,9 +28,25 @@ If not provided, try to retrieve from current environment using variable name.}
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
 
+\item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
+
 \item{fitted.colour}{Line colour for fitted time-series}
 
 \item{fitted.linetype}{Line type for fitted time-series}
+
+\item{predict.colour}{Line colour for predicted time-series}
+
+\item{predict.linetype}{Line type for predicted time-series}
+
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+
+\item{conf.int.colour}{Line colour for confidence intervals}
+
+\item{conf.int.linetype}{Line type for confidence intervals}
+
+\item{conf.int.fill}{Fill colour for confidence intervals}
+
+\item{conf.int.alpha}{Alpha for confidence intervals}
 
 \item{...}{Keywords passed to autoplot.ts}
 }
@@ -35,10 +57,16 @@ ggplot
 Autoplot time series models (like AR, ARIMA).
 }
 \examples{
-ggplot2::autoplot(stats::ar(AirPassengers))
+d.ar <- stats::ar(AirPassengers)
+ggplot2::autoplot(d.ar)
+ggplot2::autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
 ggplot2::autoplot(stats::arima(UKgas), original = UKgas)
 ggplot2::autoplot(forecast::arfima(AirPassengers))
 ggplot2::autoplot(forecast::nnetar(UKgas), is.date = FALSE)
-ggplot2::autoplot(stats::HoltWinters(USAccDeaths))
+
+d.holt <- stats::HoltWinters(USAccDeaths)
+ggplot2::autoplot(d.holt)
+ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
+ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
 }
 

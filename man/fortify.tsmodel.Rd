@@ -9,11 +9,14 @@
 \alias{fortify.tsmodel}
 \title{Convert time series models (like AR, ARIMA) to data.frame.}
 \usage{
-\method{fortify}{tsmodel}(data, original = NULL, is.date = NULL)
+\method{fortify}{tsmodel}(data, predict = NULL, original = NULL,
+  is.date = NULL, ts.connect = TRUE)
 }
 \arguments{
 \item{data}{\code{stats::ar}, \code{stats::Arima}, \code{stats::HoltWinters},
 \code{fracdiff::fracdiff}, \code{forecast::nnetar} or \code{fGarch::fGARCH}instance}
+
+\item{predict}{Predicted \code{stats::ts}}
 
 \item{original}{Original data for \code{stats::ar}, \code{stats::Arima}.
 Not used in other models.
@@ -21,6 +24,8 @@ If not provided, try to retrieve from current environment using variable name.}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 }
 \value{
 data.frame

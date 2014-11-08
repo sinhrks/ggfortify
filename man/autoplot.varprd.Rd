@@ -3,8 +3,9 @@
 \alias{autoplot.varprd}
 \title{Autoplot \code{vars::varprd}.}
 \usage{
-\method{autoplot}{varprd}(data, is.date = NULL, scales = "free_y",
-  predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
+\method{autoplot}{varprd}(data, is.date = NULL, ts.connect = TRUE,
+  scales = "free_y", predict.colour = "#0000FF",
+  predict.linetype = "solid", conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
@@ -13,6 +14,8 @@
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 

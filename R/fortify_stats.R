@@ -1,43 +1,5 @@
-#' Convert decomposed time series to data.frame.
-#' 
-#' @param data \code{stats::stl} or \code{stats::decomposed.ts} instance
-#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
-#' @param index.name Specify column name for time series index
-#' @return data.frame
-#' @aliases fortify.decomposed.ts
-#' @examples
-#' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
-#' ggplot2::fortify(stats::decompose(UKgas))
 #' @export
-fortify.stl <- function(data, is.date = NULL, index.name = 'Index') {
-  if (is(data, 'stl')) {
-    # stl allows only univariate series
-    ts.data <- data$time.series
-    ncomp <- ncol(ts.data)
-    orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
-  
-    dtindex <- get.dtindex(ts.data, is.date = is.date)  
-    dtframe <- data.frame(Index = dtindex)
-    colnames(dtframe) <- index.name
-    d <- cbind(dtframe,
-               data.frame(data = orig),
-               data.frame(data$time.series))
-  } else if (is(data, 'decomposed.ts')) {
-    dtframe <- ggplot2::fortify(data$x, index.name = index.name,
-                                data.name = 'data', is.date = is.date)
-    # trend and random can be multivariate
-    rndframe <- data$random
-    colnames(rndframe) <- NULL
-    dcframe <- data.frame(seasonal = data$seasonal,
-                          trend = data$trend,
-                          remainder = rndframe)
-    d <- cbind(dtframe, dcframe)
-  } else {
-    stop(paste0('Unsupported class for fortify.stl: ', class(data)))
-  }
-  dplyr::tbl_df(d)
-}
+fortify.stl <- fortify.ts
 
 #' @export
 fortify.decomposed.ts <- fortify.stl
@@ -48,7 +10,7 @@ autoplot.stl <- autoplot.ts
 #' @export
 autoplot.decomposed.ts <- autoplot.ts
 
-#' Convert \code{stats::acf} to data.frame.
+#' Convert \code{stats::acf} to \code{data.frame}.
 #' 
 #' @param data \code{stats::acf} instance
 #' @param conf.int Logical flag indicating whether to attach confidence intervals
@@ -65,9 +27,17 @@ autoplot.decomposed.ts <- autoplot.ts
 fortify.acf <- function(data,
                         conf.int = TRUE, conf.int.value = 0.95,
                         conf.int.type = 'white') {
+  # lag.data <- data.frame(data$lag)
+  # colnames(lag.data) <- data$snames
+  # lag.data<- tidyr::gather_(lag.data, 'variable', 'Lag', data$snames)
+
+  # acf.data <- data.frame(data$acf)
+  # colnames(acf.data) <- data$snames
+  # acf.data<- tidyr::gather_(acf.data, 'variable', 'ACF', data$snames)
+  # d <- dplyr::left_join(lag.data, acf.data)
   d <- data.frame(Lag = data$lag, ACF = data$acf)
   if (conf.int) {
-    cf <- ggfortify:::confint.acf(data, ci = conf.int.value, ci.type = conf.int.type)
+    cf <- confint.acf(data, ci = conf.int.value, ci.type = conf.int.type)
     cfd <- data.frame(lower = -cf, upper = cf)
     d <- cbind(d, cfd)
   }
@@ -111,11 +81,11 @@ autoplot.acf <- function(data,
     ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
                             colour = colour, linetype = linetype)
 
-  p <- ggfortify:::plot.conf.int(p, conf.int = conf.int,
-                                 conf.int.colour = conf.int.colour,
-                                 conf.int.linetype = conf.int.linetype,
-                                 conf.int.fill = conf.int.fill,
-                                 conf.int.alpha = conf.int.alpha)
+  p <- plot.conf.int(p, conf.int = conf.int,
+                     conf.int.colour = conf.int.colour,
+                     conf.int.linetype = conf.int.linetype,
+                     conf.int.fill = conf.int.fill,
+                     conf.int.alpha = conf.int.alpha)
   p <- p + ggplot2::ylab('ACF')
   p
 }

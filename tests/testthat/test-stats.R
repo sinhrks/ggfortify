@@ -4,18 +4,18 @@ test_that('fortify.stl works for AirPassengers', {
   fortified <- ggplot2::fortify(stats::stl(AirPassengers, s.window = 'periodic'))
   expect_equal(is(fortified, 'tbl_df'), TRUE)
   
-  expected_names <- c('Index', 'data', 'seasonal', 'trend', 'remainder')
+  expected_names <- c('Index', 'Data', 'seasonal', 'trend', 'remainder')
   expect_equal(names(fortified), expected_names)
-  expect_equal(as.vector(AirPassengers), as.vector(fortified[['data']]))
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['Data']]))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
   
   fortified <- ggplot2::fortify(stats::decompose(AirPassengers))
   expect_equal(is(fortified, 'tbl_df'), TRUE)
   
-  expected_names <- c('Index', 'data', 'seasonal', 'trend', 'remainder')
+  expected_names <- c('Index', 'Data', 'seasonal', 'trend', 'remainder')
   expect_equal(names(fortified), expected_names)
-  expect_equal(as.vector(AirPassengers), as.vector(fortified[['data']]))
+  expect_equal(as.vector(AirPassengers), as.vector(fortified[['Data']]))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))  
 })

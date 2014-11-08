@@ -1,0 +1,72 @@
+---
+title: "Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify"
+output: html_document
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=8, fig.height=6, fig.path='figures/lm-', warning=FALSE)
+```
+
+This document explains plotting diagnostics for LM and GLM using `ggplot2` and `ggfortify`. 
+
+# Installation
+
+First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
+
+```{r, eval = FALSE}
+library(devtools)
+install_github('sinhrks/ggfortify')
+```
+
+# Plotting Diagnostics for Linear Models 
+
+`ggfortify` let `ggplot2` know how to interpret `lm` objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `lm` objects. 
+
+```{r, message = FALSE}
+library(ggplot2)
+library(ggfortify)
+autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
+```
+
+You can select desired plot by `which` option as the same manner as standard `plot`. Following shows the comparison between `ggfortify` and default.
+
+```{r, fig.height = 4}
+par(mfrow = c(1, 2))
+m <- lm(Petal.Width ~ Petal.Length, data = iris)
+
+autoplot(m, which = 1:2, ncol = 2)
+plot(m, which = 1:2)
+
+autoplot(m, which = 3:4, ncol = 2)
+plot(m, which = 3:4)
+
+autoplot(m, which = 5:6, ncol = 2)
+plot(m, which = 5:6)
+```
+
+# Plotting Diagnostics for Generalized Linear Models
+
+It also suppotgs `glm` instance.
+
+```{r, fig.height = 4}
+par(mfrow = c(1, 2))
+m <- glm(Petal.Width ~ Petal.Length, data = iris, family='poisson')
+
+autoplot(m, which = 1:2, ncol = 2)
+plot(m, which = 1:2)
+
+autoplot(m, which = 3:4, ncol = 2)
+plot(m, which = 3:4)
+
+autoplot(m, which = 5:6, ncol = 2)
+plot(m, which = 5:6)
+```
+
+# Resources related to ggfortify
+
+* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
+* [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
+* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
+* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
+* [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)

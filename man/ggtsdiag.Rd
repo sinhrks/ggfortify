@@ -5,7 +5,8 @@
 \usage{
 ggtsdiag(object, gof.lag = 10, conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "dashed",
-  conf.int.fill = NULL, conf.int.alpha = 0.3, ...)
+  conf.int.fill = NULL, conf.int.alpha = 0.3, ad.colour = "#888888",
+  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = 1, ...)
 }
 \arguments{
 \item{object}{A fitted time-series model}
@@ -21,6 +22,16 @@ ggtsdiag(object, gof.lag = 10, conf.int = TRUE,
 \item{conf.int.fill}{Fill colour for confidence intervals}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
+
+\item{ad.colour}{Line colour for additional lines}
+
+\item{ad.linetype}{Line type for additional lines}
+
+\item{ad.size}{Fill colour for additional lines}
+
+\item{nrow}{Number of facet/subplot rows}
+
+\item{ncol}{Number of facet/subplot columns}
 }
 \value{
 ggplot

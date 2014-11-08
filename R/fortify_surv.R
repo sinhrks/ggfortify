@@ -82,11 +82,11 @@ autoplot.survfit <- function(data,
                                 colour = surv.colour, linetype = surv.linetype)
     conf.mapping <- ggplot2::aes_string(ymin = 'lower', ymax = 'upper')
     
-    p <- ggfortify:::plot.conf.int(p, conf.int = conf.int,
-                                   conf.int.colour = conf.int.colour,
-                                   conf.int.linetype = conf.int.linetype,
-                                   conf.int.fill = conf.int.fill,
-                                   conf.int.alpha = conf.int.alpha)
+    p <- plot.conf.int(p, conf.int = conf.int,
+                       conf.int.colour = conf.int.colour,
+                       conf.int.linetype = conf.int.linetype,
+                       conf.int.fill = conf.int.fill,
+                       conf.int.alpha = conf.int.alpha)
   }
   
   if (censor) {

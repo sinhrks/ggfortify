@@ -43,10 +43,10 @@ data(Canada)
 autoplot(Canada)
 ```
 
-Specify `facet = FALSE` to draw on single axes.
+Specify `facets = FALSE` to draw on single axes.
 
 ```{r}
-autoplot(Canada, facet = FALSE)
+autoplot(Canada, facets = FALSE)
 ```
 
 Also, `autoplot` can handle other time-series-likes. Supported packages are:

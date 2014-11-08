@@ -9,7 +9,8 @@
 \title{Autoplot time-series-like.}
 \usage{
 \method{autoplot}{ts}(data, columns = NULL, group = NULL, is.date = NULL,
-  index.name = "Index", p = NULL, scales = "free_y", facet = TRUE,
+  index.name = "Index", p = NULL, ts.scale = FALSE, scales = "free_y",
+  facet = TRUE, facets = facet, nrow = NULL, ncol = 1,
   ts.geom = "line", ts.colour = "#000000", ts.linetype = "solid",
   xlab = "", ylab = "")
 }
@@ -27,9 +28,17 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{p}{\code{ggplot2::ggplot} instance}
 
+\item{ts.scale}{Logical flag indicating whether to perform scaling each timeseries}
+
 \item{scales}{Scale value passed to \code{ggplot2}}
 
-\item{facet}{Logical value to specify use facets for multivariate time-series}
+\item{facet}{Logical value to specify use facets for multivariate time-series (deprecated)}
+
+\item{facets}{Logical value to specify use facets for multivariate time-series}
+
+\item{nrow}{Number of facet/subplot rows}
+
+\item{ncol}{Number of facet/subplot columns}
 
 \item{ts.geom}{Geometric string for colour for time-series. 'line' or 'bar'.}
 
@@ -53,7 +62,7 @@ ggplot2::autoplot(AirPassengers)
 ggplot2::autoplot(UKgas, ts.geom = 'bar')
 ggplot2::autoplot(Canada)
 ggplot2::autoplot(Canada, columns = 'e', is.date = TRUE)
-ggplot2::autoplot(Canada, facet = FALSE)
+ggplot2::autoplot(Canada, facets = FALSE)
 
 library(zoo)
 ggplot2::autoplot(xts::as.xts(AirPassengers))

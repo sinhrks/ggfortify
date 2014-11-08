@@ -3,22 +3,23 @@
 #' @param data \code{forecast::forecast} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @return data.frame
 #' @export
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 #' ggplot2::fortify(d.forecast)
-fortify.forecast <- function(data, is.date = NULL) {
-  forecasted <- forecast:::as.data.frame.forecast(data)
+#' ggplot2::fortify(d.forecast, ts.connect = TRUE)
+fortify.forecast <- function(data, is.date = NULL, ts.connect = FALSE) {
+  library(forecast)
+  forecasted <- as.data.frame(data)
   forecasted$Index <- get.dtindex(data$mean, is.date = is.date)
+  
   d <- ggplot2::fortify(data$x, is.date = is.date)
   fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted', is.date = is.date)
   d <- dplyr::left_join(d, fitted, by = 'Index')
-  rownames(d) <- NULL
-  rownames(forecasted) <- NULL
-  
-  d <- dplyr::rbind_list(d, forecasted)
+  d <- ggfortify::rbind_ts(forecasted, d, ts.connect = ts.connect)  
   dplyr::tbl_df(d)
 }
 
@@ -27,6 +28,7 @@ fortify.forecast <- function(data, is.date = NULL) {
 #' @param data \code{forecast::forecast} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param predict.colour Line colour for predicted time-series
 #' @param predict.linetype Line type for predicted time-series
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
@@ -45,13 +47,13 @@ fortify.forecast <- function(data, is.date = NULL) {
 #' ggplot2::autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 #' ggplot2::autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 #' @export
-autoplot.forecast <- function(data, is.date = NULL,
+autoplot.forecast <- function(data, is.date = NULL, ts.connect = TRUE,
                               predict.colour = '#0000FF', predict.linetype = 'solid',
                               conf.int = TRUE,
                               conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                               conf.int.fill = '#000000', conf.int.alpha = 0.3,
                               ...) {
-  plot.data <- ggplot2::fortify(data, is.date = is.date)
+  plot.data <- ggplot2::fortify(data, is.date = is.date, ts.connect = ts.connect)
   lower = '`Lo 95`'  # prioritize to use 95%
   upper = '`Hi 95`'
   
@@ -67,17 +69,15 @@ autoplot.forecast <- function(data, is.date = NULL,
   original.data <- dplyr::filter(plot.data, !is.na(Data))
   predict.data <- dplyr::filter(plot.data, !is.na(`Point Forecast`))
   
-  p <- ggfortify:::autoplot.ts(original.data, columns = 'Data', ...)
-  p <- p + ggplot2::geom_line(data = predict.data,
-                              mapping = ggplot2::aes_string(y = '`Point Forecast`'),
-                              colour = predict.colour, linetype = predict.linetype)
-  p <- ggfortify:::plot.conf.int(p, data = predict.data, 
-                                 lower = lower, upper = upper,
-                                 conf.int = conf.int,
-                                 conf.int.colour = conf.int.colour,
-                                 conf.int.linetype = conf.int.linetype,
-                                 conf.int.fill = conf.int.fill,
-                                 conf.int.alpha = conf.int.alpha)
+  p <- autoplot.ts(original.data, columns = 'Data', ...)
+  p <- autoplot.ts(predict.data, columns = 'Point Forecast', p = p,
+                   ts.colour = predict.colour, ts.linetype = predict.linetype)
+  p <- plot.conf.int(p, data = predict.data, lower = lower, 
+                     upper = upper, conf.int = conf.int,
+                     conf.int.colour = conf.int.colour,
+                     conf.int.linetype = conf.int.linetype,
+                     conf.int.fill = conf.int.fill,
+                     conf.int.alpha = conf.int.alpha)
   p
 }
 
@@ -159,7 +159,7 @@ autoplot.ets <- function(data, columns = NULL, ...) {
     # Slope and Season can be optionals
     columns <- columns[columns %in% names(plot.data)]
   }
-  p <- ggfortify:::autoplot.ts(plot.data, columns = columns, ...)
+  p <- autoplot.ts(plot.data, columns = columns, ...)
   p
 }
 

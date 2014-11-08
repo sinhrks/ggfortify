@@ -3,13 +3,16 @@
 \alias{fortify.varprd}
 \title{Convert \code{vars::varprd} to data.frame.}
 \usage{
-\method{fortify}{varprd}(data, is.date = NULL, melt = FALSE)
+\method{fortify}{varprd}(data, is.date = NULL, ts.connect = FALSE,
+  melt = FALSE)
 }
 \arguments{
 \item{data}{\code{vars::varprd} instance}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 
 \item{melt}{Logical flag indicating whether to melt each timeseries as variable}
 }

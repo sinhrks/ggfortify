@@ -7,14 +7,16 @@
 #' @return data.frame
 #' @aliases fortify.breakpointsfull fortify.breakpoints
 #' @examples
-#' ggplot2::fortify(changepoint::cpt.mean(AirPassengers))
-#' ggplot2::fortify(changepoint::cpt.var(AirPassengers))
-#' ggplot2::fortify(changepoint::cpt.meanvar(AirPassengers))
+#' library(changepoint)
+#' ggplot2::fortify(cpt.mean(AirPassengers))
+#' ggplot2::fortify(cpt.var(AirPassengers))
+#' ggplot2::fortify(cpt.meanvar(AirPassengers))
 #' 
-#' bp.nile <- strucchange::breakpoints(Nile ~ 1)
+#' library(strucchange)
+#' bp.nile <- breakpoints(Nile ~ 1)
 #' ggplot2::fortify(bp.nile)
-#' ggplot2::fortify(strucchange::breakpoints(bp.nile, breaks = 2))
-#' ggplot2::fortify(strucchange::breakpoints(bp.nile, breaks = 2), original = Nile)
+#' ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
+#' ggplot2::fortify(breakpoints(bp.nile, breaks = 2), original = Nile)
 #' @export
 fortify.cpt <- function(data, original = NULL, is.date = NULL) {
   # changepoint::cpt is S4 class
@@ -65,15 +67,16 @@ fortify.breakpointsfull <- fortify.cpt
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
 #' @examples
-#' ggplot2::autoplot(changepoint::cpt.mean(AirPassengers))
-#' ggplot2::autoplot(changepoint::cpt.meanvar(AirPassengers))
+#' library(changepoint)
+#' ggplot2::autoplot(cpt.mean(AirPassengers))
+#' ggplot2::autoplot(cpt.meanvar(AirPassengers))
 #' @export
 autoplot.cpt <- function(data, is.date = NULL,
                          cpt.colour = '#FF0000', cpt.linetype = 'dashed',
                          ...) {
   plot.data <- ggplot2::fortify(data, is.date = is.date)
   y = 'Data'
-  p <- ggfortify:::autoplot.ts(plot.data, columns = y, ...)
+  p <- autoplot.ts(plot.data, columns = y, ...)
 
   if ('mean' %in% names(plot.data)) {
     d <- dplyr::filter(plot.data, !is.na(mean))
@@ -98,10 +101,11 @@ autoplot.cpt <- function(data, is.date = NULL,
 #' @return ggplot
 #' @aliases autoplot.breakpointsfull
 #' @examples
-#' bp.nile <- strucchange::breakpoints(Nile ~ 1)
+#' library(strucchange)
+#' bp.nile <- breakpoints(Nile ~ 1)
 #' ggplot2::autoplot(bp.nile)
 #' ggplot2::autoplot(bp.nile, is.date = TRUE)
-#' ggplot2::autoplot(strucchange::breakpoints(bp.nile, breaks = 2), original = Nile)
+#' ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), original = Nile)
 #' @export
 autoplot.breakpoints <- function(data, original = NULL,
                                  cpt.colour = '#FF0000', cpt.linetype = 'dashed',
@@ -109,7 +113,7 @@ autoplot.breakpoints <- function(data, original = NULL,
   plot.data <- ggplot2::fortify(data, original = original)
   y = 'Data'
   if (y %in% names(plot.data)) {
-    p <- ggfortify:::autoplot.ts(plot.data, columns = y, ...)
+    p <- autoplot.ts(plot.data, columns = y, ...)
   } else {
     stop("'original' data is mandatory for plotting breakpoints instance")
   }

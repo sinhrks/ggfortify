@@ -25,7 +25,8 @@ ggplot
 Autoplot \code{changepoint::cpt}.
 }
 \examples{
-ggplot2::autoplot(changepoint::cpt.mean(AirPassengers))
-ggplot2::autoplot(changepoint::cpt.meanvar(AirPassengers))
+library(changepoint)
+ggplot2::autoplot(cpt.mean(AirPassengers))
+ggplot2::autoplot(cpt.meanvar(AirPassengers))
 }
 

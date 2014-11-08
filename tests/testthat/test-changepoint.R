@@ -1,9 +1,10 @@
 library(changepoint)
+library(strucchange)
 
 context('test changepoint')
 
 test_that('fortify.cpt works for AirPassengers', {
-  
+
   # mean
   fortified <- ggplot2::fortify(changepoint::cpt.mean(AirPassengers))
   expect_equal(is(fortified, 'tbl_df'), TRUE)

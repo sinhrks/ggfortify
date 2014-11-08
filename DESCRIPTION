@@ -20,9 +20,9 @@ Imports:
 Suggests:
     testthat,
     changepoint,
-    forecast,
     fGarch,
     MSwM,
+    strucchange,
     survival,
     timeSeries,
     tseries,

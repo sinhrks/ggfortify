@@ -74,6 +74,45 @@ is.univariate <- function(data, raise = TRUE) {
   return(TRUE)
 }
 
+#' Rbind original and predicted time-series-like instances as fortified \code{data.frame}
+#' 
+#' @param data Predicted/forecasted \code{ts} instance
+#' @param original Original \code{ts} instance
+#' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
+#' @param index.name Specify column name for time series index
+#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series. 
+#' @return data.frame
+#' @examples
+#' predicted <- predict(stats::HoltWinters(UKgas), n.ahead = 5, prediction.interval = TRUE)
+#' rbind_ts(predicted, UKgas, ts.connect = TRUE)
+#' @export
+rbind_ts <- function(data, original, ts.connect = TRUE,
+                     index.name = 'Index', data.name = 'Data') {
+  if (!is.data.frame(data)) {
+    data <- ggplot2::fortify(data, index.name = index.name,
+                             data.name = 'Point Forecast')
+  }
+
+  dnames <- names(data)
+  dnames <- dnames[dnames != index.name]
+  
+  if (!is.data.frame(original)) {
+    original <- ggplot2::fortify(original, index.name = index.name,
+                                 data.name = data.name)
+  }
+  n <- nrow(original)
+  rownames(data) <- NULL
+  rownames(original) <- NULL
+  
+  d <- dplyr::rbind_list(original, data)
+  if (ts.connect) {
+    # Use fnames not to overwrite Index
+    d[n, dnames] <- d[n, data.name]
+  }
+  dplyr::tbl_df(d)
+}
+
+
 #' Calcurate confidence interval for \code{stats::acf}
 #' 
 #' @param x \code{stats::acf} instance
@@ -140,11 +179,12 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' fitted(ar(WWWusage))
 #' @export
 fitted.ar <- function(object, ...) {
+  library(forecast)
   x <- forecast::getResponse(object)
-  if (is.null(x)) {
-    return(NULL)
-  }
-  return(x - object$resid)
+  # if (is.null(x)) {
+  #   return(NULL)
+  # }
+  return(x - residuals(object))
 }
 
 #' Calcurate residuals for \code{stats::ar}
@@ -206,11 +246,11 @@ ggcpgram <- function (ts, taper = 0.1,
     ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
     ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
   
-  p <- ggfortify:::plot.conf.int(p, conf.int = conf.int,
-                                 conf.int.colour = conf.int.colour,
-                                 conf.int.linetype = conf.int.linetype,
-                                 conf.int.fill = conf.int.fill,
-                                 conf.int.alpha = conf.int.alpha)
+  p <- plot.conf.int(p, conf.int = conf.int,
+                     conf.int.colour = conf.int.colour,
+                     conf.int.linetype = conf.int.linetype,
+                     conf.int.fill = conf.int.fill,
+                     conf.int.alpha = conf.int.alpha)
   p
 }
 
@@ -223,6 +263,11 @@ ggcpgram <- function (ts, taper = 0.1,
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
+#' @param ad.colour Line colour for additional lines
+#' @param ad.linetype Line type for additional lines
+#' @param ad.size Fill colour for additional lines
+#' @param nrow Number of facet/subplot rows
+#' @param ncol Number of facet/subplot columns 
 #' @return ggplot
 #' @examples
 #' library(ggplot2)
@@ -232,7 +277,12 @@ ggtsdiag <- function(object, gof.lag = 10,
                      conf.int = TRUE,
                      conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                      conf.int.fill = NULL, conf.int.alpha = 0.3,
+                     ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2, 
+                     nrow = NULL, ncol = 1,
                      ...) {
+  library(ggplot2)
+  library(gridExtra)
+  
   rs <- residuals(object)
   if (is.null(rs)) {
     rs <- object$residuals
@@ -243,15 +293,18 @@ ggtsdiag <- function(object, gof.lag = 10,
   
   stdres <- rs / sqrt(object$sigma2)
   p.std <- ggplot2::autoplot(stdres) +
-    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0,
+                        linetype = ad.linetype, size = ad.size,
+                        colour = ad.colour)
+    # ggplot2::geom_hline(yintercept = 0) +
     ggplot2::ggtitle('Standardized Residuals')
 
   acfobj <- stats::acf(rs, plot = FALSE, na.action = na.pass)
-  p.acf <- ggfortify:::autoplot.acf(acfobj, conf.int = conf.int,
-                                    conf.int.colour = conf.int.colour,
-                                    conf.int.linetype = conf.int.linetype,
-                                    conf.int.fill = conf.int.fill,
-                                    conf.int.alpha = conf.int.alpha)
+  p.acf <- autoplot.acf(acfobj, conf.int = conf.int,
+                        conf.int.colour = conf.int.colour,
+                        conf.int.linetype = conf.int.linetype,
+                        conf.int.fill = conf.int.fill,
+                        conf.int.alpha = conf.int.alpha)
   p.acf <- p.acf + ggplot2::ggtitle('ACF of Residuals')
   
   nlag <- gof.lag
@@ -265,13 +318,13 @@ ggtsdiag <- function(object, gof.lag = 10,
     ggplot2::geom_point(mapping = ggplot2::aes_string(y = '`p value`')) +
     ggplot2::scale_y_continuous(limits=c(0, 1)) +
     ggplot2::ggtitle('p values for Ljung-Box statistic')
-  p.lb <- ggfortify:::plot.conf.int(p.lb, conf.int = conf.int,
-                                    conf.int.colour = conf.int.colour,
-                                    conf.int.linetype = conf.int.linetype,
-                                    conf.int.fill = conf.int.fill,
-                                    conf.int.alpha = conf.int.alpha)
+  p.lb <- plot.conf.int(p.lb, conf.int = conf.int,
+                        conf.int.colour = conf.int.colour,
+                        conf.int.linetype = conf.int.linetype,
+                        conf.int.fill = conf.int.fill,
+                        conf.int.alpha = conf.int.alpha)
   # required to pass example check
-  gridExtra::grid.arrange(p.std, p.acf, p.lb, ncol = 1)
+  gridExtra::grid.arrange(p.std, p.acf, p.lb, nrow = nrow, ncol = ncol)
 }
 
 #' Plot time series against lagged versions of themselves.
@@ -316,7 +369,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
 
 #' Plot seasonal subseries of time series, generalization of \code{stats::monthplot}
 #' 
-#' @param ts \code{stats::ts} instance
+#' @param data \code{stats::ts} instance
 #' @param freq Length of frequency. If not provided, use time-series frequency
 #' @param nrow Number of plot rows
 #' @param ncol Number of plot columns
@@ -325,6 +378,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
+#' @param conf.int.value Coverage probability for confidence interval
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
 #' @examples
@@ -361,15 +415,14 @@ ggfreqplot <- function(data, freq = NULL,
                               upper = qnorm(1 - p, mean = m, sd = s))
   d <- dplyr::left_join(d, summarised, by = 'Frequency')
   
-  p <- ggfortify:::autoplot.ts(d, columns = 'Data', ...)
+  p <- autoplot.ts(d, columns = 'Data', ...)
   p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'), 
                        colour = conf.int.colour) +
     ggplot2::facet_wrap(~Frequency)
-  p <- ggfortify:::plot.conf.int(p,
-                                 conf.int = conf.int,
-                                 conf.int.colour = conf.int.colour,
-                                 conf.int.linetype = conf.int.linetype,
-                                 conf.int.fill = conf.int.fill,
-                                 conf.int.alpha = conf.int.alpha)
+  p <- plot.conf.int(p, conf.int = conf.int,
+                     conf.int.colour = conf.int.colour,
+                     conf.int.linetype = conf.int.linetype,
+                     conf.int.fill = conf.int.fill,
+                     conf.int.alpha = conf.int.alpha)
   p
 }
