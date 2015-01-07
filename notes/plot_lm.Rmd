@@ -29,19 +29,25 @@ library(ggfortify)
 autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
 ```
 
-You can select desired plot by `which` option as the same manner as standard `plot`. Following shows the comparison between `ggfortify` and default.
+You can select desired plot by `which` option as the same manner as standard `plot`. Following shows the comparison between `ggfortify` and default `plot` output.
 
 ```{r, fig.height = 4}
 par(mfrow = c(1, 2))
 m <- lm(Petal.Width ~ Petal.Length, data = iris)
 
 autoplot(m, which = 1:2, ncol = 2)
+
+# Standard plot (for comparison)
 plot(m, which = 1:2)
 
 autoplot(m, which = 3:4, ncol = 2)
+
+# Standard plot (for comparison)
 plot(m, which = 3:4)
 
 autoplot(m, which = 5:6, ncol = 2)
+
+# Standard plot (for comparison)
 plot(m, which = 5:6)
 ```
 
@@ -51,16 +57,36 @@ It also suppotgs `glm` instance.
 
 ```{r, fig.height = 4}
 par(mfrow = c(1, 2))
-m <- glm(Petal.Width ~ Petal.Length, data = iris, family='poisson')
+utils::data(anorexia, package = "MASS")
+m <- glm(Postwt ~ Prewt + Treat + offset(Prewt),
+         family = gaussian, data = anorexia)
 
 autoplot(m, which = 1:2, ncol = 2)
+
+# Standard plot (for comparison)
 plot(m, which = 1:2)
 
 autoplot(m, which = 3:4, ncol = 2)
+
+# Standard plot (for comparison)
 plot(m, which = 3:4)
 
 autoplot(m, which = 5:6, ncol = 2)
+
+# Standard plot
 plot(m, which = 5:6)
+```
+
+# Specifing Plotting Options
+
+Some properties can be changed by passing corresponding keywords. For example, `colour` keyword is for data points, `smooth.colour` is for smoothing lines and `ad.colour` is for additional auxiliary lies. Also, `ncol` and `nrow` control facet layout. Use `help(autoplot.lm)` (or `help(autoplot.*)` for any other objects) to check available options.
+
+```{r, fig.height = 4}
+autoplot(m, which = 1:6, colour = 'red',
+         smooth.colour = 'black', smooth.linetype = 'dashed',
+         ad.colour = 'blue',
+         label.size = 3, label.n = 5, label.colour = 'blue',
+         ncol = 3)
 ```
 
 # Resources related to ggfortify
@@ -70,3 +96,7 @@ plot(m, which = 5:6)
 * [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
 * [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
 * [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)
+ 
+ 　
+  　
+   　

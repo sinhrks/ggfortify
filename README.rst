@@ -17,7 +17,6 @@ This covers following classes:
 - ``forecast::forecast``
 - ``forecast::ets``
 - ``fracdiff::fracdiff``
-- ``MSwM::MSM.lm``
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
@@ -54,6 +53,7 @@ Helper Functions
 Examples
 --------
 
+* `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_lm>`_
 * `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
 * `Plotting Time Series Statistics with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_tsstats>`_
 * `Plotting PCA/clustering results using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_pca>`_
