@@ -29,9 +29,9 @@ fortify.matrix <- function(data, original = NULL, compat = FALSE) {
     # set numeric column names
     colnames(df) <- 1:ncol(data)
   }
-  # rownames will always be character
+  # dplyr doesn't guarantee rownames
   df <- cbind.original(df, original)
-  dplyr::tbl_df(df)
+  df <- dplyr::tbl_df(df)
 }
 
 #' Plot \code{base::matrix} 
@@ -39,12 +39,12 @@ fortify.matrix <- function(data, original = NULL, compat = FALSE) {
 #' @param data \code{base::matrix} instance
 #' @param original Combined to data by column if provided. Intended to be used for stat functions which 
 #' returns not containing original data.
-#' @param colour Column name string to specify colorize points ('point' Only)
 #' @param fill Fill (high) colour. Ignored if scale keyword is passed. ('tile' Only)
-#' @param label Logical value whether to display data labels
-#' @param label.colour Text colour for data labels
-#' @param label.size Text size for data labels
-#' @param scale \code{ggplot2::scale} instance to plot.
+#' @param scale \code{ggplot2::scale} instance to plot. ('tile' Only)
+#' @param colour Column name string to specify colorize points ('point' Only)
+#' @param label Logical value whether to display data labels ('point' Only)
+#' @param label.colour Text colour for data labels ('point' Only)
+#' @param label.size Text size for data labels ('point' Only)
 #' @param geom Geometric string for plotting. 'tile' or 'point'.
 #' @return ggplot
 #' @examples

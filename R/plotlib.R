@@ -48,13 +48,9 @@ plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #' @param data Data contains text label 
 #' @param flag Logical value whether to display labels
 #' @param label Column name used for label text
-#' @param label.colour Text colour for labels
-#' @param label.size Text size for labels
+#' @param colour Text colour for labels
+#' @param size Text size for labels
 #' @return ggplot
-#' @examples
-#' d <- ggplot2::fortify(stats::acf(AirPassengers, plot = FALSE))
-#' p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = Lag))
-#' ggfortify:::plot.label(p, data = d, label = 'Index')
 plot.label <- function(p, data, flag = TRUE, label = 'rownames',
                        colour = NULL, size = 4) {
   

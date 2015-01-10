@@ -17,9 +17,12 @@ This covers following classes:
 - ``forecast::forecast``
 - ``forecast::ets``
 - ``fracdiff::fracdiff``
+- ``MASS::isoMDS``  (indirectly, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
+- ``MASS::sammon``  (indirectly, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
+- ``stats::cmdscale`` (indirectly, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
 - ``stats::decomposed.ts``
 - ``stats::density``
 - ``stats::factanal``
@@ -57,5 +60,6 @@ Examples
 * `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
 * `Plotting Time Series Statistics with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_tsstats>`_
 * `Plotting PCA/clustering results using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_pca>`_
+* `Plotting Multidimensional Scaling using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_mds>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_
 * `Plotting Probability Distributions with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_dist>`_

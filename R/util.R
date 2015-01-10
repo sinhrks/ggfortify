@@ -51,8 +51,9 @@ parse.formula <- function(formula) {
 
 #' Wrapper for cbind 
 #' 
-#' @param data
-#' @param original
+#' @param data \code{data.frame} instance 
+#' @param original Joined to data if provided.
+#' cluster labels to the original
 #' @return list
 #' @examples
 #' ggfortify:::cbind.original(iris[1:2], iris[3:5])
@@ -87,8 +88,6 @@ deprecate.warning <- function(old.kw, new.kw) {
 #' Raise error for unsupported type
 #' 
 #' @return NULL
-#' @examples
-#' ggfortify:::stop.unsupported.type()
 stop.unsupported.type <- function() {
   stop(paste0('Unsupported class for autoplot: ', class(data)), call. = FALSE)
 }

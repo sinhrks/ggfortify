@@ -21,6 +21,7 @@ Suggests:
     testthat,
     changepoint,
     fGarch,
+    MASS,
     MSwM,
     strucchange,
     survival,
