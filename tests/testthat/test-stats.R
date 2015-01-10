@@ -148,21 +148,6 @@ test_that('fortify.factanal works for state.x77', {
   expect_equal(names(fortified), c(colnames(state.x77), pcs))
 })
 
-test_that('fortify.kmeans works for iris', {
-  df <- iris[c(1, 2, 3, 4)]
-  expected_names <- c('cluster')
-  
-  fortified <- ggplot2::fortify(stats::kmeans(df, 3))
-  expect_equal(is(fortified, 'tbl_df'), TRUE)
-  expect_equal(names(fortified), c('cluster'))
-  expect_equal(is.factor(fortified$cluster), TRUE)
- 
-  fortified <- ggplot2::fortify(stats::kmeans(df, 3), original = iris)
-  expect_equal(is(fortified, 'tbl_df'), TRUE)
-  expect_equal(names(fortified), c(names(iris), 'cluster'))
-  expect_equal(is.factor(fortified$cluster), TRUE)
-})
-
 test_that('fortify.dist works for eurodist', {
   fortified <- ggplot2::fortify(eurodist)
   expect_equal(is(fortified, 'tbl_df'), TRUE)

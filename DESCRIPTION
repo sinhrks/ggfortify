@@ -19,6 +19,7 @@ Imports:
     gridExtra
 Suggests:
     testthat,
+    cluster,
     changepoint,
     fGarch,
     MASS,

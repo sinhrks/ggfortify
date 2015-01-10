@@ -11,6 +11,9 @@ This covers following classes:
 
 - ``base::matrix``
 - ``base::table`` (supports ``fortify`` only)
+- ``cluster::clara``
+- ``cluster::fanny``
+- ``cluster::pam``
 - ``changepoint::cpt``
 - ``fGarch::fGARCH``
 - ``forecast::bats``
