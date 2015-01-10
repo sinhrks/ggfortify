@@ -278,7 +278,7 @@ autoplot.factanal <- autoplot.pca_common
 #' cluster labels to the original
 #' @return data.frame
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggplot2::fortify(stats::kmeans(df, 3))
 #' ggplot2::fortify(stats::kmeans(df, 3), original = iris)
 #' @export
@@ -290,23 +290,41 @@ fortify.kmeans <- function(data, original = NULL) {
   dplyr::tbl_df(d)
 }
 
+
 #' Autoplot \code{stats::kmeans}.
 #' 
 #' @param data \code{stats::kmeans} instance
 #' @param original Original data used for K-means. Mandatory for plotting.
+#' @param ... Options supported in \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
 #' @export
-autoplot.kmeans <- function(data, original = NULL) {
+autoplot.kmeans <- function(data, original = NULL, ...) {
   if (is.null(original)) {
     stop("'original' data is mandatory for plotting kmeans instance")
   }
-  cls.fortified <- ggplot2::fortify(data, original = original)
-  pca.data <- dplyr::select_(cls.fortified, .dots = colnames(data$center))
-  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = cls.fortified,
-                         colour = 'cluster')
+  plot.data <- ggplot2::fortify(data, original = original)
+  plot.data$rownames <- rownames(plot.data)
+
+  pca.data <- dplyr::select_(plot.data, .dots = colnames(data$center))
+  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = plot.data,
+                         colour = 'cluster', ...)
   p
 }
 
+#' Convert \code{stats::dist} to data.frame.
+#' 
+#' @param data \code{stats::dist} instance
+#' @return data.frame
+#' @examples
+#' ggplot2::fortify(eurodist)
+#' @export
+fortify.dist <- function(data, original = NULL) {
+  data <- as.matrix(data)
+  ggplot2::fortify(data, original = original)
+}
+
+#' @export
+autoplot.dist <- autoplot.matrix

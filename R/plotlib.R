@@ -54,7 +54,7 @@ plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #' @examples
 #' d <- ggplot2::fortify(stats::acf(AirPassengers, plot = FALSE))
 #' p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = Lag))
-#' ggfortify:::plot.label(p, data = d, 'Index')
+#' ggfortify:::plot.label(p, data = d, label = 'Index')
 plot.label <- function(p, data, flag = TRUE, label = 'rownames',
                        colour = NULL, size = 4) {
   

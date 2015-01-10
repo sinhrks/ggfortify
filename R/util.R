@@ -59,8 +59,13 @@ parse.formula <- function(formula) {
 cbind.original <- function(data, original = NULL) {
   
   if (!is.null(original)) {
-    dots <- names(original)[! names(original) %in% names(data)]
-    original <- dplyr::select_(original, .dots = dots)
+    if (!is.data.frame(original)) {
+      original <- ggplot2::fortify(original)
+    }
+    dots <- names(original)[! colnames(original) %in% colnames(data)]
+    if (length(dots) != length(colnames(original))) {
+      original <- dplyr::select_(original, .dots = dots)
+    }
     data <- cbind(data, original)
   }
   data

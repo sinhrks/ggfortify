@@ -18,7 +18,7 @@ data.frame
 Convert \code{stats::kmeans} to data.frame.
 }
 \examples{
-df <- iris[c(1, 2, 3, 4)]
+df <- iris[-5]
 ggplot2::fortify(stats::kmeans(df, 3))
 ggplot2::fortify(stats::kmeans(df, 3), original = iris)
 }
