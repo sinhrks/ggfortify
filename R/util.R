@@ -5,7 +5,7 @@
 #' @param scale Scale vector
 #' @return data.frame
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggfortify::unscale(base::scale(df))
 #' @export
 unscale <- function(data, center = NULL, scale = NULL) {
@@ -56,20 +56,24 @@ parse.formula <- function(formula) {
 #' cluster labels to the original
 #' @return list
 #' @examples
-#' ggfortify:::cbind.original(iris[1:2], iris[3:5])
-cbind.original <- function(data, original = NULL) {
-  
-  if (!is.null(original)) {
-    if (!is.data.frame(original)) {
-      original <- ggplot2::fortify(original)
-    }
-    dots <- names(original)[! colnames(original) %in% colnames(data)]
-    if (length(dots) != length(colnames(original))) {
-      original <- dplyr::select_(original, .dots = dots)
-    }
-    data <- cbind(data, original)
+#' ggfortify:::cbind_wraps(iris[1:2], iris[3:5])
+cbind_wraps <- function(df1, df2) {
+  if (is.null(df1)) {
+    return(df2)
+  } else if (!is.data.frame(df1)) {
+    df1 <- ggplot2::fortify(df1)
   }
-  data
+  if (is.null(df2)) {
+    return(df1)
+  } else if (!is.data.frame(df2)) {
+    df2 <- ggplot2::fortify(df2)
+  }
+  # prioritize df1 columns
+  dots <- names(df2)[! colnames(df2) %in% colnames(df1)]
+  if (length(dots) != length(colnames(df2))) {
+    df2 <- dplyr::select_(df2, .dots = dots)
+  }
+  return(cbind(df1, df2))
 }
 
 

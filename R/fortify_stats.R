@@ -27,14 +27,6 @@ autoplot.decomposed.ts <- autoplot.ts
 fortify.acf <- function(data,
                         conf.int = TRUE, conf.int.value = 0.95,
                         conf.int.type = 'white') {
-  # lag.data <- data.frame(data$lag)
-  # colnames(lag.data) <- data$snames
-  # lag.data<- tidyr::gather_(lag.data, 'variable', 'Lag', data$snames)
-
-  # acf.data <- data.frame(data$acf)
-  # colnames(acf.data) <- data$snames
-  # acf.data<- tidyr::gather_(acf.data, 'variable', 'ACF', data$snames)
-  # d <- dplyr::left_join(lag.data, acf.data)
   d <- data.frame(Lag = data$lag, ACF = data$acf)
   if (conf.int) {
     cf <- confint.acf(data, ci = conf.int.value, ci.type = conf.int.type)
@@ -129,7 +121,7 @@ autoplot.spec <- function(data) {
 #' @return data.frame
 #' @aliases fortify.princomp
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggplot2::fortify(stats::prcomp(df))
 #' ggplot2::fortify(stats::prcomp(df), original = iris)
 #' 
@@ -149,8 +141,8 @@ fortify.prcomp <- function(data, original = NULL) {
 
   values <- ggfortify::unscale(values, center = data$center,
                                scale = data$scale)
-  values <- cbind.original(values, original)
-  d <- cbind(values, d)
+  values <- cbind_wraps(values, original)
+  d <- cbind_wraps(values, d)
   dplyr::tbl_df(d)
 }
 
@@ -173,9 +165,7 @@ fortify.factanal <- function(data, original = NULL) {
                 'specify scores="regression", or "Bartlett" when calling factanal'))
   }
   d <- as.data.frame(data$scores)
-  if (!is.null(original)) {
-    d <- cbind(original, d)
-  }
+  d <- cbind_wraps(original, d)
   dplyr::tbl_df(d)
 }
 
@@ -192,6 +182,12 @@ fortify.factanal <- function(data, original = NULL) {
 #' @param loadings.label Logical value whether to display loadings labels
 #' @param loadings.label.colour Text colour for loadings labels
 #' @param loadings.label.size Text size for loadings labels
+#' @param frame Logical value whether to draw outliner convex / ellipse
+#' @param frame.type Character specifying frame type.
+#' 'convex' or types supporeted by \code{ggplot2::stat_ellipse} can be used.
+#' @param frame.colour Colour for frame
+#' @param frame.level Passed for \code{ggplot2::stat_ellipse} 's level. Ignored in 'convex'.
+#' @param frame.alpha Alpha for frame
 #' @return ggplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal 
 #' @examples
@@ -200,6 +196,11 @@ fortify.factanal <- function(data, original = NULL) {
 #' ggplot2::autoplot(stats::prcomp(df), original = iris)
 #' ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
 #' ggplot2::autoplot(stats::prcomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' ggplot2::autoplot(stats::prcomp(df), frame = TRUE)
+#' ggplot2::autoplot(stats::prcomp(df), original = iris, frame = TRUE,
+#'                   frame.colour = 'Species')
+#' ggplot2::autoplot(stats::prcomp(df), original = iris, frame = TRUE,
+#'                   frame.type = 't', frame.colour = 'Species')
 #' 
 #' ggplot2::autoplot(stats::princomp(df))
 #' ggplot2::autoplot(stats::princomp(df), original = iris)
@@ -215,26 +216,32 @@ autoplot.pca_common <- function(data, original = NULL,
                                 label = FALSE, label.colour = colour, label.size = 4,
                                 loadings = FALSE, loadings.colour = '#FF0000',
                                 loadings.label = FALSE,
-                                loadings.label.colour = '#FF0000', loadings.label.size = 4) {
+                                loadings.label.colour = '#FF0000',
+                                loadings.label.size = 4,
+                                frame = FALSE, frame.type = 'convex', 
+                                frame.colour = colour, frame.level = 0.95,
+                                frame.alpha = 0.2) {
   
   plot.data <- ggplot2::fortify(data, original = original)
   plot.data$rownames <- rownames(plot.data)
   
   if (is(data, 'prcomp')) {
-    mapping = ggplot2::aes_string(x = 'PC1', y = 'PC2')
-    loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = 'PC1', yend = 'PC2')
-    loadings.column = 'rotation'
+    x.column <- 'PC1'
+    y.column <- 'PC2'
+    loadings.column <- 'rotation'
   } else if (is(data, 'princomp')) {
-    mapping = ggplot2::aes_string(x = 'Comp.1', y = 'Comp.2')
-    loadings.mapping <- ggplot2::aes_string(x = I(0), y = 0, xend = 'Comp.1', yend = 'Comp.2')
-    loadings.column = 'loadings'
+    x.column <- 'Comp.1'
+    y.column <- 'Comp.2'
+    loadings.column <- 'loadings'
   } else if (is(data, 'factanal')) {
-    mapping <- ggplot2::aes_string(x = 'Factor1', y = 'Factor2')
-    loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = 'Factor1', yend = 'Factor2')
-    loadings.column = 'loadings'
+    x.column <- 'Factor1'
+    y.column <- 'Factor2'
+    loadings.column <- 'loadings'
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(data)))
   }
+  mapping = ggplot2::aes_string(x = x.column, y = y.column)
+  loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = x.column, yend = y.column)
   
   p <- ggplot2::ggplot(data = plot.data, mapping = mapping) + 
     ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
@@ -259,6 +266,36 @@ autoplot.pca_common <- function(data, original = NULL,
     p <- plot.label(p = p, data = loadings.data, flag = loadings.label, label = 'rownames',
                     colour = loadings.label.colour, size = loadings.label.size)
   }
+  
+  if (frame) {
+    if (frame.type == 'convex') {
+      if (is.null(frame.colour) || !(frame.colour %in% colnames(plot.data))) {
+        hulls <- plot.data[chull(plot.data[c(x.column, y.column)]), ]
+        print(hulls)
+        # p <- p + ggplot2::geom_polygon(data = hulls, 
+        #                                alpha = frame.alpha)
+      } else {
+        hulls <- plot.data %>%
+          dplyr::group_by_(frame.colour) %>%
+          dplyr::do(.[chull(.[c(x.column, y.column)]), ])
+
+      }
+      mapping = aes_string(colour = frame.colour, fill = frame.colour)
+      p <- p + ggplot2::geom_polygon(data = hulls, mapping = mapping,
+                                     alpha = frame.alpha)
+    } else if (frame.type %in% c('t', 'norm', 'euclid')) {
+      ggversion <- utils::packageVersion('ggplot2')
+      if (compareVersion(as.character(ggversion), '1.0.0') >= 0) {
+        mapping = aes_string(colur = frame.colour, fill = frame.colour)
+        p <- p + ggplot2::stat_ellipse(mapping = mapping,
+                                       level = frame.level, type = frame.type,
+                                       geom = 'polygon', alpha = frame.alpha)
+      } else {
+        stop('ggplot 1.0.0 or later is required for stat_ellipse.')
+      }
+      
+    }
+  }
   p
 }
 
@@ -270,49 +307,6 @@ autoplot.princomp <- autoplot.pca_common
 
 #' @export
 autoplot.factanal <- autoplot.pca_common
-
-#' Convert \code{stats::kmeans} to data.frame.
-#' 
-#' @param data \code{stats::kmeans} instance
-#' @param original Joined to K-means result if provided. Intended to be used for attaching
-#' cluster labels to the original
-#' @return data.frame
-#' @examples
-#' df <- iris[-5]
-#' ggplot2::fortify(stats::kmeans(df, 3))
-#' ggplot2::fortify(stats::kmeans(df, 3), original = iris)
-#' @export
-fortify.kmeans <- function(data, original = NULL) {
-  d <- data.frame(cluster = as.factor(data$cluster))
-  if (!is.null(original)) {
-    d <- cbind(original, d)
-  }
-  dplyr::tbl_df(d)
-}
-
-
-#' Autoplot \code{stats::kmeans}.
-#' 
-#' @param data \code{stats::kmeans} instance
-#' @param original Original data used for K-means. Mandatory for plotting.
-#' @param ... Options supported in \code{autoplot::prcomp}
-#' @return ggplot
-#' @examples
-#' df <- iris[-5]
-#' ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
-#' @export
-autoplot.kmeans <- function(data, original = NULL, ...) {
-  if (is.null(original)) {
-    stop("'original' data is mandatory for plotting kmeans instance")
-  }
-  plot.data <- ggplot2::fortify(data, original = original)
-  plot.data$rownames <- rownames(plot.data)
-
-  pca.data <- dplyr::select_(plot.data, .dots = colnames(data$center))
-  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = plot.data,
-                         colour = 'cluster', ...)
-  p
-}
 
 #' Convert \code{stats::dist} to data.frame.
 #' 

@@ -30,7 +30,7 @@ fortify.matrix <- function(data, original = NULL, compat = FALSE) {
     colnames(df) <- 1:ncol(data)
   }
   # dplyr doesn't guarantee rownames
-  df <- cbind.original(df, original)
+  df <- cbind_wraps(df, original)
   df <- dplyr::tbl_df(df)
 }
 
@@ -69,8 +69,9 @@ autoplot.matrix <- function (data, original = NULL,
       scale <- ggplot2::scale_fill_gradient(low = "white", high = fill)
     }
     ylim <- rev(levels(as.factor(gathered$Index)))
-    p <- ggplot2::ggplot(gathered, mapping = aes_string(x = 'variable', y = 'Index')) +
-      ggplot2::geom_tile(mapping = aes_string(fill = 'value')) + scale + 
+    mapping = ggplot2::aes_string(x = 'variable', y = 'Index', fill = 'value')
+    p <- ggplot2::ggplot(gathered, mapping = mapping) +
+      ggplot2::geom_tile() + scale + 
       xlab('Columns') + ylab('Rows') + ylim(ylim)
   } else if (geom == 'point') {
     if (ncol(data) != 2) {
@@ -78,9 +79,13 @@ autoplot.matrix <- function (data, original = NULL,
     }
     plot.data <- ggplot2::fortify(data, original = original, compat = TRUE)
     plot.data$rownames <- rownames(plot.data)
-    p <- ggplot2::ggplot(plot.data, mapping = aes_string(x = 'V1', y = 'V2')) +
-      ggplot2::geom_point()     
-    
+    mapping = ggplot2::aes_string(x = 'V1', y = 'V2')
+    p <- ggplot2::ggplot(plot.data, mapping = mapping)
+    if (!is.null(colour)) {
+      p <- p + ggplot2::geom_point(colour = colour)     
+    } else {
+      p <- p + ggplot2::geom_point()
+    }   
     p <- plot.label(p = p, data = plot.data, flag = label, label = 'rownames',
                     colour = label.colour, size = label.size)
   } else {

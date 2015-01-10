@@ -70,7 +70,7 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 
 # Plotting K-means
 
-`ggfortify` supports `stats::kmeans` object. You must explicitly pass original data to `autoplot` function via `original` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
+`ggfortify` supports `stats::kmeans` class. You must explicitly pass original data to `autoplot` function via `original` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
 
 ```{r, message = FALSE}
 set.seed(1)
@@ -78,6 +78,27 @@ df <- iris[-5]
 autoplot(kmeans(df, 3), original = iris)
 
 autoplot(kmeans(df, 3), original = iris, label = TRUE)
+```
+
+# Plotting cluster package
+
+`ggfortify` supports `claster::clara`, `claster::fanny`, `claster::pam` classes. Because these instances should contains original data in its property, there is no need to pass original data explicitly.
+
+```{r, message = FALSE}
+library(cluster)
+autoplot(clara(df, 3))
+```
+
+Specifying `frame = TRUE` in `autoplot` for `stats::kmeans` and `cluster::*` draws convex for each cluster.
+
+```{r}
+autoplot(fanny(df, 3), frame = TRUE)
+```
+
+If you want probability ellipse, `ggplot2` 1.0.0 or later is required. Specify whatever supported in [`ggplot2::stat_ellipse`](http://docs.ggplot2.org/dev/stat_ellipse.html)'s `type` keyword via `frame.type` option. 
+
+```{r}
+autoplot(pam(df, 3), frame = TRUE, frame.type = 'norm')
 ```
 
 # Resources related to ggfortify
