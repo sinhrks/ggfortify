@@ -7,8 +7,8 @@
 \title{Autoplot PCA-likes.}
 \usage{
 \method{autoplot}{pca_common}(data, original = NULL, colour = NULL,
-  label = FALSE, label.size = 4, loadings = FALSE,
-  loadings.colour = "#FF0000", loadings.label = FALSE,
+  label = FALSE, label.colour = colour, label.size = 4,
+  loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
   loadings.label.colour = "#FF0000", loadings.label.size = 4)
 }
 \arguments{
@@ -19,6 +19,8 @@
 \item{colour}{Column name string to specify colorize points}
 
 \item{label}{Logical value whether to display data labels}
+
+\item{label.colour}{Text colour for data labels}
 
 \item{label.size}{Text size for data labels}
 
@@ -39,7 +41,7 @@ ggplot
 Autoplot PCA-likes.
 }
 \examples{
-df <- iris[c(1, 2, 3, 4)]
+df <- iris[-5]
 ggplot2::autoplot(stats::prcomp(df))
 ggplot2::autoplot(stats::prcomp(df), original = iris)
 ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')

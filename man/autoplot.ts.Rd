@@ -32,15 +32,13 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
-\item{facet}{Logical value to specify use facets for multivariate time-series (deprecated)}
-
 \item{facets}{Logical value to specify use facets for multivariate time-series}
 
 \item{nrow}{Number of facet/subplot rows}
 
 \item{ncol}{Number of facet/subplot columns}
 
-\item{ts.geom}{Geometric string for colour for time-series. 'line' or 'bar'.}
+\item{ts.geom}{Geometric string for time-series plotting. 'line' or 'bar'.}
 
 \item{ts.colour}{Line colour for time-series}
 

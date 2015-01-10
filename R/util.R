@@ -47,3 +47,48 @@ parse.formula <- function(formula) {
                  groups = all.vars(group))
   result
 }
+
+
+#' Wrapper for cbind 
+#' 
+#' @param data \code{data.frame} instance 
+#' @param original Joined to data if provided.
+#' cluster labels to the original
+#' @return list
+#' @examples
+#' ggfortify:::cbind.original(iris[1:2], iris[3:5])
+cbind.original <- function(data, original = NULL) {
+  
+  if (!is.null(original)) {
+    if (!is.data.frame(original)) {
+      original <- ggplot2::fortify(original)
+    }
+    dots <- names(original)[! colnames(original) %in% colnames(data)]
+    if (length(dots) != length(colnames(original))) {
+      original <- dplyr::select_(original, .dots = dots)
+    }
+    data <- cbind(data, original)
+  }
+  data
+}
+
+
+#' Show deprecate warning
+#' 
+#' @param old.kw Keyword being deprecated
+#' @param new.kw Keyword being replaced
+#' @return NULL
+#' @examples
+#' ggfortify:::deprecate.warning('old', 'new')
+deprecate.warning <- function(old.kw, new.kw) {
+  message <- paste0("Argument `", old.kw, "` is being deprecated. Use `", new.kw, "` instead.")
+  warning(message, call. = FALSE)
+}
+
+#' Raise error for unsupported type
+#' 
+#' @return NULL
+stop.unsupported.type <- function() {
+  stop(paste0('Unsupported class for autoplot: ', class(data)), call. = FALSE)
+}
+

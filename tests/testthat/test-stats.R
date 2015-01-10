@@ -162,3 +162,9 @@ test_that('fortify.kmeans works for iris', {
   expect_equal(names(fortified), c(names(iris), 'cluster'))
   expect_equal(is.factor(fortified$cluster), TRUE)
 })
+
+test_that('fortify.dist works for eurodist', {
+  fortified <- ggplot2::fortify(eurodist)
+  expect_equal(is(fortified, 'tbl_df'), TRUE)
+  expect_equal(dim(fortified), c(21, 21))
+})

@@ -73,14 +73,22 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 `ggfortify` supports `stats::kmeans` object. You must explicitly pass original data to `autoplot` function via `original` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
 
 ```{r, message = FALSE}
-df <- iris[c(1, 2, 3, 4)]
+set.seed(1)
+df <- iris[-5]
 autoplot(kmeans(df, 3), original = iris)
+
+autoplot(kmeans(df, 3), original = iris, label = TRUE)
 ```
 
 # Resources related to ggfortify
 
+* [Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_lm)
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
 * [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
 * [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
+* [Plotting Multidimensional Scaling using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_mds)
 * [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
 * [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)
+ 
+ 　
+

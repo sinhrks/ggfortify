@@ -211,3 +211,6 @@ autoplot.lm <- function(data, which=c(1:3, 5),
   args.list <- c(plot.list, list(nrow = nrow, ncol = ncol))
   do.call(gridExtra::grid.arrange, args.list)
 } 
+
+#' @export
+autoplot.glm <- autoplot.lm

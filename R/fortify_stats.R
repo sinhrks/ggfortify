@@ -149,11 +149,7 @@ fortify.prcomp <- function(data, original = NULL) {
 
   values <- ggfortify::unscale(values, center = data$center,
                                scale = data$scale)
-  if (!is.null(original)) {
-    dots <- names(original)[! names(original) %in% names(values)]
-    original <- dplyr::select_(original, .dots = dots)
-    values <- cbind(values, original)
-  }
+  values <- cbind.original(values, original)
   d <- cbind(values, d)
   dplyr::tbl_df(d)
 }
@@ -189,6 +185,7 @@ fortify.factanal <- function(data, original = NULL) {
 #' @param original Joined to fitting result if provided.
 #' @param colour Column name string to specify colorize points 
 #' @param label Logical value whether to display data labels
+#' @param label.colour Text colour for data labels
 #' @param label.size Text size for data labels
 #' @param loadings Logical value whether to display loadings arrows
 #' @param loadings.colour Point colour for data
@@ -198,7 +195,7 @@ fortify.factanal <- function(data, original = NULL) {
 #' @return ggplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal 
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggplot2::autoplot(stats::prcomp(df))
 #' ggplot2::autoplot(stats::prcomp(df), original = iris)
 #' ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
@@ -215,7 +212,7 @@ fortify.factanal <- function(data, original = NULL) {
 #' ggplot2::autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 autoplot.pca_common <- function(data, original = NULL,
                                 colour = NULL, 
-                                label = FALSE, label.size = 4,
+                                label = FALSE, label.colour = colour, label.size = 4,
                                 loadings = FALSE, loadings.colour = '#FF0000',
                                 loadings.label = FALSE,
                                 loadings.label.colour = '#FF0000', loadings.label.size = 4) {
@@ -224,15 +221,15 @@ autoplot.pca_common <- function(data, original = NULL,
   plot.data$rownames <- rownames(plot.data)
   
   if (is(data, 'prcomp')) {
-    mapping = ggplot2::aes_string(x = 'PC1', y = 'PC2', label = 'rownames')
+    mapping = ggplot2::aes_string(x = 'PC1', y = 'PC2')
     loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = 'PC1', yend = 'PC2')
     loadings.column = 'rotation'
   } else if (is(data, 'princomp')) {
-    mapping = ggplot2::aes_string(x = 'Comp.1', y = 'Comp.2', label = 'rownames')
+    mapping = ggplot2::aes_string(x = 'Comp.1', y = 'Comp.2')
     loadings.mapping <- ggplot2::aes_string(x = I(0), y = 0, xend = 'Comp.1', yend = 'Comp.2')
     loadings.column = 'loadings'
   } else if (is(data, 'factanal')) {
-    mapping <- ggplot2::aes_string(x = 'Factor1', y = 'Factor2', label = 'rownames')
+    mapping <- ggplot2::aes_string(x = 'Factor1', y = 'Factor2')
     loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = 'Factor1', yend = 'Factor2')
     loadings.column = 'loadings'
   } else {
@@ -242,11 +239,9 @@ autoplot.pca_common <- function(data, original = NULL,
   p <- ggplot2::ggplot(data = plot.data, mapping = mapping) + 
     ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
   
-  if (label) {
-    p <- p + ggplot2::geom_text(mapping = ggplot2::aes_string(colour = colour),
-                                size = label.size)
-  }
-  
+  p <- plot.label(p = p, data = plot.data, flag = label, label = 'rownames',
+                  colour = label.colour, size = label.size)
+
   if (loadings.label && !loadings) {
     # If loadings.label is TRUE, draw loadings 
     loadings <- TRUE
@@ -261,11 +256,8 @@ autoplot.pca_common <- function(data, original = NULL,
                           arrow = grid::arrow(length = grid::unit(8, 'points')),
                           colour = loadings.colour)
     
-    if (loadings.label) {
-      p <- p + geom_text(data = loadings.data,
-                         colour = loadings.label.colour,
-                         size = loadings.label.size)
-    }
+    p <- plot.label(p = p, data = loadings.data, flag = loadings.label, label = 'rownames',
+                    colour = loadings.label.colour, size = loadings.label.size)
   }
   p
 }
@@ -286,7 +278,7 @@ autoplot.factanal <- autoplot.pca_common
 #' cluster labels to the original
 #' @return data.frame
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggplot2::fortify(stats::kmeans(df, 3))
 #' ggplot2::fortify(stats::kmeans(df, 3), original = iris)
 #' @export
@@ -298,23 +290,41 @@ fortify.kmeans <- function(data, original = NULL) {
   dplyr::tbl_df(d)
 }
 
+
 #' Autoplot \code{stats::kmeans}.
 #' 
 #' @param data \code{stats::kmeans} instance
 #' @param original Original data used for K-means. Mandatory for plotting.
+#' @param ... Options supported in \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
-#' df <- iris[c(1, 2, 3, 4)]
+#' df <- iris[-5]
 #' ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
 #' @export
-autoplot.kmeans <- function(data, original = NULL) {
+autoplot.kmeans <- function(data, original = NULL, ...) {
   if (is.null(original)) {
     stop("'original' data is mandatory for plotting kmeans instance")
   }
-  cls.fortified <- ggplot2::fortify(data, original = original)
-  pca.data <- dplyr::select_(cls.fortified, .dots = colnames(data$center))
-  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = cls.fortified,
-                         colour = 'cluster')
+  plot.data <- ggplot2::fortify(data, original = original)
+  plot.data$rownames <- rownames(plot.data)
+
+  pca.data <- dplyr::select_(plot.data, .dots = colnames(data$center))
+  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = plot.data,
+                         colour = 'cluster', ...)
   p
 }
 
+#' Convert \code{stats::dist} to data.frame.
+#' 
+#' @param data \code{stats::dist} instance
+#' @return data.frame
+#' @examples
+#' ggplot2::fortify(eurodist)
+#' @export
+fortify.dist <- function(data, original = NULL) {
+  data <- as.matrix(data)
+  ggplot2::fortify(data, original = original)
+}
+
+#' @export
+autoplot.dist <- autoplot.matrix

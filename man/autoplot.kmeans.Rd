@@ -3,12 +3,14 @@
 \alias{autoplot.kmeans}
 \title{Autoplot \code{stats::kmeans}.}
 \usage{
-\method{autoplot}{kmeans}(data, original = NULL)
+\method{autoplot}{kmeans}(data, original = NULL, ...)
 }
 \arguments{
 \item{data}{\code{stats::kmeans} instance}
 
 \item{original}{Original data used for K-means. Mandatory for plotting.}
+
+\item{...}{Options supported in \code{autoplot::prcomp}}
 }
 \value{
 ggplot
@@ -17,7 +19,7 @@ ggplot
 Autoplot \code{stats::kmeans}.
 }
 \examples{
-df <- iris[c(1, 2, 3, 4)]
+df <- iris[-5]
 ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
 }
 

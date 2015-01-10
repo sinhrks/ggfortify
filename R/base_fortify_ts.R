@@ -102,10 +102,9 @@ fortify.irts <- fortify.ts
 #' @param ts.scale Logical flag indicating whether to perform scaling each timeseries
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param facets Logical value to specify use facets for multivariate time-series
-#' @param facet Logical value to specify use facets for multivariate time-series (deprecated)
 #' @param nrow Number of facet/subplot rows
 #' @param ncol Number of facet/subplot columns 
-#' @param ts.geom Geometric string for colour for time-series. 'line' or 'bar'.
+#' @param ts.geom Geometric string for time-series plotting. 'line' or 'bar'.
 #' @param ts.colour Line colour for time-series
 #' @param ts.linetype Line type for time-series
 #' @param xlab Character vector or expression for x axis label
@@ -137,8 +136,7 @@ fortify.irts <- fortify.ts
 autoplot.ts <- function(data, columns = NULL, group = NULL,
                         is.date = NULL, index.name = 'Index',
                         p = NULL, 
-                        ts.scale = FALSE, 
-                        scales = 'free_y',
+                        ts.scale = FALSE, scales = 'free_y',
                         facet = TRUE, facets = facet,
                         nrow = NULL, ncol = 1,
                         ts.geom = 'line',
@@ -147,7 +145,7 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
   
   # deprecation
   if (! missing(facet)) {
-    warning("Argument `facet` is being deprecated. Use `facets` as alternative")
+    deprecate.warning('facet', 'facets')
     facets <- facet
   }
   
@@ -184,7 +182,7 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
   } else if (ts.geom == 'bar') {
     geomobj <- ggplot2::geom_bar
   } else {
-    stop("Invalid geom is specified. It must be 'line' or 'bar'")
+    stop("Invalid geom is specified. Use 'line' or 'bar'.")
   }
   
   # must be done here, because fortify.zoo is defined in zoo package
