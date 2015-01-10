@@ -10,7 +10,7 @@ Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle som
 This covers following classes:
 
 - ``base::matrix``
-- ``base::table``
+- ``base::table`` (supports ``fortify`` only)
 - ``changepoint::cpt``
 - ``fGarch::fGARCH``
 - ``forecast::bats``
