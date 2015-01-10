@@ -21,7 +21,7 @@ install_github('sinhrks/ggfortify')
 
 # Before Plotting
 
-`ggfortify` let `ggplot2` know how to interpret some popular R classes. However, you cannot use `autoplot` directly for MDS because these function returns `matrix` or `list`, not specific class. Thus, `ggfortify` cannot define `autoplot` for MDS. You have to create an intended plot from `matrix` by yourselves. 
+`ggfortify` let `ggplot2` know how to interpret some popular R classes. However, you cannot use `autoplot` directly for MDS because MDS functions return `matrix` or `list`, not specific class. Thus, `ggfortify` cannot define `autoplot` for MDS. You have to create an intended plot using `matrix` by yourselves. 
 
 # Plotting Matrix
 
@@ -37,7 +37,7 @@ m <- matrix(rnorm(20), nc = 5)
 autoplot(m)
 ```
 
-To draw scatter plot, you should specify `geom = 'point'`. Target `matrix` should have 2 columns for scatter plot.
+Specifying `geom = 'point'` outputs scatter plot. Target `matrix` should have exactly 2 columns to draw scatter plot.
 
 ```{r}
 # scatter plot
@@ -45,7 +45,7 @@ m <- matrix(rnorm(20), nc = 2)
 autoplot(m, geom = 'point')
 ```
 
-**NOTE** Also, `ggfortify` defines `autplot.dist` to plot `stats::dist` instance as heatmap.
+**NOTE** Also, `ggfortify` can plot `stats::dist` instance as heatmap.
 
 ```{r}
 data(eurodist)
@@ -62,18 +62,23 @@ autoplot(cmdscale(d.dist), geom = 'point')
 autoplot(cmdscale(d.dist), geom = 'point', label = TRUE)
 ```
 
-`stats::cmdscale` may return `list` depending on some options. For details, refer to `help(cmdscale)`.
-In these cases, point coordinates must be explicitly passed to `autoplot`.
+`stats::cmdscale` may return `list` depending on some options. For details, refer to `help(cmdscale)`. In these cases, point coordinates must be explicitly passed to `autoplot`.
 
 ```{r}
 autoplot(cmdscale(d.dist, eig = TRUE)$points, geom = 'point', label = TRUE)
 ```
 
+Also, if the dimension of point coordinates is not 2, slice coordinates used for plotting.
+
+```{r}
+autoplot(cmdscale(d.dist, eig = TRUE, k = 3)$points[, 1:2], geom = 'point', label = TRUE)
+```
+
 # Plotting Non-metric Multidimensional Scaling
 
-`MASS::isoMDS` and `MASS::sammon` perform Non-metric MDS. Because it returns list which contains point coordinates, it should passed explicitly to `autoplot`.
+`MASS::isoMDS` and `MASS::sammon` perform Non-metric MDS and return `list` which contains point coordinates. Thus, `autoplot` should be called as below.
 
-**NOTE** There is some common options can be used. For details, see `help(autoplot.matrix)`.
+**NOTE** There are some common configurable options. For details, see `help(autoplot.matrix)`.
 
 ```{r}
 library(MASS)
