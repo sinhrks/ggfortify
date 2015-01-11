@@ -82,7 +82,7 @@ autoplot(kmeans(df, 3), original = iris, label = TRUE)
 
 # Plotting cluster package
 
-`ggfortify` supports `claster::clara`, `claster::fanny`, `claster::pam` classes. Because these instances should contains original data in its property, there is no need to pass original data explicitly.
+`ggfortify` supports `cluster::clara`, `cluster::fanny`, `cluster::pam` classes. Because these instances should contains original data in its property, there is no need to pass original data explicitly.
 
 ```{r, message = FALSE}
 library(cluster)
