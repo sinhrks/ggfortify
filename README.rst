@@ -59,6 +59,7 @@ Helper Functions
 Examples
 --------
 
+* `Concepts and Basics of ggfortify <http://rpubs.com/sinhrks/basics>`_
 * `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_lm>`_
 * `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
 * `Plotting Time Series Statistics with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_tsstats>`_
