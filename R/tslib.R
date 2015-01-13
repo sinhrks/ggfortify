@@ -281,8 +281,7 @@ ggtsdiag <- function(object, gof.lag = 10,
                      nrow = NULL, ncol = 1,
                      ...) {
   library(ggplot2)
-  library(gridExtra)
-  
+
   rs <- residuals(object)
   if (is.null(rs)) {
     rs <- object$residuals
@@ -295,8 +294,7 @@ ggtsdiag <- function(object, gof.lag = 10,
   p.std <- ggplot2::autoplot(stdres) +
     ggplot2::geom_hline(yintercept = 0,
                         linetype = ad.linetype, size = ad.size,
-                        colour = ad.colour)
-    # ggplot2::geom_hline(yintercept = 0) +
+                        colour = ad.colour) + 
     ggplot2::ggtitle('Standardized Residuals')
 
   acfobj <- stats::acf(rs, plot = FALSE, na.action = na.pass)
@@ -323,8 +321,10 @@ ggtsdiag <- function(object, gof.lag = 10,
                         conf.int.linetype = conf.int.linetype,
                         conf.int.fill = conf.int.fill,
                         conf.int.alpha = conf.int.alpha)
-  # required to pass example check
-  gridExtra::grid.arrange(p.std, p.acf, p.lb, nrow = nrow, ncol = ncol)
+
+  if (is.null(ncol)) { ncol <- 0 }
+  if (is.null(nrow)) { nrow <- 0 }
+  new('ggmultiplot', plots = list(p.std, p.acf, p.lb), nrow = nrow, ncol = ncol)
 }
 
 #' Plot time series against lagged versions of themselves.

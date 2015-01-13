@@ -18,6 +18,9 @@
 #' @examples
 #' ggplot2::autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
 #' ggplot2::autoplot(glm(Petal.Width ~ Petal.Length, data= iris), which = 1:6)
+#' 
+#' ggplot2::autoplot(lm(Petal.Width~Petal.Length, data = iris)) + ggplot2::theme_bw()
+#' ggplot2::autoplot(lm(Petal.Width~Petal.Length, data = iris)) + ggplot2::scale_colour_brewer()
 #' @export
 autoplot.lm <- function(data, which=c(1:3, 5),
                         fill = '#444444', colour = '#444444',
@@ -27,8 +30,7 @@ autoplot.lm <- function(data, which=c(1:3, 5),
                         ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2, 
                         nrow = NULL, ncol = NULL) {
   library(ggplot2)
-  library(gridExtra)
-  
+
   # initialization
   p1 <- p2 <- p3 <- p4 <- p5 <- p6 <- NULL
   
@@ -207,9 +209,11 @@ autoplot.lm <- function(data, which=c(1:3, 5),
     }
   }
   
+  if (is.null(ncol)) { ncol <- 0 }
+  if (is.null(nrow)) { nrow <- 0 }
+  
   plot.list <- list(p1, p2, p3, p4, p5, p6)[which]
-  args.list <- c(plot.list, list(nrow = nrow, ncol = ncol))
-  do.call(gridExtra::grid.arrange, args.list)
+  new('ggmultiplot', plots = plot.list, nrow = nrow, ncol = ncol)
 } 
 
 #' @export
