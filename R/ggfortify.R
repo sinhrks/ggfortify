@@ -4,5 +4,5 @@
 #' 
 #' @name ggfortify
 #' @docType package
-#' @import zoo forecast scales ggplot2 dplyr tidyr gridExtra
+#' @import zoo forecast scales ggplot2 dplyr tidyr
 NULL

@@ -15,8 +15,7 @@ Imports:
     scales,
     ggplot2,
     dplyr,
-    tidyr,
-    gridExtra
+    tidyr
 Suggests:
     testthat,
     cluster,

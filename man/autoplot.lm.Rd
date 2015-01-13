@@ -48,5 +48,8 @@ Autoplot \code{stats::lm}.
 \examples{
 ggplot2::autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
 ggplot2::autoplot(glm(Petal.Width ~ Petal.Length, data= iris), which = 1:6)
+
+ggplot2::autoplot(lm(Petal.Width~Petal.Length, data = iris)) + ggplot2::theme_bw()
+ggplot2::autoplot(lm(Petal.Width~Petal.Length, data = iris)) + ggplot2::scale_colour_brewer()
 }
 

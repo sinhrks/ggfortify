@@ -74,3 +74,88 @@ plot.label <- function(p, data, flag = TRUE, label = 'rownames',
   }
   p
 }
+
+#' An S4 class to hold multiple \code{ggplot2::ggplot} instances.
+#'
+#' @slot plots List of \code{ggplot2::ggplot} instances
+#' @slot ncol Number of grid columns
+#' @slot nrow Number of grid rows
+setClass('ggmultiplot',
+         representation(plots = 'list', ncol = 'numeric', 'nrow' = 'numeric'),
+         prototype = list(ncol = 0, nrow = 0))
+
+#' Generic add operator for \code{ggmultiplot} 
+#' 
+#' @param object \code{ggmultiplot}
+#' @param g 
+#' @return \code{ggmultiplot}
+setMethod('+', c('ggmultiplot', 'ANY'),
+  function(e1, e2) {
+    plots <- lapply(e1@plots, function(x) { x + e2 })
+    new('ggmultiplot', plots = plots,
+        ncol = e1@ncol, nrow = e1@nrow)
+})
+
+#' Calcurate layout matrix for \code{ggmultiplot} 
+#' 
+#' @param nplots Number of plots
+#' @param ncol Number of grid columns
+#' @param nrow Number of grid rows
+#' @return matrix
+#' @examples
+#' ggfortify:::get.layout(3, 2, 2)
+get.layout <- function(nplots, ncol, nrow) {
+  if (ncol == 0 && nrow == 0) {
+    ncol <- 2
+  } else if (ncol == 0 && nrow != 0) {
+    ncol <- ceiling(nplots / nrow)
+  }
+  
+  if (nrow == 0) {
+    nrow <- ceiling(nplots / ncol)
+  } else {
+    nrow <- nrow
+  }
+
+  if (nrow * ncol < nplots) {
+    message <- paste('nrow * ncol (', nrow, '*', ncol ,
+                     ')must be larger than number of plots', nplots)
+    stop(message)
+  }
+  
+  t(matrix(1:(ncol * nrow), ncol = nrow, nrow = ncol))
+}
+
+#' Generic print function for \code{ggmultiplot} 
+#' 
+#' @param p \code{ggmultiplot}
+#' @return NULL
+print.ggmultiplot <- function(p) {
+  # Based on Multiple plot function
+  # http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)
+  
+  nplots = length(p@plots)
+  
+  if (nplots==1) {
+    print(p@plots[[1]])
+  } else {
+    require(grid)
+    layout <- get.layout(nplots, p@ncol, p@nrow)
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    for (i in 1:nplots) {
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(p@plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                        layout.pos.col = matchidx$col))
+    }
+  }
+}
+
+#' Generic show function for \code{ggmultiplot} 
+#' 
+#' @param object \code{ggmultiplot}
+#' @return NULL
+setMethod('show', 'ggmultiplot', function(object) { print(object) })
+
