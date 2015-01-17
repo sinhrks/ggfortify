@@ -29,6 +29,7 @@ This covers following classes:
 - ``stats::decomposed.ts``
 - ``stats::density``
 - ``stats::factanal``
+- ``stats::glm``
 - ``stats::HoltWinters``
 - ``stats::kmeans``
 - ``stats::lm``
