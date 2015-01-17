@@ -6,7 +6,7 @@
 fortify.list <- function(data) {
   klass <- infer(data)
   if (klass == 'mds-like') {
-    return(ggplot2::fortify(data$points))
+    return(fortify(data$points))
   }
   stop('Unable to infer class from input list')
 }
@@ -19,7 +19,6 @@ fortify.list <- function(data) {
 autoplot.list <- function(data, ...) {
   klass <- infer(data)
   if (klass == 'mds-like') {
-    # cmdscale
     return(ggplot2::autoplot(data$points[, 1:2], geom = 'point', ...))
   }
   stop('Unable to infer class from input list')
@@ -38,7 +37,7 @@ infer <- function(data, ...) {
     # isoMDS
     return('mds-like')
   } else if (check.attrs((data), c('points', 'stress', 'call'))) {
-    # isoMDS
+    # sammon
     return('mds-like')
   }
   stop('Unable to infer class from input list')

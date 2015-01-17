@@ -21,33 +21,16 @@ install_github('sinhrks/ggfortify')
 
 # Before Plotting
 
-`ggfortify` let `ggplot2` know how to interpret some popular R classes. However, you cannot use `autoplot` directly for MDS because MDS functions return `matrix` or `list`, not specific class. Thus, `ggfortify` cannot define `autoplot` for MDS. You have to create an intended plot using `matrix` by yourselves. 
+`ggfortify` let `ggplot2` know how to interpret some popular R classes. Even though MDS functions returns `matrix` or `list` (not specific class), `ggfortify` infers background class from `list` attribute and perform `autoplot`.
 
-# Plotting Matrix
+**NOTE** Inference from `matrix` is not supported.
 
-`ggfortify` defines `autoplot.matrix` to plot either heatmap or scatter plot. 
+**NOTE** `ggfortify` can plot `stats::dist` instance as heatmap.
 
-```{r, message = FALSE}
+```{r}
 library(ggplot2)
 library(ggfortify)
 
-set.seed(1)
-# heatmap
-m <- matrix(rnorm(20), nc = 5)
-autoplot(m)
-```
-
-Specifying `geom = 'point'` outputs scatter plot. Target `matrix` should have exactly 2 columns to draw scatter plot.
-
-```{r}
-# scatter plot
-m <- matrix(rnorm(20), nc = 2)
-autoplot(m, geom = 'point')
-```
-
-**NOTE** Also, `ggfortify` can plot `stats::dist` instance as heatmap.
-
-```{r}
 data(eurodist)
 d.dist <- eurodist
 autoplot(d.dist)
@@ -55,35 +38,28 @@ autoplot(d.dist)
 
 # Plotting Classical (Metric) Multidimensional Scaling
 
-`stats::cmdscale` performs Classical MDS and returns point coodinates as `matrix`, you should call `autplot` as below. Specify `label = TRUE` to plot labels.
+`stats::cmdscale` performs Classical MDS and returns point coodinates as `matrix`, thus you can not use `autoplot` as it is. However, `stats::cmdscale` has some options to return `list`, `eig = TRUE`, `add = True` or `x.ret = True`. If any of these option is specified, `ggfortify` can infer a type and perform `autoplot`. Refer to `help(cmdscale)` to check what these options are.
 
 ```{r}
-autoplot(cmdscale(d.dist), geom = 'point')
-autoplot(cmdscale(d.dist), geom = 'point', label = TRUE)
+autoplot(cmdscale(d.dist, eig = TRUE))
 ```
 
-`stats::cmdscale` may return `list` depending on some options. For details, refer to `help(cmdscale)`. In these cases, point coordinates must be explicitly passed to `autoplot`.
+Specify `label = TRUE` to plot labels.
 
 ```{r}
 autoplot(cmdscale(d.dist, eig = TRUE), label = TRUE)
 ```
 
-Also, if the dimension of point coordinates is not 2, slice coordinates used for plotting.
-
-```{r}
-autoplot(cmdscale(d.dist, eig = TRUE, k = 3), label = TRUE)
-```
-
 # Plotting Non-metric Multidimensional Scaling
 
-`MASS::isoMDS` and `MASS::sammon` perform Non-metric MDS and return `list` which contains point coordinates. Thus, `autoplot` should be called as below.
+`MASS::isoMDS` and `MASS::sammon` perform Non-metric MDS and return `list` which contains point coordinates. Thus, `autoplot` can infer its type.
 
 **NOTE** There are some common configurable options. For details, see `help(autoplot.matrix)`.
 
 ```{r}
 library(MASS)
 autoplot(isoMDS(d.dist), label = TRUE, colour = 'blue',
-         label.size = 3, label.colour = 'blue')
+         label.size = 5, label.colour = 'blue')
 autoplot(sammon(d.dist), label = FALSE, colour = 'green')
 ```
 
