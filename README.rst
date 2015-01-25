@@ -7,7 +7,7 @@ ggfortify
 
 Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle some popular R packages.
 
-**NOTE** For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attributes. Functions are marked as "(inference)".
+**NOTE** For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attributes. Such functions are marked as "(inference)".
 
 
 
