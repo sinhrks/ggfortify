@@ -7,6 +7,10 @@ ggfortify
 
 Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle some popular R packages.
 
+**NOTE** For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attributes. Functions are marked as "(inference)".
+
+
+
 This covers following classes:
 
 - ``base::matrix``
@@ -20,15 +24,16 @@ This covers following classes:
 - ``forecast::forecast``
 - ``forecast::ets``
 - ``fracdiff::fracdiff``
-- ``MASS::isoMDS``  (indirectly, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
-- ``MASS::sammon``  (indirectly, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
+- ``MASS::isoMDS``  (inference)
+- ``MASS::sammon``  (inference)
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
-- ``stats::cmdscale`` (indirectly, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
+- ``stats::cmdscale`` (inference, see the `doc <http://rpubs.com/sinhrks/plot_mds>`_)
 - ``stats::decomposed.ts``
 - ``stats::density``
 - ``stats::factanal``
+- ``stats::glm``
 - ``stats::HoltWinters``
 - ``stats::kmeans``
 - ``stats::lm``
