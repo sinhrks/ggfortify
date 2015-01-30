@@ -174,6 +174,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' Calcurate fitted values for \code{stats::ar}
 #' 
 #' @param object \code{stats::ar} instance
+#' @param ... other keywords
 #' @return ts An time series of the one-step forecasts
 #' @examples
 #' fitted(ar(WWWusage))
@@ -181,15 +182,13 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 fitted.ar <- function(object, ...) {
   library(forecast)
   x <- forecast::getResponse(object)
-  # if (is.null(x)) {
-  #   return(NULL)
-  # }
   return(x - residuals(object))
 }
 
 #' Calcurate residuals for \code{stats::ar}
 #' 
 #' @param object \code{stats::ar} instance
+#' @param ... other keywords
 #' @return ts Residuals extracted from the object object.
 #' @examples
 #' residuals(ar(WWWusage))
@@ -267,7 +266,8 @@ ggcpgram <- function (ts, taper = 0.1,
 #' @param ad.linetype Line type for additional lines
 #' @param ad.size Fill colour for additional lines
 #' @param nrow Number of facet/subplot rows
-#' @param ncol Number of facet/subplot columns 
+#' @param ncol Number of facet/subplot columns
+#' @param ... other keywords
 #' @return ggplot
 #' @examples
 #' library(ggplot2)

@@ -18,7 +18,7 @@ fortify.list <- function(data) {
 #' Autoplot list.
 #' 
 #' @param data \code{list} instance
-#' @param ... Keywords passed to autoplot
+#' @param ... Keywords passed to inferred autoplot
 #' @return ggplot
 #' @export
 autoplot.list <- function(data, ...) {

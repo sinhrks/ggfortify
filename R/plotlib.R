@@ -87,7 +87,8 @@ setClass('ggmultiplot',
 #' Generic add operator for \code{ggmultiplot} 
 #' 
 #' @param object \code{ggmultiplot}
-#' @param g 
+#' @param e1 first argument
+#' @param e2 second argument
 #' @return \code{ggmultiplot}
 setMethod('+', c('ggmultiplot', 'ANY'),
   function(e1, e2) {
@@ -141,14 +142,15 @@ print.ggmultiplot <- function(p) {
   } else {
     require(grid)
     layout <- get.layout(nplots, p@ncol, p@nrow)
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    grid::grid.newpage()
+    vp <- grid::viewport(layout = grid.layout(nrow(layout), ncol(layout)))
+    grid::pushViewport(vp)
     
     for (i in 1:nplots) {
       matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-      
-      print(p@plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                        layout.pos.col = matchidx$col))
+      vp <- grid::viewport(layout.pos.row = matchidx$row,
+                           layout.pos.col = matchidx$col)
+      print(p@plots[[i]], vp = vp)
     }
   }
 }

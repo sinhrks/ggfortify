@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{object}{\code{stats::ar} instance}
+
+\item{...}{other keywords}
 }
 \value{
 ts An time series of the one-step forecasts

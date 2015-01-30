@@ -8,9 +8,11 @@
 \S4method{+}{ggmultiplot,ANY}(e1, e2)
 }
 \arguments{
-\item{object}{\code{ggmultiplot}}
+\item{e1}{first argument}
 
-\item{g}{}
+\item{e2}{second argument}
+
+\item{object}{\code{ggmultiplot}}
 }
 \value{
 \code{ggmultiplot}

@@ -9,7 +9,7 @@
 \arguments{
 \item{data}{\code{list} instance}
 
-\item{...}{Keywords passed to autoplot}
+\item{...}{Keywords passed to inferred autoplot}
 }
 \value{
 ggplot
