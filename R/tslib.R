@@ -278,8 +278,7 @@ ggtsdiag <- function(object, gof.lag = 10,
                      conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                      conf.int.fill = NULL, conf.int.alpha = 0.3,
                      ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2, 
-                     nrow = NULL, ncol = 1,
-                     ...) {
+                     nrow = NULL, ncol = 1, ...) {
   library(ggplot2)
 
   rs <- residuals(object)

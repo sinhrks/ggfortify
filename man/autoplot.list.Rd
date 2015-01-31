@@ -7,7 +7,9 @@
 \method{autoplot}{list}(data, ...)
 }
 \arguments{
-\item{data}{list instance}
+\item{data}{\code{list} instance}
+
+\item{...}{Keywords passed to autoplot}
 }
 \value{
 ggplot

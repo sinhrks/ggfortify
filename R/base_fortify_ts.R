@@ -229,8 +229,7 @@ autoplot.irts <- autoplot.ts
 
 #' Convert time series models (like AR, ARIMA) to data.frame.
 #' 
-#' @param data \code{stats::ar}, \code{stats::Arima}, \code{stats::HoltWinters},
-#'  \code{fracdiff::fracdiff}, \code{forecast::nnetar} or \code{fGarch::fGARCH}instance
+#' @param data Time series model instance
 #' @param predict Predicted \code{stats::ts}
 #' @param original Original data for \code{stats::ar}, \code{stats::Arima}.
 #' Not used in other models. 
@@ -257,9 +256,9 @@ autoplot.irts <- autoplot.ts
 fortify.tsmodel <- function(data, predict = NULL,
                             original = NULL, is.date = NULL,
                             ts.connect = TRUE) {
-  library(forecast)
-  
+
   if (is(data, 'Arima') || is(data, 'ar')) {
+    require(forecast)
     if (is.null(original)) {
       original <- forecast::getResponse(data)
       fit <- fitted(data)
@@ -306,6 +305,24 @@ fortify.tsmodel <- function(data, predict = NULL,
       pred$lower <- pred$Predicted - predict$meanError
       pred$upper <- pred$Predicted + predict$meanError
     }
+  } else if (is(data, 'dlmFiltered')) {
+    d <- ggplot2::fortify(data$y, is.date = is.date)
+    m <- dlm::dropFirst(data$m)
+    fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
+    resid <- ggplot2::fortify(data$y - m, data.name = 'Residuals', is.date = is.date)
+  } else if (is(data, 'KFS')) {
+    d <- ggplot2::fortify(data$model$y, is.date = is.date)
+    m <- data$alphahat
+    if (is.null(m)) {
+      m <- data$m
+      if (is.null(m)) {
+        stop('Object does not contain smoothed estimates of states.')
+      }
+      m[1] <- data$model$y[1]
+    }
+    fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
+    resid <- ggplot2::fortify(data$model$y - m,
+                              data.name = 'Residuals', is.date = is.date)
   } else {
     stop(paste0('Unsupported class for fortify.Arima: ', class(data)))
   }
@@ -339,10 +356,15 @@ fortify.nnetar <- fortify.tsmodel
 #' @export
 fortify.fGARCH <- fortify.tsmodel
 
+#' @export
+fortify.dlmFiltered <- fortify.tsmodel
+
+#' @export
+fortify.KFS <- fortify.tsmodel
+
 #' Autoplot time series models (like AR, ARIMA).
 #' 
-#' @param data \code{stats::ar}, \code{stats::Arima}, \code{stats::HoltWinters},
-#'  \code{fracdiff::fracdiff}, \code{forecast::nnetar} or \code{fGarch::fGARCH}instance
+#' @param data Time series model instance
 #' @param predict Predicted \code{stats::ts}
 #' @param original Original data for \code{stats::ar}, \code{stats::Arima}.
 #' Not used in other models. 
@@ -374,6 +396,14 @@ fortify.fGARCH <- fortify.tsmodel
 #' ggplot2::autoplot(d.holt)
 #' ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 #' ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
+#' 
+#' form <- function(theta){
+#'   dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
+#' }
+#' model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
+#' filtered <- dlm::dlmFilter(Nile, model)
+#' ggplot2::autoplot(filtered)
+#' ggplot2::autoplot(dlm::dlmSmooth(filtered))
 #' @export
 autoplot.tsmodel <- function(data, predict = NULL, original = NULL,
                              is.date = NULL, ts.connect = TRUE,
@@ -422,3 +452,9 @@ autoplot.nnetar <- autoplot.tsmodel
 
 #' @export
 autoplot.fGARCH <- autoplot.tsmodel
+
+#' @export
+autoplot.dlmFiltered <- autoplot.tsmodel
+
+#' @export
+autoplot.KFS <- autoplot.tsmodel

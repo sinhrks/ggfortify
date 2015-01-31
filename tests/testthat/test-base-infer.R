@@ -42,3 +42,58 @@ test_that('fortify works for MDS-likes', {
   expect_equal(colnames(fortified), c('1', '2', '3'))
   expect_equal(nrow(fortified), 21) 
 })
+
+test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
+  nile_fortified <- fortify(Nile)
+  
+  library(dlm)
+  form <- function(theta){
+    dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
+  }
+  model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
+  filtered <- dlm::dlmFilter(Nile, model)
+  fortified <- fortify(filtered)
+  expect_equal(colnames(fortified), c('Index', 'Data', 'Fitted', 'Residuals'))
+  expect_equal(fortified$Index, nile_fortified$Index)
+  
+  smoothed <- dlm::dlmSmooth(filtered) 
+  expect_equal(infer(smoothed), 'dlmSmooth')
+  
+  fortified <- fortify(smoothed)
+  expect_equal(colnames(fortified), c('Index', 'Data'))
+  expect_equal(fortified$Index, nile_fortified$Index)
+
+  autoplot(filtered)
+  autoplot(smoothed)
+})
+
+test_that('infer, fortify and autoplot works for KFAS::signal', {
+  nile_fortified <- fortify(Nile)
+  
+  library(KFAS)
+  model <- SSModel(
+    Nile ~ SSMtrend(degree=1, Q=matrix(NA)), H=matrix(NA)
+  )
+  fit <- fitSSM(model=model, inits=c(log(var(Nile)),log(var(Nile))), method="BFGS")
+  
+  smoothed <- KFS(fit$model)
+  fortified <- fortify(smoothed)
+  expect_equal(colnames(fortified), c('Index', 'Data', 'Fitted', 'Residuals'))
+  expect_equal(fortified$Index, nile_fortified$Index)
+  
+  filtered <- KFS(fit$model, filtering="mean", smoothing='none')
+  fortified <- fortify(filtered)
+  expect_equal(colnames(fortified), c('Index', 'Data', 'Fitted', 'Residuals'))
+  expect_equal(fortified$Index, nile_fortified$Index)
+  
+  trend <- signal(smoothed, states="trend")
+  expect_equal(infer(trend), 'KFASSignal')
+  
+  fortified <- fortify(trend)
+  expect_equal(colnames(fortified), c('Index', 'Data'))
+  expect_equal(fortified$Index, nile_fortified$Index)
+  
+  autoplot(filtered)
+  autoplot(smoothed)
+  autoplot(trend)
+})
