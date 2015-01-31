@@ -7,7 +7,7 @@
 \method{fortify}{list}(data)
 }
 \arguments{
-\item{data}{list instance}
+\item{data}{\code{list} instance}
 }
 \value{
 data.frame

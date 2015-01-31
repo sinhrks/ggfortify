@@ -10,7 +10,6 @@ Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle som
 **NOTE** For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attributes. Such functions are marked as "(inference)".
 
 
-
 This covers following classes:
 
 - ``base::matrix``
@@ -19,13 +18,18 @@ This covers following classes:
 - ``cluster::fanny``
 - ``cluster::pam``
 - ``changepoint::cpt``
+- ``dlm::dlmFilter``
+- ``dlm::dlmSmooth`` (inference)
 - ``fGarch::fGARCH``
 - ``forecast::bats``
 - ``forecast::forecast``
 - ``forecast::ets``
+- ``forecast::nnetar``
 - ``fracdiff::fracdiff``
-- ``MASS::isoMDS``  (inference)
-- ``MASS::sammon``  (inference)
+- ``KFAS::KFS``
+- ``KFAS::signal`` (inference)
+- ``MASS::isoMDS`` (inference)
+- ``MASS::sammon`` (inference)
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
@@ -68,6 +72,7 @@ Examples
 * `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_lm>`_
 * `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
 * `Plotting Time Series Statistics with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_tsstats>`_
+* `Plotting State Space Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts_dlm>`_
 * `Plotting PCA/clustering results using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_pca>`_
 * `Plotting Multidimensional Scaling using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_mds>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_

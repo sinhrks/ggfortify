@@ -17,8 +17,7 @@
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
-\item{data}{\code{stats::ar}, \code{stats::Arima}, \code{stats::HoltWinters},
-\code{fracdiff::fracdiff}, \code{forecast::nnetar} or \code{fGarch::fGARCH}instance}
+\item{data}{Time series model instance}
 
 \item{predict}{Predicted \code{stats::ts}}
 
@@ -69,5 +68,13 @@ d.holt <- stats::HoltWinters(USAccDeaths)
 ggplot2::autoplot(d.holt)
 ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
+
+form <- function(theta){
+  dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
+}
+model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
+filtered <- dlm::dlmFilter(Nile, model)
+ggplot2::autoplot(filtered)
+ggplot2::autoplot(dlm::dlmSmooth(filtered))
 }
 

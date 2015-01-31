@@ -14,8 +14,7 @@
   is.date = NULL, ts.connect = TRUE)
 }
 \arguments{
-\item{data}{\code{stats::ar}, \code{stats::Arima}, \code{stats::HoltWinters},
-\code{fracdiff::fracdiff}, \code{forecast::nnetar} or \code{fGarch::fGARCH}instance}
+\item{data}{Time series model instance}
 
 \item{predict}{Predicted \code{stats::ts}}
 

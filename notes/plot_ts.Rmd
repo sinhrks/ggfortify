@@ -126,9 +126,11 @@ autoplot(breakpoints(Nile ~ 1), cpt.colour = 'green', cpt.linetype = 'solid')
 
 # Resources related to ggfortify
 
+* [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)
 * [Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_lm)
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
 * [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
+* [Plotting State Space Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts_dlm)
 * [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
 * [Plotting Multidimensional Scaling using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_mds)
 * [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
