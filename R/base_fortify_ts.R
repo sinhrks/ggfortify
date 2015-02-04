@@ -104,7 +104,7 @@ fortify.irts <- fortify.ts
 #' @param facets Logical value to specify use facets for multivariate time-series
 #' @param nrow Number of facet/subplot rows
 #' @param ncol Number of facet/subplot columns 
-#' @param ts.geom Geometric string for time-series plotting. 'line' or 'bar'.
+#' @param ts.geom Geometric string for time-series plotting. 'line', 'bar' or 'point'.
 #' @param ts.colour Line colour for time-series
 #' @param ts.linetype Line type for time-series
 #' @param xlab Character vector or expression for x axis label
@@ -181,6 +181,8 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
     geomobj <- ggplot2::geom_line
   } else if (ts.geom == 'bar') {
     geomobj <- ggplot2::geom_bar
+  } else if (ts.geom == 'point') {
+    geomobj <- ggplot2::geom_point
   } else {
     stop("Invalid geom is specified. Use 'line' or 'bar'.")
   }

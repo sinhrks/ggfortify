@@ -39,7 +39,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{ncol}{Number of facet/subplot columns}
 
-\item{ts.geom}{Geometric string for time-series plotting. 'line' or 'bar'.}
+\item{ts.geom}{Geometric string for time-series plotting. 'line', 'bar' or 'point'.}
 
 \item{ts.colour}{Line colour for time-series}
 

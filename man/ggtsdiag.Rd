@@ -33,6 +33,8 @@ ggtsdiag(object, gof.lag = 10, conf.int = TRUE,
 \item{nrow}{Number of facet/subplot rows}
 
 \item{ncol}{Number of facet/subplot columns}
+
+\item{...}{other keywords}
 }
 \value{
 ggplot
