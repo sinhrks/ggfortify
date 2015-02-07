@@ -4,5 +4,5 @@
 #' 
 #' @name ggfortify
 #' @docType package
-#' @import zoo scales ggplot2 dplyr tidyr
+#' @import zoo scales ggplot2 dplyr tidyr broom
 NULL

@@ -102,6 +102,7 @@ fortify.irts <- fortify.ts
 #' @param ts.scale Logical flag indicating whether to perform scaling each timeseries
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param facets Logical value to specify use facets for multivariate time-series
+#' @param facet (Deprecated) use facets
 #' @param nrow Number of facet/subplot rows
 #' @param ncol Number of facet/subplot columns 
 #' @param ts.geom Geometric string for time-series plotting. 'line', 'bar' or 'point'.
@@ -260,8 +261,8 @@ fortify.tsmodel <- function(data, predict = NULL,
                             ts.connect = TRUE) {
 
   if (is(data, 'Arima') || is(data, 'ar')) {
-    require(forecast)
     if (is.null(original)) {
+      library(forecast)
       original <- forecast::getResponse(data)
       fit <- fitted(data)
     } else {

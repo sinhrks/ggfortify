@@ -12,7 +12,6 @@
 #' ggplot2::fortify(d.forecast)
 #' ggplot2::fortify(d.forecast, ts.connect = TRUE)
 fortify.forecast <- function(data, is.date = NULL, ts.connect = FALSE) {
-  library(forecast)
   forecasted <- as.data.frame(data)
   forecasted$Index <- get.dtindex(data$mean, is.date = is.date)
   

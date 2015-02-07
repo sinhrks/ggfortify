@@ -28,8 +28,7 @@ install_github('sinhrks/ggfortify')
 * `spec.ar`, `spec.pgram`
 * `cpgram` (covered by `ggcpgram`) 
 
-```{r message = FALSE}
-library(ggplot2)
+```{r, message = FALSE}
 library(ggfortify)
 autoplot(stl(AirPassengers, s.window = 'periodic'), ts.colour = 'blue')
 ```

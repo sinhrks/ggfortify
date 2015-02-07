@@ -33,6 +33,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
+\item{facet}{(Deprecated) use facets}
+
 \item{facets}{Logical value to specify use facets for multivariate time-series}
 
 \item{nrow}{Number of facet/subplot rows}

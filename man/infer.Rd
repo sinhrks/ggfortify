@@ -4,7 +4,7 @@
 \alias{infer}
 \title{Infer class name}
 \usage{
-infer(data, ...)
+infer(data)
 }
 \arguments{
 \item{data}{list instance}

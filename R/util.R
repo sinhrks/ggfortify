@@ -32,10 +32,7 @@ unscale <- function(data, center = NULL, scale = NULL) {
 #' @examples
 #' ggfortify:::parse.formula(y ~ x)
 parse.formula <- function(formula) {
-  
-  # not to replace forecast::getResponse
-  # library(nlme)
-  
+    
   vars <- terms(as.formula(formula))
   endog <- if(attr(vars, 'response'))
     nlme::getResponseFormula(formula)
@@ -51,9 +48,8 @@ parse.formula <- function(formula) {
 
 #' Wrapper for cbind 
 #' 
-#' @param data \code{data.frame} instance 
-#' @param original Joined to data if provided.
-#' cluster labels to the original
+#' @param df1 1st data
+#' @param df2 2nd data
 #' @return list
 #' @examples
 #' ggfortify:::cbind_wraps(iris[1:2], iris[3:5])

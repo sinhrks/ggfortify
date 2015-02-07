@@ -86,7 +86,6 @@ setClass('ggmultiplot',
 
 #' Generic add operator for \code{ggmultiplot} 
 #' 
-#' @param object \code{ggmultiplot}
 #' @param e1 first argument
 #' @param e2 second argument
 #' @return \code{ggmultiplot}
