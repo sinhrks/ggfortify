@@ -4,10 +4,12 @@
 \alias{autoplot.spec}
 \title{Autoplot \code{stats::spec}.}
 \usage{
-\method{autoplot}{spec}(data)
+\method{autoplot}{spec}(object, ...)
 }
 \arguments{
-\item{data}{\code{stats::spec} instance}
+\item{object}{\code{stats::spec} instance}
+
+\item{...}{other arguments passed to specific methods}
 }
 \value{
 ggplot

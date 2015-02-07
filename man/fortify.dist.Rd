@@ -4,10 +4,14 @@
 \alias{fortify.dist}
 \title{Convert \code{stats::dist} to data.frame.}
 \usage{
-\method{fortify}{dist}(data)
+\method{fortify}{dist}(model, data = NULL, ...)
 }
 \arguments{
-\item{data}{\code{stats::dist} instance}
+\item{model}{\code{stats::dist} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

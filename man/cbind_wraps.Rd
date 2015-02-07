@@ -10,8 +10,6 @@ cbind_wraps(df1, df2)
 \item{df1}{1st data}
 
 \item{df2}{2nd data}
-
-\item{data}{\code{data.frame} instance}
 }
 \value{
 list

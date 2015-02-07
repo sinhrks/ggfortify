@@ -5,14 +5,14 @@
 \alias{autoplot.survfit.cox}
 \title{Autoplot \code{survival::survfit}.}
 \usage{
-\method{autoplot}{survfit}(data, surv.colour = "#000000",
+\method{autoplot}{survfit}(object, surv.colour = "#000000",
   surv.linetype = "solid", conf.int = TRUE, conf.int.colour = "#0000FF",
   conf.int.linetype = "none", conf.int.fill = "#000000",
   conf.int.alpha = 0.3, censor = TRUE, censor.shape = "+",
   censor.size = 3)
 }
 \arguments{
-\item{data}{\code{survival::survfit} instance}
+\item{object}{\code{survival::survfit} instance}
 
 \item{surv.colour}{Line colour for survival curve (used when data doesn't have \code{strata})}
 

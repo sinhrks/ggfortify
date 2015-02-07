@@ -2,13 +2,13 @@
 % Please edit documentation in R/fortify_stats_density.R
 \name{autoplot.density}
 \alias{autoplot.density}
-\title{Plot \code{stats::density}}
+\title{Autoplot \code{stats::density}}
 \usage{
-\method{autoplot}{density}(data, p = NULL, colour = "#000000",
+\method{autoplot}{density}(object, p = NULL, colour = "#000000",
   linetype = "solid", fill = NULL, alpha = 0.3, ...)
 }
 \arguments{
-\item{data}{\code{stats::density} instance}
+\item{object}{\code{stats::density} instance}
 
 \item{p}{\code{ggplot2::ggplot} instance to plot}
 
@@ -26,7 +26,7 @@
 ggplot
 }
 \description{
-Plot \code{stats::density}
+Autoplot \code{stats::density}
 }
 \examples{
 ggplot2::autoplot(stats::density(stats::rnorm(1:50)))

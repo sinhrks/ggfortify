@@ -9,7 +9,7 @@
 \alias{autoplot.tsmodel}
 \title{Autoplot time series models (like AR, ARIMA).}
 \usage{
-\method{autoplot}{tsmodel}(data, predict = NULL, original = NULL,
+\method{autoplot}{tsmodel}(object, predict = NULL, original = NULL,
   is.date = NULL, ts.connect = TRUE, fitted.colour = "#FF0000",
   fitted.linetype = "solid", predict.colour = "#0000FF",
   predict.linetype = "solid", conf.int = TRUE,
@@ -17,7 +17,7 @@
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
-\item{data}{Time series model instance}
+\item{object}{Time series model instance}
 
 \item{predict}{Predicted \code{stats::ts}}
 

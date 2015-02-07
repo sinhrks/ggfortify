@@ -1,9 +1,11 @@
 #' Convert \code{forecast::forecast} to data.frame.
-#' 
-#' @param data \code{forecast::forecast} instance
+#'
+#' @param model \code{forecast::forecast} instance
+#' @param data original dataset, if needed
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @export
 #' @examples
@@ -11,22 +13,23 @@
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 #' ggplot2::fortify(d.forecast)
 #' ggplot2::fortify(d.forecast, ts.connect = TRUE)
-fortify.forecast <- function(data, is.date = NULL, ts.connect = FALSE) {
-  forecasted <- as.data.frame(data)
-  forecasted$Index <- get.dtindex(data$mean, is.date = is.date)
-  
-  d <- ggplot2::fortify(data$x, is.date = is.date)
-  fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted', is.date = is.date)
+fortify.forecast <- function(model, data, is.date = NULL,
+                             ts.connect = FALSE, ...) {
+  forecasted <- as.data.frame(model)
+  forecasted$Index <- get.dtindex(model$mean, is.date = is.date)
+
+  d <- ggplot2::fortify(model$x, is.date = is.date)
+  fitted <- ggplot2::fortify(model$fitted, data.name = 'Fitted', is.date = is.date)
   d <- dplyr::left_join(d, fitted, by = 'Index')
-  d <- ggfortify::rbind_ts(forecasted, d, ts.connect = ts.connect)  
+  d <- ggfortify::rbind_ts(forecasted, d, ts.connect = ts.connect)
   dplyr::tbl_df(d)
 }
 
 #' Autoplot \code{forecast::forecast}.
-#' 
-#' @param data \code{forecast::forecast} instance
+#'
+#' @param object \code{forecast::forecast} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param predict.colour Line colour for predicted time-series
 #' @param predict.linetype Line type for predicted time-series
@@ -46,16 +49,16 @@ fortify.forecast <- function(data, is.date = NULL, ts.connect = FALSE) {
 #' ggplot2::autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 #' ggplot2::autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 #' @export
-autoplot.forecast <- function(data, is.date = NULL, ts.connect = TRUE,
+autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
                               predict.colour = '#0000FF', predict.linetype = 'solid',
                               conf.int = TRUE,
                               conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                               conf.int.fill = '#000000', conf.int.alpha = 0.3,
                               ...) {
-  plot.data <- ggplot2::fortify(data, is.date = is.date, ts.connect = ts.connect)
+  plot.data <- ggplot2::fortify(object, is.date = is.date, ts.connect = ts.connect)
   lower = '`Lo 95`'  # prioritize to use 95%
   upper = '`Hi 95`'
-  
+
   if (! 'Lo 95' %in% names(plot.data)) {
     # escape by backquote
     lower <- paste0('`', names(plot.data)[5], '`')
@@ -63,15 +66,15 @@ autoplot.forecast <- function(data, is.date = NULL, ts.connect = TRUE,
   if (! 'Hi 95' %in% names(plot.data)) {
     upper <- paste0('`', names(plot.data)[6], '`')
   }
-  
+
   # Filter existing values to avoid warnings
   original.data <- dplyr::filter(plot.data, !is.na(Data))
   predict.data <- dplyr::filter(plot.data, !is.na(`Point Forecast`))
-  
+
   p <- autoplot.ts(original.data, columns = 'Data', ...)
   p <- autoplot.ts(predict.data, columns = 'Point Forecast', p = p,
                    ts.colour = predict.colour, ts.linetype = predict.linetype)
-  p <- plot.conf.int(p, data = predict.data, lower = lower, 
+  p <- plot.conf.int(p, data = predict.data, lower = lower,
                      upper = upper, conf.int = conf.int,
                      conf.int.colour = conf.int.colour,
                      conf.int.linetype = conf.int.linetype,
@@ -81,56 +84,58 @@ autoplot.forecast <- function(data, is.date = NULL, ts.connect = TRUE,
 }
 
 #' Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.
-#' 
-#' @param data \code{forecast::bats} or \code{forecast::ets} instance
+#'
+#' @param model \code{forecast::bats} or \code{forecast::ets} instance
+#' @param data original dataset, if needed
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' ggplot2::fortify(forecast::bats(UKgas))
 #' ggplot2::fortify(forecast::ets(UKgas))
 #' @export
-fortify.ets <- function(data) {
-  if (is(data, 'ets')) {
-    d <- ggplot2::fortify(data$x)
-    resid <- ggplot2::fortify(data$residuals, data.name = 'Residuals')
-    fitted <- ggplot2::fortify(data$fitted, data.name = 'Fitted')
+fortify.ets <- function(model, data, ...) {
+  if (is(model, 'ets')) {
+    d <- ggplot2::fortify(model$x)
+    resid <- ggplot2::fortify(model$residuals, data.name = 'Residuals')
+    fitted <- ggplot2::fortify(model$fitted, data.name = 'Fitted')
     d <- dplyr::left_join(d, fitted, by = 'Index')
     d <- dplyr::left_join(d, resid, by = 'Index')
 
-    level <- ggplot2::fortify(data$states[, 'l'], data.name = 'Level')
+    level <- ggplot2::fortify(model$states[, 'l'], data.name = 'Level')
     d <- dplyr::left_join(d, level, by = 'Index')
-    if ('b' %in% colnames(data$states)) {
-      slope <- ggplot2::fortify(data$states[, 'b'], data.name = 'Slope')
+    if ('b' %in% colnames(model$states)) {
+      slope <- ggplot2::fortify(model$states[, 'b'], data.name = 'Slope')
       d <- dplyr::left_join(d, slope, by = 'Index')
     }
-    if ('s1' %in% colnames(data$states)) {
-      season <- ggplot2::fortify(data$states[, 's1'], data.name = 'Season')
+    if ('s1' %in% colnames(model$states)) {
+      season <- ggplot2::fortify(model$states[, 's1'], data.name = 'Season')
       d <- dplyr::left_join(d, season, by = 'Index')
     }
-  } else if (is(data, 'bats')) {
-    if (!is.null(data$lambda)) 
-      y <- forecast::BoxCox(data$y, data$lambda)
-    else y <- data$y
+  } else if (is(model, 'bats')) {
+    if (!is.null(model$lambda))
+      y <- forecast::BoxCox(model$y, model$lambda)
+    else y <- model$y
     d <- ggplot2::fortify(y)
-    resid <- ggplot2::fortify(data$errors, data.name = 'Residuals')
-    fitted <- ggplot2::fortify(data$fitted.values, data.name = 'Fitted')
+    resid <- ggplot2::fortify(model$errors, data.name = 'Residuals')
+    fitted <- ggplot2::fortify(model$fitted.values, data.name = 'Fitted')
     d <- dplyr::left_join(d, fitted, by = 'Index')
     d <- dplyr::left_join(d, resid, by = 'Index')
-    
-    d <- cbind(d, Level = data$x[1, ])
-    if (!is.null(data$beta)) 
-      d <- cbind(d, Slope = data$x[2, ])
-    
-    nonseas <- 2 + (!is.null(data$beta))
-    nseas <- length(data$gamma.values)
-    if (!is.null(data$gamma)) {
-      seas.states <- data$x[-(1:(1 + (!is.null(data$beta)))), ]
-      j <- cumsum(c(1, data$seasonal.periods))
+
+    d <- cbind(d, Level = model$x[1, ])
+    if (!is.null(model$beta))
+      d <- cbind(d, Slope = model$x[2, ])
+
+    nonseas <- 2 + (!is.null(model$beta))
+    nseas <- length(model$gamma.values)
+    if (!is.null(model$gamma)) {
+      seas.states <- model$x[-(1:(1 + (!is.null(model$beta)))), ]
+      j <- cumsum(c(1, model$seasonal.periods))
       for (i in 1:nseas) d <- cbind(d, Season = seas.states[j[i], ])
-      if (nseas > 1) 
+      if (nseas > 1)
         colnames(d)[nonseas + 1:nseas] <- paste0("Season", 1:nseas)
     }
   } else {
-    stop(paste0('Unsupported class for fortify.ets: ', class(data)))
+    stop(paste0('Unsupported class for fortify.ets: ', class(model)))
   }
   dplyr::tbl_df(d)
 }
@@ -138,9 +143,9 @@ fortify.ets <- function(data) {
 #' @export
 fortify.bats <- fortify.ets
 
-#' Autoplot \code{forecast::bats} and \code{forecast::ets} 
-#' 
-#' @param data \code{forecast::bats} and \code{forecast::ets}  instance
+#' Autoplot \code{forecast::bats} and \code{forecast::ets}
+#'
+#' @param object \code{forecast::bats} and \code{forecast::ets}  instance
 #' @param columns Character vector specifies target column name(s)
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
@@ -151,8 +156,8 @@ fortify.bats <- fortify.ets
 #' ggplot2::autoplot(d.bats, columns = 'Residuals')
 #' ggplot2::autoplot(forecast::ets(UKgas))
 #' @export
-autoplot.ets <- function(data, columns = NULL, ...) {
-  plot.data <- ggplot2::fortify(data)
+autoplot.ets <- function(object, columns = NULL, ...) {
+  plot.data <- ggplot2::fortify(object)
   if (is.null(columns)) {
     columns <- c('Data', 'Level', 'Slope', 'Season')
     # Slope and Season can be optionals

@@ -1,10 +1,12 @@
 #' Convert \code{vars::varprd} to data.frame.
-#' 
-#' @param data \code{vars::varprd} instance
+#'
+#' @param model \code{vars::varprd} instance
+#' @param data original dataset, if needed
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' data(Canada, package = 'vars')
@@ -12,14 +14,15 @@
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
 #' ggplot2::fortify(stats::predict(d.var, n.ahead = 50))
 #' @export
-fortify.varprd <- function(data, is.date = NULL, ts.connect = FALSE, melt = FALSE){  
-  fitted <- ggplot2::fortify(data$model$y)
+fortify.varprd <- function(model, data, is.date = NULL,
+                           ts.connect = FALSE, melt = FALSE, ...){
+  fitted <- ggplot2::fortify(model$model$y)
 
-  fcst <- data$fcst
-  dtindex.cont <- get.dtindex.continuous(data$model$y, length = nrow(fcst[[1]]),
+  fcst <- model$fcst
+  dtindex.cont <- get.dtindex.continuous(model$model$y, length = nrow(fcst[[1]]),
                                          is.date = is.date)
   cols <- names(fcst)
-  
+
   if (melt) {
     # for autoplot conversion
     for (col in cols){
@@ -27,7 +30,7 @@ fortify.varprd <- function(data, is.date = NULL, ts.connect = FALSE, melt = FALS
       pred$Index <- dtindex.cont
       obs <- fitted[, c('Index', col)]
       colnames(obs) <- c('Index', 'Data')
-      binded <- ggfortify::rbind_ts(pred, obs, ts.connect = ts.connect)  
+      binded <- ggfortify::rbind_ts(pred, obs, ts.connect = ts.connect)
       binded$variable <- col
       fcst[[col]] <- binded
     }
@@ -44,10 +47,10 @@ fortify.varprd <- function(data, is.date = NULL, ts.connect = FALSE, melt = FALS
 }
 
 #' Autoplot \code{vars::varprd}.
-#' 
-#' @param data \code{vars::varpred} instance
+#'
+#' @param object \code{vars::varpred} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param predict.colour Line colour for predicted time-series
@@ -66,16 +69,16 @@ fortify.varprd <- function(data, is.date = NULL, ts.connect = FALSE, melt = FALS
 #' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
 #' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 #' @export
-autoplot.varprd <- function(data, is.date = NULL, ts.connect = TRUE,
+autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
                             scales = 'free_y',
                             predict.colour = '#0000FF', predict.linetype = 'solid',
                             conf.int = TRUE,
                             conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                             conf.int.fill = '#000000', conf.int.alpha = 0.3,
                             ...) {
-  plot.data <- ggplot2::fortify(data, is.date = is.date,
+  plot.data <- ggplot2::fortify(object, is.date = is.date,
                                 ts.connect = ts.connect, melt = TRUE)
-  
+
   # Filter existing values to avoid warnings
   original.data <- dplyr::filter(plot.data, !is.na(Data))
   predict.data <- dplyr::filter(plot.data, !is.na(fcst))
@@ -86,11 +89,11 @@ autoplot.varprd <- function(data, is.date = NULL, ts.connect = TRUE,
                    ts.linetype = predict.linetype)
 
   p <- p + ggplot2::facet_grid(variable ~ ., scales = scales)
-  
+
   p <- plot.conf.int(p, data = predict.data, conf.int = conf.int,
                      conf.int.colour = conf.int.colour,
                      conf.int.linetype = conf.int.linetype,
                      conf.int.fill = conf.int.fill,
                      conf.int.alpha = conf.int.alpha)
-  p 
+  p
 }

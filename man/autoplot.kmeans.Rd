@@ -5,12 +5,14 @@
 \title{Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \code{cluster::pam}.}
 \usage{
-\method{autoplot}{kmeans}(data, original = NULL, ...)
+\method{autoplot}{kmeans}(object, data = NULL, original = NULL, ...)
 }
 \arguments{
-\item{data}{Clustered instance}
+\item{object}{Clustered instance}
 
-\item{original}{Original data used for clustering. Mandatory for \code{stats::kmeans}.}
+\item{data}{Original data used for clustering. Mandatory for \code{stats::kmeans}.}
+
+\item{original}{(Deprecated) use data}
 
 \item{...}{Options supported in \code{autoplot::prcomp}}
 }

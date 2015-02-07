@@ -4,12 +4,16 @@
 \alias{fortify.MSM.lm}
 \title{Convert \code{MSwM::MSM.lm} to data.frame.}
 \usage{
-\method{fortify}{MSM.lm}(data, melt = FALSE)
+\method{fortify}{MSM.lm}(model, data, melt = FALSE, ...)
 }
 \arguments{
-\item{data}{\code{MSwM::MSM.lm} instance}
+\item{model}{\code{MSwM::MSM.lm} instance}
+
+\item{data}{original dataset, if needed}
 
 \item{melt}{Logical flag indicating whether to melt each models}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

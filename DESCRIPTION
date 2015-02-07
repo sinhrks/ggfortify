@@ -12,6 +12,8 @@ License: GPL-2
 Depends: ggplot2
 Imports:
     dplyr,
+    grid,
+    nlme,
     tidyr,
     broom,
     scales,

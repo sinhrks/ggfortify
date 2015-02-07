@@ -43,7 +43,6 @@ ggplot
 Plots time-series diagnostics.
 }
 \examples{
-library(ggplot2)
 ggtsdiag(arima(AirPassengers))
 }
 

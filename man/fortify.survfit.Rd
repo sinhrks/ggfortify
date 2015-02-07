@@ -5,10 +5,14 @@
 \alias{fortify.survfit.cox}
 \title{Convert \code{survival::survfit} to data.frame.}
 \usage{
-\method{fortify}{survfit}(data)
+\method{fortify}{survfit}(model, data, ...)
 }
 \arguments{
-\item{data}{\code{survival::survfit} instance}
+\item{model}{\code{survival::survfit} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

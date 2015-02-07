@@ -5,13 +5,16 @@
 \alias{fortify.princomp}
 \title{Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.}
 \usage{
-\method{fortify}{prcomp}(data, original = NULL)
+\method{fortify}{prcomp}(model, data = NULL, original = NULL, ...)
 }
 \arguments{
-\item{data}{\code{stats::prcomp} or \code{stats::princomp} instance}
+\item{model}{\code{stats::prcomp} or \code{stats::princomp} instance}
 
-\item{original}{Joined to PCA result if provided. Intended to be used for attaching
-non-numeric values original data has. Numeric values are automatically attached.}
+\item{data}{original dataset, if needed}
+
+\item{original}{(Deprecated) use data}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame
