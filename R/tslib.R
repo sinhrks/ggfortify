@@ -270,7 +270,6 @@ ggcpgram <- function (ts, taper = 0.1,
 #' @param ... other keywords
 #' @return ggplot
 #' @examples
-#' library(ggplot2)
 #' ggtsdiag(arima(AirPassengers))
 #' @export
 ggtsdiag <- function(object, gof.lag = 10, 
@@ -279,8 +278,6 @@ ggtsdiag <- function(object, gof.lag = 10,
                      conf.int.fill = NULL, conf.int.alpha = 0.3,
                      ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2, 
                      nrow = NULL, ncol = 1, ...) {
-  library(ggplot2)
-
   rs <- residuals(object)
   if (is.null(rs)) {
     rs <- object$residuals

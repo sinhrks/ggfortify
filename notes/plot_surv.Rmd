@@ -24,7 +24,6 @@ install_github('sinhrks/ggfortify')
 `ggfortify` let `ggplot2` know how to draw survival curves. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `survfit` objects. 
 
 ```{r, message = FALSE}
-library(ggplot2)
 library(ggfortify)
 library(survival)
 d.survfit <- survfit(Surv(time, status) ~ sex, data = lung)

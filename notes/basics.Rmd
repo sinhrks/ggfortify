@@ -21,10 +21,7 @@ install_github('sinhrks/ggfortify')
 
 # Loading Packages
 
-To use `ggfortify` and `ggplot2`, both packages must be loaded explicitly, regardless of loading order.
-
-```{r}
-library(ggplot2)
+```{r, message = FALSE}
 library(ggfortify)
 ```
 

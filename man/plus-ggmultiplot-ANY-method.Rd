@@ -11,8 +11,6 @@
 \item{e1}{first argument}
 
 \item{e2}{second argument}
-
-\item{object}{\code{ggmultiplot}}
 }
 \value{
 \code{ggmultiplot}

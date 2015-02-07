@@ -18,7 +18,7 @@ Autoplot \code{stats::htest}.
 \examples{
 ggplot2::autoplot(t.test(rnorm(10)))
 ggplot2::autoplot(t.test(mpg ~ am, data = mtcars))
-ggplot2::autoplot(wilcox.test(mpg ~ am, data = mtcars))
+ggplot2::autoplot(wilcox.test(mpg ~ am, data = mtcars, conf.int = TRUE))
 ggplot2::autoplot(cor.test(mtcars$wt, mtcars$mpg))
 }
 

@@ -9,20 +9,20 @@ Maintainer: sinhrks <sinhrks@gmail.com>
 Description: Define fortify and autoplot to allow ggplot2 to draw some popular
     packages. - forecast - survival
 License: GPL-2
+Depends: ggplot2
 Imports:
-    broom,
-    zoo,
-    forecast,
-    scales,
-    ggplot2,
     dplyr,
-    tidyr
+    tidyr,
+    broom,
+    scales,
+    zoo
 Suggests:
     testthat,
     cluster,
     changepoint,
     dlm,
     fGarch,
+    forecast,
     KFAS,
     MASS,
     MSwM,

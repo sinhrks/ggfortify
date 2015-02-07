@@ -315,9 +315,9 @@ autoplot.factanal <- autoplot.pca_common
 #' @examples
 #' ggplot2::fortify(eurodist)
 #' @export
-fortify.dist <- function(data, original = NULL) {
+fortify.dist <- function(data) {
   data <- as.matrix(data)
-  ggplot2::fortify(data, original = original)
+  ggplot2::fortify(data)
 }
 
 #' @export

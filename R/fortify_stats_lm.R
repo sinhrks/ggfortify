@@ -29,8 +29,6 @@ autoplot.lm <- function(data, which=c(1:3, 5),
                         smooth.colour = '#0000FF', smooth.linetype = 'solid',
                         ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2, 
                         nrow = NULL, ncol = NULL) {
-  library(ggplot2)
-
   # initialization
   p1 <- p2 <- p3 <- p4 <- p5 <- p6 <- NULL
   

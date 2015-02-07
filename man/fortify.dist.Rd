@@ -4,7 +4,7 @@
 \alias{fortify.dist}
 \title{Convert \code{stats::dist} to data.frame.}
 \usage{
-\method{fortify}{dist}(data, original = NULL)
+\method{fortify}{dist}(data)
 }
 \arguments{
 \item{data}{\code{stats::dist} instance}

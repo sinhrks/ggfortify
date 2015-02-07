@@ -38,7 +38,7 @@ autoplot.list <- function(data, ...) {
 #' @param data list instance
 #' @return character
 #' @export
-infer <- function(data, ...) {
+infer <- function(data) {
   if (check.attrs(data, c('points', 'eig', 'x', 'ac', 'GOF'))) {
     # cmdscale
     return('mds-like')
