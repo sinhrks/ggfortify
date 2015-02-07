@@ -9,14 +9,14 @@
 \alias{autoplot.xts}
 \title{Autoplot time-series-like.}
 \usage{
-\method{autoplot}{ts}(data, columns = NULL, group = NULL, is.date = NULL,
-  index.name = "Index", p = NULL, ts.scale = FALSE, scales = "free_y",
-  facet = TRUE, facets = facet, nrow = NULL, ncol = 1,
-  ts.geom = "line", ts.colour = "#000000", ts.linetype = "solid",
-  xlab = "", ylab = "")
+\method{autoplot}{ts}(object, columns = NULL, group = NULL,
+  is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
+  scales = "free_y", facet = TRUE, facets = facet, nrow = NULL,
+  ncol = 1, ts.geom = "line", ts.colour = "#000000",
+  ts.linetype = "solid", xlab = "", ylab = "")
 }
 \arguments{
-\item{data}{time-series-like instance}
+\item{object}{time-series-like instance}
 
 \item{columns}{Character vector specifies target column name(s)}
 

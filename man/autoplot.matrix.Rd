@@ -4,12 +4,12 @@
 \alias{autoplot.matrix}
 \title{Plot \code{base::matrix}}
 \usage{
-\method{autoplot}{matrix}(data, original = NULL, fill = "#0000FF",
+\method{autoplot}{matrix}(object, original = NULL, fill = "#0000FF",
   scale = NULL, colour = NULL, label = FALSE, label.colour = colour,
   label.size = 4, geom = "tile")
 }
 \arguments{
-\item{data}{\code{base::matrix} instance}
+\item{object}{\code{base::matrix} instance}
 
 \item{original}{Combined to data by column if provided. Intended to be used for stat functions which
 returns not containing original data.}

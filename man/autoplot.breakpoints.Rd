@@ -5,13 +5,15 @@
 \alias{autoplot.breakpointsfull}
 \title{Autoplot \code{strucchange::breakpoints}.}
 \usage{
-\method{autoplot}{breakpoints}(data, original = NULL,
+\method{autoplot}{breakpoints}(object, data = NULL, original = NULL,
   cpt.colour = "#FF0000", cpt.linetype = "dashed", ...)
 }
 \arguments{
-\item{data}{\code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.}
+\item{object}{\code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.}
 
-\item{original}{Original time series. Mandatory for plotting \code{strucchange::breakpoints} instance.}
+\item{data}{Original time series. Mandatory for plotting \code{strucchange::breakpoints} instance.}
+
+\item{original}{(Deprecated) use data}
 
 \item{cpt.colour}{Line colour for changepoints}
 

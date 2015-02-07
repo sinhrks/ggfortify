@@ -1,9 +1,10 @@
 #' Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 #' \code{cluster::pam} to data.frame.
-#' 
-#' @param data Clustered instance
-#' @param original Joined to data if provided. Intended to be used for attaching
-#' cluster labels to the original
+#'
+#' @param model Clustered instance
+#' @param data original dataset, if needed
+#' @param original (Deprecated) use data
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' df <- iris[-5]
@@ -13,25 +14,32 @@
 #' ggplot2::fortify(cluster::fanny(df, 3))
 #' ggplot2::fortify(cluster::pam(df, 3), original = iris)
 #' @export
-fortify.kmeans <- function(data, original = NULL) {
-  if (is(data, 'kmeans')) {
-    d <- data.frame(cluster = as.factor(data$cluster))
-  } else if (is(data, 'partition')) {
-    d <- data.frame(cluster = as.factor(data$cluster),
-                    ggplot2::fortify(data$data))
-  } else {
-    stop(paste0('Unsupported class for fortify.kmeans: ', class(data)))
+fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
+
+  if (!is.null(original)) {
+    deprecate.warning('original', 'data')
+    data <- original
   }
-  d <- cbind_wraps(d, original)
+
+  if (is(model, 'kmeans')) {
+    d <- data.frame(cluster = as.factor(model$cluster))
+  } else if (is(model, 'partition')) {
+    d <- data.frame(cluster = as.factor(model$cluster),
+                    ggplot2::fortify(model$data))
+  } else {
+    stop(paste0('Unsupported class for fortify.kmeans: ', class(model)))
+  }
+  d <- cbind_wraps(d, data)
   dplyr::tbl_df(d)
 }
 
 
 #' Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 #' \code{cluster::pam}.
-#' 
-#' @param data Clustered instance
-#' @param original Original data used for clustering. Mandatory for \code{stats::kmeans}.
+#'
+#' @param object Clustered instance
+#' @param data Original data used for clustering. Mandatory for \code{stats::kmeans}.
+#' @param original (Deprecated) use data
 #' @param ... Options supported in \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
@@ -43,22 +51,28 @@ fortify.kmeans <- function(data, original = NULL) {
 #' ggplot2::autoplot(cluster::pam(df, 3), original = iris)
 #' ggplot2::autoplot(cluster::pam(df, 3), original = iris, frame = TRUE, frame.type = 't')
 #' @export
-autoplot.kmeans <- function(data, original = NULL, ...) {
-  if (is(data, 'kmeans')) {
-    if (is.null(original)) {
-      stop("'original' data is mandatory for plotting kmeans instance")
-    }
-    dots <- colnames(data$center)
-  } else if (is(data, 'partition')) {
-    dots <- colnames(data$data)
-  } else {
-    stop(paste0('Unsupported class for autoplot.kmeans: ', class(data)))
+autoplot.kmeans <- function(object, data = NULL, original = NULL, ...) {
+
+  if (!is.null(original)) {
+    deprecate.warning('original', 'data')
+    data <- original
   }
-  plot.data <- ggplot2::fortify(data, original = original)
+
+  if (is(object, 'kmeans')) {
+    if (is.null(data)) {
+      stop("'data' is mandatory for plotting kmeans instance")
+    }
+    dots <- colnames(object$center)
+  } else if (is(object, 'partition')) {
+    dots <- colnames(object$data)
+  } else {
+    stop(paste0('Unsupported class for autoplot.kmeans: ', class(object)))
+  }
+  plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)
 
   pca.data <- dplyr::select_(plot.data, .dots = dots)
-  p <- ggplot2::autoplot(stats::prcomp(pca.data), original = plot.data,
+  p <- ggplot2::autoplot(stats::prcomp(pca.data), data = plot.data,
                          colour = 'cluster', ...)
   p
 }

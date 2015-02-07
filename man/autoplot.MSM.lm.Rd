@@ -4,11 +4,11 @@
 \alias{autoplot.MSM.lm}
 \title{Autoplot  \code{MSwM::MSM.lm}.}
 \usage{
-\method{autoplot}{MSM.lm}(data, prob.colour = "#FF0000",
+\method{autoplot}{MSM.lm}(object, prob.colour = "#FF0000",
   prob.linetype = "dashed", ...)
 }
 \arguments{
-\item{data}{\code{MSwM::MSM.lm} instance}
+\item{object}{\code{MSwM::MSM.lm} instance}
 
 \item{prob.colour}{Line colour for probabilities}
 

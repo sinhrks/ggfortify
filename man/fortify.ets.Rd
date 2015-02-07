@@ -4,10 +4,14 @@
 \alias{fortify.ets}
 \title{Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.}
 \usage{
-\method{fortify}{ets}(data)
+\method{fortify}{ets}(model, data, ...)
 }
 \arguments{
-\item{data}{\code{forecast::bats} or \code{forecast::ets} instance}
+\item{model}{\code{forecast::bats} or \code{forecast::ets} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

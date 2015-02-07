@@ -10,11 +10,13 @@
 \alias{fortify.tsmodel}
 \title{Convert time series models (like AR, ARIMA) to data.frame.}
 \usage{
-\method{fortify}{tsmodel}(data, predict = NULL, original = NULL,
+\method{fortify}{tsmodel}(model, data, predict = NULL, original = NULL,
   is.date = NULL, ts.connect = TRUE)
 }
 \arguments{
-\item{data}{Time series model instance}
+\item{model}{Time series model instance}
+
+\item{data}{original dataset, if needed}
 
 \item{predict}{Predicted \code{stats::ts}}
 

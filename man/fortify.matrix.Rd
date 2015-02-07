@@ -4,17 +4,18 @@
 \alias{fortify.matrix}
 \title{Convert \code{base::matrix} to data.frame.}
 \usage{
-\method{fortify}{matrix}(data, original = NULL, compat = FALSE)
+\method{fortify}{matrix}(model, data = NULL, compat = FALSE, ...)
 }
 \arguments{
-\item{data}{\code{base::matrix} instance}
+\item{model}{\code{base::matrix} instance}
 
-\item{original}{Combined to data by column if provided. Intended to be used for stat functions which
-returns not containing original data.}
+\item{data}{original dataset, if needed}
 
 \item{compat}{Logical frag to specify the behaviour when converting matrix which has no column name.
 If \code{FALSE}, result has character columns like c('1', '2', ...).
 If \code{TRUE}, result has character columns like c('V1', 'V2', ...).}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

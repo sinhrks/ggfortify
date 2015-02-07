@@ -4,10 +4,14 @@
 \alias{fortify.table}
 \title{Convert \code{base::table} to data.frame.}
 \usage{
-\method{fortify}{table}(data)
+\method{fortify}{table}(model, data, ...)
 }
 \arguments{
-\item{data}{\code{base::table} instance}
+\item{model}{\code{base::table} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

@@ -1,59 +1,60 @@
 #' Convert time-series-like to data.frame.
-#' 
-#' @param data \code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance
+#'
+#' @param model \code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance
+#' @param data original dataset, if needed
 #' @param columns Character vector specifies target column name(s)
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param index.name Specify column name for time series index
-#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series. 
+#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series.
 #' @param scale Logical flag indicating whether to perform scaling each timeseries
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
 #' ggplot2::fortify(AirPassengers)
 #' ggplot2::fortify(timeSeries::as.timeSeries(AirPassengers))
-#' 
+#'
 #' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 #' ggplot2::fortify(its)
-#' 
+#'
 #' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
 #' ggplot2::fortify(stats::decompose(UKgas))
 #' @export
-fortify.ts <- function(data, columns = NULL, is.date = NULL,
-                       index.name = 'Index', data.name = 'Data', 
+fortify.ts <- function(model, data, columns = NULL, is.date = NULL,
+                       index.name = 'Index', data.name = 'Data',
                        scale = FALSE, melt = FALSE) {
   # no need to define `fortify.xts` because zoo package has `fortify.zoo`
-  if (is(data, 'timeSeries')) {
-    d <- as.data.frame(data)
+  if (is(model, 'timeSeries')) {
+    d <- as.data.frame(model)
     dtindex <- as.POSIXct(rownames(d))
-  } else if (is(data, 'irts')) {
-    d <- as.data.frame(data$value)
-    dtindex <- data$time
-  } else if (is(data, 'ts')) {
-    d <- as.data.frame(as.matrix(data))
-    dtindex <- get.dtindex(data, is.date = is.date)
-  } else if (is(data, 'stl')) {
+  } else if (is(model, 'irts')) {
+    d <- as.data.frame(model$value)
+    dtindex <- model$time
+  } else if (is(model, 'ts')) {
+    d <- as.data.frame(as.matrix(model))
+    dtindex <- get.dtindex(model, is.date = is.date)
+  } else if (is(model, 'stl')) {
       # stl allows only univariate series
-      ts.data <- data$time.series
+      ts.data <- model$time.series
       ncomp <- ncol(ts.data)
       orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
-      
-      dtindex <- get.dtindex(ts.data, is.date = is.date)  
+
+      dtindex <- get.dtindex(ts.data, is.date = is.date)
       d <- cbind(data.frame(Data = orig),
-                 data.frame(data$time.series))
-    } else if (is(data, 'decomposed.ts')) {
-      dtindex <- get.dtindex(data$x, is.date = is.date) 
-      dtframe <- ggplot2::fortify(data$x)
+                 data.frame(model$time.series))
+    } else if (is(model, 'decomposed.ts')) {
+      dtindex <- get.dtindex(model$x, is.date = is.date)
+      dtframe <- ggplot2::fortify(model$x)
       dtframe <- dtframe[, -1]
       # trend and random can be multivariate
-      rndframe <- data$random
+      rndframe <- model$random
       colnames(rndframe) <- NULL
-      dcframe <- data.frame(seasonal = data$seasonal,
-                            trend = data$trend,
+      dcframe <- data.frame(seasonal = model$seasonal,
+                            trend = model$trend,
                             remainder = rndframe)
       d <- cbind(dtframe, dcframe)
   } else {
-    stop(paste0('Unsupported class for fortify.ts: ', class(data)))
+    stop(paste0('Unsupported class for fortify.ts: ', class(model)))
   }
   dtframe <- data.frame(Index = dtindex)
   colnames(dtframe) <- index.name
@@ -61,7 +62,7 @@ fortify.ts <- function(data, columns = NULL, is.date = NULL,
     colnames(d) <- data.name
   }
   d <- cbind(dtframe, d)
-  
+
   # filtering columns
   if (is.null(columns)) {
     data.names <- names(d)
@@ -69,18 +70,18 @@ fortify.ts <- function(data, columns = NULL, is.date = NULL,
   } else {
     d <- dplyr::select_(d, .dots = c(index.name, columns))
   }
-  
+
   # scaling
   if (scale) {
     for (col in columns) {
       d[[col]] <- base::scale(d[[col]], center = TRUE, scale = TRUE)
     }
   }
-  
+
   # unpivot
   if (melt) {
     d <- tidyr::gather_(d, 'variable', 'value', columns)
-  }  
+  }
   dplyr::tbl_df(d)
 }
 
@@ -91,20 +92,20 @@ fortify.timeSeries <- fortify.ts
 fortify.irts <- fortify.ts
 
 #' Autoplot time-series-like.
-#' 
-#' @param data time-series-like instance
+#'
+#' @param object time-series-like instance
 #' @param columns Character vector specifies target column name(s)
 #' @param group Character vector specifies grouping
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
-#' @param index.name Specify column name for time series index when passing \code{data.frame} via data. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
+#' @param index.name Specify column name for time series index when passing \code{data.frame} via data.
 #' @param p \code{ggplot2::ggplot} instance
 #' @param ts.scale Logical flag indicating whether to perform scaling each timeseries
 #' @param scales Scale value passed to \code{ggplot2}
 #' @param facets Logical value to specify use facets for multivariate time-series
 #' @param facet (Deprecated) use facets
 #' @param nrow Number of facet/subplot rows
-#' @param ncol Number of facet/subplot columns 
+#' @param ncol Number of facet/subplot columns
 #' @param ts.geom Geometric string for time-series plotting. 'line', 'bar' or 'point'.
 #' @param ts.colour Line colour for time-series
 #' @param ts.linetype Line type for time-series
@@ -119,45 +120,45 @@ fortify.irts <- fortify.ts
 #' ggplot2::autoplot(Canada)
 #' ggplot2::autoplot(Canada, columns = 'e', is.date = TRUE)
 #' ggplot2::autoplot(Canada, facets = FALSE)
-#' 
+#'
 #' library(zoo)
 #' ggplot2::autoplot(xts::as.xts(AirPassengers))
 #' ggplot2::autoplot(xts::as.xts(UKgas))
 #' ggplot2::autoplot(xts::as.xts(Canada))
-#' 
+#'
 #' ggplot2::autoplot(timeSeries::as.timeSeries(AirPassengers))
 #' ggplot2::autoplot(timeSeries::as.timeSeries(Canada))
-#' 
+#'
 #' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 #' ggplot2::autoplot(its)
-#' 
+#'
 #' ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
 #' ggplot2::autoplot(stats::decompose(UKgas))
 #' @export
-autoplot.ts <- function(data, columns = NULL, group = NULL,
+autoplot.ts <- function(object, columns = NULL, group = NULL,
                         is.date = NULL, index.name = 'Index',
-                        p = NULL, 
+                        p = NULL,
                         ts.scale = FALSE, scales = 'free_y',
                         facet = TRUE, facets = facet,
                         nrow = NULL, ncol = 1,
                         ts.geom = 'line',
-                        ts.colour = '#000000', ts.linetype = 'solid', 
+                        ts.colour = '#000000', ts.linetype = 'solid',
                         xlab = '', ylab = '') {
-  
+
   # deprecation
   if (! missing(facet)) {
     deprecate.warning('facet', 'facets')
     facets <- facet
   }
-  
+
   # fortify data
-  if (is.data.frame(data)) {
-    plot.data <- data
+  if (is.data.frame(object)) {
+    plot.data <- object
   } else {
-    plot.data <- ggplot2::fortify(data, scale = ts.scale, 
+    plot.data <- ggplot2::fortify(object, scale = ts.scale,
                                   is.date = is.date, index.name = index.name)
   }
-  
+
   if (is.null(columns)) {
     data.names <- names(plot.data)
     columns <- data.names[data.names != index.name]
@@ -177,7 +178,7 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
   } else {
     null.p <- FALSE
   }
-  
+
   if (ts.geom == 'line') {
     geomobj <- ggplot2::geom_line
   } else if (ts.geom == 'bar') {
@@ -187,12 +188,12 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
   } else {
     stop("Invalid geom is specified. Use 'line' or 'bar'.")
   }
-  
+
   # must be done here, because fortify.zoo is defined in zoo package
   ts.column <- plot.data[[index.name]]
   if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
     plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
-  } 
+  }
 
   if (facets) {
     mapping <- ggplot2::aes_string(x = index.name, y = 'value',
@@ -213,7 +214,7 @@ autoplot.ts <- function(data, columns = NULL, group = NULL,
   if (null.p) {
     p <- p +
       ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
-      ggplot2::scale_y_continuous() 
+      ggplot2::scale_y_continuous()
   }
   p
 }
@@ -231,17 +232,18 @@ autoplot.timeSeries <- autoplot.ts
 autoplot.irts <- autoplot.ts
 
 #' Convert time series models (like AR, ARIMA) to data.frame.
-#' 
-#' @param data Time series model instance
+#'
+#' @param model Time series model instance
+#' @param data original dataset, if needed
 #' @param predict Predicted \code{stats::ts}
 #' @param original Original data for \code{stats::ar}, \code{stats::Arima}.
-#' Not used in other models. 
+#' Not used in other models.
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @return data.frame
-#' @aliases fortify.ar fortify.Arima fortify.fracdiff 
+#' @aliases fortify.ar fortify.Arima fortify.fracdiff
 #' fortify.nnetar fortify.HoltWinters fortify.fGARCH
 #' @examples
 #' ggplot2::fortify(stats::ar(AirPassengers))
@@ -251,39 +253,39 @@ autoplot.irts <- autoplot.ts
 #' ggplot2::fortify(forecast::arfima(AirPassengers))
 #' ggplot2::fortify(forecast::nnetar(UKgas))
 #' ggplot2::fortify(stats::HoltWinters(USAccDeaths))
-#' 
+#'
 #' data(LPP2005REC, package = 'timeSeries')
 #' x = timeSeries::as.timeSeries(LPP2005REC)
 #' d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
 #' ggplot2::fortify(d.Garch)
-fortify.tsmodel <- function(data, predict = NULL,
+fortify.tsmodel <- function(model, data, predict = NULL,
                             original = NULL, is.date = NULL,
                             ts.connect = TRUE) {
 
-  if (is(data, 'Arima') || is(data, 'ar')) {
+  if (is(model, 'Arima') || is(model, 'ar')) {
     if (is.null(original)) {
       library(forecast)
-      original <- forecast::getResponse(data)
-      fit <- fitted(data)
+      original <- forecast::getResponse(model)
+      fit <- fitted(model)
     } else {
-      fit <- original - residuals(data)
+      fit <- original - residuals(model)
     }
     d <- ggplot2::fortify(original, is.date = is.date)
     fit <- ggplot2::fortify(fit, data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(residuals(data), data.name = 'Residuals', is.date = is.date)
-    
+    resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
+
     if (!is.null(predict)) {
       pred <- ggplot2::fortify(predict$pred, data.name = 'Predicted')
       se <- as.vector(predict$se)
       pred$lower <- pred$Predicted - se
       pred$upper <- pred$Predicted + se
     }
-  } else if (is(data, 'HoltWinters')) {
+  } else if (is(model, 'HoltWinters')) {
     # same as fracdiff and nnetar
-    d <- ggplot2::fortify(data$x, is.date = is.date)
-    fit <- ggplot2::fortify(fitted(data), data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(residuals(data), data.name = 'Residuals', is.date = is.date)
-    
+    d <- ggplot2::fortify(model$x, is.date = is.date)
+    fit <- ggplot2::fortify(fitted(model), data.name = 'Fitted', is.date = is.date)
+    resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
+
     if (!is.null(predict)) {
       pred <- ggplot2::fortify(predict)
       if (! 'upr' %in% names(pred)) {
@@ -292,42 +294,42 @@ fortify.tsmodel <- function(data, predict = NULL,
       }
       colnames(pred) <- c('Index', 'Predicted', 'upper', 'lower')
     }
-  } else if (is(data, 'fracdiff') || is(data, 'nnetar')) {
-    d <- ggplot2::fortify(data$x, is.date = is.date)
-    fit <- ggplot2::fortify(fitted(data), data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(residuals(data), data.name = 'Residuals', is.date = is.date)
-  } else if (is(data, 'fGARCH')) {
-    index <- attr(data@data, 'names')
+  } else if (is(model, 'fracdiff') || is(model, 'nnetar')) {
+    d <- ggplot2::fortify(model$x, is.date = is.date)
+    fit <- ggplot2::fortify(fitted(model), data.name = 'Fitted', is.date = is.date)
+    resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
+  } else if (is(model, 'fGARCH')) {
+    index <- attr(model@data, 'names')
     index <- as.vector(index)
-    d <- data.frame(Index = index, Data = data@data)
-    fit <- data.frame(Index = index, Fitted = data@fitted)
-    resid <- data.frame(Index = index, Residuals = data@residuals)
-    
+    d <- data.frame(Index = index, Data = model@data)
+    fit <- data.frame(Index = index, Fitted = model@fitted)
+    resid <- data.frame(Index = index, Residuals = model@residuals)
+
     if (!is.null(predict)) {
       pred <- data.frame(Predicted = predict$meanForecast)
       pred$lower <- pred$Predicted - predict$meanError
       pred$upper <- pred$Predicted + predict$meanError
     }
-  } else if (is(data, 'dlmFiltered')) {
-    d <- ggplot2::fortify(data$y, is.date = is.date)
-    m <- dlm::dropFirst(data$m)
+  } else if (is(model, 'dlmFiltered')) {
+    d <- ggplot2::fortify(model$y, is.date = is.date)
+    m <- dlm::dropFirst(model$m)
     fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(data$y - m, data.name = 'Residuals', is.date = is.date)
-  } else if (is(data, 'KFS')) {
-    d <- ggplot2::fortify(data$model$y, is.date = is.date)
-    m <- data$alphahat
+    resid <- ggplot2::fortify(model$y - m, data.name = 'Residuals', is.date = is.date)
+  } else if (is(model, 'KFS')) {
+    d <- ggplot2::fortify(model$model$y, is.date = is.date)
+    m <- model$alphahat
     if (is.null(m)) {
-      m <- data$m
+      m <- model$m
       if (is.null(m)) {
         stop('Object does not contain smoothed estimates of states.')
       }
-      m[1] <- data$model$y[1]
+      m[1] <- model$model$y[1]
     }
     fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(data$model$y - m,
+    resid <- ggplot2::fortify(model$model$y - m,
                               data.name = 'Residuals', is.date = is.date)
   } else {
-    stop(paste0('Unsupported class for fortify.Arima: ', class(data)))
+    stop(paste0('Unsupported class for fortify.Arima: ', class(model)))
   }
   d <- dplyr::left_join(d, fit, by = 'Index')
   d <- dplyr::left_join(d, resid, by = 'Index')
@@ -366,14 +368,14 @@ fortify.dlmFiltered <- fortify.tsmodel
 fortify.KFS <- fortify.tsmodel
 
 #' Autoplot time series models (like AR, ARIMA).
-#' 
-#' @param data Time series model instance
+#'
+#' @param object Time series model instance
 #' @param predict Predicted \code{stats::ts}
 #' @param original Original data for \code{stats::ar}, \code{stats::Arima}.
-#' Not used in other models. 
+#' Not used in other models.
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param fitted.colour Line colour for fitted time-series
 #' @param fitted.linetype Line type for fitted time-series
@@ -394,12 +396,12 @@ fortify.KFS <- fortify.tsmodel
 #' ggplot2::autoplot(stats::arima(UKgas), original = UKgas)
 #' ggplot2::autoplot(forecast::arfima(AirPassengers))
 #' ggplot2::autoplot(forecast::nnetar(UKgas), is.date = FALSE)
-#' 
+#'
 #' d.holt <- stats::HoltWinters(USAccDeaths)
 #' ggplot2::autoplot(d.holt)
 #' ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 #' ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
-#' 
+#'
 #' form <- function(theta){
 #'   dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
 #' }
@@ -408,7 +410,7 @@ fortify.KFS <- fortify.tsmodel
 #' ggplot2::autoplot(filtered)
 #' ggplot2::autoplot(dlm::dlmSmooth(filtered))
 #' @export
-autoplot.tsmodel <- function(data, predict = NULL, original = NULL,
+autoplot.tsmodel <- function(object, predict = NULL, original = NULL,
                              is.date = NULL, ts.connect = TRUE,
                              fitted.colour = '#FF0000', fitted.linetype = 'solid',
                              predict.colour = '#0000FF', predict.linetype = 'solid',
@@ -416,8 +418,8 @@ autoplot.tsmodel <- function(data, predict = NULL, original = NULL,
                              conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              ...) {
-  fcol <- ifelse(is(data, 'HoltWinters'), 'xhat', 'Fitted')
-  plot.data <- ggplot2::fortify(data, predict = predict,
+  fcol <- ifelse(is(object, 'HoltWinters'), 'xhat', 'Fitted')
+  plot.data <- ggplot2::fortify(object, predict = predict,
                                 original = original, is.date = is.date)
   p <- autoplot.ts(plot.data, columns = 'Data', ...)
   p <- autoplot.ts(plot.data, columns = fcol, p = p,
@@ -428,7 +430,7 @@ autoplot.tsmodel <- function(data, predict = NULL, original = NULL,
     p <- autoplot.ts(predict.data, columns = 'Predicted', p = p,
                      ts.colour = predict.colour,
                      ts.linetype = predict.linetype)
-    p <- plot.conf.int(p, data = predict.data, 
+    p <- plot.conf.int(p, data = predict.data,
                        conf.int = conf.int,
                        conf.int.colour = conf.int.colour,
                        conf.int.linetype = conf.int.linetype,

@@ -4,10 +4,14 @@
 \alias{fortify.density}
 \title{Convert \code{stats::density} to \code{data.frame}.}
 \usage{
-\method{fortify}{density}(data)
+\method{fortify}{density}(model, data, ...)
 }
 \arguments{
-\item{data}{\code{stats::density} instance}
+\item{model}{\code{stats::density} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

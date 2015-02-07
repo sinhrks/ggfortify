@@ -7,17 +7,19 @@
 \alias{autoplot.princomp}
 \title{Autoplot PCA-likes.}
 \usage{
-\method{autoplot}{pca_common}(data, original = NULL, colour = NULL,
-  label = FALSE, label.colour = colour, label.size = 4,
+\method{autoplot}{pca_common}(object, data = NULL, original = NULL,
+  colour = NULL, label = FALSE, label.colour = colour, label.size = 4,
   loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
   loadings.label.colour = "#FF0000", loadings.label.size = 4,
   frame = FALSE, frame.type = "convex", frame.colour = colour,
   frame.level = 0.95, frame.alpha = 0.2)
 }
 \arguments{
-\item{data}{PCA-like instance}
+\item{object}{PCA-like instance}
 
-\item{original}{Joined to fitting result if provided.}
+\item{data}{Joined to fitting result if provided.}
+
+\item{original}{(Deprecated) use data}
 
 \item{colour}{Column name string to specify colorize points}
 

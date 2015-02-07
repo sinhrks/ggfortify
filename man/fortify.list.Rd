@@ -4,10 +4,14 @@
 \alias{fortify.list}
 \title{Convert list to data.frame.}
 \usage{
-\method{fortify}{list}(data)
+\method{fortify}{list}(model, data, ...)
 }
 \arguments{
-\item{data}{\code{list} instance}
+\item{model}{\code{list} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame
