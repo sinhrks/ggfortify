@@ -1,0 +1,5 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis.yml$
+^notes\figures\*$
+^notes\*.html$
