@@ -6,7 +6,7 @@
 \usage{
 \method{autoplot}{matrix}(object, original = NULL, fill = "#0000FF",
   scale = NULL, colour = NULL, label = FALSE, label.colour = colour,
-  label.size = 4, geom = "tile")
+  label.size = 4, geom = "tile", ...)
 }
 \arguments{
 \item{object}{\code{base::matrix} instance}
@@ -27,6 +27,8 @@ returns not containing original data.}
 \item{label.size}{Text size for data labels ('point' Only)}
 
 \item{geom}{Geometric string for plotting. 'tile' or 'point'.}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

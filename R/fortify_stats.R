@@ -26,7 +26,7 @@ autoplot.decomposed.ts <- autoplot.ts
 #'
 #' ggplot2::fortify(stats::acf(AirPassengers), conf.int = TRUE)
 #' @export
-fortify.acf <- function(model, data,
+fortify.acf <- function(model, data = NULL,
                         conf.int = TRUE, conf.int.value = 0.95,
                         conf.int.type = 'white', ...) {
   d <- data.frame(Lag = model$lag, ACF = model$acf)
@@ -50,6 +50,7 @@ fortify.acf <- function(model, data,
 #' @param conf.int.alpha Alpha for confidence intervals
 #' @param conf.int.value Coverage probability for confidence interval
 #' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(stats::acf(AirPassengers))
@@ -61,7 +62,8 @@ autoplot.acf <- function(object,
                          conf.int = TRUE,
                          conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                          conf.int.fill = NULL, conf.int.alpha = 0.3,
-                         conf.int.value = 0.95, conf.int.type = 'white') {
+                         conf.int.value = 0.95, conf.int.type = 'white',
+                         ...) {
   plot.data <- ggplot2::fortify(object, conf.int = conf.int,
                                 conf.int.value = conf.int.value,
                                 conf.int.type = conf.int.type)
@@ -95,7 +97,7 @@ autoplot.acf <- function(object,
 #' ggplot2::fortify(stats::spec.ar(AirPassengers))
 #' ggplot2::fortify(stats::spec.pgram(AirPassengers))
 #' @export
-fortify.spec <- function(model, data, ...) {
+fortify.spec <- function(model, data = NULL, ...) {
   d <- data.frame(Frequency = model$freq,
                   Spectrum = model$spec)
   dplyr::tbl_df(d)
@@ -104,7 +106,7 @@ fortify.spec <- function(model, data, ...) {
 #' Autoplot \code{stats::spec}.
 #'
 #' @param object \code{stats::spec} instance
-#' @param ... other arguments passed to specific methods
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(stats::spec.ar(AirPassengers))
@@ -129,10 +131,10 @@ autoplot.spec <- function(object, ...) {
 #' @examples
 #' df <- iris[-5]
 #' ggplot2::fortify(stats::prcomp(df))
-#' ggplot2::fortify(stats::prcomp(df), original = iris)
+#' ggplot2::fortify(stats::prcomp(df), data = iris)
 #'
 #' ggplot2::fortify(stats::princomp(df))
-#' ggplot2::fortify(stats::princomp(df), original = iris)
+#' ggplot2::fortify(stats::princomp(df), data = iris)
 #' @export
 fortify.prcomp <- function(model, data = NULL,
                            original = NULL, ...) {
@@ -171,7 +173,7 @@ fortify.princomp <- fortify.prcomp
 #' @examples
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' ggplot2::fortify(d.factanal)
-#' ggplot2::fortify(d.factanal, original = state.x77)
+#' ggplot2::fortify(d.factanal, data = state.x77)
 #' @export
 fortify.factanal <- function(model, data = NULL,
                              original = NULL, ...) {
@@ -210,28 +212,29 @@ fortify.factanal <- function(model, data = NULL,
 #' @param frame.colour Colour for frame
 #' @param frame.level Passed for \code{ggplot2::stat_ellipse} 's level. Ignored in 'convex'.
 #' @param frame.alpha Alpha for frame
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal
 #' @examples
 #' df <- iris[-5]
 #' ggplot2::autoplot(stats::prcomp(df))
-#' ggplot2::autoplot(stats::prcomp(df), original = iris)
-#' ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
+#' ggplot2::autoplot(stats::prcomp(df), data = iris)
+#' ggplot2::autoplot(stats::prcomp(df), data = iris, colour = 'Species')
 #' ggplot2::autoplot(stats::prcomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #' ggplot2::autoplot(stats::prcomp(df), frame = TRUE)
-#' ggplot2::autoplot(stats::prcomp(df), original = iris, frame = TRUE,
+#' ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
 #'                   frame.colour = 'Species')
-#' ggplot2::autoplot(stats::prcomp(df), original = iris, frame = TRUE,
+#' ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
 #'                   frame.type = 't', frame.colour = 'Species')
 #'
 #' ggplot2::autoplot(stats::princomp(df))
-#' ggplot2::autoplot(stats::princomp(df), original = iris)
-#' ggplot2::autoplot(stats::princomp(df), original = iris, colour = 'Species')
+#' ggplot2::autoplot(stats::princomp(df), data = iris)
+#' ggplot2::autoplot(stats::princomp(df), data = iris, colour = 'Species')
 #' ggplot2::autoplot(stats::princomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #'
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' ggplot2::autoplot(d.factanal)
-#' ggplot2::autoplot(d.factanal, original = state.x77, colour = 'Income')
+#' ggplot2::autoplot(d.factanal, data = state.x77, colour = 'Income')
 #' ggplot2::autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 autoplot.pca_common <- function(object, data = NULL, original = NULL,
                                 colour = NULL,
@@ -242,14 +245,13 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
                                 loadings.label.size = 4,
                                 frame = FALSE, frame.type = 'convex',
                                 frame.colour = colour, frame.level = 0.95,
-                                frame.alpha = 0.2) {
+                                frame.alpha = 0.2, ...) {
 
   if (!is.null(original)) {
     deprecate.warning('original', 'data')
     data <- original
   }
 
-  require(grid)
   plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)
 

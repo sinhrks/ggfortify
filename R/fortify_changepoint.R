@@ -18,9 +18,10 @@
 #' bp.nile <- breakpoints(Nile ~ 1)
 #' ggplot2::fortify(bp.nile)
 #' ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
-#' ggplot2::fortify(breakpoints(bp.nile, breaks = 2), original = Nile)
+#' ggplot2::fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
 #' @export
-fortify.cpt <- function(model, data = NULL, original = NULL, is.date = NULL, ...) {
+fortify.cpt <- function(model, data = NULL, original = NULL,
+                        is.date = NULL, ...) {
   # changepoint::cpt is S4 class
 
   if (!is.null(original)) {
@@ -72,7 +73,7 @@ fortify.breakpointsfull <- fortify.cpt
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param cpt.colour Line colour for changepoints
 #' @param cpt.linetype Line type for changepoints
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... other arguments passed \code{autoplot.ts}
 #' @return ggplot
 #' @examples
 #' library(changepoint)
@@ -106,7 +107,7 @@ autoplot.cpt <- function(object, is.date = NULL,
 #' @param original (Deprecated) use data
 #' @param cpt.colour Line colour for changepoints
 #' @param cpt.linetype Line type for changepoints
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @aliases autoplot.breakpointsfull
 #' @examples
@@ -114,7 +115,7 @@ autoplot.cpt <- function(object, is.date = NULL,
 #' bp.nile <- breakpoints(Nile ~ 1)
 #' ggplot2::autoplot(bp.nile)
 #' ggplot2::autoplot(bp.nile, is.date = TRUE)
-#' ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), original = Nile)
+#' ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 #' @export
 autoplot.breakpoints <- function(object, data = NULL, original = NULL,
                                  cpt.colour = '#FF0000', cpt.linetype = 'dashed',

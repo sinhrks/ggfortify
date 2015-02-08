@@ -58,7 +58,7 @@ p + ggtitle('AirPassengers') + xlab('Year') + ylab('Passengers')
 
 ```{r}
 set.seed(1)
-p <- autoplot(kmeans(iris[-5], 3), original = iris)
+p <- autoplot(kmeans(iris[-5], 3), data = iris)
 # plot as it is
 p
 
@@ -77,7 +77,7 @@ If you want a different type of plot, you can use `fortify` to get `data.frame`,
 Following example shows a bar plot counting k-means clusters.
 
 ```{r}
-df <- fortify(kmeans(iris[-5], 3), original = iris)
+df <- fortify(kmeans(iris[-5], 3), data = iris)
 df
 
 ggplot(df, aes(x= cluster, fill = cluster)) + geom_bar()

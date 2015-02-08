@@ -139,7 +139,6 @@ print.ggmultiplot <- function(p) {
   if (nplots==1) {
     print(p@plots[[1]])
   } else {
-    require(grid)
     layout <- get.layout(nplots, p@ncol, p@nrow)
     grid::grid.newpage()
     vp <- grid::viewport(layout = grid::grid.layout(nrow(layout), ncol(layout)))
@@ -158,5 +157,6 @@ print.ggmultiplot <- function(p) {
 #'
 #' @param object \code{ggmultiplot}
 #' @return NULL
-setMethod('show', 'ggmultiplot', function(object) { print(object) })
+setMethod('show', 'ggmultiplot',
+          function(object) { print(object) })
 

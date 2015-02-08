@@ -37,6 +37,6 @@ library(strucchange)
 bp.nile <- breakpoints(Nile ~ 1)
 ggplot2::fortify(bp.nile)
 ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
-ggplot2::fortify(breakpoints(bp.nile, breaks = 2), original = Nile)
+ggplot2::fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
 

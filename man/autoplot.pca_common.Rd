@@ -12,7 +12,7 @@
   loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
   loadings.label.colour = "#FF0000", loadings.label.size = 4,
   frame = FALSE, frame.type = "convex", frame.colour = colour,
-  frame.level = 0.95, frame.alpha = 0.2)
+  frame.level = 0.95, frame.alpha = 0.2, ...)
 }
 \arguments{
 \item{object}{PCA-like instance}
@@ -49,6 +49,8 @@
 \item{frame.level}{Passed for \code{ggplot2::stat_ellipse} 's level. Ignored in 'convex'.}
 
 \item{frame.alpha}{Alpha for frame}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot
@@ -59,23 +61,23 @@ Autoplot PCA-likes.
 \examples{
 df <- iris[-5]
 ggplot2::autoplot(stats::prcomp(df))
-ggplot2::autoplot(stats::prcomp(df), original = iris)
-ggplot2::autoplot(stats::prcomp(df), original = iris, colour = 'Species')
+ggplot2::autoplot(stats::prcomp(df), data = iris)
+ggplot2::autoplot(stats::prcomp(df), data = iris, colour = 'Species')
 ggplot2::autoplot(stats::prcomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 ggplot2::autoplot(stats::prcomp(df), frame = TRUE)
-ggplot2::autoplot(stats::prcomp(df), original = iris, frame = TRUE,
+ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
                   frame.colour = 'Species')
-ggplot2::autoplot(stats::prcomp(df), original = iris, frame = TRUE,
+ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
                   frame.type = 't', frame.colour = 'Species')
 
 ggplot2::autoplot(stats::princomp(df))
-ggplot2::autoplot(stats::princomp(df), original = iris)
-ggplot2::autoplot(stats::princomp(df), original = iris, colour = 'Species')
+ggplot2::autoplot(stats::princomp(df), data = iris)
+ggplot2::autoplot(stats::princomp(df), data = iris, colour = 'Species')
 ggplot2::autoplot(stats::princomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 ggplot2::autoplot(d.factanal)
-ggplot2::autoplot(d.factanal, original = state.x77, colour = 'Income')
+ggplot2::autoplot(d.factanal, data = state.x77, colour = 'Income')
 ggplot2::autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 }
 

@@ -8,7 +8,7 @@
   colour = "#444444", label.colour = "#000000", label.size = 4,
   label.n = 3, smooth.colour = "#0000FF", smooth.linetype = "solid",
   ad.colour = "#888888", ad.linetype = "dashed", ad.size = 0.2,
-  nrow = NULL, ncol = NULL)
+  nrow = NULL, ncol = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::lm} instance}
@@ -38,6 +38,8 @@
 \item{nrow}{Number of facet/subplot rows}
 
 \item{ncol}{Number of facet/subplot columns}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

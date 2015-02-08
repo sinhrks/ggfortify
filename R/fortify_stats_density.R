@@ -7,7 +7,7 @@
 #' @examples
 #' ggplot2::fortify(stats::density(stats::rnorm(1:50)))
 #' @export
-fortify.density <- function(model, data, ...) {
+fortify.density <- function(model, data = NULL, ...) {
   d <- data.frame(x = model$x, y = model$y)
   dplyr::tbl_df(d)
 }
@@ -20,7 +20,7 @@ fortify.density <- function(model, data, ...) {
 #' @param linetype Line type
 #' @param fill Fill colour
 #' @param alpha Alpha
-#' @param ... Keywords passed to PDC/CDF func
+#' @param ... other arguments passed to PDC/CDF func
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(stats::density(stats::rnorm(1:50)))

@@ -4,8 +4,9 @@
 \alias{fortify.ts}
 \title{Convert time-series-like to data.frame.}
 \usage{
-\method{fortify}{ts}(model, data, columns = NULL, is.date = NULL,
-  index.name = "Index", data.name = "Data", scale = FALSE, melt = FALSE)
+\method{fortify}{ts}(model, data = NULL, columns = NULL, is.date = NULL,
+  index.name = "Index", data.name = "Data", scale = FALSE, melt = FALSE,
+  ...)
 }
 \arguments{
 \item{model}{\code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance}
@@ -24,6 +25,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 \item{scale}{Logical flag indicating whether to perform scaling each timeseries}
 
 \item{melt}{Logical flag indicating whether to melt each timeseries as variable}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

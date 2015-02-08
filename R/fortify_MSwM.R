@@ -13,7 +13,7 @@
 #'                        control = list(parallelization = FALSE))
 #' ggplot2::fortify(d.mswm)
 #' @export
-fortify.MSM.lm <- function(model, data, melt = FALSE, ...) {
+fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
   probable <- apply(model@Fit@smoProb[-1, ], 1, which.max)
   idx <- names(model@model$fitted.values)
 
@@ -45,12 +45,12 @@ fortify.MSM.lm <- function(model, data, melt = FALSE, ...) {
   dplyr::tbl_df(d)
 }
 
-#' Autoplot  \code{MSwM::MSM.lm}.
+#' Autoplot \code{MSwM::MSM.lm}.
 #'
 #' @param object \code{MSwM::MSM.lm} instance
 #' @param prob.colour Line colour for probabilities
 #' @param prob.linetype Line type for probabilities
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
 #' library(MSwM)

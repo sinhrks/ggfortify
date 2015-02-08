@@ -4,7 +4,7 @@
 \alias{fortify.spec}
 \title{Convert \code{stats::spec} to data.frame.}
 \usage{
-\method{fortify}{spec}(model, data, ...)
+\method{fortify}{spec}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{\code{stats::spec} instance}

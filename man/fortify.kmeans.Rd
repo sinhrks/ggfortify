@@ -26,9 +26,9 @@ Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \examples{
 df <- iris[-5]
 ggplot2::fortify(stats::kmeans(df, 3))
-ggplot2::fortify(stats::kmeans(df, 3), original = iris)
+ggplot2::fortify(stats::kmeans(df, 3), data = iris)
 ggplot2::fortify(cluster::clara(df, 3))
 ggplot2::fortify(cluster::fanny(df, 3))
-ggplot2::fortify(cluster::pam(df, 3), original = iris)
+ggplot2::fortify(cluster::pam(df, 3), data = iris)
 }
 

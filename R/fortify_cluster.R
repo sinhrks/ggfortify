@@ -9,10 +9,10 @@
 #' @examples
 #' df <- iris[-5]
 #' ggplot2::fortify(stats::kmeans(df, 3))
-#' ggplot2::fortify(stats::kmeans(df, 3), original = iris)
+#' ggplot2::fortify(stats::kmeans(df, 3), data = iris)
 #' ggplot2::fortify(cluster::clara(df, 3))
 #' ggplot2::fortify(cluster::fanny(df, 3))
-#' ggplot2::fortify(cluster::pam(df, 3), original = iris)
+#' ggplot2::fortify(cluster::pam(df, 3), data = iris)
 #' @export
 fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 
@@ -40,16 +40,16 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 #' @param object Clustered instance
 #' @param data Original data used for clustering. Mandatory for \code{stats::kmeans}.
 #' @param original (Deprecated) use data
-#' @param ... Options supported in \code{autoplot::prcomp}
+#' @param ... other arguments passed to \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
 #' df <- iris[-5]
-#' ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
+#' ggplot2::autoplot(stats::kmeans(df, 3), data = iris)
 #' ggplot2::autoplot(cluster::clara(df, 3), label = TRUE)
 #' ggplot2::autoplot(cluster::fanny(df, 3))
 #' ggplot2::autoplot(cluster::fanny(df, 3), frame = TRUE)
-#' ggplot2::autoplot(cluster::pam(df, 3), original = iris)
-#' ggplot2::autoplot(cluster::pam(df, 3), original = iris, frame = TRUE, frame.type = 't')
+#' ggplot2::autoplot(cluster::pam(df, 3), data = iris)
+#' ggplot2::autoplot(cluster::pam(df, 3), data = iris, frame = TRUE, frame.type = 't')
 #' @export
 autoplot.kmeans <- function(object, data = NULL, original = NULL, ...) {
 

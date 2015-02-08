@@ -13,7 +13,7 @@
   is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
   scales = "free_y", facet = TRUE, facets = facet, nrow = NULL,
   ncol = 1, ts.geom = "line", ts.colour = "#000000",
-  ts.linetype = "solid", xlab = "", ylab = "")
+  ts.linetype = "solid", xlab = "", ylab = "", ...)
 }
 \arguments{
 \item{object}{time-series-like instance}
@@ -50,6 +50,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 \item{xlab}{Character vector or expression for x axis label}
 
 \item{ylab}{Character vector or expression for y axis label}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

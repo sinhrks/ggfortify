@@ -9,6 +9,7 @@
 #' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series.
 #' @param scale Logical flag indicating whether to perform scaling each timeseries
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' ggplot2::fortify(AirPassengers)
@@ -20,9 +21,9 @@
 #' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
 #' ggplot2::fortify(stats::decompose(UKgas))
 #' @export
-fortify.ts <- function(model, data, columns = NULL, is.date = NULL,
+fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
                        index.name = 'Index', data.name = 'Data',
-                       scale = FALSE, melt = FALSE) {
+                       scale = FALSE, melt = FALSE, ...) {
   # no need to define `fortify.xts` because zoo package has `fortify.zoo`
   if (is(model, 'timeSeries')) {
     d <- as.data.frame(model)
@@ -111,6 +112,7 @@ fortify.irts <- fortify.ts
 #' @param ts.linetype Line type for time-series
 #' @param xlab Character vector or expression for x axis label
 #' @param ylab Character vector or expression for y axis label
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @aliases autoplot.xts autoplot.timeSeries autoplot.irts autoplot.stl autoplot.decomposed.ts
 #' @examples
@@ -143,7 +145,7 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                         nrow = NULL, ncol = 1,
                         ts.geom = 'line',
                         ts.colour = '#000000', ts.linetype = 'solid',
-                        xlab = '', ylab = '') {
+                        xlab = '', ylab = '', ...) {
 
   # deprecation
   if (! missing(facet)) {
@@ -234,21 +236,21 @@ autoplot.irts <- autoplot.ts
 #' Convert time series models (like AR, ARIMA) to data.frame.
 #'
 #' @param model Time series model instance
-#' @param data original dataset, if needed
+#' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}
+#' @param original (Deprecated) use data
 #' @param predict Predicted \code{stats::ts}
-#' @param original Original data for \code{stats::ar}, \code{stats::Arima}.
-#' Not used in other models.
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @aliases fortify.ar fortify.Arima fortify.fracdiff
 #' fortify.nnetar fortify.HoltWinters fortify.fGARCH
 #' @examples
 #' ggplot2::fortify(stats::ar(AirPassengers))
 #' ggplot2::fortify(stats::arima(UKgas))
-#' ggplot2::fortify(stats::arima(UKgas), original = UKgas, is.date = TRUE)
+#' ggplot2::fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
 #' ggplot2::fortify(forecast::auto.arima(austres))
 #' ggplot2::fortify(forecast::arfima(AirPassengers))
 #' ggplot2::fortify(forecast::nnetar(UKgas))
@@ -258,19 +260,25 @@ autoplot.irts <- autoplot.ts
 #' x = timeSeries::as.timeSeries(LPP2005REC)
 #' d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
 #' ggplot2::fortify(d.Garch)
-fortify.tsmodel <- function(model, data, predict = NULL,
-                            original = NULL, is.date = NULL,
-                            ts.connect = TRUE) {
+fortify.tsmodel <- function(model, data = NULL, original = NULL,
+                            predict = NULL,
+                            is.date = NULL,
+                            ts.connect = TRUE, ...) {
+
+  if (!is.null(original)) {
+    deprecate.warning('original', 'data')
+    data <- original
+  }
 
   if (is(model, 'Arima') || is(model, 'ar')) {
-    if (is.null(original)) {
+    if (is.null(data)) {
       library(forecast)
-      original <- forecast::getResponse(model)
+      data <- forecast::getResponse(model)
       fit <- fitted(model)
     } else {
-      fit <- original - residuals(model)
+      fit <- data - residuals(model)
     }
-    d <- ggplot2::fortify(original, is.date = is.date)
+    d <- ggplot2::fortify(data, is.date = is.date)
     fit <- ggplot2::fortify(fit, data.name = 'Fitted', is.date = is.date)
     resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
 
@@ -370,9 +378,9 @@ fortify.KFS <- fortify.tsmodel
 #' Autoplot time series models (like AR, ARIMA).
 #'
 #' @param object Time series model instance
+#' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}
+#' @param original (Deprecated) use data
 #' @param predict Predicted \code{stats::ts}
-#' @param original Original data for \code{stats::ar}, \code{stats::Arima}.
-#' Not used in other models.
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
@@ -393,7 +401,7 @@ fortify.KFS <- fortify.tsmodel
 #' d.ar <- stats::ar(AirPassengers)
 #' ggplot2::autoplot(d.ar)
 #' ggplot2::autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
-#' ggplot2::autoplot(stats::arima(UKgas), original = UKgas)
+#' ggplot2::autoplot(stats::arima(UKgas), data = UKgas)
 #' ggplot2::autoplot(forecast::arfima(AirPassengers))
 #' ggplot2::autoplot(forecast::nnetar(UKgas), is.date = FALSE)
 #'
@@ -410,7 +418,8 @@ fortify.KFS <- fortify.tsmodel
 #' ggplot2::autoplot(filtered)
 #' ggplot2::autoplot(dlm::dlmSmooth(filtered))
 #' @export
-autoplot.tsmodel <- function(object, predict = NULL, original = NULL,
+autoplot.tsmodel <- function(object, data = NULL, original = NULL,
+                             predict = NULL,
                              is.date = NULL, ts.connect = TRUE,
                              fitted.colour = '#FF0000', fitted.linetype = 'solid',
                              predict.colour = '#0000FF', predict.linetype = 'solid',
@@ -418,9 +427,15 @@ autoplot.tsmodel <- function(object, predict = NULL, original = NULL,
                              conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              ...) {
+
+  if (!is.null(original)) {
+    deprecate.warning('original', 'data')
+    data <- original
+  }
+
   fcol <- ifelse(is(object, 'HoltWinters'), 'xhat', 'Fitted')
   plot.data <- ggplot2::fortify(object, predict = predict,
-                                original = original, is.date = is.date)
+                                data = data, is.date = is.date)
   p <- autoplot.ts(plot.data, columns = 'Data', ...)
   p <- autoplot.ts(plot.data, columns = fcol, p = p,
                    ts.colour = fitted.colour,

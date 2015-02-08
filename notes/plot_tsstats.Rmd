@@ -78,8 +78,6 @@ ggfreqplot(AirPassengers, freq = 4)
 
 # Resources related to ggfortify
 
-# Resources related to ggfortify
-
 * [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)
 * [Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_lm)
 * [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)

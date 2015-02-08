@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_MSwM.R
 \name{autoplot.MSM.lm}
 \alias{autoplot.MSM.lm}
-\title{Autoplot  \code{MSwM::MSM.lm}.}
+\title{Autoplot \code{MSwM::MSM.lm}.}
 \usage{
 \method{autoplot}{MSM.lm}(object, prob.colour = "#FF0000",
   prob.linetype = "dashed", ...)
@@ -14,13 +14,13 @@
 
 \item{prob.linetype}{Line type for probabilities}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot
 }
 \description{
-Autoplot  \code{MSwM::MSM.lm}.
+Autoplot \code{MSwM::MSM.lm}.
 }
 \examples{
 library(MSwM)

@@ -14,7 +14,7 @@
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
 #' ggplot2::fortify(stats::predict(d.var, n.ahead = 50))
 #' @export
-fortify.varprd <- function(model, data, is.date = NULL,
+fortify.varprd <- function(model, data = NULL, is.date = NULL,
                            ts.connect = FALSE, melt = FALSE, ...){
   fitted <- ggplot2::fortify(model$model$y)
 
@@ -60,7 +60,7 @@ fortify.varprd <- function(model, data, is.date = NULL,
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
 #' data(Canada, package = 'vars')

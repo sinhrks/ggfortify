@@ -4,7 +4,7 @@
 \alias{fortify.MSM.lm}
 \title{Convert \code{MSwM::MSM.lm} to data.frame.}
 \usage{
-\method{fortify}{MSM.lm}(model, data, melt = FALSE, ...)
+\method{fortify}{MSM.lm}(model, data = NULL, melt = FALSE, ...)
 }
 \arguments{
 \item{model}{\code{MSwM::MSM.lm} instance}

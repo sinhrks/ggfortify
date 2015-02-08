@@ -48,6 +48,7 @@ fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
 #' @param label.colour Text colour for data labels ('point' Only)
 #' @param label.size Text size for data labels ('point' Only)
 #' @param geom Geometric string for plotting. 'tile' or 'point'.
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(matrix(rnorm(20), nc = 5))
@@ -60,7 +61,7 @@ autoplot.matrix <- function (object, original = NULL,
                              fill = '#0000FF', scale = NULL,
                              colour = NULL,
                              label = FALSE, label.colour = colour, label.size = 4,
-                             geom = 'tile') {
+                             geom = 'tile', ...) {
   if (geom == 'tile') {
     df <- ggplot2::fortify(object, original = original)
     df$Index <- rownames(df)

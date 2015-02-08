@@ -14,7 +14,7 @@
 
 \item{original}{(Deprecated) use data}
 
-\item{...}{Options supported in \code{autoplot::prcomp}}
+\item{...}{other arguments passed to \code{autoplot::prcomp}}
 }
 \value{
 ggplot
@@ -25,11 +25,11 @@ Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 }
 \examples{
 df <- iris[-5]
-ggplot2::autoplot(stats::kmeans(df, 3), original = iris)
+ggplot2::autoplot(stats::kmeans(df, 3), data = iris)
 ggplot2::autoplot(cluster::clara(df, 3), label = TRUE)
 ggplot2::autoplot(cluster::fanny(df, 3))
 ggplot2::autoplot(cluster::fanny(df, 3), frame = TRUE)
-ggplot2::autoplot(cluster::pam(df, 3), original = iris)
-ggplot2::autoplot(cluster::pam(df, 3), original = iris, frame = TRUE, frame.type = 't')
+ggplot2::autoplot(cluster::pam(df, 3), data = iris)
+ggplot2::autoplot(cluster::pam(df, 3), data = iris, frame = TRUE, frame.type = 't')
 }
 

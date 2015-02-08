@@ -5,7 +5,7 @@
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @export
-fortify.list <- function(model, data, ...) {
+fortify.list <- function(model, data = NULL, ...) {
   klass <- infer(model)
   if (klass == 'mds-like') {
     return(ggplot2::fortify(model$points))
@@ -20,7 +20,7 @@ fortify.list <- function(model, data, ...) {
 #' Autoplot list.
 #'
 #' @param object \code{list} instance
-#' @param ... Keywords passed to inferred autoplot
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @export
 autoplot.list <- function(object, ...) {

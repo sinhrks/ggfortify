@@ -24,6 +24,6 @@ Convert \code{stats::factanal} to data.frame.
 \examples{
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 ggplot2::fortify(d.factanal)
-ggplot2::fortify(d.factanal, original = state.x77)
+ggplot2::fortify(d.factanal, data = state.x77)
 }
 

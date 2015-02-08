@@ -4,7 +4,7 @@
 \alias{fortify.density}
 \title{Convert \code{stats::density} to \code{data.frame}.}
 \usage{
-\method{fortify}{density}(model, data, ...)
+\method{fortify}{density}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{\code{stats::density} instance}

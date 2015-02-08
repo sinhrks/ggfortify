@@ -4,7 +4,7 @@
 \alias{fortify.list}
 \title{Convert list to data.frame.}
 \usage{
-\method{fortify}{list}(model, data, ...)
+\method{fortify}{list}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{\code{list} instance}

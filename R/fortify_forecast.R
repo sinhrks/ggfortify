@@ -13,7 +13,7 @@
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 #' ggplot2::fortify(d.forecast)
 #' ggplot2::fortify(d.forecast, ts.connect = TRUE)
-fortify.forecast <- function(model, data, is.date = NULL,
+fortify.forecast <- function(model, data = NULL, is.date = NULL,
                              ts.connect = FALSE, ...) {
   forecasted <- as.data.frame(model)
   forecasted$Index <- get.dtindex(model$mean, is.date = is.date)
@@ -38,7 +38,7 @@ fortify.forecast <- function(model, data, is.date = NULL,
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
@@ -93,7 +93,7 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
 #' ggplot2::fortify(forecast::bats(UKgas))
 #' ggplot2::fortify(forecast::ets(UKgas))
 #' @export
-fortify.ets <- function(model, data, ...) {
+fortify.ets <- function(model, data = NULL, ...) {
   if (is(model, 'ets')) {
     d <- ggplot2::fortify(model$x)
     resid <- ggplot2::fortify(model$residuals, data.name = 'Residuals')
@@ -147,7 +147,7 @@ fortify.bats <- fortify.ets
 #'
 #' @param object \code{forecast::bats} and \code{forecast::ets}  instance
 #' @param columns Character vector specifies target column name(s)
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @aliases autoplot.bats
 #' @examples

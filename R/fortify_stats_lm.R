@@ -14,6 +14,7 @@
 #' @param ad.size Fill colour for additional lines
 #' @param nrow Number of facet/subplot rows
 #' @param ncol Number of facet/subplot columns
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
 #' ggplot2::autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
@@ -28,7 +29,7 @@ autoplot.lm <- function(object, which=c(1:3, 5),
                         label.n = 3,
                         smooth.colour = '#0000FF', smooth.linetype = 'solid',
                         ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2,
-                        nrow = NULL, ncol = NULL) {
+                        nrow = NULL, ncol = NULL, ...) {
   # initialization
   p1 <- p2 <- p3 <- p4 <- p5 <- p6 <- NULL
 

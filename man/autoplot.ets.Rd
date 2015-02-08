@@ -12,7 +12,7 @@
 
 \item{columns}{Character vector specifies target column name(s)}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot

@@ -17,7 +17,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{cpt.linetype}{Line type for changepoints}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed \code{autoplot.ts}}
 }
 \value{
 ggplot

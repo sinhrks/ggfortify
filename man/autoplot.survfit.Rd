@@ -9,7 +9,7 @@
   surv.linetype = "solid", conf.int = TRUE, conf.int.colour = "#0000FF",
   conf.int.linetype = "none", conf.int.fill = "#000000",
   conf.int.alpha = 0.3, censor = TRUE, censor.shape = "+",
-  censor.size = 3)
+  censor.size = 3, ...)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}
@@ -33,6 +33,8 @@
 \item{censor.shape}{Shape for censors}
 
 \item{censor.size}{Size for censors}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

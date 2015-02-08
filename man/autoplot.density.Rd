@@ -20,7 +20,7 @@
 
 \item{alpha}{Alpha}
 
-\item{...}{Keywords passed to PDC/CDF func}
+\item{...}{other arguments passed to PDC/CDF func}
 }
 \value{
 ggplot

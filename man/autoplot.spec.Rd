@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{\code{stats::spec} instance}
 
-\item{...}{other arguments passed to specific methods}
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

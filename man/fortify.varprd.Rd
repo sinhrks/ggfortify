@@ -4,8 +4,8 @@
 \alias{fortify.varprd}
 \title{Convert \code{vars::varprd} to data.frame.}
 \usage{
-\method{fortify}{varprd}(model, data, is.date = NULL, ts.connect = FALSE,
-  melt = FALSE, ...)
+\method{fortify}{varprd}(model, data = NULL, is.date = NULL,
+  ts.connect = FALSE, melt = FALSE, ...)
 }
 \arguments{
 \item{model}{\code{vars::varprd} instance}

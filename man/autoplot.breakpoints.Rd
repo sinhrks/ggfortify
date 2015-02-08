@@ -19,7 +19,7 @@
 
 \item{cpt.linetype}{Line type for changepoints}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot
@@ -32,6 +32,6 @@ library(strucchange)
 bp.nile <- breakpoints(Nile ~ 1)
 ggplot2::autoplot(bp.nile)
 ggplot2::autoplot(bp.nile, is.date = TRUE)
-ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), original = Nile)
+ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
 

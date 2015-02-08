@@ -34,7 +34,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot

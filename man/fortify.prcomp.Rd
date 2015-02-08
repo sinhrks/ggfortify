@@ -25,9 +25,9 @@ Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
 \examples{
 df <- iris[-5]
 ggplot2::fortify(stats::prcomp(df))
-ggplot2::fortify(stats::prcomp(df), original = iris)
+ggplot2::fortify(stats::prcomp(df), data = iris)
 
 ggplot2::fortify(stats::princomp(df))
-ggplot2::fortify(stats::princomp(df), original = iris)
+ggplot2::fortify(stats::princomp(df), data = iris)
 }
 

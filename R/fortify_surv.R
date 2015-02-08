@@ -12,7 +12,7 @@
 #' d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
 #' ggplot2::fortify(survival::survfit(d.coxph))
 #' @export
-fortify.survfit <- function(model, data, ...) {
+fortify.survfit <- function(model, data = NULL, ...) {
   d <- data.frame(time = model$time,
                   n.risk = model$n.risk,
                   n.event = model$n.event,
@@ -45,6 +45,7 @@ fortify.survfit <- function(model, data, ...) {
 #' @param censor Logical flag indicating whether to plot censors
 #' @param censor.shape Shape for censors
 #' @param censor.size Size for censors
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @aliases autoplot.survfit.cox
 #' @examples
@@ -61,7 +62,8 @@ autoplot.survfit <- function(object,
                              conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              censor = TRUE,
-                             censor.shape = '+', censor.size = 3) {
+                             censor.shape = '+', censor.size = 3,
+                             ...) {
   plot.data <- ggplot2::fortify(object)
 
   p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'time')) +
@@ -98,14 +100,3 @@ autoplot.survfit <- function(object,
   }
   p
 }
-
-
-#' d.survreg <- survival::survreg(survival::Surv(time, status) ~ sex,
-#'                                dist = 'weibull', data = survival::lung)
-#' ggplot2::fortify(d.survreg)
-#'
-
-# fortify.survreg <- function(data) {
-#   predict(d.survreg, newdata = list(sex = 1), type = "quantile",
-#           p = seq(.01, .99, by = .01))
-# }
