@@ -9,20 +9,21 @@
 \alias{autoplot.tsmodel}
 \title{Autoplot time series models (like AR, ARIMA).}
 \usage{
-\method{autoplot}{tsmodel}(data, predict = NULL, original = NULL,
-  is.date = NULL, ts.connect = TRUE, fitted.colour = "#FF0000",
-  fitted.linetype = "solid", predict.colour = "#0000FF",
-  predict.linetype = "solid", conf.int = TRUE,
+\method{autoplot}{tsmodel}(object, data = NULL, original = NULL,
+  predict = NULL, is.date = NULL, ts.connect = TRUE,
+  fitted.colour = "#FF0000", fitted.linetype = "solid",
+  predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
-\item{data}{Time series model instance}
+\item{object}{Time series model instance}
 
-\item{predict}{Predicted \code{stats::ts}}
+\item{data}{original dataset, needed for \code{stats::ar}, \code{stats::Arima}}
 
-\item{original}{Original data for \code{stats::ar}, \code{stats::Arima}.
-Not used in other models.
+\item{original}{(Deprecated) use data}
+
+\item{predict}{Predicted \code{stats::ts}
 If not provided, try to retrieve from current environment using variable name.}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
@@ -60,7 +61,7 @@ Autoplot time series models (like AR, ARIMA).
 d.ar <- stats::ar(AirPassengers)
 ggplot2::autoplot(d.ar)
 ggplot2::autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
-ggplot2::autoplot(stats::arima(UKgas), original = UKgas)
+ggplot2::autoplot(stats::arima(UKgas), data = UKgas)
 ggplot2::autoplot(forecast::arfima(AirPassengers))
 ggplot2::autoplot(forecast::nnetar(UKgas), is.date = FALSE)
 

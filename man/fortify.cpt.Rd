@@ -6,15 +6,20 @@
 \alias{fortify.cpt}
 \title{Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to data.frame.}
 \usage{
-\method{fortify}{cpt}(data, original = NULL, is.date = NULL)
+\method{fortify}{cpt}(model, data = NULL, original = NULL, is.date = NULL,
+  ...)
 }
 \arguments{
-\item{data}{\code{chantepoint::cpt} or \code{strucchange::breakpoints} instance}
+\item{model}{\code{chantepoint::cpt} or \code{strucchange::breakpoints} instance}
 
-\item{original}{Original time series attached to \code{strucchange::breakpoints}}
+\item{data}{original dataset, if needed}
+
+\item{original}{(Deprecated) use data}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame
@@ -32,6 +37,6 @@ library(strucchange)
 bp.nile <- breakpoints(Nile ~ 1)
 ggplot2::fortify(bp.nile)
 ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
-ggplot2::fortify(breakpoints(bp.nile, breaks = 2), original = Nile)
+ggplot2::fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
 

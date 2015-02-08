@@ -4,12 +4,12 @@
 \alias{autoplot.list}
 \title{Autoplot list.}
 \usage{
-\method{autoplot}{list}(data, ...)
+\method{autoplot}{list}(object, ...)
 }
 \arguments{
-\item{data}{\code{list} instance}
+\item{object}{\code{list} instance}
 
-\item{...}{Keywords passed to inferred autoplot}
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

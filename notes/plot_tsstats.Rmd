@@ -28,8 +28,7 @@ install_github('sinhrks/ggfortify')
 * `spec.ar`, `spec.pgram`
 * `cpgram` (covered by `ggcpgram`) 
 
-```{r message = FALSE}
-library(ggplot2)
+```{r, message = FALSE}
 library(ggfortify)
 autoplot(stl(AirPassengers, s.window = 'periodic'), ts.colour = 'blue')
 ```
@@ -76,8 +75,6 @@ gglagplot(AirPassengers, lags = 4)
 ggfreqplot(AirPassengers)
 ggfreqplot(AirPassengers, freq = 4)
 ```
-
-# Resources related to ggfortify
 
 # Resources related to ggfortify
 

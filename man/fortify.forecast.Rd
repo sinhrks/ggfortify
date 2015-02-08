@@ -4,15 +4,20 @@
 \alias{fortify.forecast}
 \title{Convert \code{forecast::forecast} to data.frame.}
 \usage{
-\method{fortify}{forecast}(data, is.date = NULL, ts.connect = FALSE)
+\method{fortify}{forecast}(model, data = NULL, is.date = NULL,
+  ts.connect = FALSE, ...)
 }
 \arguments{
-\item{data}{\code{forecast::forecast} instance}
+\item{model}{\code{forecast::forecast} instance}
+
+\item{data}{original dataset, if needed}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

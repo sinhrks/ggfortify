@@ -1,44 +1,46 @@
 #' Convert list to data.frame.
-#' 
-#' @param data \code{list} instance
+#'
+#' @param model \code{list} instance
+#' @param data original dataset, if needed
+#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @export
-fortify.list <- function(data) {
-  klass <- infer(data)
+fortify.list <- function(model, data = NULL, ...) {
+  klass <- infer(model)
   if (klass == 'mds-like') {
-    return(ggplot2::fortify(data$points))
+    return(ggplot2::fortify(model$points))
   } else if (klass == 'dlmSmooth') {
-    return(ggplot2::fortify(dlm::dropFirst(data$s)))
+    return(ggplot2::fortify(dlm::dropFirst(model$s)))
   } else if (klass == 'KFASSignal') {
-    return(ggplot2::fortify(data$signal))
+    return(ggplot2::fortify(model$signal))
   }
   stop('Unable to infer class from input list')
 }
 
 #' Autoplot list.
-#' 
-#' @param data \code{list} instance
-#' @param ... Keywords passed to inferred autoplot
+#'
+#' @param object \code{list} instance
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @export
-autoplot.list <- function(data, ...) {
-  klass <- infer(data)
+autoplot.list <- function(object, ...) {
+  klass <- infer(object)
   if (klass == 'mds-like') {
-    return(ggplot2::autoplot(data$points[, 1:2], geom = 'point', ...))
+    return(ggplot2::autoplot(object$points[, 1:2], geom = 'point', ...))
   } else if (klass == 'dlmSmooth') {
-    return(ggplot2::autoplot(dlm::dropFirst(data$s), ...))
+    return(ggplot2::autoplot(dlm::dropFirst(object$s), ...))
   } else if (klass == 'KFASSignal') {
-    return(ggplot2::autoplot(data$signal, ...))
+    return(ggplot2::autoplot(object$signal, ...))
   }
   stop('Unable to infer class from input list')
 }
 
 #' Infer class name
-#' 
+#'
 #' @param data list instance
 #' @return character
 #' @export
-infer <- function(data, ...) {
+infer <- function(data) {
   if (check.attrs(data, c('points', 'eig', 'x', 'ac', 'GOF'))) {
     # cmdscale
     return('mds-like')
@@ -59,7 +61,7 @@ infer <- function(data, ...) {
 }
 
 #' Infer class name
-#' 
+#'
 #' @param data list instance
 #' @param expected expected character vector
 #' @return logical

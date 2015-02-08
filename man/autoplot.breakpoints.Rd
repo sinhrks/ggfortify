@@ -5,19 +5,21 @@
 \alias{autoplot.breakpointsfull}
 \title{Autoplot \code{strucchange::breakpoints}.}
 \usage{
-\method{autoplot}{breakpoints}(data, original = NULL,
+\method{autoplot}{breakpoints}(object, data = NULL, original = NULL,
   cpt.colour = "#FF0000", cpt.linetype = "dashed", ...)
 }
 \arguments{
-\item{data}{\code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.}
+\item{object}{\code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.}
 
-\item{original}{Original time series. Mandatory for plotting \code{strucchange::breakpoints} instance.}
+\item{data}{Original time series. Mandatory for plotting \code{strucchange::breakpoints} instance.}
+
+\item{original}{(Deprecated) use data}
 
 \item{cpt.colour}{Line colour for changepoints}
 
 \item{cpt.linetype}{Line type for changepoints}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot
@@ -30,6 +32,6 @@ library(strucchange)
 bp.nile <- breakpoints(Nile ~ 1)
 ggplot2::autoplot(bp.nile)
 ggplot2::autoplot(bp.nile, is.date = TRUE)
-ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), original = Nile)
+ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
 

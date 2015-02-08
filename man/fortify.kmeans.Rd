@@ -5,13 +5,16 @@
 \title{Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \code{cluster::pam} to data.frame.}
 \usage{
-\method{fortify}{kmeans}(data, original = NULL)
+\method{fortify}{kmeans}(model, data = NULL, original = NULL, ...)
 }
 \arguments{
-\item{data}{Clustered instance}
+\item{model}{Clustered instance}
 
-\item{original}{Joined to data if provided. Intended to be used for attaching
-cluster labels to the original}
+\item{data}{original dataset, if needed}
+
+\item{original}{(Deprecated) use data}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame
@@ -23,9 +26,9 @@ Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \examples{
 df <- iris[-5]
 ggplot2::fortify(stats::kmeans(df, 3))
-ggplot2::fortify(stats::kmeans(df, 3), original = iris)
+ggplot2::fortify(stats::kmeans(df, 3), data = iris)
 ggplot2::fortify(cluster::clara(df, 3))
 ggplot2::fortify(cluster::fanny(df, 3))
-ggplot2::fortify(cluster::pam(df, 3), original = iris)
+ggplot2::fortify(cluster::pam(df, 3), data = iris)
 }
 

@@ -4,13 +4,13 @@
 \alias{autoplot.forecast}
 \title{Autoplot \code{forecast::forecast}.}
 \usage{
-\method{autoplot}{forecast}(data, is.date = NULL, ts.connect = TRUE,
+\method{autoplot}{forecast}(object, is.date = NULL, ts.connect = TRUE,
   predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
-\item{data}{\code{forecast::forecast} instance}
+\item{object}{\code{forecast::forecast} instance}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}
@@ -31,7 +31,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot

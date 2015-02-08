@@ -4,10 +4,14 @@
 \alias{fortify.spec}
 \title{Convert \code{stats::spec} to data.frame.}
 \usage{
-\method{fortify}{spec}(data)
+\method{fortify}{spec}(model, data = NULL, ...)
 }
 \arguments{
-\item{data}{\code{stats::spec} instance}
+\item{model}{\code{stats::spec} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

@@ -4,12 +4,16 @@
 \alias{fortify.factanal}
 \title{Convert \code{stats::factanal} to data.frame.}
 \usage{
-\method{fortify}{factanal}(data, original = NULL)
+\method{fortify}{factanal}(model, data = NULL, original = NULL, ...)
 }
 \arguments{
-\item{data}{\code{stats::factanal} instance}
+\item{model}{\code{stats::factanal} instance}
 
-\item{original}{Joined to Factanal result if provided.}
+\item{data}{original dataset, if needed}
+
+\item{original}{(Deprecated) use data}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame
@@ -20,6 +24,6 @@ Convert \code{stats::factanal} to data.frame.
 \examples{
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 ggplot2::fortify(d.factanal)
-ggplot2::fortify(d.factanal, original = state.x77)
+ggplot2::fortify(d.factanal, data = state.x77)
 }
 

@@ -26,7 +26,6 @@ install_github('sinhrks/ggfortify')
 For example, plot standard normal distribution from -3 to +3:
 
 ```{r, message = FALSE}
-library(ggplot2)
 library(ggfortify)
 ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
 ```

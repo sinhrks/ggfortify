@@ -5,14 +5,14 @@
 \alias{autoplot.ets}
 \title{Autoplot \code{forecast::bats} and \code{forecast::ets}}
 \usage{
-\method{autoplot}{ets}(data, columns = NULL, ...)
+\method{autoplot}{ets}(object, columns = NULL, ...)
 }
 \arguments{
-\item{data}{\code{forecast::bats} and \code{forecast::ets}  instance}
+\item{object}{\code{forecast::bats} and \code{forecast::ets}  instance}
 
 \item{columns}{Character vector specifies target column name(s)}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{other arguments passed to \code{autoplot.ts}}
 }
 \value{
 ggplot

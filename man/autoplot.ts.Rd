@@ -9,14 +9,14 @@
 \alias{autoplot.xts}
 \title{Autoplot time-series-like.}
 \usage{
-\method{autoplot}{ts}(data, columns = NULL, group = NULL, is.date = NULL,
-  index.name = "Index", p = NULL, ts.scale = FALSE, scales = "free_y",
-  facet = TRUE, facets = facet, nrow = NULL, ncol = 1,
-  ts.geom = "line", ts.colour = "#000000", ts.linetype = "solid",
-  xlab = "", ylab = "")
+\method{autoplot}{ts}(object, columns = NULL, group = NULL,
+  is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
+  scales = "free_y", facet = TRUE, facets = facet, nrow = NULL,
+  ncol = 1, ts.geom = "line", ts.colour = "#000000",
+  ts.linetype = "solid", xlab = "", ylab = "", ...)
 }
 \arguments{
-\item{data}{time-series-like instance}
+\item{object}{time-series-like instance}
 
 \item{columns}{Character vector specifies target column name(s)}
 
@@ -33,6 +33,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
+\item{facet}{(Deprecated) use facets}
+
 \item{facets}{Logical value to specify use facets for multivariate time-series}
 
 \item{nrow}{Number of facet/subplot rows}
@@ -48,6 +50,8 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 \item{xlab}{Character vector or expression for x axis label}
 
 \item{ylab}{Character vector or expression for y axis label}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

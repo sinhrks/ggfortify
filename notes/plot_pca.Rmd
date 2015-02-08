@@ -24,34 +24,35 @@ install_github('sinhrks/ggfortify')
 `ggfortify` let `ggplot2` know how to interpret PCA objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `stats::prcomp` and `stats::princomp` objects. 
 
 ```{r, message = FALSE}
-library(ggplot2)
 library(ggfortify)
 df <- iris[c(1, 2, 3, 4)]
 autoplot(prcomp(df))
 ```
 
-PCA result should only contains numeric values. If you want to colorize by non-numeric values which original data has, pass original data using `original` keyword and then specify column name by `colour` keyword. Use `help(autoplot.prcomp)` (or `help(autoplot.*)` for any other objects) to check available options.
+PCA result should only contains numeric values. If you want to colorize by non-numeric values which original data has, pass original data using `data` keyword and then specify column name by `colour` keyword. Use `help(autoplot.prcomp)` (or `help(autoplot.*)` for any other objects) to check available options.
+
+**NOTE** In v0.0.1, `original` keyword is used for passing original data. This keyword is deprecated to be compat with `{ggplot2}`, and being removed in future version.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), original = iris, colour = 'Species')
+autoplot(prcomp(df), data = iris, colour = 'Species')
 ```
 
 Passing `label = TRUE` draws each data label using `rownames`
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), original = iris, colour = 'Species', label = TRUE)
+autoplot(prcomp(df), data = iris, colour = 'Species', label = TRUE)
 ```
 
 Passing `loadings = TRUE` draws eigenvectors.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), original = iris, colour = 'Species', loadings = TRUE)
+autoplot(prcomp(df), data = iris, colour = 'Species', loadings = TRUE)
 ```
 
 You can attach eigenvector labels and change some options.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), original = iris, colour = 'Species',
+autoplot(prcomp(df), data = iris, colour = 'Species',
          loadings = TRUE, loadings.colour = 'blue',
          loadings.label = TRUE, loadings.label.size = 3)
 ```
@@ -64,20 +65,22 @@ autoplot(prcomp(df), original = iris, colour = 'Species',
 
 ```{r, message = FALSE}
 d.factanal <- factanal(state.x77, factors = 3, scores = 'regression')
-autoplot(d.factanal, original = state.x77, colour = 'Income')
+autoplot(d.factanal, data = state.x77, colour = 'Income')
 autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 ```
 
 # Plotting K-means
 
-`ggfortify` supports `stats::kmeans` class. You must explicitly pass original data to `autoplot` function via `original` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
+`ggfortify` supports `stats::kmeans` class. You must explicitly pass original data to `autoplot` function via `data` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
+
+**NOTE** In v0.0.1, `original` keyword is used for passing original data. This keyword is deprecated to be compat with `{ggplot2}`, and being removed in future version.
 
 ```{r, message = FALSE}
 set.seed(1)
 df <- iris[-5]
-autoplot(kmeans(df, 3), original = iris)
+autoplot(kmeans(df, 3), data = iris)
 
-autoplot(kmeans(df, 3), original = iris, label = TRUE)
+autoplot(kmeans(df, 3), data = iris, label = TRUE)
 ```
 
 # Plotting cluster package

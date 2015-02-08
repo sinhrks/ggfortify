@@ -23,8 +23,7 @@ install_github('sinhrks/ggfortify')
 
 `ggfortify` let `ggplot2` know how to interpret `ts` objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `ts` objects. 
 
-```{r}
-library(ggplot2)
+```{r, message = FALSE}
 library(ggfortify)
 autoplot(AirPassengers)
 ```

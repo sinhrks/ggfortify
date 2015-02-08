@@ -4,13 +4,14 @@
 \alias{autoplot.acf}
 \title{Autoplot \code{stats::acf}.}
 \usage{
-\method{autoplot}{acf}(data, colour = "#000000", linetype = "solid",
+\method{autoplot}{acf}(object, colour = "#000000", linetype = "solid",
   conf.int = TRUE, conf.int.colour = "#0000FF",
   conf.int.linetype = "dashed", conf.int.fill = NULL,
-  conf.int.alpha = 0.3, conf.int.value = 0.95, conf.int.type = "white")
+  conf.int.alpha = 0.3, conf.int.value = 0.95, conf.int.type = "white",
+  ...)
 }
 \arguments{
-\item{data}{\code{stats::acf} instance}
+\item{object}{\code{stats::acf} instance}
 
 \item{colour}{Line colour}
 
@@ -29,6 +30,8 @@
 \item{conf.int.value}{Coverage probability for confidence interval}
 
 \item{conf.int.type}{Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

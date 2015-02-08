@@ -7,10 +7,9 @@
 cbind_wraps(df1, df2)
 }
 \arguments{
-\item{data}{\code{data.frame} instance}
+\item{df1}{1st data}
 
-\item{original}{Joined to data if provided.
-cluster labels to the original}
+\item{df2}{2nd data}
 }
 \value{
 list

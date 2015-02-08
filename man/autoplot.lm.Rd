@@ -4,14 +4,14 @@
 \alias{autoplot.lm}
 \title{Autoplot \code{stats::lm}.}
 \usage{
-\method{autoplot}{lm}(data, which = c(1:3, 5), fill = "#444444",
+\method{autoplot}{lm}(object, which = c(1:3, 5), fill = "#444444",
   colour = "#444444", label.colour = "#000000", label.size = 4,
   label.n = 3, smooth.colour = "#0000FF", smooth.linetype = "solid",
   ad.colour = "#888888", ad.linetype = "dashed", ad.size = 0.2,
-  nrow = NULL, ncol = NULL)
+  nrow = NULL, ncol = NULL, ...)
 }
 \arguments{
-\item{data}{\code{stats::lm} instance}
+\item{object}{\code{stats::lm} instance}
 
 \item{which}{If a subset of the plots is required, specify a subset of the numbers 1:6.}
 
@@ -38,6 +38,8 @@
 \item{nrow}{Number of facet/subplot rows}
 
 \item{ncol}{Number of facet/subplot columns}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot

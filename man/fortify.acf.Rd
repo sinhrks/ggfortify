@@ -4,17 +4,21 @@
 \alias{fortify.acf}
 \title{Convert \code{stats::acf} to \code{data.frame}.}
 \usage{
-\method{fortify}{acf}(data, conf.int = TRUE, conf.int.value = 0.95,
-  conf.int.type = "white")
+\method{fortify}{acf}(model, data = NULL, conf.int = TRUE,
+  conf.int.value = 0.95, conf.int.type = "white", ...)
 }
 \arguments{
-\item{data}{\code{stats::acf} instance}
+\item{model}{\code{stats::acf} instance}
+
+\item{data}{original dataset, if needed}
 
 \item{conf.int}{Logical flag indicating whether to attach confidence intervals}
 
 \item{conf.int.value}{Coverage probability for confidence interval}
 
 \item{conf.int.type}{Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

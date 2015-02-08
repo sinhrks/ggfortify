@@ -1,5 +1,5 @@
 #' Attach confidence interval to \code{ggplot2::ggplot}
-#' 
+#'
 #' @param p \code{ggplot2::ggplot} instance
 #' @param data Data contains lower and upper confidence intervals
 #' @param lower Column name for lower confidence interval
@@ -14,38 +14,38 @@
 #' d <- ggplot2::fortify(stats::acf(AirPassengers, plot = FALSE))
 #' p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = Lag))
 #' ggfortify:::plot.conf.int(p)
-plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper', 
+plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
                            conf.int = TRUE,
                            conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                            conf.int.fill = '#000000', conf.int.alpha = 0.3) {
-  
+
   if (conf.int) {
     mapping_ribbon = ggplot2::aes_string(ymin = lower, ymax = upper)
     mapping_lower = ggplot2::aes_string(y = lower)
     mapping_upper = ggplot2::aes_string(y = upper)
     if (!is.null(conf.int.fill)) {
-      p <- p + ggplot2::geom_ribbon(data = data, 
+      p <- p + ggplot2::geom_ribbon(data = data,
                                     mapping = mapping_ribbon,
                                     fill = conf.int.fill, alpha = conf.int.alpha)
     }
     if (conf.int.linetype != 'none') {
       p <- p + ggplot2::geom_line(data = data,
-                                  mapping = mapping_lower, 
+                                  mapping = mapping_lower,
                                   colour = conf.int.colour, linetype = conf.int.linetype,
                                   na.rm = TRUE) +
         ggplot2::geom_line(data = data,
-                           mapping = mapping_upper, 
+                           mapping = mapping_upper,
                            colour = conf.int.colour, linetype = conf.int.linetype,
-                           na.rm = TRUE)   
+                           na.rm = TRUE)
     }
   }
   p
 }
 
 #' Attach label to \code{ggplot2::ggplot}
-#' 
+#'
 #' @param p \code{ggplot2::ggplot} instance
-#' @param data Data contains text label 
+#' @param data Data contains text label
 #' @param flag Logical value whether to display labels
 #' @param label Column name used for label text
 #' @param colour Text colour for labels
@@ -53,7 +53,7 @@ plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #' @return ggplot
 plot.label <- function(p, data, flag = TRUE, label = 'rownames',
                        colour = NULL, size = 4) {
-  
+
   if (!is.data.frame(data)) {
     stop(paste0('Unsupported class: ', class(data)))
   }
@@ -84,9 +84,8 @@ setClass('ggmultiplot',
          representation(plots = 'list', ncol = 'numeric', 'nrow' = 'numeric'),
          prototype = list(ncol = 0, nrow = 0))
 
-#' Generic add operator for \code{ggmultiplot} 
-#' 
-#' @param object \code{ggmultiplot}
+#' Generic add operator for \code{ggmultiplot}
+#'
 #' @param e1 first argument
 #' @param e2 second argument
 #' @return \code{ggmultiplot}
@@ -97,8 +96,8 @@ setMethod('+', c('ggmultiplot', 'ANY'),
         ncol = e1@ncol, nrow = e1@nrow)
 })
 
-#' Calcurate layout matrix for \code{ggmultiplot} 
-#' 
+#' Calcurate layout matrix for \code{ggmultiplot}
+#'
 #' @param nplots Number of plots
 #' @param ncol Number of grid columns
 #' @param nrow Number of grid rows
@@ -111,7 +110,7 @@ get.layout <- function(nplots, ncol, nrow) {
   } else if (ncol == 0 && nrow != 0) {
     ncol <- ceiling(nplots / nrow)
   }
-  
+
   if (nrow == 0) {
     nrow <- ceiling(nplots / ncol)
   } else {
@@ -123,29 +122,28 @@ get.layout <- function(nplots, ncol, nrow) {
                      ')must be larger than number of plots', nplots)
     stop(message)
   }
-  
+
   t(matrix(1:(ncol * nrow), ncol = nrow, nrow = ncol))
 }
 
-#' Generic print function for \code{ggmultiplot} 
-#' 
+#' Generic print function for \code{ggmultiplot}
+#'
 #' @param p \code{ggmultiplot}
 #' @return NULL
 print.ggmultiplot <- function(p) {
   # Based on Multiple plot function
   # http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)
-  
+
   nplots = length(p@plots)
-  
+
   if (nplots==1) {
     print(p@plots[[1]])
   } else {
-    require(grid)
     layout <- get.layout(nplots, p@ncol, p@nrow)
     grid::grid.newpage()
-    vp <- grid::viewport(layout = grid.layout(nrow(layout), ncol(layout)))
+    vp <- grid::viewport(layout = grid::grid.layout(nrow(layout), ncol(layout)))
     grid::pushViewport(vp)
-    
+
     for (i in 1:nplots) {
       matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
       vp <- grid::viewport(layout.pos.row = matchidx$row,
@@ -155,9 +153,10 @@ print.ggmultiplot <- function(p) {
   }
 }
 
-#' Generic show function for \code{ggmultiplot} 
-#' 
+#' Generic show function for \code{ggmultiplot}
+#'
 #' @param object \code{ggmultiplot}
 #' @return NULL
-setMethod('show', 'ggmultiplot', function(object) { print(object) })
+setMethod('show', 'ggmultiplot',
+          function(object) { print(object) })
 
