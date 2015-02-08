@@ -2,7 +2,7 @@ Package: ggfortify
 Type: Package
 Title: Define fortify and autoplot to allow ggplot2 to draw some popular
     packages.
-Version: 0.0.1
+Version: 0.0.2dev
 Date: 2014-10-05
 Author: sinhrks
 Maintainer: sinhrks <sinhrks@gmail.com>
