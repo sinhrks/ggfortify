@@ -12,7 +12,7 @@
 #' data(Canada, package = 'vars')
 #' d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
-#' ggplot2::fortify(stats::predict(d.var, n.ahead = 50))
+#' fortify(stats::predict(d.var, n.ahead = 50))
 #' @export
 fortify.varprd <- function(model, data = NULL, is.date = NULL,
                            ts.connect = FALSE, melt = FALSE, ...){
@@ -66,8 +66,8 @@ fortify.varprd <- function(model, data = NULL, is.date = NULL,
 #' data(Canada, package = 'vars')
 #' d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 #' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
-#' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
-#' ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
+#' autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
+#' autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 #' @export
 autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
                             scales = 'free_y',

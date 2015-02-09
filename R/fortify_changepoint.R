@@ -10,15 +10,15 @@
 #' @aliases fortify.breakpointsfull fortify.breakpoints
 #' @examples
 #' library(changepoint)
-#' ggplot2::fortify(cpt.mean(AirPassengers))
-#' ggplot2::fortify(cpt.var(AirPassengers))
-#' ggplot2::fortify(cpt.meanvar(AirPassengers))
+#' fortify(cpt.mean(AirPassengers))
+#' fortify(cpt.var(AirPassengers))
+#' fortify(cpt.meanvar(AirPassengers))
 #'
 #' library(strucchange)
 #' bp.nile <- breakpoints(Nile ~ 1)
-#' ggplot2::fortify(bp.nile)
-#' ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
-#' ggplot2::fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
+#' fortify(bp.nile)
+#' fortify(breakpoints(bp.nile, breaks = 2))
+#' fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
 #' @export
 fortify.cpt <- function(model, data = NULL, original = NULL,
                         is.date = NULL, ...) {
@@ -57,7 +57,7 @@ fortify.cpt <- function(model, data = NULL, original = NULL,
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(model)))
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' @export
@@ -77,8 +77,8 @@ fortify.breakpointsfull <- fortify.cpt
 #' @return ggplot
 #' @examples
 #' library(changepoint)
-#' ggplot2::autoplot(cpt.mean(AirPassengers))
-#' ggplot2::autoplot(cpt.meanvar(AirPassengers))
+#' autoplot(cpt.mean(AirPassengers))
+#' autoplot(cpt.meanvar(AirPassengers))
 #' @export
 autoplot.cpt <- function(object, is.date = NULL,
                          cpt.colour = '#FF0000', cpt.linetype = 'dashed',
@@ -113,9 +113,9 @@ autoplot.cpt <- function(object, is.date = NULL,
 #' @examples
 #' library(strucchange)
 #' bp.nile <- breakpoints(Nile ~ 1)
-#' ggplot2::autoplot(bp.nile)
-#' ggplot2::autoplot(bp.nile, is.date = TRUE)
-#' ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
+#' autoplot(bp.nile)
+#' autoplot(bp.nile, is.date = TRUE)
+#' autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 #' @export
 autoplot.breakpoints <- function(object, data = NULL, original = NULL,
                                  cpt.colour = '#FF0000', cpt.linetype = 'dashed',

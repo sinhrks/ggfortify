@@ -59,23 +59,23 @@ Autoplot time series models (like AR, ARIMA).
 }
 \examples{
 d.ar <- stats::ar(AirPassengers)
-ggplot2::autoplot(d.ar)
-ggplot2::autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
-ggplot2::autoplot(stats::arima(UKgas), data = UKgas)
-ggplot2::autoplot(forecast::arfima(AirPassengers))
-ggplot2::autoplot(forecast::nnetar(UKgas), is.date = FALSE)
+autoplot(d.ar)
+autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
+autoplot(stats::arima(UKgas), data = UKgas)
+autoplot(forecast::arfima(AirPassengers))
+autoplot(forecast::nnetar(UKgas), is.date = FALSE)
 
 d.holt <- stats::HoltWinters(USAccDeaths)
-ggplot2::autoplot(d.holt)
-ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
-ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
+autoplot(d.holt)
+autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
+autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
 
 form <- function(theta){
   dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
 }
 model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
 filtered <- dlm::dlmFilter(Nile, model)
-ggplot2::autoplot(filtered)
-ggplot2::autoplot(dlm::dlmSmooth(filtered))
+autoplot(filtered)
+autoplot(dlm::dlmSmooth(filtered))
 }
 

@@ -37,17 +37,17 @@ data.frame
 Convert time series models (like AR, ARIMA) to data.frame.
 }
 \examples{
-ggplot2::fortify(stats::ar(AirPassengers))
-ggplot2::fortify(stats::arima(UKgas))
-ggplot2::fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
-ggplot2::fortify(forecast::auto.arima(austres))
-ggplot2::fortify(forecast::arfima(AirPassengers))
-ggplot2::fortify(forecast::nnetar(UKgas))
-ggplot2::fortify(stats::HoltWinters(USAccDeaths))
+fortify(stats::ar(AirPassengers))
+fortify(stats::arima(UKgas))
+fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
+fortify(forecast::auto.arima(austres))
+fortify(forecast::arfima(AirPassengers))
+fortify(forecast::nnetar(UKgas))
+fortify(stats::HoltWinters(USAccDeaths))
 
 data(LPP2005REC, package = 'timeSeries')
 x = timeSeries::as.timeSeries(LPP2005REC)
 d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
-ggplot2::fortify(d.Garch)
+fortify(d.Garch)
 }
 

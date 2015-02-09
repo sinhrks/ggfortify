@@ -29,6 +29,6 @@ ggplot
 Autoplot \code{stats::density}
 }
 \examples{
-ggplot2::autoplot(stats::density(stats::rnorm(1:50)))
+autoplot(stats::density(stats::rnorm(1:50)))
 }
 

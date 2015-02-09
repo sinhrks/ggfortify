@@ -22,8 +22,8 @@ Autoplot \code{forecast::bats} and \code{forecast::ets}
 }
 \examples{
 d.bats <- forecast::bats(UKgas)
-ggplot2::autoplot(d.bats)
-ggplot2::autoplot(d.bats, columns = 'Residuals')
-ggplot2::autoplot(forecast::ets(UKgas))
+autoplot(d.bats)
+autoplot(d.bats, columns = 'Residuals')
+autoplot(forecast::ets(UKgas))
 }
 

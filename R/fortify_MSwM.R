@@ -11,7 +11,7 @@
 #'                 exog = cos(seq(-pi/2, pi/2, length.out = 100)))
 #' d.mswm <- MSwM::msmFit(lm(Data ~.-1, data = d), k=2, sw=rep(TRUE, 2),
 #'                        control = list(parallelization = FALSE))
-#' ggplot2::fortify(d.mswm)
+#' fortify(d.mswm)
 #' @export
 fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
   probable <- apply(model@Fit@smoProb[-1, ], 1, which.max)
@@ -42,7 +42,7 @@ fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
                           SmoProb = model@Fit@smoProb[-1, ],
                           ProbableModel = probable))
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot \code{MSwM::MSM.lm}.
@@ -58,7 +58,7 @@ fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
 #'                 exog = cos(seq(-pi/2, pi/2, length.out = 100)))
 #' d.mswm <- MSwM::msmFit(lm(Data ~.-1, data = d), k=2, sw=rep(TRUE, 2),
 #'                        control = list(parallelization = FALSE))
-#' ggplot2::autoplot(d.mswm)
+#' autoplot(d.mswm)
 #' @export
 autoplot.MSM.lm <- function(object, prob.colour = '#FF0000',
                             prob.linetype = 'dashed', ...) {

@@ -40,8 +40,8 @@ ggplot
 Autoplot \code{stats::acf}.
 }
 \examples{
-ggplot2::autoplot(stats::acf(AirPassengers))
-ggplot2::autoplot(stats::pacf(AirPassengers))
-ggplot2::autoplot(stats::ccf(AirPassengers, AirPassengers))
+autoplot(stats::acf(AirPassengers))
+autoplot(stats::pacf(AirPassengers))
+autoplot(stats::ccf(AirPassengers, AirPassengers))
 }
 

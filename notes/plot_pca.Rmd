@@ -77,10 +77,9 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 
 ```{r, message = FALSE}
 set.seed(1)
-df <- iris[-5]
-autoplot(kmeans(df, 3), data = iris)
+autoplot(kmeans(USArrests, 3), data = USArrests)
 
-autoplot(kmeans(df, 3), data = iris, label = TRUE)
+autoplot(kmeans(USArrests, 3), data = USArrests, label = TRUE)
 ```
 
 # Plotting cluster package
@@ -89,19 +88,19 @@ autoplot(kmeans(df, 3), data = iris, label = TRUE)
 
 ```{r, message = FALSE}
 library(cluster)
-autoplot(clara(df, 3))
+autoplot(clara(USArrests, 3))
 ```
 
 Specifying `frame = TRUE` in `autoplot` for `stats::kmeans` and `cluster::*` draws convex for each cluster.
 
 ```{r}
-autoplot(fanny(df, 3), frame = TRUE)
+autoplot(fanny(USArrests, 3), frame = TRUE)
 ```
 
 If you want probability ellipse, `ggplot2` 1.0.0 or later is required. Specify whatever supported in [`ggplot2::stat_ellipse`](http://docs.ggplot2.org/dev/stat_ellipse.html)'s `type` keyword via `frame.type` option. 
 
 ```{r}
-autoplot(pam(df, 3), frame = TRUE, frame.type = 'norm')
+autoplot(pam(USArrests, 3), frame = TRUE, frame.type = 'norm')
 ```
 
 # Resources related to ggfortify

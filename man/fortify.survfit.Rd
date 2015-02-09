@@ -22,9 +22,9 @@ Convert \code{survival::survfit} to data.frame.
 }
 \examples{
 d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
-ggplot2::fortify(d.survfit)
+fortify(d.survfit)
 
 d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-ggplot2::fortify(survival::survfit(d.coxph))
+fortify(survival::survfit(d.coxph))
 }
 

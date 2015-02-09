@@ -20,6 +20,6 @@ data.frame
 Convert \code{stats::dist} to data.frame.
 }
 \examples{
-ggplot2::fortify(eurodist)
+fortify(eurodist)
 }
 

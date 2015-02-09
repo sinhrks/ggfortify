@@ -24,6 +24,6 @@ data.frame
 Different from \code{as.data.frame},
 }
 \examples{
-ggplot2::fortify(matrix(1:6, nrow=2, ncol=3))
+fortify(matrix(1:6, nrow=2, ncol=3))
 }
 

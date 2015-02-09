@@ -70,7 +70,7 @@ p + scale_colour_brewer()
 
 Internally, `autoplot` calls a generic function named `ggplot2::fortify` to convert the input to `data.frame`. As `ggfortify` defines `fortify` function for all the supported classes, you can use `fortify` to convert the instance to plot-friendly `data.frame`.
 
-**NOTE** Precisely, `fortify` functions defined in `ggfortify` return tractable `dplyr::tbl_df` instance.
+**NOTE** In v0.0.1, `fortify` functions returns `dplyr::tbl_df`. As of v0.0.2, `fortify` returns normal `data.frame` because `dplyr` v0.4.0 or later no longer preserves `rownames` which may be required for plotting.
 
 If you want a different type of plot, you can use `fortify` to get `data.frame`, then call `ggplot` in a normal way.
 
@@ -78,7 +78,7 @@ Following example shows a bar plot counting k-means clusters.
 
 ```{r}
 df <- fortify(kmeans(iris[-5], 3), data = iris)
-df
+head(df)
 
 ggplot(df, aes(x= cluster, fill = cluster)) + geom_bar()
 ```

@@ -5,10 +5,10 @@
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(Titanic)
+#' fortify(Titanic)
 #' @export
 fortify.table <- function(model, data, ...) {
-  dplyr::tbl_df(as.data.frame(model))
+  as.data.frame(model)
 }
 
 #' Convert \code{base::matrix} to data.frame.
@@ -23,17 +23,17 @@ fortify.table <- function(model, data, ...) {
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(matrix(1:6, nrow=2, ncol=3))
+#' fortify(matrix(1:6, nrow=2, ncol=3))
 #' @export
 fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
-  df <- as.data.frame(model)
+  d <- as.data.frame(model)
   if ((!compat) && is.null(colnames(model))) {
     # set numeric column names
-    colnames(df) <- 1:ncol(model)
+    colnames(d) <- 1:ncol(model)
   }
   # dplyr doesn't guarantee rownames
-  df <- cbind_wraps(df, data)
-  df <- dplyr::tbl_df(df)
+  d <- cbind_wraps(d, data)
+  post.fortify(d)
 }
 
 #' Plot \code{base::matrix}
@@ -51,11 +51,11 @@ fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' ggplot2::autoplot(matrix(rnorm(20), nc = 5))
-#' ggplot2::autoplot(matrix(rnorm(20), nc = 5), fill = 'red')
-#' ggplot2::autoplot(matrix(rnorm(20), nc = 5),
-#'                   scale = ggplot2::scale_fill_gradient(low = 'red', high = 'blue'))
-#' ggplot2::autoplot(matrix(rnorm(20), nc = 2), geom = 'point')
+#' autoplot(matrix(rnorm(20), nc = 5))
+#' autoplot(matrix(rnorm(20), nc = 5), fill = 'red')
+#' autoplot(matrix(rnorm(20), nc = 5),
+#'          scale = scale_fill_gradient(low = 'red', high = 'blue'))
+#' autoplot(matrix(rnorm(20), nc = 2), geom = 'point')
 #' @export
 autoplot.matrix <- function (object, original = NULL,
                              fill = '#0000FF', scale = NULL,
@@ -63,10 +63,11 @@ autoplot.matrix <- function (object, original = NULL,
                              label = FALSE, label.colour = colour, label.size = 4,
                              geom = 'tile', ...) {
   if (geom == 'tile') {
-    df <- ggplot2::fortify(object, original = original)
-    df$Index <- rownames(df)
-    cols <- colnames(df)
-    gathered <- tidyr::gather_(df, 'variable', 'value', cols[cols != 'Index'])
+    fortified <- ggplot2::fortify(object, original = original)
+    fortified$Index <- rownames(fortified)
+    cols <- colnames(fortified)
+    gathered <- tidyr::gather_(fortified, 'variable', 'value',
+                               cols[cols != 'Index'])
 
     if (is.null(scale)) {
       scale <- ggplot2::scale_fill_gradient(low = "white", high = fill)
