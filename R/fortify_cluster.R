@@ -7,12 +7,11 @@
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' df <- iris[-5]
-#' ggplot2::fortify(stats::kmeans(df, 3))
-#' ggplot2::fortify(stats::kmeans(df, 3), data = iris)
-#' ggplot2::fortify(cluster::clara(df, 3))
-#' ggplot2::fortify(cluster::fanny(df, 3))
-#' ggplot2::fortify(cluster::pam(df, 3), data = iris)
+#' fortify(stats::kmeans(iris[-5], 3))
+#' fortify(stats::kmeans(iris[-5], 3), data = iris)
+#' fortify(cluster::clara(iris[-5], 3))
+#' fortify(cluster::fanny(iris[-5], 3))
+#' fortify(cluster::pam(iris[-5], 3), data = iris)
 #' @export
 fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 
@@ -24,13 +23,13 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
   if (is(model, 'kmeans')) {
     d <- data.frame(cluster = as.factor(model$cluster))
   } else if (is(model, 'partition')) {
-    d <- data.frame(cluster = as.factor(model$cluster),
-                    ggplot2::fortify(model$data))
+    d <- data.frame(ggplot2::fortify(model$data),
+                    cluster = as.factor(model$cluster))
   } else {
     stop(paste0('Unsupported class for fortify.kmeans: ', class(model)))
   }
-  d <- cbind_wraps(d, data)
-  dplyr::tbl_df(d)
+  d <- cbind_wraps(data, d)
+  post.fortify(d)
 }
 
 
@@ -43,13 +42,12 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 #' @param ... other arguments passed to \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
-#' df <- iris[-5]
-#' ggplot2::autoplot(stats::kmeans(df, 3), data = iris)
-#' ggplot2::autoplot(cluster::clara(df, 3), label = TRUE)
-#' ggplot2::autoplot(cluster::fanny(df, 3))
-#' ggplot2::autoplot(cluster::fanny(df, 3), frame = TRUE)
-#' ggplot2::autoplot(cluster::pam(df, 3), data = iris)
-#' ggplot2::autoplot(cluster::pam(df, 3), data = iris, frame = TRUE, frame.type = 't')
+#' autoplot(stats::kmeans(iris[-5], 3), data = iris)
+#' autoplot(cluster::clara(iris[-5], 3), label = TRUE)
+#' autoplot(cluster::fanny(iris[-5], 3))
+#' autoplot(cluster::fanny(iris[-5], 3), frame = TRUE)
+#' autoplot(cluster::pam(iris[-5], 3), data = iris)
+#' autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
 #' @export
 autoplot.kmeans <- function(object, data = NULL, original = NULL, ...) {
 

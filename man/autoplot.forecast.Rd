@@ -41,11 +41,11 @@ Autoplot \code{forecast::forecast}.
 }
 \examples{
 d.arima <- forecast::auto.arima(AirPassengers)
-ggplot2::autoplot(forecast::forecast(d.arima, h = 10))
-ggplot2::autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
-ggplot2::autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
-ggplot2::autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
-ggplot2::autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
-ggplot2::autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
+autoplot(forecast::forecast(d.arima, h = 10))
+autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
+autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
+autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
+autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
+autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 }
 

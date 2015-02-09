@@ -37,10 +37,10 @@ ggplot
 Plot \code{base::matrix}
 }
 \examples{
-ggplot2::autoplot(matrix(rnorm(20), nc = 5))
-ggplot2::autoplot(matrix(rnorm(20), nc = 5), fill = 'red')
-ggplot2::autoplot(matrix(rnorm(20), nc = 5),
-                  scale = ggplot2::scale_fill_gradient(low = 'red', high = 'blue'))
-ggplot2::autoplot(matrix(rnorm(20), nc = 2), geom = 'point')
+autoplot(matrix(rnorm(20), nc = 5))
+autoplot(matrix(rnorm(20), nc = 5), fill = 'red')
+autoplot(matrix(rnorm(20), nc = 5),
+         scale = scale_fill_gradient(low = 'red', high = 'blue'))
+autoplot(matrix(rnorm(20), nc = 2), geom = 'point')
 }
 

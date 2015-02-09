@@ -44,10 +44,10 @@ Autoplot \code{survival::survfit}.
 }
 \examples{
 d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
-ggplot2::autoplot(d.survfit)
-ggplot2::autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
+autoplot(d.survfit)
+autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
 
 d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-ggplot2::autoplot(survival::survfit(d.coxph))
+autoplot(survival::survfit(d.coxph))
 }
 

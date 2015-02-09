@@ -61,24 +61,24 @@ Autoplot time-series-like.
 }
 \examples{
 data(Canada, package = 'vars')
-ggplot2::autoplot(AirPassengers)
-ggplot2::autoplot(UKgas, ts.geom = 'bar')
-ggplot2::autoplot(Canada)
-ggplot2::autoplot(Canada, columns = 'e', is.date = TRUE)
-ggplot2::autoplot(Canada, facets = FALSE)
+autoplot(AirPassengers)
+autoplot(UKgas, ts.geom = 'bar')
+autoplot(Canada)
+autoplot(Canada, columns = 'e', is.date = TRUE)
+autoplot(Canada, facets = FALSE)
 
 library(zoo)
-ggplot2::autoplot(xts::as.xts(AirPassengers))
-ggplot2::autoplot(xts::as.xts(UKgas))
-ggplot2::autoplot(xts::as.xts(Canada))
+autoplot(xts::as.xts(AirPassengers))
+autoplot(xts::as.xts(UKgas))
+autoplot(xts::as.xts(Canada))
 
-ggplot2::autoplot(timeSeries::as.timeSeries(AirPassengers))
-ggplot2::autoplot(timeSeries::as.timeSeries(Canada))
+autoplot(timeSeries::as.timeSeries(AirPassengers))
+autoplot(timeSeries::as.timeSeries(Canada))
 
 its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
-ggplot2::autoplot(its)
+autoplot(its)
 
-ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
-ggplot2::autoplot(stats::decompose(UKgas))
+autoplot(stats::stl(UKgas, s.window = 'periodic'))
+autoplot(stats::decompose(UKgas))
 }
 

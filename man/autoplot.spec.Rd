@@ -18,7 +18,7 @@ ggplot
 Autoplot \code{stats::spec}.
 }
 \examples{
-ggplot2::autoplot(stats::spec.ar(AirPassengers))
-ggplot2::autoplot(stats::spec.pgram(AirPassengers))
+autoplot(stats::spec.ar(AirPassengers))
+autoplot(stats::spec.pgram(AirPassengers))
 }
 

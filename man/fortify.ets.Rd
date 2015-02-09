@@ -20,7 +20,7 @@ data.frame
 Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.
 }
 \examples{
-ggplot2::fortify(forecast::bats(UKgas))
-ggplot2::fortify(forecast::ets(UKgas))
+fortify(forecast::bats(UKgas))
+fortify(forecast::ets(UKgas))
 }
 

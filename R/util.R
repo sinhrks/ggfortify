@@ -92,3 +92,14 @@ stop.unsupported.type <- function() {
   stop(paste0('Unsupported class for autoplot: ', class(data)), call. = FALSE)
 }
 
+
+#' Post process for fortify.
+#'
+#' @param data data.frame
+#' @return data.frame
+post.fortify <- function(data) {
+  # does nothing in current version
+  # dplyr::tbl_df(data)
+  data
+}
+

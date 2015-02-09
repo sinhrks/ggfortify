@@ -20,6 +20,6 @@ data.frame
 Convert \code{stats::density} to \code{data.frame}.
 }
 \examples{
-ggplot2::fortify(stats::density(stats::rnorm(1:50)))
+fortify(stats::density(stats::rnorm(1:50)))
 }
 

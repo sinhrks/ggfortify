@@ -5,11 +5,11 @@
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(stats::density(stats::rnorm(1:50)))
+#' fortify(stats::density(stats::rnorm(1:50)))
 #' @export
 fortify.density <- function(model, data = NULL, ...) {
   d <- data.frame(x = model$x, y = model$y)
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot \code{stats::density}
@@ -23,7 +23,7 @@ fortify.density <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to PDC/CDF func
 #' @return ggplot
 #' @examples
-#' ggplot2::autoplot(stats::density(stats::rnorm(1:50)))
+#' autoplot(stats::density(stats::rnorm(1:50)))
 #' @export
 autoplot.density <- function (object, p = NULL,
                               colour = '#000000', linetype = 'solid',

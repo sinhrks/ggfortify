@@ -30,8 +30,8 @@ Autoplot \code{strucchange::breakpoints}.
 \examples{
 library(strucchange)
 bp.nile <- breakpoints(Nile ~ 1)
-ggplot2::autoplot(bp.nile)
-ggplot2::autoplot(bp.nile, is.date = TRUE)
-ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
+autoplot(bp.nile)
+autoplot(bp.nile, is.date = TRUE)
+autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
 

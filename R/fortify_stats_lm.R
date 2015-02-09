@@ -17,11 +17,11 @@
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' ggplot2::autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
-#' ggplot2::autoplot(glm(Petal.Width ~ Petal.Length, data= iris), which = 1:6)
+#' autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
+#' autoplot(glm(Petal.Width ~ Petal.Length, data= iris), which = 1:6)
 #'
-#' ggplot2::autoplot(lm(Petal.Width~Petal.Length, data = iris)) + ggplot2::theme_bw()
-#' ggplot2::autoplot(lm(Petal.Width~Petal.Length, data = iris)) + ggplot2::scale_colour_brewer()
+#' autoplot(lm(Petal.Width~Petal.Length, data = iris)) + theme_bw()
+#' autoplot(lm(Petal.Width~Petal.Length, data = iris)) + scale_colour_brewer()
 #' @export
 autoplot.lm <- function(object, which=c(1:3, 5),
                         fill = '#444444', colour = '#444444',
@@ -50,6 +50,7 @@ autoplot.lm <- function(object, which=c(1:3, 5),
   n <- nrow(plot.data)
 
   plot.data$.index <- 1:n
+  plot.data$.label <- rownames(plot.data)
   if (show[2L]) {
     ylim <- range(plot.data$.stdresid, na.rm = TRUE)
     ylim[2L] <- ylim[2L] + diff(ylim) * 0.075
@@ -91,7 +92,7 @@ autoplot.lm <- function(object, which=c(1:3, 5),
 
   .decorate.label <- function(p, d) {
     if (label.n > 0) {
-      mapping = ggplot2::aes_string(label = '.index')
+      mapping = ggplot2::aes_string(label = '.label')
       p <- p + ggplot2::geom_text(data = d, mapping = mapping,
                                   colour = label.colour, size = label.size)
     }

@@ -27,10 +27,10 @@ data.frame
 Convert \code{stats::acf} to \code{data.frame}.
 }
 \examples{
-ggplot2::fortify(stats::acf(AirPassengers))
-ggplot2::fortify(stats::pacf(AirPassengers))
-ggplot2::fortify(stats::ccf(AirPassengers, AirPassengers))
+fortify(stats::acf(AirPassengers))
+fortify(stats::pacf(AirPassengers))
+fortify(stats::ccf(AirPassengers, AirPassengers))
 
-ggplot2::fortify(stats::acf(AirPassengers), conf.int = TRUE)
+fortify(stats::acf(AirPassengers), conf.int = TRUE)
 }
 

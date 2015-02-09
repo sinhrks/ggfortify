@@ -46,7 +46,7 @@ Autoplot \code{vars::varprd}.
 data(Canada, package = 'vars')
 d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
 d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
-ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
-ggplot2::autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
+autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
+autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 }
 

@@ -2,7 +2,7 @@
 fortify.stl <- fortify.ts
 
 #' @export
-fortify.decomposed.ts <- fortify.stl
+fortify.decomposed.ts <- fortify.ts
 
 #' @export
 autoplot.stl <- autoplot.ts
@@ -20,11 +20,11 @@ autoplot.decomposed.ts <- autoplot.ts
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(stats::acf(AirPassengers))
-#' ggplot2::fortify(stats::pacf(AirPassengers))
-#' ggplot2::fortify(stats::ccf(AirPassengers, AirPassengers))
+#' fortify(stats::acf(AirPassengers))
+#' fortify(stats::pacf(AirPassengers))
+#' fortify(stats::ccf(AirPassengers, AirPassengers))
 #'
-#' ggplot2::fortify(stats::acf(AirPassengers), conf.int = TRUE)
+#' fortify(stats::acf(AirPassengers), conf.int = TRUE)
 #' @export
 fortify.acf <- function(model, data = NULL,
                         conf.int = TRUE, conf.int.value = 0.95,
@@ -35,7 +35,7 @@ fortify.acf <- function(model, data = NULL,
     cfd <- data.frame(lower = -cf, upper = cf)
     d <- cbind(d, cfd)
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot \code{stats::acf}.
@@ -53,9 +53,9 @@ fortify.acf <- function(model, data = NULL,
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' ggplot2::autoplot(stats::acf(AirPassengers))
-#' ggplot2::autoplot(stats::pacf(AirPassengers))
-#' ggplot2::autoplot(stats::ccf(AirPassengers, AirPassengers))
+#' autoplot(stats::acf(AirPassengers))
+#' autoplot(stats::pacf(AirPassengers))
+#' autoplot(stats::ccf(AirPassengers, AirPassengers))
 #' @export
 autoplot.acf <- function(object,
                          colour = '#000000', linetype = 'solid',
@@ -93,14 +93,14 @@ autoplot.acf <- function(object,
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(spectrum(AirPassengers))
-#' ggplot2::fortify(stats::spec.ar(AirPassengers))
-#' ggplot2::fortify(stats::spec.pgram(AirPassengers))
+#' fortify(spectrum(AirPassengers))
+#' fortify(stats::spec.ar(AirPassengers))
+#' fortify(stats::spec.pgram(AirPassengers))
 #' @export
 fortify.spec <- function(model, data = NULL, ...) {
   d <- data.frame(Frequency = model$freq,
                   Spectrum = model$spec)
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot \code{stats::spec}.
@@ -109,8 +109,8 @@ fortify.spec <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' ggplot2::autoplot(stats::spec.ar(AirPassengers))
-#' ggplot2::autoplot(stats::spec.pgram(AirPassengers))
+#' autoplot(stats::spec.ar(AirPassengers))
+#' autoplot(stats::spec.pgram(AirPassengers))
 #' @export
 autoplot.spec <- function(object, ...) {
   plot.data <- ggplot2::fortify(object)
@@ -129,12 +129,11 @@ autoplot.spec <- function(object, ...) {
 #' @return data.frame
 #' @aliases fortify.princomp
 #' @examples
-#' df <- iris[-5]
-#' ggplot2::fortify(stats::prcomp(df))
-#' ggplot2::fortify(stats::prcomp(df), data = iris)
+#' fortify(stats::prcomp(iris[-5]))
+#' fortify(stats::prcomp(iris[-5]), data = iris)
 #'
-#' ggplot2::fortify(stats::princomp(df))
-#' ggplot2::fortify(stats::princomp(df), data = iris)
+#' fortify(stats::princomp(iris[-5]))
+#' fortify(stats::princomp(iris[-5]), data = iris)
 #' @export
 fortify.prcomp <- function(model, data = NULL,
                            original = NULL, ...) {
@@ -155,9 +154,9 @@ fortify.prcomp <- function(model, data = NULL,
 
   values <- ggfortify::unscale(values, center = model$center,
                                scale = model$scale)
-  values <- cbind_wraps(values, data)
+  values <- cbind_wraps(data, values)
   d <- cbind_wraps(values, d)
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' @export
@@ -172,8 +171,8 @@ fortify.princomp <- fortify.prcomp
 #' @return data.frame
 #' @examples
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
-#' ggplot2::fortify(d.factanal)
-#' ggplot2::fortify(d.factanal, data = state.x77)
+#' fortify(d.factanal)
+#' fortify(d.factanal, data = state.x77)
 #' @export
 fortify.factanal <- function(model, data = NULL,
                              original = NULL, ...) {
@@ -189,7 +188,7 @@ fortify.factanal <- function(model, data = NULL,
   }
   d <- as.data.frame(model$scores)
   d <- cbind_wraps(data, d)
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot PCA-likes.
@@ -216,26 +215,25 @@ fortify.factanal <- function(model, data = NULL,
 #' @return ggplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal
 #' @examples
-#' df <- iris[-5]
-#' ggplot2::autoplot(stats::prcomp(df))
-#' ggplot2::autoplot(stats::prcomp(df), data = iris)
-#' ggplot2::autoplot(stats::prcomp(df), data = iris, colour = 'Species')
-#' ggplot2::autoplot(stats::prcomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
-#' ggplot2::autoplot(stats::prcomp(df), frame = TRUE)
-#' ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
-#'                   frame.colour = 'Species')
-#' ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
-#'                   frame.type = 't', frame.colour = 'Species')
+#' autoplot(stats::prcomp(iris[-5]))
+#' autoplot(stats::prcomp(iris[-5]), data = iris)
+#' autoplot(stats::prcomp(iris[-5]), data = iris, colour = 'Species')
+#' autoplot(stats::prcomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' autoplot(stats::prcomp(iris[-5]), frame = TRUE)
+#' autoplot(stats::prcomp(iris[-5]), data = iris, frame = TRUE,
+#'          frame.colour = 'Species')
+#' autoplot(stats::prcomp(iris[-5]), data = iris, frame = TRUE,
+#'          frame.type = 't', frame.colour = 'Species')
 #'
-#' ggplot2::autoplot(stats::princomp(df))
-#' ggplot2::autoplot(stats::princomp(df), data = iris)
-#' ggplot2::autoplot(stats::princomp(df), data = iris, colour = 'Species')
-#' ggplot2::autoplot(stats::princomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' autoplot(stats::princomp(iris[-5]))
+#' autoplot(stats::princomp(iris[-5]), data = iris)
+#' autoplot(stats::princomp(iris[-5]), data = iris, colour = 'Species')
+#' autoplot(stats::princomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #'
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
-#' ggplot2::autoplot(d.factanal)
-#' ggplot2::autoplot(d.factanal, data = state.x77, colour = 'Income')
-#' ggplot2::autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' autoplot(d.factanal)
+#' autoplot(d.factanal, data = state.x77, colour = 'Income')
+#' autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 autoplot.pca_common <- function(object, data = NULL, original = NULL,
                                 colour = NULL,
                                 label = FALSE, label.colour = colour, label.size = 4,
@@ -341,7 +339,7 @@ autoplot.factanal <- autoplot.pca_common
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(eurodist)
+#' fortify(eurodist)
 #' @export
 fortify.dist <- function(model, data = NULL, ...) {
   model <- as.matrix(model)

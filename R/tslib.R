@@ -1,9 +1,9 @@
 #' Convert \code{ts} index to \code{Date} \code{vector}.
-#' 
+#'
 #' @param data \code{ts} instance
 #' @param is.tsp Logical frag whether data is \code{tsp} itself or not
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12. 
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @return vector
 #' @examples
 #' ggfortify:::get.dtindex(AirPassengers)
@@ -28,12 +28,12 @@ get.dtindex <- function(data, is.tsp = FALSE, is.date = NULL) {
 }
 
 #' Get \code{Date} \code{vector} continue to \code{ts} index.
-#' 
+#'
 #' @param data \code{ts} instance
 #' @param length A number to continue
 #' @param is.tsp Logical frag whether data is \code{tsp} itself or not
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12.  
+#' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @return vector
 #' @examples
 #' ggfortify:::get.dtindex.continuous(AirPassengers, length = 10)
@@ -57,9 +57,9 @@ get.dtindex.continuous <- function(data, length, is.tsp = FALSE, is.date = NULL)
 }
 
 #' Check if Validates number of \code{ts} variates
-#' 
+#'
 #' @param data \code{ts} instance
-#' @param raise Logical flag whether raise an error 
+#' @param raise Logical flag whether raise an error
 #' @return logical
 #' @examples
 #' ggfortify:::is.univariate(AirPassengers)
@@ -75,12 +75,12 @@ is.univariate <- function(data, raise = TRUE) {
 }
 
 #' Rbind original and predicted time-series-like instances as fortified \code{data.frame}
-#' 
+#'
 #' @param data Predicted/forecasted \code{ts} instance
 #' @param original Original \code{ts} instance
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param index.name Specify column name for time series index
-#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series. 
+#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series.
 #' @return data.frame
 #' @examples
 #' predicted <- predict(stats::HoltWinters(UKgas), n.ahead = 5, prediction.interval = TRUE)
@@ -95,7 +95,7 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
 
   dnames <- names(data)
   dnames <- dnames[dnames != index.name]
-  
+
   if (!is.data.frame(original)) {
     original <- ggplot2::fortify(original, index.name = index.name,
                                  data.name = data.name)
@@ -103,18 +103,18 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
   n <- nrow(original)
   rownames(data) <- NULL
   rownames(original) <- NULL
-  
+
   d <- dplyr::rbind_list(original, data)
   if (ts.connect) {
     # Use fnames not to overwrite Index
     d[n, dnames] <- d[n, data.name]
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 
 #' Calcurate confidence interval for \code{stats::acf}
-#' 
+#'
 #' @param x \code{stats::acf} instance
 #' @param ci Float value for confidence interval
 #' @param ci.type "white" or "ma"
@@ -124,7 +124,7 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
 #' ggfortify:::confint.acf(air.acf)
 #' ggfortify:::confint.acf(air.acf, ci.type = 'ma')
 confint.acf <- function (x, ci = 0.95, ci.type = "white") {
-  if ((nser <- ncol(x$lag)) < 1L) 
+  if ((nser <- ncol(x$lag)) < 1L)
     stop("x$lag must have at least 1 column")
   with.ci <- ci > 0 && x$type != "covariance"
   with.ci.ma <- with.ci && ci.type == "ma" && x$type == "correlation"
@@ -133,13 +133,13 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     warning("can use ci.type=\"ma\" only if first lag is 0")
     with.ci.ma <- FALSE
   }
-  clim0 <- if (with.ci) 
+  clim0 <- if (with.ci)
     qnorm((1 + ci)/2)/sqrt(x$n.used)
   else c(0, 0)
-  
+
   Npgs <- 1L
   nr <- nser
-  
+
   if (nser > 1L) {
     Npgs <- nser
     nr <- ceiling(nser / Npgs)
@@ -152,7 +152,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     for (i in iind) {
       for (j in jind) {
         if (!(max(i, j) > nser)) {
-          clim <- if (with.ci.ma && i == j) 
+          clim <- if (with.ci.ma && i == j)
             clim0 * sqrt(cumsum(c(1, 2 * x$acf[-1, i, j]^2)))
           else clim0
 
@@ -172,7 +172,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 }
 
 #' Calcurate fitted values for \code{stats::ar}
-#' 
+#'
 #' @param object \code{stats::ar} instance
 #' @param ... other keywords
 #' @return ts An time series of the one-step forecasts
@@ -186,7 +186,7 @@ fitted.ar <- function(object, ...) {
 }
 
 #' Calcurate residuals for \code{stats::ar}
-#' 
+#'
 #' @param object \code{stats::ar} instance
 #' @param ... other keywords
 #' @return ts Residuals extracted from the object object.
@@ -198,7 +198,7 @@ residuals.ar <- function(object, ...) {
 }
 
 #' Plots a cumulative periodogram.
-#' 
+#'
 #' @param ts \code{stats::ts} instance
 #' @param taper Proportion tapered in forming the periodogram
 #' @param colour Line colour
@@ -212,7 +212,7 @@ residuals.ar <- function(object, ...) {
 #' @examples
 #' ggcpgram(AirPassengers)
 #' @export
-ggcpgram <- function (ts, taper = 0.1, 
+ggcpgram <- function (ts, taper = 0.1,
                       colour = '#000000', linetype = 'solid',
                       conf.int = TRUE,
                       conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
@@ -244,7 +244,7 @@ ggcpgram <- function (ts, taper = 0.1,
     geom_line(colour = colour, linetype = linetype) +
     ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
     ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
-  
+
   p <- plot.conf.int(p, conf.int = conf.int,
                      conf.int.colour = conf.int.colour,
                      conf.int.linetype = conf.int.linetype,
@@ -254,7 +254,7 @@ ggcpgram <- function (ts, taper = 0.1,
 }
 
 #' Plots time-series diagnostics.
-#' 
+#'
 #' @param object A fitted time-series model
 #' @param gof.lag The maximum number of lags for a Portmanteau goodness-of-fit test
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
@@ -272,11 +272,11 @@ ggcpgram <- function (ts, taper = 0.1,
 #' @examples
 #' ggtsdiag(arima(AirPassengers))
 #' @export
-ggtsdiag <- function(object, gof.lag = 10, 
+ggtsdiag <- function(object, gof.lag = 10,
                      conf.int = TRUE,
                      conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                      conf.int.fill = NULL, conf.int.alpha = 0.3,
-                     ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2, 
+                     ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2,
                      nrow = NULL, ncol = 1, ...) {
   rs <- residuals(object)
   if (is.null(rs)) {
@@ -285,12 +285,12 @@ ggtsdiag <- function(object, gof.lag = 10,
   if (is.null(rs)) {
     rs <- object$resid
   }
-  
+
   stdres <- rs / sqrt(object$sigma2)
   p.std <- ggplot2::autoplot(stdres) +
     ggplot2::geom_hline(yintercept = 0,
                         linetype = ad.linetype, size = ad.size,
-                        colour = ad.colour) + 
+                        colour = ad.colour) +
     ggplot2::ggtitle('Standardized Residuals')
 
   acfobj <- stats::acf(rs, plot = FALSE, na.action = na.pass)
@@ -300,7 +300,7 @@ ggtsdiag <- function(object, gof.lag = 10,
                         conf.int.fill = conf.int.fill,
                         conf.int.alpha = conf.int.alpha)
   p.acf <- p.acf + ggplot2::ggtitle('ACF of Residuals')
-  
+
   nlag <- gof.lag
   pval <- numeric(nlag)
   for (i in 1L:nlag) pval[i] <- Box.test(rs, i, type = "Ljung-Box")$p.value
@@ -324,7 +324,7 @@ ggtsdiag <- function(object, gof.lag = 10,
 }
 
 #' Plot time series against lagged versions of themselves.
-#' 
+#'
 #' @param ts \code{stats::ts} instance
 #' @param lags Number of lag plots desired
 #' @param nrow Number of plot rows
@@ -340,11 +340,11 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   n <- nrow(ts)
   nser <- 1
   tot.lags <- nser * lags
-  
+
   if (is.null(nrow) && is.null(ncol)) {
     nrow <- ceiling(sqrt(tot.lags))
   }
-  
+
   .lag <- function(k) {
     result <- as.vector(lag(ts, k))
     result <- data.frame(Data = as.vector(ts),
@@ -355,7 +355,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   lag.df <- dplyr::rbind_all(lapply(seq(1:lags), .lag))
   lag.df <- dplyr::filter(lag.df, !is.na(Lag))
   lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
-  
+
   mapping = ggplot2::aes_string(x = 'Lag', y = 'Data')
   p <- ggplot2::ggplot(data = lag.df, mapping = mapping) +
     ggplot2::geom_point() +
@@ -364,7 +364,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
 }
 
 #' Plot seasonal subseries of time series, generalization of \code{stats::monthplot}
-#' 
+#'
 #' @param data \code{stats::ts} instance
 #' @param freq Length of frequency. If not provided, use time-series frequency
 #' @param nrow Number of plot rows
@@ -389,30 +389,30 @@ ggfreqplot <- function(data, freq = NULL,
                        conf.int.value = 0.95,
                        ...) {
   is.univariate(data)
-  
+
   if (is.null(freq)) {
     freq <- frequency(data)
   }
-  
+
   if (is.null(nrow) && is.null(ncol)) {
     nrow <- ceiling(sqrt(freq))
   }
-  
+
   d <- ggplot2::fortify(data)
   freqd <- data.frame(Frequency = rep(1:freq, length.out = length(data)))
   d <- cbind(d, freqd)
 
   summarised <- dplyr::group_by_(d, 'Frequency') %>%
     dplyr::summarise_(m = 'mean(Data)', s = 'sd(Data)')
-  
+
   p <- (1 - conf.int.value) / 2
   summarised <- dplyr::mutate(summarised,
                               lower = qnorm(p, mean = m, sd = s),
                               upper = qnorm(1 - p, mean = m, sd = s))
   d <- dplyr::left_join(d, summarised, by = 'Frequency')
-  
+
   p <- autoplot.ts(d, columns = 'Data', ...)
-  p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'), 
+  p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'),
                        colour = conf.int.colour) +
     ggplot2::facet_wrap(~Frequency)
   p <- plot.conf.int(p, conf.int = conf.int,

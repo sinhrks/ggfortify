@@ -7,10 +7,10 @@
 #' @aliases fortify.survfit.cox
 #' @examples
 #' d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
-#' ggplot2::fortify(d.survfit)
+#' fortify(d.survfit)
 #'
 #' d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-#' ggplot2::fortify(survival::survfit(d.coxph))
+#' fortify(survival::survfit(d.coxph))
 #' @export
 fortify.survfit <- function(model, data = NULL, ...) {
   d <- data.frame(time = model$time,
@@ -29,7 +29,7 @@ fortify.survfit <- function(model, data = NULL, ...) {
   } else {
     stop(paste0('Unsupported class for fortify.survfit: ', class(model)))
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot \code{survival::survfit}.
@@ -50,11 +50,11 @@ fortify.survfit <- function(model, data = NULL, ...) {
 #' @aliases autoplot.survfit.cox
 #' @examples
 #' d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
-#' ggplot2::autoplot(d.survfit)
-#' ggplot2::autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
+#' autoplot(d.survfit)
+#' autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
 #'
 #' d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-#' ggplot2::autoplot(survival::survfit(d.coxph))
+#' autoplot(survival::survfit(d.coxph))
 #' @export
 autoplot.survfit <- function(object,
                              surv.colour = '#000000', surv.linetype = 'solid',

@@ -24,12 +24,11 @@ Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \code{cluster::pam}.
 }
 \examples{
-df <- iris[-5]
-ggplot2::autoplot(stats::kmeans(df, 3), data = iris)
-ggplot2::autoplot(cluster::clara(df, 3), label = TRUE)
-ggplot2::autoplot(cluster::fanny(df, 3))
-ggplot2::autoplot(cluster::fanny(df, 3), frame = TRUE)
-ggplot2::autoplot(cluster::pam(df, 3), data = iris)
-ggplot2::autoplot(cluster::pam(df, 3), data = iris, frame = TRUE, frame.type = 't')
+autoplot(stats::kmeans(iris[-5], 3), data = iris)
+autoplot(cluster::clara(iris[-5], 3), label = TRUE)
+autoplot(cluster::fanny(iris[-5], 3))
+autoplot(cluster::fanny(iris[-5], 3), frame = TRUE)
+autoplot(cluster::pam(iris[-5], 3), data = iris)
+autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
 }
 

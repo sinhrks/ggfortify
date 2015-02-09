@@ -28,7 +28,7 @@ Convert \code{forecast::forecast} to data.frame.
 \examples{
 d.arima <- forecast::auto.arima(AirPassengers)
 d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
-ggplot2::fortify(d.forecast)
-ggplot2::fortify(d.forecast, ts.connect = TRUE)
+fortify(d.forecast)
+fortify(d.forecast, ts.connect = TRUE)
 }
 

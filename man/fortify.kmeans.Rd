@@ -24,11 +24,10 @@ Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \code{cluster::pam} to data.frame.
 }
 \examples{
-df <- iris[-5]
-ggplot2::fortify(stats::kmeans(df, 3))
-ggplot2::fortify(stats::kmeans(df, 3), data = iris)
-ggplot2::fortify(cluster::clara(df, 3))
-ggplot2::fortify(cluster::fanny(df, 3))
-ggplot2::fortify(cluster::pam(df, 3), data = iris)
+fortify(stats::kmeans(iris[-5], 3))
+fortify(stats::kmeans(iris[-5], 3), data = iris)
+fortify(cluster::clara(iris[-5], 3))
+fortify(cluster::fanny(iris[-5], 3))
+fortify(cluster::pam(iris[-5], 3), data = iris)
 }
 

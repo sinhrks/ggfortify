@@ -29,14 +29,14 @@ Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to data.fram
 }
 \examples{
 library(changepoint)
-ggplot2::fortify(cpt.mean(AirPassengers))
-ggplot2::fortify(cpt.var(AirPassengers))
-ggplot2::fortify(cpt.meanvar(AirPassengers))
+fortify(cpt.mean(AirPassengers))
+fortify(cpt.var(AirPassengers))
+fortify(cpt.meanvar(AirPassengers))
 
 library(strucchange)
 bp.nile <- breakpoints(Nile ~ 1)
-ggplot2::fortify(bp.nile)
-ggplot2::fortify(breakpoints(bp.nile, breaks = 2))
-ggplot2::fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
+fortify(bp.nile)
+fortify(breakpoints(bp.nile, breaks = 2))
+fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
 

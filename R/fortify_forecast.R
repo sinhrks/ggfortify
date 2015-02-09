@@ -11,8 +11,8 @@
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
-#' ggplot2::fortify(d.forecast)
-#' ggplot2::fortify(d.forecast, ts.connect = TRUE)
+#' fortify(d.forecast)
+#' fortify(d.forecast, ts.connect = TRUE)
 fortify.forecast <- function(model, data = NULL, is.date = NULL,
                              ts.connect = FALSE, ...) {
   forecasted <- as.data.frame(model)
@@ -22,7 +22,7 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
   fitted <- ggplot2::fortify(model$fitted, data.name = 'Fitted', is.date = is.date)
   d <- dplyr::left_join(d, fitted, by = 'Index')
   d <- ggfortify::rbind_ts(forecasted, d, ts.connect = ts.connect)
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' Autoplot \code{forecast::forecast}.
@@ -42,12 +42,12 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
 #' @return ggplot
 #' @examples
 #' d.arima <- forecast::auto.arima(AirPassengers)
-#' ggplot2::autoplot(forecast::forecast(d.arima, h = 10))
-#' ggplot2::autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
-#' ggplot2::autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
-#' ggplot2::autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
-#' ggplot2::autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
-#' ggplot2::autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
+#' autoplot(forecast::forecast(d.arima, h = 10))
+#' autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
+#' autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
+#' autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
+#' autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
+#' autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 #' @export
 autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
                               predict.colour = '#0000FF', predict.linetype = 'solid',
@@ -90,8 +90,8 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(forecast::bats(UKgas))
-#' ggplot2::fortify(forecast::ets(UKgas))
+#' fortify(forecast::bats(UKgas))
+#' fortify(forecast::ets(UKgas))
 #' @export
 fortify.ets <- function(model, data = NULL, ...) {
   if (is(model, 'ets')) {
@@ -137,7 +137,7 @@ fortify.ets <- function(model, data = NULL, ...) {
   } else {
     stop(paste0('Unsupported class for fortify.ets: ', class(model)))
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' @export
@@ -152,9 +152,9 @@ fortify.bats <- fortify.ets
 #' @aliases autoplot.bats
 #' @examples
 #' d.bats <- forecast::bats(UKgas)
-#' ggplot2::autoplot(d.bats)
-#' ggplot2::autoplot(d.bats, columns = 'Residuals')
-#' ggplot2::autoplot(forecast::ets(UKgas))
+#' autoplot(d.bats)
+#' autoplot(d.bats, columns = 'Residuals')
+#' autoplot(forecast::ets(UKgas))
 #' @export
 autoplot.ets <- function(object, columns = NULL, ...) {
   plot.data <- ggplot2::fortify(object)

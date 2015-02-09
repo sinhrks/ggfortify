@@ -59,25 +59,24 @@ ggplot
 Autoplot PCA-likes.
 }
 \examples{
-df <- iris[-5]
-ggplot2::autoplot(stats::prcomp(df))
-ggplot2::autoplot(stats::prcomp(df), data = iris)
-ggplot2::autoplot(stats::prcomp(df), data = iris, colour = 'Species')
-ggplot2::autoplot(stats::prcomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
-ggplot2::autoplot(stats::prcomp(df), frame = TRUE)
-ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
-                  frame.colour = 'Species')
-ggplot2::autoplot(stats::prcomp(df), data = iris, frame = TRUE,
-                  frame.type = 't', frame.colour = 'Species')
+autoplot(stats::prcomp(iris[-5]))
+autoplot(stats::prcomp(iris[-5]), data = iris)
+autoplot(stats::prcomp(iris[-5]), data = iris, colour = 'Species')
+autoplot(stats::prcomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+autoplot(stats::prcomp(iris[-5]), frame = TRUE)
+autoplot(stats::prcomp(iris[-5]), data = iris, frame = TRUE,
+         frame.colour = 'Species')
+autoplot(stats::prcomp(iris[-5]), data = iris, frame = TRUE,
+         frame.type = 't', frame.colour = 'Species')
 
-ggplot2::autoplot(stats::princomp(df))
-ggplot2::autoplot(stats::princomp(df), data = iris)
-ggplot2::autoplot(stats::princomp(df), data = iris, colour = 'Species')
-ggplot2::autoplot(stats::princomp(df), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+autoplot(stats::princomp(iris[-5]))
+autoplot(stats::princomp(iris[-5]), data = iris)
+autoplot(stats::princomp(iris[-5]), data = iris, colour = 'Species')
+autoplot(stats::princomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
-ggplot2::autoplot(d.factanal)
-ggplot2::autoplot(d.factanal, data = state.x77, colour = 'Income')
-ggplot2::autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
+autoplot(d.factanal)
+autoplot(d.factanal, data = state.x77, colour = 'Income')
+autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 }
 

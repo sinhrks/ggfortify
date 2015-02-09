@@ -35,13 +35,13 @@ data.frame
 Convert time-series-like to data.frame.
 }
 \examples{
-ggplot2::fortify(AirPassengers)
-ggplot2::fortify(timeSeries::as.timeSeries(AirPassengers))
+fortify(AirPassengers)
+fortify(timeSeries::as.timeSeries(AirPassengers))
 
 its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
-ggplot2::fortify(its)
+fortify(its)
 
-ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
-ggplot2::fortify(stats::decompose(UKgas))
+fortify(stats::stl(UKgas, s.window = 'periodic'))
+fortify(stats::decompose(UKgas))
 }
 

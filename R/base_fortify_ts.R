@@ -12,14 +12,14 @@
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
-#' ggplot2::fortify(AirPassengers)
-#' ggplot2::fortify(timeSeries::as.timeSeries(AirPassengers))
+#' fortify(AirPassengers)
+#' fortify(timeSeries::as.timeSeries(AirPassengers))
 #'
 #' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
-#' ggplot2::fortify(its)
+#' fortify(its)
 #'
-#' ggplot2::fortify(stats::stl(UKgas, s.window = 'periodic'))
-#' ggplot2::fortify(stats::decompose(UKgas))
+#' fortify(stats::stl(UKgas, s.window = 'periodic'))
+#' fortify(stats::decompose(UKgas))
 #' @export
 fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
                        index.name = 'Index', data.name = 'Data',
@@ -46,7 +46,11 @@ fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
     } else if (is(model, 'decomposed.ts')) {
       dtindex <- get.dtindex(model$x, is.date = is.date)
       dtframe <- ggplot2::fortify(model$x)
-      dtframe <- dtframe[, -1]
+
+      # for tbl_df
+      # dtframe <- dtframe[, -1]
+      dtframe <- data.frame(Data = dtframe[['Data']])
+
       # trend and random can be multivariate
       rndframe <- model$random
       colnames(rndframe) <- NULL
@@ -83,7 +87,7 @@ fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
   if (melt) {
     d <- tidyr::gather_(d, 'variable', 'value', columns)
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' @export
@@ -117,25 +121,25 @@ fortify.irts <- fortify.ts
 #' @aliases autoplot.xts autoplot.timeSeries autoplot.irts autoplot.stl autoplot.decomposed.ts
 #' @examples
 #' data(Canada, package = 'vars')
-#' ggplot2::autoplot(AirPassengers)
-#' ggplot2::autoplot(UKgas, ts.geom = 'bar')
-#' ggplot2::autoplot(Canada)
-#' ggplot2::autoplot(Canada, columns = 'e', is.date = TRUE)
-#' ggplot2::autoplot(Canada, facets = FALSE)
+#' autoplot(AirPassengers)
+#' autoplot(UKgas, ts.geom = 'bar')
+#' autoplot(Canada)
+#' autoplot(Canada, columns = 'e', is.date = TRUE)
+#' autoplot(Canada, facets = FALSE)
 #'
 #' library(zoo)
-#' ggplot2::autoplot(xts::as.xts(AirPassengers))
-#' ggplot2::autoplot(xts::as.xts(UKgas))
-#' ggplot2::autoplot(xts::as.xts(Canada))
+#' autoplot(xts::as.xts(AirPassengers))
+#' autoplot(xts::as.xts(UKgas))
+#' autoplot(xts::as.xts(Canada))
 #'
-#' ggplot2::autoplot(timeSeries::as.timeSeries(AirPassengers))
-#' ggplot2::autoplot(timeSeries::as.timeSeries(Canada))
+#' autoplot(timeSeries::as.timeSeries(AirPassengers))
+#' autoplot(timeSeries::as.timeSeries(Canada))
 #'
 #' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
-#' ggplot2::autoplot(its)
+#' autoplot(its)
 #'
-#' ggplot2::autoplot(stats::stl(UKgas, s.window = 'periodic'))
-#' ggplot2::autoplot(stats::decompose(UKgas))
+#' autoplot(stats::stl(UKgas, s.window = 'periodic'))
+#' autoplot(stats::decompose(UKgas))
 #' @export
 autoplot.ts <- function(object, columns = NULL, group = NULL,
                         is.date = NULL, index.name = 'Index',
@@ -248,18 +252,18 @@ autoplot.irts <- autoplot.ts
 #' @aliases fortify.ar fortify.Arima fortify.fracdiff
 #' fortify.nnetar fortify.HoltWinters fortify.fGARCH
 #' @examples
-#' ggplot2::fortify(stats::ar(AirPassengers))
-#' ggplot2::fortify(stats::arima(UKgas))
-#' ggplot2::fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
-#' ggplot2::fortify(forecast::auto.arima(austres))
-#' ggplot2::fortify(forecast::arfima(AirPassengers))
-#' ggplot2::fortify(forecast::nnetar(UKgas))
-#' ggplot2::fortify(stats::HoltWinters(USAccDeaths))
+#' fortify(stats::ar(AirPassengers))
+#' fortify(stats::arima(UKgas))
+#' fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
+#' fortify(forecast::auto.arima(austres))
+#' fortify(forecast::arfima(AirPassengers))
+#' fortify(forecast::nnetar(UKgas))
+#' fortify(stats::HoltWinters(USAccDeaths))
 #'
 #' data(LPP2005REC, package = 'timeSeries')
 #' x = timeSeries::as.timeSeries(LPP2005REC)
 #' d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
-#' ggplot2::fortify(d.Garch)
+#' fortify(d.Garch)
 fortify.tsmodel <- function(model, data = NULL, original = NULL,
                             predict = NULL,
                             is.date = NULL,
@@ -345,7 +349,7 @@ fortify.tsmodel <- function(model, data = NULL, original = NULL,
     n <- nrow(d)
     d <- rbind_ts(pred, d, ts.connect = ts.connect)
   }
-  dplyr::tbl_df(d)
+  post.fortify(d)
 }
 
 #' @export
@@ -399,24 +403,24 @@ fortify.KFS <- fortify.tsmodel
 #' @aliases autoplot.ar autoplot.fracdiff autoplot.nnetar autoplot.HoltWinters autoplot.fGARCH
 #' @examples
 #' d.ar <- stats::ar(AirPassengers)
-#' ggplot2::autoplot(d.ar)
-#' ggplot2::autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
-#' ggplot2::autoplot(stats::arima(UKgas), data = UKgas)
-#' ggplot2::autoplot(forecast::arfima(AirPassengers))
-#' ggplot2::autoplot(forecast::nnetar(UKgas), is.date = FALSE)
+#' autoplot(d.ar)
+#' autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
+#' autoplot(stats::arima(UKgas), data = UKgas)
+#' autoplot(forecast::arfima(AirPassengers))
+#' autoplot(forecast::nnetar(UKgas), is.date = FALSE)
 #'
 #' d.holt <- stats::HoltWinters(USAccDeaths)
-#' ggplot2::autoplot(d.holt)
-#' ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
-#' ggplot2::autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
+#' autoplot(d.holt)
+#' autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
+#' autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
 #'
 #' form <- function(theta){
 #'   dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
 #' }
 #' model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
 #' filtered <- dlm::dlmFilter(Nile, model)
-#' ggplot2::autoplot(filtered)
-#' ggplot2::autoplot(dlm::dlmSmooth(filtered))
+#' autoplot(filtered)
+#' autoplot(dlm::dlmSmooth(filtered))
 #' @export
 autoplot.tsmodel <- function(object, data = NULL, original = NULL,
                              predict = NULL,

@@ -20,6 +20,6 @@ data.frame
 Convert \code{base::table} to data.frame.
 }
 \examples{
-ggplot2::fortify(Titanic)
+fortify(Titanic)
 }
 
