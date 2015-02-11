@@ -4,10 +4,10 @@ Title: Define fortify and autoplot to allow ggplot2 to draw some popular
     packages.
 Version: 0.0.2
 Date: 2015-02-08
-Author: sinhrks
-Maintainer: sinhrks <sinhrks@gmail.com>
-Description: Define fortify and autoplot to allow ggplot2 to draw some popular
-    packages. - forecast - survival
+Author: Masaaki Horikoshi
+Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
+Description:This helps plotting some popular R packages using ggplot2. The package offers unified
+    functions to draw ggplot2 plots of some popular R packages like standard plot function does.
 License: GPL-2
 Depends: methods, grid, scales, ggplot2
 Imports:

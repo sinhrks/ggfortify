@@ -19,6 +19,14 @@ plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
                            conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                            conf.int.fill = '#000000', conf.int.alpha = 0.3) {
 
+  if (missing(conf.int) && (!missing(conf.int.colour) ||
+                            !missing(conf.int.linetype) ||
+                            !missing(conf.int.fill) ||
+                            !missing(conf.int.alpha))) {
+    # if conf.int is missing but other options are specified, turn conf.in to TRUE
+    conf.int <- TRUE
+  }
+
   if (conf.int) {
     mapping_ribbon = ggplot2::aes_string(ymin = lower, ymax = upper)
     mapping_lower = ggplot2::aes_string(y = lower)

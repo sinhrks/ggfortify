@@ -32,7 +32,7 @@ unscale <- function(data, center = NULL, scale = NULL) {
 #' @examples
 #' ggfortify:::parse.formula(y ~ x)
 parse.formula <- function(formula) {
-  require(nlme)
+  requireNamespace('nlme')
   vars <- stats::terms(as.formula(formula))
   endog <- if(attr(vars, 'response'))
     nlme::getResponseFormula(formula)

@@ -295,6 +295,14 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
                     colour = loadings.label.colour, size = loadings.label.size)
   }
 
+  if (missing(frame) && !missing(frame.type)) {
+    # if frame is missing but frame.type is specified, turn frame to TRUE
+    frame <- TRUE
+  }
+
+  # dummy to solve "no visible binding for global variable ‘.’" warnings
+  . <- NULL
+
   if (frame) {
     if (frame.type == 'convex') {
       if (is.null(frame.colour) || !(frame.colour %in% colnames(plot.data))) {

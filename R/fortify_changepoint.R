@@ -93,7 +93,7 @@ autoplot.cpt <- function(object, is.date = NULL,
                                  colour = cpt.colour, linetype = cpt.linetype)
   }
   if ('variance' %in% names(plot.data)) {
-    d <- dplyr::filter(plot.data, !is.na(variance))
+    d <- dplyr::filter_(plot.data, '!is.na(variance)')
     p <- p + ggplot2::geom_vline(xintercept = as.integer(d$Index),
                                  colour = cpt.colour, linetype = cpt.linetype)
   }
@@ -132,7 +132,7 @@ autoplot.breakpoints <- function(object, data = NULL, original = NULL,
     stop("'data' is mandatory for plotting breakpoints instance")
   }
 
-  d <- dplyr::filter(plot.data, !is.na(Breaks))
+  d <- dplyr::filter_(plot.data, '!is.na(Breaks)')
   p <- p + ggplot2::geom_vline(xintercept = as.integer(d$Index),
                                colour = cpt.colour, linetype = cpt.linetype)
   p
