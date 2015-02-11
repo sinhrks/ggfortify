@@ -38,7 +38,8 @@ fortify.acf <- function(model, data = NULL,
   post.fortify(d)
 }
 
-#' Autoplot \code{stats::acf}.
+#' Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
+#' standard plot output.
 #'
 #' @param object \code{stats::acf} instance
 #' @param colour Line colour
@@ -53,9 +54,9 @@ fortify.acf <- function(model, data = NULL,
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' autoplot(stats::acf(AirPassengers))
-#' autoplot(stats::pacf(AirPassengers))
-#' autoplot(stats::ccf(AirPassengers, AirPassengers))
+#' autoplot(stats::acf(AirPassengers, plot = FALSE))
+#' autoplot(stats::pacf(AirPassengers, plot = FALSE))
+#' autoplot(stats::ccf(AirPassengers, AirPassengers, plot = FALSE))
 #' @export
 autoplot.acf <- function(object,
                          colour = '#000000', linetype = 'solid',
@@ -69,19 +70,17 @@ autoplot.acf <- function(object,
                                 conf.int.type = conf.int.type)
 
   # Prepare ymax and ymin used for geom_linerange
-  plot.data <- dplyr::mutate(plot.data,
-                             ymax = ifelse(ACF > 0, ACF, 0),
-                             ymin = ifelse(ACF < 0, ACF, 0))
+  plot.data <- dplyr::mutate_(plot.data,
+                              ymax = 'ifelse(ACF > 0, ACF, 0)',
+                              ymin = 'ifelse(ACF < 0, ACF, 0)')
 
   p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'Lag')) +
     ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
                             colour = colour, linetype = linetype)
 
-  p <- plot.conf.int(p, conf.int = conf.int,
-                     conf.int.colour = conf.int.colour,
-                     conf.int.linetype = conf.int.linetype,
-                     conf.int.fill = conf.int.fill,
-                     conf.int.alpha = conf.int.alpha)
+  p <- plot_confint(p, data = plot.data, conf.int = conf.int,
+                    colour = conf.int.colour, linetype = conf.int.linetype,
+                    fill = conf.int.fill, alpha = conf.int.alpha)
   p <- p + ggplot2::ylab('ACF')
   p
 }
@@ -196,7 +195,12 @@ fortify.factanal <- function(model, data = NULL,
 #' @param object PCA-like instance
 #' @param data Joined to fitting result if provided.
 #' @param original (Deprecated) use data
-#' @param colour Column name string to specify colorize points
+#' @param colour colour
+#' @param size size
+#' @param linetype line type
+#' @param alpha alpha
+#' @param fill fill
+#' @param shape shape
 #' @param label Logical value whether to display data labels
 #' @param label.colour Text colour for data labels
 #' @param label.size Text size for data labels
@@ -235,7 +239,8 @@ fortify.factanal <- function(model, data = NULL,
 #' autoplot(d.factanal, data = state.x77, colour = 'Income')
 #' autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 autoplot.pca_common <- function(object, data = NULL, original = NULL,
-                                colour = NULL,
+                                colour = NULL, size = NULL, linetype = NULL,
+                                alpha = NULL, fill = NULL, shape = NULL,
                                 label = FALSE, label.colour = colour, label.size = 4,
                                 loadings = FALSE, loadings.colour = '#FF0000',
                                 loadings.label = FALSE,
@@ -271,16 +276,24 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
   mapping = ggplot2::aes_string(x = x.column, y = y.column)
   loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = x.column, yend = y.column)
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = mapping) +
-    ggplot2::geom_point(mapping = ggplot2::aes_string(colour = colour))
-
-  p <- plot.label(p = p, data = plot.data, flag = label, label = 'rownames',
-                  colour = label.colour, size = label.size)
-
+  if (is.logical(shape) && !shape && missing(label)) {
+    # if label is missing and shape=FALSE, turn label to TRUE
+    label <- TRUE
+  }
   if (loadings.label && !loadings) {
     # If loadings.label is TRUE, draw loadings
     loadings <- TRUE
   }
+
+  p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+  if (!is.logical(shape) || shape) {
+    p <- p + geom_factory(ggplot2::geom_point, plot.data,
+                          colour = colour, size = size, linetype = linetype,
+                          alpha = alpha, fill = fill, shape = shape)
+  }
+
+  p <- plot.label(p = p, data = plot.data, flag = label, label = 'rownames',
+                  colour = label.colour, size = label.size)
 
   if (loadings) {
     loadings.data = as.data.frame(object[[loadings.column]][,])
@@ -300,7 +313,7 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
     frame <- TRUE
   }
 
-  # dummy to solve "no visible binding for global variable ‘.’" warnings
+  # dummy to solve "no visible binding for global variable '.'" warnings
   . <- NULL
 
   if (frame) {

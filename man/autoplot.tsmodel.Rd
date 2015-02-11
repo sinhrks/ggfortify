@@ -11,8 +11,11 @@
 \usage{
 \method{autoplot}{tsmodel}(object, data = NULL, original = NULL,
   predict = NULL, is.date = NULL, ts.connect = TRUE,
-  fitted.colour = "#FF0000", fitted.linetype = "solid",
-  predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
+  fitted.geom = "line", fitted.colour = "#FF0000", fitted.size = NULL,
+  fitted.linetype = NULL, fitted.alpha = NULL, fitted.fill = NULL,
+  fitted.shape = NULL, predict.geom = "line", predict.colour = "#0000FF",
+  predict.size = NULL, predict.linetype = NULL, predict.alpha = NULL,
+  predict.fill = NULL, predict.shape = NULL, conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
@@ -27,17 +30,37 @@
 If not provided, try to retrieve from current environment using variable name.}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
-If not provided, regard the input as date when the frequency is 4 or 12.}
+If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 
-\item{fitted.colour}{Line colour for fitted time-series}
+\item{fitted.geom}{geometric string for fitted time-series}
 
-\item{fitted.linetype}{Line type for fitted time-series}
+\item{fitted.colour}{line colour for fitted time-series}
 
-\item{predict.colour}{Line colour for predicted time-series}
+\item{fitted.size}{point size for fitted time-series}
 
-\item{predict.linetype}{Line type for predicted time-series}
+\item{fitted.linetype}{line type for fitted time-series}
+
+\item{fitted.alpha}{alpha for fitted time-series}
+
+\item{fitted.fill}{fill colour for fitted time-series}
+
+\item{fitted.shape}{point shape for fitted time-series}
+
+\item{predict.geom}{geometric string for predicted time-series}
+
+\item{predict.colour}{line colour for predicted time-series}
+
+\item{predict.size}{point size for predicted time-series}
+
+\item{predict.linetype}{line type for predicted time-series}
+
+\item{predict.alpha}{alpha for predicted time-series}
+
+\item{predict.fill}{fill colour for predicted time-series}
+
+\item{predict.shape}{point shape for predicted time-series}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
@@ -49,7 +72,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{conf.int.alpha}{Alpha for confidence intervals}
 
-\item{...}{Keywords passed to autoplot.ts}
+\item{...}{Keywords passed to \code{autoplot.ts}}
 }
 \value{
 ggplot

@@ -35,8 +35,13 @@ fortify.survfit <- function(model, data = NULL, ...) {
 #' Autoplot \code{survival::survfit}.
 #'
 #' @param object \code{survival::survfit} instance
-#' @param surv.colour Line colour for survival curve (used when data doesn't have \code{strata})
-#' @param surv.linetype Line type for survival curve
+#' @param surv.geom geometric string for survival curve. 'line' or 'point'
+#' @param surv.colour line colour for survival curve
+#' @param surv.size point size for survival curve
+#' @param surv.linetype line type for survival curve
+#' @param surv.alpha alpha for survival curve
+#' @param surv.fill fill colour survival curve
+#' @param surv.shape point shape survival curve
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
 #' @param conf.int.colour Line colour for confidence intervals
 #' @param conf.int.linetype Line type for confidence intervals
@@ -57,40 +62,40 @@ fortify.survfit <- function(model, data = NULL, ...) {
 #' autoplot(survival::survfit(d.coxph))
 #' @export
 autoplot.survfit <- function(object,
-                             surv.colour = '#000000', surv.linetype = 'solid',
+                             surv.geom = 'line',
+                             surv.colour = NULL, surv.size = NULL, surv.linetype = NULL,
+                             surv.alpha = NULL, surv.fill = NULL, surv.shape = NULL,
                              conf.int = TRUE,
                              conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              censor = TRUE,
                              censor.shape = '+', censor.size = 3,
                              ...) {
+
   plot.data <- ggplot2::fortify(object)
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'time')) +
+  if (is.null(surv.colour) & ('strata' %in% colnames(plot.data))) {
+      surv.colour <- 'strata'
+  }
+
+  geomfunc <- get_geom_function(surv.geom, allowed = c('line', 'point'))
+
+  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'time', y = 'surv')) +
     ggplot2::scale_y_continuous(labels = scales::percent)
   if ('strata' %in% names(plot.data)) {
-    p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'surv', colour = 'strata'),
-                                linetype = surv.linetype)
-    conf.mapping <- ggplot2::aes_string(ymin = 'lower', ymax = 'upper', fill = 'strata')
-    if (conf.int) {
-      p <- p + ggplot2::geom_ribbon(mapping = conf.mapping, alpha = conf.int.alpha)
-      if (conf.int.linetype != 'none') {
-        p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'lower', colour = 'strata'),
-                                    linetype = conf.int.linetype) +
-          ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'upper', colour = 'strata'),
-                             linetype = conf.int.linetype)
-      }
-    }
+    p <- p + geom_factory(geomfunc, plot.data,
+                          colour = surv.colour, size = surv.size, linetype = surv.linetype,
+                          alpha = surv.alpha, fill = surv.fill, shape = surv.shape)
+    p <- plot_confint(p, data = plot.data, conf.int = conf.int,
+                      colour = conf.int.colour, linetype = conf.int.linetype,
+                      fill = surv.colour, alpha = conf.int.alpha)
   } else {
-    p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'surv'),
-                                colour = surv.colour, linetype = surv.linetype)
-    conf.mapping <- ggplot2::aes_string(ymin = 'lower', ymax = 'upper')
-
-    p <- plot.conf.int(p, conf.int = conf.int,
-                       conf.int.colour = conf.int.colour,
-                       conf.int.linetype = conf.int.linetype,
-                       conf.int.fill = conf.int.fill,
-                       conf.int.alpha = conf.int.alpha)
+    p <- p + geom_factory(geomfunc, plot.data,
+                          colour = surv.colour, size = surv.size, linetype = surv.linetype,
+                          alpha = surv.alpha, fill = surv.fill, shape = surv.shape)
+    p <- plot_confint(p, data = plot.data, conf.int = conf.int,
+                      colour = conf.int.colour, linetype = conf.int.linetype,
+                      fill = conf.int.fill, alpha = conf.int.alpha)
   }
 
   if (censor) {

@@ -5,7 +5,8 @@
 \title{Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
 \code{cluster::pam}.}
 \usage{
-\method{autoplot}{kmeans}(object, data = NULL, original = NULL, ...)
+\method{autoplot}{kmeans}(object, data = NULL, original = NULL,
+  colour = "cluster", ...)
 }
 \arguments{
 \item{object}{Clustered instance}
@@ -13,6 +14,8 @@
 \item{data}{Original data used for clustering. Mandatory for \code{stats::kmeans}.}
 
 \item{original}{(Deprecated) use data}
+
+\item{colour}{line colour for points}
 
 \item{...}{other arguments passed to \code{autoplot::prcomp}}
 }
@@ -28,7 +31,7 @@ autoplot(stats::kmeans(iris[-5], 3), data = iris)
 autoplot(cluster::clara(iris[-5], 3), label = TRUE)
 autoplot(cluster::fanny(iris[-5], 3))
 autoplot(cluster::fanny(iris[-5], 3), frame = TRUE)
-autoplot(cluster::pam(iris[-5], 3), data = iris)
+autoplot(cluster::pam(iris[-5], 3), data = iris, colour = 'Species')
 autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
 }
 

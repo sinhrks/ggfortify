@@ -8,11 +8,11 @@ library(knitr)
 opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/pca-', warning=FALSE)
 ```
 
-This document explains PCA/clustering related plotting using `ggplot2` and `ggfortify`. 
+This document explains PCA/clustering related plotting using `{ggplot2}` and `{ggfortify}`. 
 
 # Installation
 
-First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
+First, install `{ggfortify}` from [github](https://github.com/sinhrks/ggfortify).
 
 ```{r, eval = FALSE, message = FALSE}
 library(devtools)
@@ -21,7 +21,7 @@ install_github('sinhrks/ggfortify')
 
 # Plotting PCA (Principal Component Analysis)
 
-`ggfortify` let `ggplot2` know how to interpret PCA objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `stats::prcomp` and `stats::princomp` objects. 
+`{ggfortify}` let `{ggplot2}` know how to interpret PCA objects. After loading `{ggfortify}`, you can use `ggplot2::autoplot` function for `stats::prcomp` and `stats::princomp` objects. 
 
 ```{r, message = FALSE}
 library(ggfortify)
@@ -41,6 +41,12 @@ Passing `label = TRUE` draws each data label using `rownames`
 
 ```{r, message = FALSE}
 autoplot(prcomp(df), data = iris, colour = 'Species', label = TRUE)
+```
+
+Passing `shape = FALSE` makes plot without points. In this case, `label` is turned on unless otherwise specified.
+
+```{r, message = FALSE}
+autoplot(prcomp(df), data = iris, colour = 'Species', shape = FALSE)
 ```
 
 Passing `loadings = TRUE` draws eigenvectors.
@@ -71,7 +77,7 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 
 # Plotting K-means
 
-`ggfortify` supports `stats::kmeans` class. You must explicitly pass original data to `autoplot` function via `data` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
+`{ggfortify}` supports `stats::kmeans` class. You must explicitly pass original data to `autoplot` function via `data` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
 
 **NOTE** In v0.0.1, `original` keyword is used for passing original data. This keyword is deprecated to be compat with `{ggplot2}`, and being removed in future version.
 
@@ -84,26 +90,24 @@ autoplot(kmeans(USArrests, 3), data = USArrests, label = TRUE)
 
 # Plotting cluster package
 
-`ggfortify` supports `cluster::clara`, `cluster::fanny`, `cluster::pam` classes. Because these instances should contains original data in its property, there is no need to pass original data explicitly.
+`{ggfortify}` supports `cluster::clara`, `cluster::fanny`, `cluster::pam` classes. Because these instances should contains original data in its property, there is no need to pass original data explicitly.
 
 ```{r, message = FALSE}
 library(cluster)
-autoplot(clara(USArrests, 3))
+autoplot(clara(iris[-5], 3))
 ```
 
 Specifying `frame = TRUE` in `autoplot` for `stats::kmeans` and `cluster::*` draws convex for each cluster.
 
 ```{r}
-autoplot(fanny(USArrests, 3), frame = TRUE)
+autoplot(fanny(iris[-5], 3), frame = TRUE)
 ```
 
 If you want probability ellipse, `ggplot2` 1.0.0 or later is required. Specify whatever supported in [`ggplot2::stat_ellipse`](http://docs.ggplot2.org/dev/stat_ellipse.html)'s `type` keyword via `frame.type` option. 
 
 ```{r}
-autoplot(pam(USArrests, 3), frame = TRUE, frame.type = 'norm')
+autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 ```
-
-# Resources related to ggfortify
 
 # Resources related to ggfortify
 

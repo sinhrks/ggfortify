@@ -60,7 +60,19 @@ library(xts)
 autoplot(as.xts(AirPassengers), ts.colour = 'green')
 
 library(timeSeries)
-autoplot(as.timeSeries(AirPassengers), ts.colour = ('red'))
+autoplot(as.timeSeries(AirPassengers), ts.colour = ('dodgerblue3'))
+```
+
+# Specifying geometrics
+
+You can change `{ggplot2}` geometrics specifying by its name. Geometrics currently supported are `line`, `bar` and `point`.
+
+```{r, message = FALSE}
+autoplot(AirPassengers, ts.geom = 'bar', fill = 'blue')
+```
+
+```{r, message = FALSE}
+autoplot(AirPassengers, ts.geom = 'point', shape = 3)
 ```
 
 # Plotting with forecast package
@@ -77,7 +89,7 @@ autoplot(d.forecast)
 There are some options to change basic settings.
 
 ```{r}
-autoplot(d.forecast, ts.colour = 'green', predict.colour = 'red',
+autoplot(d.forecast, ts.colour = 'firebrick1', predict.colour = 'red',
          predict.linetype = 'dashed', conf.int = FALSE)
 ```
 
@@ -94,7 +106,7 @@ d.var <- VAR(Canada, p = d.vselect, type = 'const')
 Available options are the same as `forecast`.
 
 ```{r}
-autoplot(predict(d.var, n.ahead = 50), ts.colour = 'green',
+autoplot(predict(d.var, n.ahead = 50), ts.colour = 'dodgerblue4',
          predict.colour = 'blue', predict.linetype = 'dashed')
 ```
 
@@ -120,7 +132,8 @@ autoplot(cpt.meanvar(AirPassengers), cpt.colour = 'blue', cpt.linetype = 'solid'
 
 ```{r message = FALSE}
 library(strucchange)
-autoplot(breakpoints(Nile ~ 1), cpt.colour = 'green', cpt.linetype = 'solid')
+autoplot(breakpoints(Nile ~ 1), ts.colour = 'blue', ts.linetype = 'dashed',
+         cpt.colour = 'dodgerblue3', cpt.linetype = 'solid')
 ```
 
 # Resources related to ggfortify

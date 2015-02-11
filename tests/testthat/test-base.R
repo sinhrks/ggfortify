@@ -23,10 +23,10 @@ test_that('fortify.matrix works', {
   m <- matrix(1:6, nrow=2, ncol=3)
   colnames(m) <- c('A', 'B', 'C')
   # dplyr doesn't guarantee rownames
-  # rownames(m) <- c('X', 'Y')
+  rownames(m) <- c('X', 'Y')
 
   fortified <- ggplot2::fortify(m)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(colnames(fortified), c('A', 'B', 'C'))
-  # expect_equal(rownames(fortified), c('X', 'Y'))
+  expect_equal(rownames(fortified), c('X', 'Y'))
 })

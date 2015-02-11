@@ -81,7 +81,7 @@ cbind_wraps <- function(df1, df2) {
 #' @examples
 #' ggfortify:::deprecate.warning('old', 'new')
 deprecate.warning <- function(old.kw, new.kw) {
-  message <- paste0("Argument `", old.kw, "` is being deprecated. Use `", new.kw, "` instead.")
+  message <- paste0("Argument '", old.kw, "' is being deprecated. Use '", new.kw, "' instead.")
   warning(message, call. = FALSE)
 }
 
@@ -100,6 +100,6 @@ stop.unsupported.type <- function() {
 post.fortify <- function(data) {
   # does nothing in current version
   # dplyr::tbl_df(data)
-  data
+  as.data.frame(data)
 }
 

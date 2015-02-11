@@ -20,7 +20,9 @@ data.frame
 Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.
 }
 \examples{
+\dontrun{
 fortify(forecast::bats(UKgas))
 fortify(forecast::ets(UKgas))
+}
 }
 

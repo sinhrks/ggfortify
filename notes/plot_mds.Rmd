@@ -29,10 +29,7 @@ install_github('sinhrks/ggfortify')
 
 ```{r, message = FALSE}
 library(ggfortify)
-
-data(eurodist)
-d.dist <- eurodist
-autoplot(d.dist)
+autoplot(eurodist)
 ```
 
 # Plotting Classical (Metric) Multidimensional Scaling
@@ -40,13 +37,13 @@ autoplot(d.dist)
 `stats::cmdscale` performs Classical MDS and returns point coodinates as `matrix`, thus you can not use `autoplot` in this case. However, either `eig = TRUE`, `add = True` or `x.ret = True` is specified, `stats::cmdscale` return `list` instead of `matrix`. In these cases, `ggfortify` can infer how to plot it via `autoplot`. Refer to `help(cmdscale)` to check what these options are.
 
 ```{r}
-autoplot(cmdscale(d.dist, eig = TRUE))
+autoplot(cmdscale(eurodist, eig = TRUE))
 ```
 
 Specify `label = TRUE` to plot labels.
 
 ```{r}
-autoplot(cmdscale(d.dist, eig = TRUE), label = TRUE)
+autoplot(cmdscale(eurodist, eig = TRUE), label = TRUE)
 ```
 
 # Plotting Non-metric Multidimensional Scaling
@@ -57,9 +54,13 @@ autoplot(cmdscale(d.dist, eig = TRUE), label = TRUE)
 
 ```{r, message = FALSE}
 library(MASS)
-autoplot(isoMDS(d.dist), label = TRUE, colour = 'blue',
-         label.size = 5, label.colour = 'blue')
-autoplot(sammon(d.dist), label = FALSE, colour = 'green')
+autoplot(isoMDS(eurodist), colour = 'orange', size = 4, shape = 3)
+```
+
+Passing `shape = FALSE` makes plot without points. In this case, `label` is turned on unless otherwise specified.
+
+```{r, message = FALSE}
+autoplot(sammon(eurodist), shape = FALSE, label.colour = 'blue')
 ```
 
 # Resources related to ggfortify

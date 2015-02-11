@@ -1,8 +1,8 @@
 #' ggfortify
 #'
-#' Define fortify and autoplot to allow ggplot2 to draw some popular packages.
+#' Define Fortify and Autoplot to Allow 'ggplot2' to Draw Some Popular Packages.
 #'
 #' @name ggfortify
 #' @docType package
-#' @import methods grid scales ggplot2 dplyr tidyr
+#' @import methods grid scales ggplot2 dplyr tidyr gridExtra
 NULL

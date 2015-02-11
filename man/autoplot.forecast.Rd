@@ -5,9 +5,11 @@
 \title{Autoplot \code{forecast::forecast}.}
 \usage{
 \method{autoplot}{forecast}(object, is.date = NULL, ts.connect = TRUE,
-  predict.colour = "#0000FF", predict.linetype = "solid", conf.int = TRUE,
-  conf.int.colour = "#0000FF", conf.int.linetype = "none",
-  conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
+  predict.geom = "line", predict.colour = "#0000FF", predict.size = NULL,
+  predict.linetype = NULL, predict.alpha = NULL, predict.fill = NULL,
+  predict.shape = NULL, conf.int = TRUE, conf.int.colour = "#0000FF",
+  conf.int.linetype = "none", conf.int.fill = "#000000",
+  conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{object}{\code{forecast::forecast} instance}
@@ -17,11 +19,21 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 
-\item{predict.colour}{Line colour for predicted time-series}
+\item{predict.geom}{geometric string for predicted time-series}
 
-\item{predict.linetype}{Line type for predicted time-series}
+\item{predict.colour}{line colour for predicted time-series}
 
-\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
+\item{predict.size}{point size for predicted time-series}
+
+\item{predict.linetype}{line type for predicted time-series}
+
+\item{predict.alpha}{alpha for predicted time-series}
+
+\item{predict.fill}{fill colour for predicted time-series}
+
+\item{predict.shape}{point shape for predicted time-series}
+
+\item{conf.int}{logical flag indicating whether to plot confidence intervals}
 
 \item{conf.int.colour}{Line colour for confidence intervals}
 
@@ -43,9 +55,10 @@ Autoplot \code{forecast::forecast}.
 d.arima <- forecast::auto.arima(AirPassengers)
 autoplot(forecast::forecast(d.arima, h = 10))
 autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
-autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
-autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
-autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
+autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE, is.date = FALSE)
 autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
+\dontrun{
+autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
+}
 }
 

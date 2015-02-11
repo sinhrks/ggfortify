@@ -4,8 +4,8 @@
 \alias{ggdistribution}
 \title{Plot distribution}
 \usage{
-ggdistribution(func, x, p = NULL, colour = "#000000", linetype = "solid",
-  fill = NULL, alpha = 0.3, ...)
+ggdistribution(func, x, p = NULL, colour = "#000000", linetype = NULL,
+  fill = NULL, alpha = NULL, ...)
 }
 \arguments{
 \item{func}{PDF or CDF function}

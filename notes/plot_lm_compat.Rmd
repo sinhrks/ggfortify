@@ -5,14 +5,14 @@ output: html_document
 
 ```{r global_options, include=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=8, fig.height=6, fig.path='figures/lm-', warning=FALSE)
+opts_chunk$set(fig.width=8, fig.height=6, fig.path='figures/lmcompat-', warning=FALSE)
 ```
 
-This document explains plotting diagnostics for LM and GLM using `{ggplot2}` and `{ggfortify}`. 
+This document explains a comparison of plotting diagnostics for LM and GLM using `ggfortify` and standard plot function. 
 
 # Installation
 
-First, install `{ggfortify}` from [github](https://github.com/sinhrks/ggfortify).
+First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
 
 ```{r, eval = FALSE}
 library(devtools)
@@ -21,21 +21,15 @@ install_github('sinhrks/ggfortify')
 
 # Plotting Diagnostics for Linear Models 
 
-`{ggfortify}` let `{ggplot2}` know how to interpret `lm` objects. After loading `{ggfortify}`, you can use `ggplot2::autoplot` function for `lm` objects. 
+`ggfortify` let `ggplot2` know how to interpret `lm` objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `lm` objects. 
 
-```{r, message = FALSE, fig.width = 5, fig.height = 5}
+```{r, message = FALSE, fig.width = 5, fig.height = 6}
 library(ggfortify)
-autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
-```
-
-You can select desired plot by `which` option as the same manner as standard `plot`. Also, 
-`ncol` and `nrow` allows you to specify the number of subplot columns and rows.
-
-```{r, message = FALSE, fig.width = 7, fig.height = 5}
-par(mfrow = c(1, 2))
 m <- lm(Petal.Width ~ Petal.Length, data = iris)
+autoplot(m, which = 1:6)
 
-autoplot(m, which = 1:6, ncol = 3)
+par(mfrow = c(3, 2))
+plot(m, which = 1:6)
 ```
 
 # Plotting Diagnostics for Generalized Linear Models
@@ -46,34 +40,22 @@ It also suppotgs `glm` instance.
 m <- glm(Murder ~ Assault + UrbanPop + Rape,
          family = gaussian, data = USArrests)
 
-autoplot(m, which = 1:6)
-```
+autoplot(m, which = 1:6, ncol = 2)
 
-# Decorating Plots
-
-Because `{ggplot2}` itself cannot handle different kinds of plots in a single instance, `{ggfortify}` handle them using its original class named `ggmultiplot`. You can use `+` operator to decorate `ggmultiplot`.
-
-```{r, message = FALSE, fig.width = 5, fig.height = 5}
-class(autoplot(m))
-autoplot(m) + theme_bw()
+par(mfrow = c(3, 2))
+plot(m, which = 1:6)
 ```
 
 # Specifing Plotting Options
 
 Some properties can be changed by passing corresponding keywords. For example, `colour` keyword is for data points, `smooth.colour` is for smoothing lines and `ad.colour` is for additional auxiliary lies. Also, `ncol` and `nrow` control facet layout. Use `help(autoplot.lm)` (or `help(autoplot.*)` for any other objects) to check available options.
 
-```{r, message = FALSE, fig.width = 8, fig.height = 5}
-autoplot(m, which = 1:6, colour = 'dodgerblue3',
+```{r, fig.height = 4}
+autoplot(m, which = 1:6, colour = 'red',
          smooth.colour = 'black', smooth.linetype = 'dashed',
          ad.colour = 'blue',
          label.size = 3, label.n = 5, label.colour = 'blue',
          ncol = 3)
-```
-
-Also, you can use column names for these properties. Note that `lm` and `glm` instances doesn't retain original data, you should pass original data via `data` keyword to use column names not included in the model.
-
-```{r, message = FALSE, fig.width = 8, fig.height = 5}
-autoplot(lm(Petal.Width ~ Petal.Length, data = iris), data = iris, colour = 'Species')
 ```
 
 # Resources related to ggfortify

@@ -5,46 +5,44 @@
 #' @param lower Column name for lower confidence interval
 #' @param upper Column name for upper confidence interval
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @param colour Line colour for confidence intervals
+#' @param linetype Line type for confidence intervals
+#' @param fill Fill colour for confidence intervals
+#' @param alpha Alpha for confidence intervals
 #' @return ggplot
 #' @examples
 #' d <- fortify(stats::acf(AirPassengers, plot = FALSE))
 #' p <- ggplot(data = d, mapping = aes(x = Lag))
-#' ggfortify:::plot.conf.int(p)
-plot.conf.int <- function (p, data = NULL, lower = 'lower', upper = 'upper',
-                           conf.int = TRUE,
-                           conf.int.colour = '#0000FF', conf.int.linetype = 'none',
-                           conf.int.fill = '#000000', conf.int.alpha = 0.3) {
+#' ggfortify:::plot_confint(p, data = d)
+plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
+                          conf.int = TRUE,
+                          colour = '#0000FF', linetype = 'none',
+                          fill = '#000000', alpha = 0.3) {
 
-  if (missing(conf.int) && (!missing(conf.int.colour) ||
-                            !missing(conf.int.linetype) ||
-                            !missing(conf.int.fill) ||
-                            !missing(conf.int.alpha))) {
+  if (missing(conf.int) && (!missing(colour) ||
+                            !missing(linetype) ||
+                            !missing(fill) ||
+                            !missing(alpha))) {
     # if conf.int is missing but other options are specified, turn conf.in to TRUE
     conf.int <- TRUE
   }
 
+  if (is.null(data)) {
+    stop("Internal Error: 'data' must be provided to plot_confint")
+  }
+
   if (conf.int) {
-    mapping_ribbon = ggplot2::aes_string(ymin = lower, ymax = upper)
-    mapping_lower = ggplot2::aes_string(y = lower)
-    mapping_upper = ggplot2::aes_string(y = upper)
-    if (!is.null(conf.int.fill)) {
-      p <- p + ggplot2::geom_ribbon(data = data,
-                                    mapping = mapping_ribbon,
-                                    fill = conf.int.fill, alpha = conf.int.alpha)
+    if (!is.null(fill)) {
+      p<- p + geom_factory(geom_ribbon, data, ymin = lower, ymax = upper,
+                           fill = fill, alpha = alpha, na.rm = TRUE)
     }
-    if (conf.int.linetype != 'none') {
-      p <- p + ggplot2::geom_line(data = data,
-                                  mapping = mapping_lower,
-                                  colour = conf.int.colour, linetype = conf.int.linetype,
-                                  na.rm = TRUE) +
-        ggplot2::geom_line(data = data,
-                           mapping = mapping_upper,
-                           colour = conf.int.colour, linetype = conf.int.linetype,
-                           na.rm = TRUE)
+    if (linetype != 'none') {
+      p <- p + geom_factory(geom_line, data, y = lower,
+                            colour = colour, linetype = linetype,
+                            na.rm = TRUE)
+      p <- p + geom_factory(geom_line, data, y = upper,
+                     colour = colour, linetype = linetype,
+                     na.rm = TRUE)
     }
   }
   p
@@ -65,22 +63,67 @@ plot.label <- function(p, data, flag = TRUE, label = 'rownames',
   if (!is.data.frame(data)) {
     stop(paste0('Unsupported class: ', class(data)))
   }
+
+  if (!missing(colour) && !is.null(colour) && missing(flag)) {
+    # if flag is missing but colour is specified, turn flag to TRUE
+    flag <- TRUE
+  }
+
   if (flag) {
     if (is.null(colour)) {
       # NULL may be explicitly passed from parent functions
       colour <- '#000000'
     }
-    if (colour %in% colnames(data)) {
-      mapping <- ggplot2::aes_string(label = label, colour = colour)
-      p <- p + ggplot2::geom_text(data = data, mapping = mapping,
-                                  size = size)
-    } else {
-      mapping <- ggplot2::aes_string(label = label)
-      p <- p + ggplot2::geom_text(data = data, mapping = mapping,
-                                  colour = colour, size = size)
-    }
+    p <- p + geom_factory(ggplot2::geom_text, data,
+                          label = label, colour = colour, size = size)
   }
   p
+}
+
+#' Factory function to control \code{ggplot2::geom_xxx} functions
+#'
+#' @param geom string representation of \code{ggplot2::geom_xxx} function
+#' @param allowed character vector contains allowed values
+#' @return function
+#' @examples
+#' ggfortify:::get_geom_function('point')
+#' ggfortify:::get_geom_function('line', allowed = c('line'))
+get_geom_function <- function(geom, allowed = c('line', 'bar', 'point')) {
+  if (geom == 'line' && 'line' %in% allowed) {
+    return(ggplot2::geom_line)
+  } else if (geom == 'bar' && 'bar' %in% allowed) {
+    return(ggplot2::geom_bar)
+  } else if (geom == 'point' && 'point' %in% allowed) {
+    return(ggplot2::geom_point)
+  }
+  stop(paste("Invalid geom is specified. Use", allowed))
+}
+
+#' Factory function to control \code{ggplot2::geom_xxx} functions
+#'
+#' @param geomfunc \code{ggplot2::geom_xxx} function
+#' @param data plotting data
+#' @param ... other arguments passed to methods
+#' @return proto
+geom_factory <- function(geomfunc, data, ...) {
+  mapping <- list()
+  option <- list()
+
+  columns <- colnames(data)
+  for (key in names(list(...))) {
+      value <- list(...)[[key]]
+      if (is.null(value)) {
+        # pass
+      } else if (value %in% columns) {
+        mapping[[key]] <- value
+      } else {
+        option[[key]] <- value
+      }
+  }
+  option[['data']] <- data
+  option[['mapping']] <- do.call(ggplot2::aes_string, mapping)
+  proto <- do.call(geomfunc, option)
+  return(proto)
 }
 
 #' An S4 class to hold multiple \code{ggplot2::ggplot} instances.
@@ -139,25 +182,13 @@ get.layout <- function(nplots, ncol, nrow) {
 #' @param p \code{ggmultiplot}
 #' @return NULL
 print.ggmultiplot <- function(p) {
-  # Based on Multiple plot function
-  # http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)
-
   nplots = length(p@plots)
-
   if (nplots==1) {
     print(p@plots[[1]])
   } else {
     layout <- get.layout(nplots, p@ncol, p@nrow)
-    grid::grid.newpage()
-    vp <- grid::viewport(layout = grid::grid.layout(nrow(layout), ncol(layout)))
-    grid::pushViewport(vp)
-
-    for (i in 1:nplots) {
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-      vp <- grid::viewport(layout.pos.row = matchidx$row,
-                           layout.pos.col = matchidx$col)
-      print(p@plots[[i]], vp = vp)
-    }
+    args <- c(p@plots, list(ncol = ncol(layout), nrow = nrow(layout)))
+    do.call(gridExtra::grid.arrange, args)
   }
 }
 

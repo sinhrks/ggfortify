@@ -12,7 +12,8 @@ License: GPL-2
 Depends: methods, grid, scales, ggplot2
 Imports:
     dplyr,
-    tidyr
+    tidyr,
+    gridExtra
 Suggests:
     testthat,
     cluster,

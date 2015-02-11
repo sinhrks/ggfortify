@@ -24,27 +24,34 @@ fortify.density <- function(model, data = NULL, ...) {
 #' @return ggplot
 #' @examples
 #' autoplot(stats::density(stats::rnorm(1:50)))
+#' autoplot(stats::density(stats::rnorm(1:50)), fill = 'blue')
 #' @export
 autoplot.density <- function (object, p = NULL,
-                              colour = '#000000', linetype = 'solid',
-                              fill = NULL, alpha = 0.3, ...)  {
+                              colour = '#000000', linetype = NULL,
+                              fill = NULL, alpha = NULL, ...)  {
   if (!is.data.frame(object)) {
     object <- ggplot2::fortify(object)
     object$ymin <- rep(0, nrow(object))
   }
   mapping <- ggplot2::aes_string(x = 'x', y = 'y', ymin = 'ymin', ymax = 'y')
   if (is.null(p)) {
-    p <- ggplot2::ggplot() +
+    p <- ggplot2::ggplot(mapping = mapping) +
       ggplot2::scale_x_continuous(name = '') +
       ggplot2::scale_y_continuous(name = '', labels = scales::percent)
   }
   if (!is.null(fill)) {
-    p <- p + ggplot2::geom_ribbon(data = object, mapping = mapping,
-                                  colour = colour, linetype = linetype,
-                                  fill = fill, alpha = alpha)
+
+    if (is.null(alpha)) {
+      # specify default which should not affect to geom_line
+      alpha <- 0.3
+    }
+
+    p <- p + geom_factory(geom_ribbon, object, colour = colour,
+                          linetype = linetype, fill = fill, alpha = alpha)
   } else {
-    p <- p + ggplot2::geom_line(data = object, mapping = mapping,
-                                colour = colour, linetype = linetype)
+    # not to draw bottom line
+    p <- p + geom_factory(geom_line, object, colour = colour,
+                          linetype = linetype, alpha = alpha)
   }
   p
 }
@@ -68,8 +75,8 @@ autoplot.density <- function (object, p = NULL,
 #' ggdistribution(pchisq, 0:20, p = p, df = 9, fill = 'red')
 #' @export
 ggdistribution <- function (func, x, p = NULL,
-                            colour = '#000000', linetype = 'solid',
-                            fill = NULL, alpha = 0.3, ...)  {
+                            colour = '#000000', linetype = NULL,
+                            fill = NULL, alpha = NULL, ...)  {
   data <- data.frame(x = x, y = func(x, ...),
                      ymin = rep(0, length(x)))
   p <- autoplot.density(data, p = p, colour = colour, linetype = linetype,
