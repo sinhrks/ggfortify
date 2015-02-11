@@ -41,5 +41,6 @@ Plot seasonal subseries of time series, generalization of \code{stats::monthplot
 \examples{
 ggfreqplot(AirPassengers)
 ggfreqplot(AirPassengers, freq = 4)
+ggfreqplot(AirPassengers, conf.int = TRUE)
 }
 

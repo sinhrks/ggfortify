@@ -180,7 +180,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' fitted(ar(WWWusage))
 #' @export
 fitted.ar <- function(object, ...) {
-  library(forecast)
+  requireNamespace('forecast')
   x <- forecast::getResponse(object)
   return(x - residuals(object))
 }
@@ -353,7 +353,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
     result
   }
   lag.df <- dplyr::rbind_all(lapply(seq(1:lags), .lag))
-  lag.df <- dplyr::filter(lag.df, !is.na(Lag))
+  lag.df <- dplyr::filter_(lag.df, '!is.na(Lag)')
   lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
 
   mapping = ggplot2::aes_string(x = 'Lag', y = 'Data')
@@ -380,6 +380,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
 #' @examples
 #' ggfreqplot(AirPassengers)
 #' ggfreqplot(AirPassengers, freq = 4)
+#' ggfreqplot(AirPassengers, conf.int = TRUE)
 #' @export
 ggfreqplot <- function(data, freq = NULL,
                        nrow = NULL, ncol = NULL,
@@ -406,9 +407,9 @@ ggfreqplot <- function(data, freq = NULL,
     dplyr::summarise_(m = 'mean(Data)', s = 'sd(Data)')
 
   p <- (1 - conf.int.value) / 2
-  summarised <- dplyr::mutate(summarised,
-                              lower = qnorm(p, mean = m, sd = s),
-                              upper = qnorm(1 - p, mean = m, sd = s))
+  summarised$lower <- qnorm(p, mean = summarised$m, sd = summarised$s)
+  summarised$upper <- qnorm(1 - p, mean = summarised$m, sd = summarised$s)
+
   d <- dplyr::left_join(d, summarised, by = 'Frequency')
 
   p <- autoplot.ts(d, columns = 'Data', ...)
