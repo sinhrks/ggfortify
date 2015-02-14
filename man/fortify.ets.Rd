@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_forecast.R
 \name{fortify.ets}
 \alias{fortify.ets}
-\title{Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.}
+\title{Convert \code{forecast::bats} and \code{forecast::ets} to \code{data.frame}}
 \usage{
 \method{fortify}{ets}(model, data = NULL, ...)
 }
@@ -17,7 +17,7 @@
 data.frame
 }
 \description{
-Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.
+Convert \code{forecast::bats} and \code{forecast::ets} to \code{data.frame}
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_vars.R
 \name{autoplot.varprd}
 \alias{autoplot.varprd}
-\title{Autoplot \code{vars::varprd}.}
+\title{Autoplot \code{vars::varprd}}
 \usage{
 \method{autoplot}{varprd}(object, is.date = NULL, ts.connect = TRUE,
   scales = "free_y", predict.colour = "#0000FF",
@@ -40,7 +40,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 ggplot
 }
 \description{
-Autoplot \code{vars::varprd}.
+Autoplot \code{vars::varprd}
 }
 \examples{
 data(Canada, package = 'vars')

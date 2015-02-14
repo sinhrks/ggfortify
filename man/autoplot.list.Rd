@@ -2,7 +2,7 @@
 % Please edit documentation in R/base_fortify_list.R
 \name{autoplot.list}
 \alias{autoplot.list}
-\title{Autoplot list.}
+\title{Autoplot list}
 \usage{
 \method{autoplot}{list}(object, ...)
 }
@@ -15,6 +15,6 @@
 ggplot
 }
 \description{
-Autoplot list.
+Autoplot list
 }
 

@@ -1,5 +1,4 @@
-#' Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
-#' \code{cluster::pam} to data.frame.
+#' Convert cluster instances to \code{data.frame}
 #'
 #' @param model Clustered instance
 #' @param data original dataset, if needed
@@ -33,8 +32,7 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 }
 
 
-#' Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
-#' \code{cluster::pam}.
+#' Autoplot cluster instances
 #'
 #' @param object Clustered instance
 #' @param data Original data used for clustering. Mandatory for \code{stats::kmeans}.

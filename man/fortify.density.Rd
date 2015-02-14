@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats_density.R
 \name{fortify.density}
 \alias{fortify.density}
-\title{Convert \code{stats::density} to \code{data.frame}.}
+\title{Convert \code{stats::density} to \code{data.frame}}
 \usage{
 \method{fortify}{density}(model, data = NULL, ...)
 }
@@ -17,7 +17,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::density} to \code{data.frame}.
+Convert \code{stats::density} to \code{data.frame}
 }
 \examples{
 fortify(stats::density(stats::rnorm(1:50)))

@@ -1,4 +1,4 @@
-#' Convert \code{stats::density} to \code{data.frame}.
+#' Convert \code{stats::density} to \code{data.frame}
 #'
 #' @param model \code{stats::density} instance
 #' @param data original dataset, if needed

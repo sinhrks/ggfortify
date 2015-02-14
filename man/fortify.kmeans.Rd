@@ -2,8 +2,7 @@
 % Please edit documentation in R/fortify_cluster.R
 \name{fortify.kmeans}
 \alias{fortify.kmeans}
-\title{Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
-\code{cluster::pam} to data.frame.}
+\title{Convert cluster instances to \code{data.frame}}
 \usage{
 \method{fortify}{kmeans}(model, data = NULL, original = NULL, ...)
 }
@@ -20,8 +19,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
-\code{cluster::pam} to data.frame.
+Convert cluster instances to \code{data.frame}
 }
 \examples{
 fortify(stats::kmeans(iris[-5], 3))

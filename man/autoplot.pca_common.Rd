@@ -5,7 +5,7 @@
 \alias{autoplot.pca_common}
 \alias{autoplot.prcomp}
 \alias{autoplot.princomp}
-\title{Autoplot PCA-likes.}
+\title{Autoplot PCA-likes}
 \usage{
 \method{autoplot}{pca_common}(object, data = NULL, original = NULL,
   colour = NULL, size = NULL, linetype = NULL, alpha = NULL,
@@ -67,7 +67,7 @@
 ggplot
 }
 \description{
-Autoplot PCA-likes.
+Autoplot PCA-likes
 }
 \examples{
 autoplot(stats::prcomp(iris[-5]))

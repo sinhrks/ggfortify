@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_forecast.R
 \name{fortify.forecast}
 \alias{fortify.forecast}
-\title{Convert \code{forecast::forecast} to data.frame.}
+\title{Convert \code{forecast::forecast} to \code{data.frame}}
 \usage{
 \method{fortify}{forecast}(model, data = NULL, is.date = NULL,
   ts.connect = FALSE, ...)
@@ -23,7 +23,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 data.frame
 }
 \description{
-Convert \code{forecast::forecast} to data.frame.
+Convert \code{forecast::forecast} to \code{data.frame}
 }
 \examples{
 d.arima <- forecast::auto.arima(AirPassengers)

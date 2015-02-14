@@ -7,7 +7,7 @@
 \alias{autoplot.fracdiff}
 \alias{autoplot.nnetar}
 \alias{autoplot.tsmodel}
-\title{Autoplot time series models (like AR, ARIMA).}
+\title{Autoplot time series models (like AR, ARIMA)}
 \usage{
 \method{autoplot}{tsmodel}(object, data = NULL, original = NULL,
   predict = NULL, is.date = NULL, ts.connect = TRUE,
@@ -78,7 +78,7 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 ggplot
 }
 \description{
-Autoplot time series models (like AR, ARIMA).
+Autoplot time series models (like AR, ARIMA)
 }
 \examples{
 d.ar <- stats::ar(AirPassengers)

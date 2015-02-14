@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats.R
 \name{autoplot.spec}
 \alias{autoplot.spec}
-\title{Autoplot \code{stats::spec}.}
+\title{Autoplot \code{stats::spec}}
 \usage{
 \method{autoplot}{spec}(object, ...)
 }
@@ -15,7 +15,7 @@
 ggplot
 }
 \description{
-Autoplot \code{stats::spec}.
+Autoplot \code{stats::spec}
 }
 \examples{
 autoplot(stats::spec.ar(AirPassengers))

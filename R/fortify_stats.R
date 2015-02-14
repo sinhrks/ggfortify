@@ -10,7 +10,7 @@ autoplot.stl <- autoplot.ts
 #' @export
 autoplot.decomposed.ts <- autoplot.ts
 
-#' Convert \code{stats::acf} to \code{data.frame}.
+#' Convert \code{stats::acf} to \code{data.frame}
 #'
 #' @param model \code{stats::acf} instance
 #' @param data original dataset, if needed
@@ -39,7 +39,7 @@ fortify.acf <- function(model, data = NULL,
 }
 
 #' Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
-#' standard plot output.
+#' standard plot output
 #'
 #' @param object \code{stats::acf} instance
 #' @param colour Line colour
@@ -85,7 +85,7 @@ autoplot.acf <- function(object,
   p
 }
 
-#' Convert \code{stats::spec} to data.frame.
+#' Convert \code{stats::spec} to \code{data.frame}
 #'
 #' @param model \code{stats::spec} instance
 #' @param data original dataset, if needed
@@ -102,7 +102,7 @@ fortify.spec <- function(model, data = NULL, ...) {
   post.fortify(d)
 }
 
-#' Autoplot \code{stats::spec}.
+#' Autoplot \code{stats::spec}
 #'
 #' @param object \code{stats::spec} instance
 #' @param ... other arguments passed to methods
@@ -119,7 +119,7 @@ autoplot.spec <- function(object, ...) {
     ggplot2::scale_y_log10()
 }
 
-#' Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
+#' Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}
 #'
 #' @param model \code{stats::prcomp} or \code{stats::princomp} instance
 #' @param data original dataset, if needed
@@ -161,7 +161,7 @@ fortify.prcomp <- function(model, data = NULL,
 #' @export
 fortify.princomp <- fortify.prcomp
 
-#' Convert \code{stats::factanal} to data.frame.
+#' Convert \code{stats::factanal} to \code{data.frame}
 #'
 #' @param model \code{stats::factanal} instance
 #' @param data original dataset, if needed
@@ -190,7 +190,7 @@ fortify.factanal <- function(model, data = NULL,
   post.fortify(d)
 }
 
-#' Autoplot PCA-likes.
+#' Autoplot PCA-likes
 #'
 #' @param object PCA-like instance
 #' @param data Joined to fitting result if provided.
@@ -353,7 +353,7 @@ autoplot.princomp <- autoplot.pca_common
 #' @export
 autoplot.factanal <- autoplot.pca_common
 
-#' Convert \code{stats::dist} to data.frame.
+#' Convert \code{stats::dist} to \code{data.frame}
 #'
 #' @param model \code{stats::dist} instance
 #' @param data original dataset, if needed

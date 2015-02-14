@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_vars.R
 \name{fortify.varprd}
 \alias{fortify.varprd}
-\title{Convert \code{vars::varprd} to data.frame.}
+\title{Convert \code{vars::varprd} to \code{data.frame}}
 \usage{
 \method{fortify}{varprd}(model, data = NULL, is.date = NULL,
   ts.connect = FALSE, melt = FALSE, ...)
@@ -25,7 +25,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 data.frame
 }
 \description{
-Convert \code{vars::varprd} to data.frame.
+Convert \code{vars::varprd} to \code{data.frame}
 }
 \examples{
 data(Canada, package = 'vars')

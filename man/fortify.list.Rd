@@ -2,7 +2,7 @@
 % Please edit documentation in R/base_fortify_list.R
 \name{fortify.list}
 \alias{fortify.list}
-\title{Convert list to data.frame.}
+\title{Convert list to data.frame}
 \usage{
 \method{fortify}{list}(model, data = NULL, ...)
 }
@@ -17,6 +17,6 @@
 data.frame
 }
 \description{
-Convert list to data.frame.
+Convert list to data.frame
 }
 

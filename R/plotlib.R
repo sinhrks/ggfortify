@@ -126,7 +126,7 @@ geom_factory <- function(geomfunc, data, ...) {
   return(proto)
 }
 
-#' An S4 class to hold multiple \code{ggplot2::ggplot} instances.
+#' An S4 class to hold multiple \code{ggplot2::ggplot} instances
 #'
 #' @slot plots List of \code{ggplot2::ggplot} instances
 #' @slot ncol Number of grid columns

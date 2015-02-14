@@ -1,4 +1,4 @@
-#' Convert \code{forecast::forecast} to data.frame.
+#' Convert \code{forecast::forecast} to \code{data.frame}
 #'
 #' @param model \code{forecast::forecast} instance
 #' @param data original dataset, if needed
@@ -25,7 +25,7 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
   post.fortify(d)
 }
 
-#' Autoplot \code{forecast::forecast}.
+#' Autoplot \code{forecast::forecast}
 #'
 #' @param object \code{forecast::forecast} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
@@ -97,7 +97,7 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
   p
 }
 
-#' Convert \code{forecast::bats} and \code{forecast::ets} to data.frame.
+#' Convert \code{forecast::bats} and \code{forecast::ets} to \code{data.frame}
 #'
 #' @param model \code{forecast::bats} or \code{forecast::ets} instance
 #' @param data original dataset, if needed

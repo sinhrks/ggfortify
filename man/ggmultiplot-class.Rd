@@ -3,9 +3,9 @@
 \docType{class}
 \name{ggmultiplot-class}
 \alias{ggmultiplot-class}
-\title{An S4 class to hold multiple \code{ggplot2::ggplot} instances.}
+\title{An S4 class to hold multiple \code{ggplot2::ggplot} instances}
 \description{
-An S4 class to hold multiple \code{ggplot2::ggplot} instances.
+An S4 class to hold multiple \code{ggplot2::ggplot} instances
 }
 \section{Slots}{
 

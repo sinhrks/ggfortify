@@ -3,7 +3,7 @@
 \name{fortify.prcomp}
 \alias{fortify.prcomp}
 \alias{fortify.princomp}
-\title{Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.}
+\title{Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}}
 \usage{
 \method{fortify}{prcomp}(model, data = NULL, original = NULL, ...)
 }
@@ -20,7 +20,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::prcomp}, \code{stats::princomp} to data.frame.
+Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}
 }
 \examples{
 fortify(stats::prcomp(iris[-5]))

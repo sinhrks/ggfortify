@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats_lm.R
 \name{autoplot.lm}
 \alias{autoplot.lm}
-\title{Autoplot \code{stats::lm}.}
+\title{Autoplot \code{stats::lm} and \code{stats::glm}}
 \usage{
 \method{autoplot}{lm}(object, which = c(1:3, 5), data = NULL,
   colour = "#444444", size = NULL, linetype = NULL, alpha = NULL,
@@ -58,7 +58,7 @@
 ggplot
 }
 \description{
-Autoplot \code{stats::lm}.
+Autoplot \code{stats::lm} and \code{stats::glm}
 }
 \examples{
 autoplot(lm(Petal.Width ~ Petal.Length, data = iris))

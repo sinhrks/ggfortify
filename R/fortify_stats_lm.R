@@ -1,4 +1,4 @@
-#' Autoplot \code{stats::lm}.
+#' Autoplot \code{stats::lm} and \code{stats::glm}
 #'
 #' @param object \code{stats::lm} instance
 #' @param which If a subset of the plots is required, specify a subset of the numbers 1:6.

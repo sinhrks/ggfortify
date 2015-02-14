@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats.R
 \name{fortify.acf}
 \alias{fortify.acf}
-\title{Convert \code{stats::acf} to \code{data.frame}.}
+\title{Convert \code{stats::acf} to \code{data.frame}}
 \usage{
 \method{fortify}{acf}(model, data = NULL, conf.int = TRUE,
   conf.int.value = 0.95, conf.int.type = "white", ...)
@@ -24,7 +24,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::acf} to \code{data.frame}.
+Convert \code{stats::acf} to \code{data.frame}
 }
 \examples{
 fortify(stats::acf(AirPassengers))

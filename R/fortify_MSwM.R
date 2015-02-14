@@ -1,4 +1,4 @@
-#' Convert \code{MSwM::MSM.lm} to data.frame.
+#' Convert \code{MSwM::MSM.lm} to \code{data.frame}
 #'
 #' @param model \code{MSwM::MSM.lm} instance
 #' @param data original dataset, if needed
@@ -45,7 +45,7 @@ fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
   post.fortify(d)
 }
 
-#' Autoplot \code{MSwM::MSM.lm}.
+#' Autoplot \code{MSwM::MSM.lm}
 #'
 #' @param object \code{MSwM::MSM.lm} instance
 #' @param prob.colour Line colour for probabilities

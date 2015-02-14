@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{gglagplot}
 \alias{gglagplot}
-\title{Plot time series against lagged versions of themselves.}
+\title{Plot time series against lagged versions of themselves}
 \usage{
 gglagplot(ts, lags = 1, nrow = NULL, ncol = NULL)
 }
@@ -19,7 +19,7 @@ gglagplot(ts, lags = 1, nrow = NULL, ncol = NULL)
 ggplot
 }
 \description{
-Plot time series against lagged versions of themselves.
+Plot time series against lagged versions of themselves
 }
 \examples{
 gglagplot(AirPassengers)

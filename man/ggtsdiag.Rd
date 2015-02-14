@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{ggtsdiag}
 \alias{ggtsdiag}
-\title{Plots time-series diagnostics.}
+\title{Plots time-series diagnostics}
 \usage{
 ggtsdiag(object, gof.lag = 10, conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "dashed",
@@ -40,7 +40,7 @@ ggtsdiag(object, gof.lag = 10, conf.int = TRUE,
 ggplot
 }
 \description{
-Plots time-series diagnostics.
+Plots time-series diagnostics
 }
 \examples{
 ggtsdiag(arima(AirPassengers))

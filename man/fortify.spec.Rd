@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats.R
 \name{fortify.spec}
 \alias{fortify.spec}
-\title{Convert \code{stats::spec} to data.frame.}
+\title{Convert \code{stats::spec} to \code{data.frame}}
 \usage{
 \method{fortify}{spec}(model, data = NULL, ...)
 }
@@ -17,7 +17,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::spec} to data.frame.
+Convert \code{stats::spec} to \code{data.frame}
 }
 \examples{
 fortify(spectrum(AirPassengers))

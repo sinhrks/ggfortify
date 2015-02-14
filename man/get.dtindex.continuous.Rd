@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{get.dtindex.continuous}
 \alias{get.dtindex.continuous}
-\title{Get \code{Date} \code{vector} continue to \code{ts} index.}
+\title{Get \code{Date} \code{vector} continue to \code{ts} index}
 \usage{
 get.dtindex.continuous(data, length, is.tsp = FALSE, is.date = NULL)
 }
@@ -20,7 +20,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 vector
 }
 \description{
-Get \code{Date} \code{vector} continue to \code{ts} index.
+Get \code{Date} \code{vector} continue to \code{ts} index
 }
 \examples{
 ggfortify:::get.dtindex.continuous(AirPassengers, length = 10)

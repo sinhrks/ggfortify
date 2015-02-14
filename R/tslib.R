@@ -1,4 +1,4 @@
-#' Convert \code{ts} index to \code{Date} \code{vector}.
+#' Convert \code{ts} index to \code{Date} \code{vector}
 #'
 #' @param data \code{ts} instance
 #' @param is.tsp Logical frag whether data is \code{tsp} itself or not
@@ -27,7 +27,7 @@ get.dtindex <- function(data, is.tsp = FALSE, is.date = NULL) {
   dtindex
 }
 
-#' Get \code{Date} \code{vector} continue to \code{ts} index.
+#' Get \code{Date} \code{vector} continue to \code{ts} index
 #'
 #' @param data \code{ts} instance
 #' @param length A number to continue
@@ -197,7 +197,7 @@ residuals.ar <- function(object, ...) {
   return(object$resid)
 }
 
-#' Plots a cumulative periodogram.
+#' Plots a cumulative periodogram
 #'
 #' @param ts \code{stats::ts} instance
 #' @param taper Proportion tapered in forming the periodogram
@@ -251,7 +251,7 @@ ggcpgram <- function (ts, taper = 0.1,
   p
 }
 
-#' Plots time-series diagnostics.
+#' Plots time-series diagnostics
 #'
 #' @param object A fitted time-series model
 #' @param gof.lag The maximum number of lags for a Portmanteau goodness-of-fit test
@@ -319,7 +319,7 @@ ggtsdiag <- function(object, gof.lag = 10,
   new('ggmultiplot', plots = list(p.std, p.acf, p.lb), nrow = nrow, ncol = ncol)
 }
 
-#' Plot time series against lagged versions of themselves.
+#' Plot time series against lagged versions of themselves
 #'
 #' @param ts \code{stats::ts} instance
 #' @param lags Number of lag plots desired
