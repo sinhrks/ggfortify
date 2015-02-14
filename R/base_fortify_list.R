@@ -41,31 +41,31 @@ autoplot.list <- function(object, ...) {
 #' @return character
 #' @export
 infer <- function(data) {
-  if (check.attrs(data, c('points', 'eig', 'x', 'ac', 'GOF'))) {
+  if (check_names(data, c('points', 'eig', 'x', 'ac', 'GOF'))) {
     # cmdscale
     return('mds-like')
-  } else if (check.attrs(data, c('points', 'stress'))) {
+  } else if (check_names(data, c('points', 'stress'))) {
     # isoMDS
     return('mds-like')
-  } else if (check.attrs(data, c('points', 'stress', 'call'))) {
+  } else if (check_names(data, c('points', 'stress', 'call'))) {
     # sammon
     return('mds-like')
-  } else if (check.attrs(data, c('s', 'U.S', 'D.S'))) {
+  } else if (check_names(data, c('s', 'U.S', 'D.S'))) {
     # dlm::dlmSmooth
     return('dlmSmooth')
-  } else if (check.attrs(data, c('signal', 'variance'))) {
+  } else if (check_names(data, c('signal', 'variance'))) {
       # KFAS::signal
       return('KFASSignal')
   }
   stop('Unable to infer class from input list')
 }
 
-#' Infer class name
+#' Check data names are equal with expected
 #'
-#' @param data list instance
+#' @param data \code{list} instance to be checked
 #' @param expected expected character vector
 #' @return logical
-check.attrs <- function(data, expected) {
+check_names <- function(data, expected) {
   n <- names(data)
   if (length(n) == length(expected) && all(n == expected)) {
     return(TRUE)

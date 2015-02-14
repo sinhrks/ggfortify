@@ -5,7 +5,7 @@
 \title{Autoplot \code{stats::density}}
 \usage{
 \method{autoplot}{density}(object, p = NULL, colour = "#000000",
-  linetype = "solid", fill = NULL, alpha = 0.3, ...)
+  linetype = NULL, fill = NULL, alpha = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::density} instance}
@@ -30,5 +30,6 @@ Autoplot \code{stats::density}
 }
 \examples{
 autoplot(stats::density(stats::rnorm(1:50)))
+autoplot(stats::density(stats::rnorm(1:50)), fill = 'blue')
 }
 

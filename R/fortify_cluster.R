@@ -39,6 +39,7 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 #' @param object Clustered instance
 #' @param data Original data used for clustering. Mandatory for \code{stats::kmeans}.
 #' @param original (Deprecated) use data
+#' @param colour line colour for points
 #' @param ... other arguments passed to \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
@@ -46,10 +47,11 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 #' autoplot(cluster::clara(iris[-5], 3), label = TRUE)
 #' autoplot(cluster::fanny(iris[-5], 3))
 #' autoplot(cluster::fanny(iris[-5], 3), frame = TRUE)
-#' autoplot(cluster::pam(iris[-5], 3), data = iris)
+#' autoplot(cluster::pam(iris[-5], 3), data = iris, colour = 'Species')
 #' autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
 #' @export
-autoplot.kmeans <- function(object, data = NULL, original = NULL, ...) {
+autoplot.kmeans <- function(object, data = NULL, original = NULL,
+                            colour = 'cluster', ...) {
 
   if (!is.null(original)) {
     deprecate.warning('original', 'data')
@@ -71,7 +73,7 @@ autoplot.kmeans <- function(object, data = NULL, original = NULL, ...) {
 
   pca.data <- dplyr::select_(plot.data, .dots = dots)
   p <- ggplot2::autoplot(stats::prcomp(pca.data), data = plot.data,
-                         colour = 'cluster', ...)
+                         colour = colour, ...)
   p
 }
 

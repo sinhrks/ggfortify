@@ -90,10 +90,8 @@ autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
 
   p <- p + ggplot2::facet_grid(variable ~ ., scales = scales)
 
-  p <- plot.conf.int(p, data = predict.data, conf.int = conf.int,
-                     conf.int.colour = conf.int.colour,
-                     conf.int.linetype = conf.int.linetype,
-                     conf.int.fill = conf.int.fill,
-                     conf.int.alpha = conf.int.alpha)
+  p <- plot_confint(p, predict.data, conf.int = conf.int,
+                    colour = conf.int.colour, linetype = conf.int.linetype,
+                    fill = conf.int.fill, alpha = conf.int.alpha)
   p
 }

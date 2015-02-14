@@ -4,20 +4,33 @@
 \alias{autoplot.lm}
 \title{Autoplot \code{stats::lm}.}
 \usage{
-\method{autoplot}{lm}(object, which = c(1:3, 5), fill = "#444444",
-  colour = "#444444", label.colour = "#000000", label.size = 4,
-  label.n = 3, smooth.colour = "#0000FF", smooth.linetype = "solid",
-  ad.colour = "#888888", ad.linetype = "dashed", ad.size = 0.2,
-  nrow = NULL, ncol = NULL, ...)
+\method{autoplot}{lm}(object, which = c(1:3, 5), data = NULL,
+  colour = "#444444", size = NULL, linetype = NULL, alpha = NULL,
+  fill = NULL, shape = NULL, label = TRUE, label.colour = "#000000",
+  label.size = 4, label.n = 3, smooth.colour = "#0000FF",
+  smooth.linetype = "solid", ad.colour = "#888888",
+  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::lm} instance}
 
 \item{which}{If a subset of the plots is required, specify a subset of the numbers 1:6.}
 
-\item{fill}{Point fill colour}
+\item{data}{original dataset, if needed}
 
-\item{colour}{Point line colour}
+\item{colour}{line colour}
+
+\item{size}{point size}
+
+\item{linetype}{line type}
+
+\item{alpha}{alpha}
+
+\item{fill}{fill colour}
+
+\item{shape}{point shape}
+
+\item{label}{logical value whether to display data labels}
 
 \item{label.colour}{Text colour for point labels}
 
@@ -48,10 +61,8 @@ ggplot
 Autoplot \code{stats::lm}.
 }
 \examples{
-autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
-autoplot(glm(Petal.Width ~ Petal.Length, data= iris), which = 1:6)
-
-autoplot(lm(Petal.Width~Petal.Length, data = iris)) + theme_bw()
-autoplot(lm(Petal.Width~Petal.Length, data = iris)) + scale_colour_brewer()
+autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
+autoplot(glm(Petal.Width ~ Petal.Length, data = iris), which = 1:6)
+autoplot(lm(Petal.Width~Petal.Length, data = iris), data = iris, colour = 'Species')
 }
 

@@ -245,11 +245,9 @@ ggcpgram <- function (ts, taper = 0.1,
     ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
     ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
 
-  p <- plot.conf.int(p, conf.int = conf.int,
-                     conf.int.colour = conf.int.colour,
-                     conf.int.linetype = conf.int.linetype,
-                     conf.int.fill = conf.int.fill,
-                     conf.int.alpha = conf.int.alpha)
+  p <- plot_confint(p, d, conf.int = conf.int,
+                    colour = conf.int.colour, linetype = conf.int.linetype,
+                    fill = conf.int.fill, alpha = conf.int.alpha)
   p
 }
 
@@ -312,11 +310,9 @@ ggtsdiag <- function(object, gof.lag = 10,
     ggplot2::geom_point(mapping = ggplot2::aes_string(y = '`p value`')) +
     ggplot2::scale_y_continuous(limits=c(0, 1)) +
     ggplot2::ggtitle('p values for Ljung-Box statistic')
-  p.lb <- plot.conf.int(p.lb, conf.int = conf.int,
-                        conf.int.colour = conf.int.colour,
-                        conf.int.linetype = conf.int.linetype,
-                        conf.int.fill = conf.int.fill,
-                        conf.int.alpha = conf.int.alpha)
+  p.lb <- plot_confint(p.lb, lb.df, conf.int = conf.int,
+                       colour = conf.int.colour, linetype = conf.int.linetype,
+                       fill = conf.int.fill, alpha = conf.int.alpha)
 
   if (is.null(ncol)) { ncol <- 0 }
   if (is.null(nrow)) { nrow <- 0 }
@@ -416,10 +412,8 @@ ggfreqplot <- function(data, freq = NULL,
   p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'),
                        colour = conf.int.colour) +
     ggplot2::facet_wrap(~Frequency)
-  p <- plot.conf.int(p, conf.int = conf.int,
-                     conf.int.colour = conf.int.colour,
-                     conf.int.linetype = conf.int.linetype,
-                     conf.int.fill = conf.int.fill,
-                     conf.int.alpha = conf.int.alpha)
+  p <- plot_confint(p, d, conf.int = conf.int,
+                    colour = conf.int.colour, linetype = conf.int.linetype,
+                    fill = conf.int.fill,alpha = conf.int.alpha)
   p
 }

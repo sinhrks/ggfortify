@@ -31,9 +31,14 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
-#' @param predict.colour Line colour for predicted time-series
-#' @param predict.linetype Line type for predicted time-series
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
+#' @param predict.geom geometric string for predicted time-series
+#' @param predict.colour line colour for predicted time-series
+#' @param predict.size point size for predicted time-series
+#' @param predict.linetype line type for predicted time-series
+#' @param predict.alpha alpha for predicted time-series
+#' @param predict.fill fill colour for predicted time-series
+#' @param predict.shape point shape for predicted time-series
+#' @param conf.int logical flag indicating whether to plot confidence intervals
 #' @param conf.int.colour Line colour for confidence intervals
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
@@ -44,42 +49,51 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' autoplot(forecast::forecast(d.arima, h = 10))
 #' autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
-#' autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE)
-#' autoplot(forecast::forecast(d.arima, h = 10), is.date = FALSE)
-#' autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
+#' autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE, is.date = FALSE)
 #' autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
+#' \dontrun{
+#' autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
+#' }
 #' @export
 autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
-                              predict.colour = '#0000FF', predict.linetype = 'solid',
+                              predict.geom = 'line',
+                              predict.colour = '#0000FF', predict.size = NULL,
+                              predict.linetype = NULL, predict.alpha = NULL,
+                              predict.fill = NULL, predict.shape = NULL,
                               conf.int = TRUE,
                               conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                               conf.int.fill = '#000000', conf.int.alpha = 0.3,
                               ...) {
   plot.data <- ggplot2::fortify(object, is.date = is.date, ts.connect = ts.connect)
-  lower = '`Lo 95`'  # prioritize to use 95%
-  upper = '`Hi 95`'
+  # replace whitespace to underscore to make column name handling easie
+  colnames(plot.data) <- sub(' ', '_', colnames(plot.data))
+  lower = 'Lo_95'  # prioritize to use 95%
+  upper = 'Hi_95'
+  # lower = 'Lo 95'  # prioritize to use 95%
+  # upper = 'Hi 95'
 
   if (! 'Lo 95' %in% names(plot.data)) {
     # escape by backquote
-    lower <- paste0('`', names(plot.data)[5], '`')
+    lower <- names(plot.data)[5]
   }
   if (! 'Hi 95' %in% names(plot.data)) {
-    upper <- paste0('`', names(plot.data)[6], '`')
+    upper <- names(plot.data)[6]
   }
 
   # Filter existing values to avoid warnings
   original.data <- dplyr::filter_(plot.data, '!is.na(Data)')
-  predict.data <- dplyr::filter_(plot.data, '!is.na(`Point Forecast`)')
+  predict.data <- dplyr::filter_(plot.data, '!is.na(`Point_Forecast`)')
 
   p <- autoplot.ts(original.data, columns = 'Data', ...)
-  p <- autoplot.ts(predict.data, columns = 'Point Forecast', p = p,
-                   ts.colour = predict.colour, ts.linetype = predict.linetype)
-  p <- plot.conf.int(p, data = predict.data, lower = lower,
-                     upper = upper, conf.int = conf.int,
-                     conf.int.colour = conf.int.colour,
-                     conf.int.linetype = conf.int.linetype,
-                     conf.int.fill = conf.int.fill,
-                     conf.int.alpha = conf.int.alpha)
+  p <- autoplot.ts(predict.data, columns = 'Point_Forecast', p = p,
+                   ts.geom = predict.geom,
+                   ts.colour = predict.colour, ts.size = predict.size,
+                   ts.linetype = predict.linetype, ts.alpha = predict.alpha,
+                   ts.fill = predict.fill, ts.shape = predict.shape)
+  p <- plot_confint(p, data = predict.data, lower = lower,
+                    upper = upper, conf.int = conf.int,
+                    colour = conf.int.colour, linetype = conf.int.linetype,
+                    fill = conf.int.fill, alpha = conf.int.alpha)
   p
 }
 
@@ -90,8 +104,10 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(forecast::bats(UKgas))
 #' fortify(forecast::ets(UKgas))
+#' }
 #' @export
 fortify.ets <- function(model, data = NULL, ...) {
   if (is(model, 'ets')) {
@@ -143,29 +159,8 @@ fortify.ets <- function(model, data = NULL, ...) {
 #' @export
 fortify.bats <- fortify.ets
 
-#' Autoplot \code{forecast::bats} and \code{forecast::ets}
-#'
-#' @param object \code{forecast::bats} and \code{forecast::ets}  instance
-#' @param columns Character vector specifies target column name(s)
-#' @param ... other arguments passed to \code{autoplot.ts}
-#' @return ggplot
-#' @aliases autoplot.bats
-#' @examples
-#' d.bats <- forecast::bats(UKgas)
-#' autoplot(d.bats)
-#' autoplot(d.bats, columns = 'Residuals')
-#' autoplot(forecast::ets(UKgas))
 #' @export
-autoplot.ets <- function(object, columns = NULL, ...) {
-  plot.data <- ggplot2::fortify(object)
-  if (is.null(columns)) {
-    columns <- c('Data', 'Level', 'Slope', 'Season')
-    # Slope and Season can be optionals
-    columns <- columns[columns %in% names(plot.data)]
-  }
-  p <- autoplot.ts(plot.data, columns = columns, ...)
-  p
-}
+autoplot.ets <- autoplot.ts
 
 #' @export
-autoplot.bats <- autoplot.ets
+autoplot.bats <- autoplot.ts

@@ -9,22 +9,22 @@
   ...)
 }
 \arguments{
-\item{model}{\code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance}
+\item{model}{time-series-like instance}
 
 \item{data}{original dataset, if needed}
 
-\item{columns}{Character vector specifies target column name(s)}
+\item{columns}{character vector specifies target column name(s)}
 
-\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
-If not provided, regard the input as date when the frequency is 4 or 12.}
+\item{is.date}{logical frag indicates whether the \code{stats::ts} is date or not
+If not provided, regard the input as date when the frequency is 4 or 12}
 
-\item{index.name}{Specify column name for time series index}
+\item{index.name}{specify column name for time series index}
 
-\item{data.name}{Specify column name for univariate time series data. Ignored in multivariate time series.}
+\item{data.name}{specify column name for univariate time series data. Ignored in multivariate time series.}
 
-\item{scale}{Logical flag indicating whether to perform scaling each timeseries}
+\item{scale}{logical flag indicating whether to perform scaling each timeseries}
 
-\item{melt}{Logical flag indicating whether to melt each timeseries as variable}
+\item{melt}{logical flag indicating whether to melt each timeseries as variable}
 
 \item{...}{other arguments passed to methods}
 }

@@ -2,7 +2,8 @@
 % Please edit documentation in R/fortify_stats.R
 \name{autoplot.acf}
 \alias{autoplot.acf}
-\title{Autoplot \code{stats::acf}.}
+\title{Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
+standard plot output.}
 \usage{
 \method{autoplot}{acf}(object, colour = "#000000", linetype = "solid",
   conf.int = TRUE, conf.int.colour = "#0000FF",
@@ -37,11 +38,12 @@
 ggplot
 }
 \description{
-Autoplot \code{stats::acf}.
+Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
+standard plot output.
 }
 \examples{
-autoplot(stats::acf(AirPassengers))
-autoplot(stats::pacf(AirPassengers))
-autoplot(stats::ccf(AirPassengers, AirPassengers))
+autoplot(stats::acf(AirPassengers, plot = FALSE))
+autoplot(stats::pacf(AirPassengers, plot = FALSE))
+autoplot(stats::ccf(AirPassengers, AirPassengers, plot = FALSE))
 }
 

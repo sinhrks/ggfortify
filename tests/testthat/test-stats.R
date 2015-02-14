@@ -240,3 +240,18 @@ test_that('fortify.dist works for eurodist', {
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(dim(fortified), c(21, 21))
 })
+
+test_that('autoplot.acf works', {
+
+  p <- autoplot(stats::acf(AirPassengers, plot = FALSE))
+  expect_true(is(p, 'ggplot'))
+
+  p <- autoplot(stats::acf(AirPassengers, plot = FALSE), conf.int.type = 'ma')
+  expect_true(is(p, 'ggplot'))
+
+  p <- autoplot(stats::pacf(AirPassengers, plot = FALSE))
+  expect_true(is(p, 'ggplot'))
+
+  p <- autoplot(stats::ccf(AirPassengers, AirPassengers, plot = FALSE))
+  expect_true(is(p, 'ggplot'))
+})

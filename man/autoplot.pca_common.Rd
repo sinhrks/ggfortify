@@ -8,11 +8,12 @@
 \title{Autoplot PCA-likes.}
 \usage{
 \method{autoplot}{pca_common}(object, data = NULL, original = NULL,
-  colour = NULL, label = FALSE, label.colour = colour, label.size = 4,
-  loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
-  loadings.label.colour = "#FF0000", loadings.label.size = 4,
-  frame = FALSE, frame.type = "convex", frame.colour = colour,
-  frame.level = 0.95, frame.alpha = 0.2, ...)
+  colour = NULL, size = NULL, linetype = NULL, alpha = NULL,
+  fill = NULL, shape = NULL, label = FALSE, label.colour = colour,
+  label.size = 4, loadings = FALSE, loadings.colour = "#FF0000",
+  loadings.label = FALSE, loadings.label.colour = "#FF0000",
+  loadings.label.size = 4, frame = FALSE, frame.type = "convex",
+  frame.colour = colour, frame.level = 0.95, frame.alpha = 0.2, ...)
 }
 \arguments{
 \item{object}{PCA-like instance}
@@ -21,7 +22,17 @@
 
 \item{original}{(Deprecated) use data}
 
-\item{colour}{Column name string to specify colorize points}
+\item{colour}{colour}
+
+\item{size}{size}
+
+\item{linetype}{line type}
+
+\item{alpha}{alpha}
+
+\item{fill}{fill}
+
+\item{shape}{shape}
 
 \item{label}{Logical value whether to display data labels}
 

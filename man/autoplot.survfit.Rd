@@ -5,18 +5,29 @@
 \alias{autoplot.survfit.cox}
 \title{Autoplot \code{survival::survfit}.}
 \usage{
-\method{autoplot}{survfit}(object, surv.colour = "#000000",
-  surv.linetype = "solid", conf.int = TRUE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "none", conf.int.fill = "#000000",
-  conf.int.alpha = 0.3, censor = TRUE, censor.shape = "+",
-  censor.size = 3, ...)
+\method{autoplot}{survfit}(object, surv.geom = "line", surv.colour = NULL,
+  surv.size = NULL, surv.linetype = NULL, surv.alpha = NULL,
+  surv.fill = NULL, surv.shape = NULL, conf.int = TRUE,
+  conf.int.colour = "#0000FF", conf.int.linetype = "none",
+  conf.int.fill = "#000000", conf.int.alpha = 0.3, censor = TRUE,
+  censor.shape = "+", censor.size = 3, ...)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}
 
-\item{surv.colour}{Line colour for survival curve (used when data doesn't have \code{strata})}
+\item{surv.geom}{geometric string for survival curve. 'line' or 'point'}
 
-\item{surv.linetype}{Line type for survival curve}
+\item{surv.colour}{line colour for survival curve}
+
+\item{surv.size}{point size for survival curve}
+
+\item{surv.linetype}{line type for survival curve}
+
+\item{surv.alpha}{alpha for survival curve}
+
+\item{surv.fill}{fill colour survival curve}
+
+\item{surv.shape}{point shape survival curve}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 

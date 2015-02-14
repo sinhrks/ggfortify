@@ -23,9 +23,14 @@ test_that('fortify.forecast works for AirPassengers', {
 
 })
 
-# ToDo: Check how to skip only on Travis-CI
-if (FALSE) {
+skip_on_travis <- function() {
+  # use testthat::skip_on_travis once released
+  skip('Skip')
+}
+
 test_that('fortify.arfima works for austres', {
+  skip_on_travis()
+
   fortified <- ggplot2::fortify(forecast::arfima(austres))
   expect_equal(is.data.frame(fortified), TRUE)
 
@@ -44,34 +49,51 @@ test_that('fortify.arfima works for austres', {
 })
 
 test_that('fortify.ets works for UKgas', {
-  fortified <- ggplot2::fortify(forecast::ets(UKgas))
+  skip_on_travis()
+  result <- forecast::ets(UKgas)
+  fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
   expected_names <- c('Index', 'Data', 'Fitted', 'Residuals', 'Level', 'Slope', 'Season')
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$Index[1], as.Date('1960-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1986-10-01'))
 
-  fortified <- ggplot2::fortify(forecast::bats(UKgas))
+  p <- ggplot2::autoplot(result)
+  expect_true(is(p, 'ggplot'))
+
+  result <- forecast::bats(UKgas)
+  fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
   expected_names <- c('Index', 'Data', 'Fitted', 'Residuals', 'Level', 'Slope', 'Season')
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$Index[1], as.Date('1960-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1986-10-01'))
+
+  p <- ggplot2::autoplot(result)
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.ets works for austres', {
-  fortified <- ggplot2::fortify(forecast::ets(austres))
+  skip_on_travis()
+  result <- forecast::ets(austres)
+  fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
   expected_names <- c('Index', 'Data', 'Fitted', 'Residuals', 'Level', 'Slope', 'Season')
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$Index[1], as.Date('1971-04-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1993-04-01'))
 
-  fortified <- ggplot2::fortify(forecast::bats(austres))
+  p <- ggplot2::autoplot(result)
+  expect_true(is(p, 'ggplot'))
+
+  result <- forecast::bats(austres)
+  fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
   expected_names <- c('Index', 'Data', 'Fitted', 'Residuals', 'Level', 'Slope')
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$Index[1], as.Date('1971-04-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1993-04-01'))
+
+  p <- ggplot2::autoplot(result)
+  expect_true(is(p, 'ggplot'))
 })
-}

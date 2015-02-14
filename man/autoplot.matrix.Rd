@@ -4,9 +4,10 @@
 \alias{autoplot.matrix}
 \title{Plot \code{base::matrix}}
 \usage{
-\method{autoplot}{matrix}(object, original = NULL, fill = "#0000FF",
-  scale = NULL, colour = NULL, label = FALSE, label.colour = colour,
-  label.size = 4, geom = "tile", ...)
+\method{autoplot}{matrix}(object, original = NULL, geom = "tile",
+  colour = NULL, size = NULL, alpha = NULL, fill = "#0000FF",
+  shape = NULL, label = FALSE, label.colour = colour, label.size = 4,
+  scale = NULL, ...)
 }
 \arguments{
 \item{object}{\code{base::matrix} instance}
@@ -14,19 +15,25 @@
 \item{original}{Combined to data by column if provided. Intended to be used for stat functions which
 returns not containing original data.}
 
-\item{fill}{Fill (high) colour. Ignored if scale keyword is passed. ('tile' Only)}
+\item{geom}{Geometric string for plotting. 'tile' or 'point'.}
 
-\item{scale}{\code{ggplot2::scale} instance to plot. ('tile' Only)}
+\item{colour}{colour for points ('point' only)}
 
-\item{colour}{Column name string to specify colorize points ('point' Only)}
+\item{size}{point size}
 
-\item{label}{Logical value whether to display data labels ('point' Only)}
+\item{alpha}{alpha}
+
+\item{fill}{fill colour. Ignored if scale keyword is passed. ('tile' Only)}
+
+\item{shape}{point shape}
+
+\item{label}{logical value whether to display data labels ('point' Only)}
 
 \item{label.colour}{Text colour for data labels ('point' Only)}
 
 \item{label.size}{Text size for data labels ('point' Only)}
 
-\item{geom}{Geometric string for plotting. 'tile' or 'point'.}
+\item{scale}{(Deprecated) \code{ggplot2::scale} instance to plot. ('tile' Only)}
 
 \item{...}{other arguments passed to methods}
 }
@@ -39,8 +46,6 @@ Plot \code{base::matrix}
 \examples{
 autoplot(matrix(rnorm(20), nc = 5))
 autoplot(matrix(rnorm(20), nc = 5), fill = 'red')
-autoplot(matrix(rnorm(20), nc = 5),
-         scale = scale_fill_gradient(low = 'red', high = 'blue'))
 autoplot(matrix(rnorm(20), nc = 2), geom = 'point')
 }
 

@@ -1,14 +1,14 @@
 #' Convert time-series-like to data.frame.
 #'
-#' @param model \code{stats::ts}, \code{timeSeries::timeSeries} or \code{tseries::irts} instance
+#' @param model time-series-like instance
 #' @param data original dataset, if needed
-#' @param columns Character vector specifies target column name(s)
-#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12.
-#' @param index.name Specify column name for time series index
-#' @param data.name Specify column name for univariate time series data. Ignored in multivariate time series.
-#' @param scale Logical flag indicating whether to perform scaling each timeseries
-#' @param melt Logical flag indicating whether to melt each timeseries as variable
+#' @param columns character vector specifies target column name(s)
+#' @param is.date logical frag indicates whether the \code{stats::ts} is date or not
+#' If not provided, regard the input as date when the frequency is 4 or 12
+#' @param index.name specify column name for time series index
+#' @param data.name specify column name for univariate time series data. Ignored in multivariate time series.
+#' @param scale logical flag indicating whether to perform scaling each timeseries
+#' @param melt logical flag indicating whether to melt each timeseries as variable
 #' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
@@ -101,8 +101,8 @@ fortify.irts <- fortify.ts
 #' @param object time-series-like instance
 #' @param columns Character vector specifies target column name(s)
 #' @param group Character vector specifies grouping
-#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12.
+#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not
+#' If not provided, regard the input as date when the frequency is 4 or 12
 #' @param index.name Specify column name for time series index when passing \code{data.frame} via data.
 #' @param p \code{ggplot2::ggplot} instance
 #' @param ts.scale Logical flag indicating whether to perform scaling each timeseries
@@ -111,9 +111,20 @@ fortify.irts <- fortify.ts
 #' @param facet (Deprecated) use facets
 #' @param nrow Number of facet/subplot rows
 #' @param ncol Number of facet/subplot columns
-#' @param ts.geom Geometric string for time-series plotting. 'line', 'bar' or 'point'.
-#' @param ts.colour Line colour for time-series
-#' @param ts.linetype Line type for time-series
+#' @param ts.geom geometric string for time-series. 'line', 'bar' or 'point'
+#' @param ts.colour line colour for time-series
+#' @param ts.size point size for time-series
+#' @param ts.linetype line type for time-series
+#' @param ts.alpha alpha for time-series
+#' @param ts.fill fill colour for time-series
+#' @param ts.shape point shape for time-series
+#' @param geom same as ts.geom
+#' @param colour same as ts.colour
+#' @param size same as ts.size
+#' @param linetype same as ts.linetype
+#' @param alpha same as ts.alpha
+#' @param fill same as ts.fill
+#' @param shape same as ts.shape
 #' @param xlab Character vector or expression for x axis label
 #' @param ylab Character vector or expression for y axis label
 #' @param ... other arguments passed to methods
@@ -124,17 +135,11 @@ fortify.irts <- fortify.ts
 #' autoplot(AirPassengers)
 #' autoplot(UKgas, ts.geom = 'bar')
 #' autoplot(Canada)
-#' autoplot(Canada, columns = 'e', is.date = TRUE)
 #' autoplot(Canada, facets = FALSE)
 #'
 #' library(zoo)
 #' autoplot(xts::as.xts(AirPassengers))
-#' autoplot(xts::as.xts(UKgas))
-#' autoplot(xts::as.xts(Canada))
-#'
 #' autoplot(timeSeries::as.timeSeries(AirPassengers))
-#' autoplot(timeSeries::as.timeSeries(Canada))
-#'
 #' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 #' autoplot(its)
 #'
@@ -148,7 +153,10 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                         facet = TRUE, facets = facet,
                         nrow = NULL, ncol = 1,
                         ts.geom = 'line',
-                        ts.colour = '#000000', ts.linetype = 'solid',
+                        ts.colour = NULL, ts.size = NULL, ts.linetype = NULL,
+                        ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
+                        colour = ts.colour, size = ts.size, linetype = ts.linetype,
+                        alpha = ts.alpha, fill = ts.fill, shape = ts.shape,
                         xlab = '', ylab = '', ...) {
 
   # deprecation
@@ -166,8 +174,15 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
   }
 
   if (is.null(columns)) {
-    data.names <- names(plot.data)
-    columns <- data.names[data.names != index.name]
+    if (is(object, 'bats') || is(object, 'ets')) {
+      # for forecast::bats and forecast::ets
+      columns <- c('Data', 'Level', 'Slope', 'Season')
+      # Slope and Season can be optionals
+      columns <- columns[columns %in% names(plot.data)]
+    } else {
+      data.names <- names(plot.data)
+      columns <- data.names[data.names != index.name]
+    }
   }
   if (length(columns) > 1) {
     .is.univariate <- FALSE
@@ -185,37 +200,28 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
     null.p <- FALSE
   }
 
-  if (ts.geom == 'line') {
-    geomobj <- ggplot2::geom_line
-  } else if (ts.geom == 'bar') {
-    geomobj <- ggplot2::geom_bar
-  } else if (ts.geom == 'point') {
-    geomobj <- ggplot2::geom_point
-  } else {
-    stop("Invalid geom is specified. Use 'line' or 'bar'.")
-  }
-
   # must be done here, because fortify.zoo is defined in zoo package
   ts.column <- plot.data[[index.name]]
   if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
     plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
   }
 
+  geomfunc <- get_geom_function(ts.geom, allowed = c('line', 'bar', 'point'))
   if (facets) {
-    mapping <- ggplot2::aes_string(x = index.name, y = 'value',
-                                   group = 'variable')
-    p <- p + geomobj(data = plot.data, mapping = mapping,
-                     colour = ts.colour, linetype = ts.linetype, stat = 'identity')
+    p <- p + geom_factory(geomfunc, plot.data, group = 'variable', y = 'value',
+                          colour = colour, size = size, linetype = linetype,
+                          alpha = alpha, fill = fill, shape = shape,
+                          stat = 'identity')
     if (!.is.univariate) {
       p <- p + ggplot2::facet_wrap(~ variable, scales = scales,
                                    nrow = nrow, ncol = ncol)
     }
   } else {
     # ts.colour cannot be used
-    mapping <- ggplot2::aes_string(x = index.name, y = 'value',
-                                   colour = 'variable')
-    p <- p + geomobj(data = plot.data, mapping = mapping,
-                     linetype = ts.linetype, stat = 'identity')
+    p <- p + geom_factory(geomfunc, plot.data, colour = 'variable', y = 'value',
+                          colour = colour, size = size, linetype = linetype,
+                          alpha = alpha, fill = fill, shape = shape,
+                          stat = 'identity')
   }
   if (null.p) {
     p <- p +
@@ -276,7 +282,6 @@ fortify.tsmodel <- function(model, data = NULL, original = NULL,
 
   if (is(model, 'Arima') || is(model, 'ar')) {
     if (is.null(data)) {
-      library(forecast)
       data <- forecast::getResponse(model)
       fit <- fitted(model)
     } else {
@@ -387,18 +392,28 @@ fortify.KFS <- fortify.tsmodel
 #' @param predict Predicted \code{stats::ts}
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12.
+#' If not provided, regard the input as date when the frequency is 4 or 12
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
-#' @param fitted.colour Line colour for fitted time-series
-#' @param fitted.linetype Line type for fitted time-series
-#' @param predict.colour Line colour for predicted time-series
-#' @param predict.linetype Line type for predicted time-series
+#' @param fitted.geom geometric string for fitted time-series
+#' @param fitted.colour line colour for fitted time-series
+#' @param fitted.size point size for fitted time-series
+#' @param fitted.linetype line type for fitted time-series
+#' @param fitted.alpha alpha for fitted time-series
+#' @param fitted.fill fill colour for fitted time-series
+#' @param fitted.shape point shape for fitted time-series
+#' @param predict.geom geometric string for predicted time-series
+#' @param predict.colour line colour for predicted time-series
+#' @param predict.size point size for predicted time-series
+#' @param predict.linetype line type for predicted time-series
+#' @param predict.alpha alpha for predicted time-series
+#' @param predict.fill fill colour for predicted time-series
+#' @param predict.shape point shape for predicted time-series
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
 #' @param conf.int.colour Line colour for confidence intervals
 #' @param conf.int.linetype Line type for confidence intervals
 #' @param conf.int.fill Fill colour for confidence intervals
 #' @param conf.int.alpha Alpha for confidence intervals
-#' @param ... Keywords passed to autoplot.ts
+#' @param ... Keywords passed to \code{autoplot.ts}
 #' @return ggplot
 #' @aliases autoplot.ar autoplot.fracdiff autoplot.nnetar autoplot.HoltWinters autoplot.fGARCH
 #' @examples
@@ -425,8 +440,14 @@ fortify.KFS <- fortify.tsmodel
 autoplot.tsmodel <- function(object, data = NULL, original = NULL,
                              predict = NULL,
                              is.date = NULL, ts.connect = TRUE,
-                             fitted.colour = '#FF0000', fitted.linetype = 'solid',
-                             predict.colour = '#0000FF', predict.linetype = 'solid',
+                             fitted.geom = 'line',
+                             fitted.colour = '#FF0000', fitted.size = NULL,
+                             fitted.linetype = NULL, fitted.alpha = NULL,
+                             fitted.fill = NULL, fitted.shape = NULL,
+                             predict.geom = 'line',
+                             predict.colour = '#0000FF', predict.size = NULL,
+                             predict.linetype = NULL, predict.alpha = NULL,
+                             predict.fill = NULL, predict.shape = NULL,
                              conf.int = TRUE,
                              conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
@@ -441,20 +462,23 @@ autoplot.tsmodel <- function(object, data = NULL, original = NULL,
   plot.data <- ggplot2::fortify(object, predict = predict,
                                 data = data, is.date = is.date)
   p <- autoplot.ts(plot.data, columns = 'Data', ...)
+
+  # must be passed by ts.<option>
   p <- autoplot.ts(plot.data, columns = fcol, p = p,
-                   ts.colour = fitted.colour,
-                   ts.linetype = fitted.linetype)
+                   ts.geom = fitted.geom,
+                   ts.colour = fitted.colour, ts.size = fitted.size,
+                   ts.linetype = fitted.linetype, ts.alpha = fitted.alpha,
+                   ts.fill = fitted.fill, ts.shape = fitted.shape)
   if (!is.null(predict)) {
     predict.data <- dplyr::filter_(plot.data, '!is.na(Predicted)')
     p <- autoplot.ts(predict.data, columns = 'Predicted', p = p,
-                     ts.colour = predict.colour,
-                     ts.linetype = predict.linetype)
-    p <- plot.conf.int(p, data = predict.data,
-                       conf.int = conf.int,
-                       conf.int.colour = conf.int.colour,
-                       conf.int.linetype = conf.int.linetype,
-                       conf.int.fill = conf.int.fill,
-                       conf.int.alpha = conf.int.alpha)
+                     ts.geom = predict.geom,
+                     ts.colour = predict.colour, ts.size = predict.size,
+                     ts.linetype = predict.linetype, ts.alpha = predict.alpha,
+                     ts.fill = predict.fill, ts.shape = predict.shape)
+    p <- plot_confint(p, data = predict.data, conf.int = conf.int,
+                      colour = conf.int.colour, linetype = conf.int.linetype,
+                      fill = conf.int.fill, alpha = conf.int.alpha)
   }
   p
 }

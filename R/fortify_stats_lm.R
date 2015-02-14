@@ -2,8 +2,14 @@
 #'
 #' @param object \code{stats::lm} instance
 #' @param which If a subset of the plots is required, specify a subset of the numbers 1:6.
-#' @param fill Point fill colour
-#' @param colour Point line colour
+#' @param data original dataset, if needed
+#' @param colour line colour
+#' @param size point size
+#' @param linetype line type
+#' @param alpha alpha
+#' @param fill fill colour
+#' @param shape point shape
+#' @param label logical value whether to display data labels
 #' @param label.n Number of points to be laeled in each plot, starting with the most extreme
 #' @param label.colour Text colour for point labels
 #' @param label.size Text size for point labels
@@ -17,16 +23,15 @@
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' autoplot(lm(Petal.Width ~ Petal.Length, data= iris))
-#' autoplot(glm(Petal.Width ~ Petal.Length, data= iris), which = 1:6)
-#'
-#' autoplot(lm(Petal.Width~Petal.Length, data = iris)) + theme_bw()
-#' autoplot(lm(Petal.Width~Petal.Length, data = iris)) + scale_colour_brewer()
+#' autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
+#' autoplot(glm(Petal.Width ~ Petal.Length, data = iris), which = 1:6)
+#' autoplot(lm(Petal.Width~Petal.Length, data = iris), data = iris, colour = 'Species')
 #' @export
-autoplot.lm <- function(object, which=c(1:3, 5),
-                        fill = '#444444', colour = '#444444',
-                        label.colour = '#000000', label.size = 4,
-                        label.n = 3,
+autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
+                        colour = '#444444', size = NULL, linetype = NULL,
+                        alpha = NULL, fill = NULL, shape = NULL,
+                        label = TRUE, label.colour = '#000000',
+                        label.size = 4, label.n = 3,
                         smooth.colour = '#0000FF', smooth.linetype = 'solid',
                         ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2,
                         nrow = NULL, ncol = NULL, ...) {
@@ -46,7 +51,12 @@ autoplot.lm <- function(object, which=c(1:3, 5),
   show <- rep(FALSE, 6)
   show[which] <- TRUE
 
-  plot.data <- ggplot2::fortify(object)
+  if (is.null(data)) {
+    # ggplot2::fortify can't handle NULL properly
+    plot.data <- ggplot2::fortify(object)
+  } else {
+    plot.data <- ggplot2::fortify(object, data = data)
+  }
   n <- nrow(plot.data)
 
   plot.data$.index <- 1:n
@@ -71,14 +81,16 @@ autoplot.lm <- function(object, which=c(1:3, 5),
   label.y23 <- ifelse(is_glm, 'Std. deviance resid.', 'Standardized residuals')
   hii <- lm.influence(object, do.coef = FALSE)$hat
 
-  if (is.null(label.n))
-    label.n <- 0
-  else {
-    label.n <- as.integer(label.n)
-    if (label.n < 0L || label.n > n)
-      stop(gettextf("'label.n' must be in {1,..,%d}", n),
-           domain = NA)
+  if (is.logical(shape) && !shape) {
+    if (missing(label)) {
+      # if label is missing and shape=FALSE, turn label to TRUE
+      label <- TRUE
+    }
+    if (missing(label.n)) {
+      label.n <- nrow(plot.data)
+    }
   }
+
   if (label.n > 0L) {
     r.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.resid))')
     r.data <- head(r.data, label.n)
@@ -91,10 +103,9 @@ autoplot.lm <- function(object, which=c(1:3, 5),
   }
 
   .decorate.label <- function(p, d) {
-    if (label.n > 0) {
-      mapping = ggplot2::aes_string(label = '.label')
-      p <- p + ggplot2::geom_text(data = d, mapping = mapping,
-                                  colour = label.colour, size = label.size)
+    if (label & label.n > 0) {
+      p <- p + geom_factory(ggplot2::geom_text, data = d, label = '.label',
+                            colour = label.colour, size = label.size)
     }
     p
   }
@@ -110,16 +121,18 @@ autoplot.lm <- function(object, which=c(1:3, 5),
     t1 <- 'Residuals vs Fitted'
     mapping <- ggplot2::aes_string(x = '.fitted', y = '.resid')
     smoother <- .smooth(plot.data$.fitted, plot.data$.resid)
-    p1 <- ggplot2::ggplot(plot.data, mapping = mapping) +
-      ggplot2::geom_point(fill = fill, colour = colour)  +
-      # geom_smooth and stat_smooth result in different from standard plot
-      ggplot2::geom_line(x = smoother$x, y = smoother$y,
-                         colour = smooth.colour, linetype = smooth.linetype) +
+    p1 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+    if (!is.logical(shape) || shape) {
+      p1 <- p1 + geom_factory(geom_point, plot.data,
+                              colour = colour, size = size, linetype = linetype,
+                              alpha = alpha, fill = fill, shape = shape)
+    }
+    p1 <- p1 + ggplot2::geom_line(x = smoother$x, y = smoother$y,
+                                  colour = smooth.colour, linetype = smooth.linetype) +
       ggplot2::geom_hline(linetype = ad.linetype, size = ad.size,
                           colour = ad.colour)
     p1 <- .decorate.label(p1, r.data)
-    p1 <- .decorate.plot(p1, xlab = label.fitted, ylab = 'Residuals',
-                       title = t1)
+    p1 <- .decorate.plot(p1, xlab = label.fitted, ylab = 'Residuals', title = t1)
   }
 
   if (show[2L]) {
@@ -132,12 +145,16 @@ autoplot.lm <- function(object, which=c(1:3, 5),
     int <- qy[1L] - slope * qx[1L]
 
     mapping <- ggplot2::aes_string(x = '.qqx', y = '.qqy')
-    p2 <- ggplot2::ggplot(plot.data, mapping = mapping) +
+    p2 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+    if (!is.logical(shape) || shape) {
       # Do not use stat_qq here for labeling
-      ggplot2::geom_point(fill = fill, colour = colour)  +
-      ggplot2::geom_abline(intercept=int, slope=slope,
-                           linetype = ad.linetype, size = ad.size,
-                           colour = ad.colour)
+      p2 <- p2 + geom_factory(geom_point, plot.data,
+                              colour = colour, size = size, linetype = linetype,
+                              alpha = alpha, fill = fill, shape = shape)
+    }
+    p2 <- p2 + ggplot2::geom_abline(intercept=int, slope=slope,
+                                    linetype = ad.linetype, size = ad.size,
+                                    colour = ad.colour)
     p2 <- .decorate.label(p2, r.data)
     p2 <- .decorate.plot(p2, xlab = 'Theoretical Quantiles',
                          ylab = label.y23, title = t2)
@@ -147,10 +164,14 @@ autoplot.lm <- function(object, which=c(1:3, 5),
     t3 <- 'Scale-Location'
     mapping <- ggplot2::aes_string(x = '.fitted', y = 'sqrt(abs(.stdresid))')
     smoother <- .smooth(plot.data$.fitted, sqrt(abs(plot.data$.stdresid)))
-    p3 <- ggplot2::ggplot(plot.data, mapping = mapping) +
-      ggplot2::geom_point(fill = fill, colour = colour) +
-      ggplot2::geom_line(x = smoother$x, y = smoother$y,
-                         colour = smooth.colour, linetype = smooth.linetype)
+    p3 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+    if (!is.logical(shape) || shape) {
+      p3 <- p3 + geom_factory(geom_point, plot.data,
+                              colour = colour, size = size, linetype = linetype,
+                              alpha = alpha, fill = fill, shape = shape)
+    }
+    p3 <- p3 + ggplot2::geom_line(x = smoother$x, y = smoother$y,
+                                  colour = smooth.colour, linetype = smooth.linetype)
     p3 <- .decorate.label(p3, r.data)
     label.y3 <- ifelse(is_glm, expression(sqrt(abs(`Std. deviance resid.`))),
                        expression(sqrt(abs(`Standardized residuals`))))
@@ -162,8 +183,12 @@ autoplot.lm <- function(object, which=c(1:3, 5),
     t4 <- "Cook's distance"
     mapping <- ggplot2::aes_string(x = '.index', y = '.cooksd',
                                    ymin = 0, ymax = '.cooksd')
-    p4 <-  ggplot2::ggplot(plot.data, mapping = mapping) +
-      ggplot2::geom_linerange(colour = colour)
+    p4 <-  ggplot2::ggplot(data = plot.data, mapping = mapping)
+    if (!is.logical(shape) || shape) {
+      p4 <- p4 + geom_factory(geom_linerange, plot.data,
+                              colour = colour, size = size, linetype = linetype,
+                              alpha = alpha, fill = fill, shape = shape)
+    }
     p4 <- .decorate.label(p4, cd.data)
     p4 <- .decorate.plot(p4, xlab = 'Obs. Number',
                          ylab = "Cook's distance", title = t4)
@@ -173,10 +198,14 @@ autoplot.lm <- function(object, which=c(1:3, 5),
     t5 <- 'Residuals vs Leverage'
     mapping <- ggplot2::aes_string(x = '.hat', y = '.stdresid')
     smoother <- .smooth(plot.data$.hat, plot.data$.stdresid)
-    p5 <- ggplot2::ggplot(plot.data, mapping = mapping) +
-      ggplot2::geom_point(fill = fill, colour = colour) +
-      ggplot2::geom_line(x = smoother$x, y = smoother$y,
-                         colour = smooth.colour, linetype = smooth.linetype) +
+    p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+    if (!is.logical(shape) || shape) {
+      p5 <- p5 + geom_factory(geom_point, plot.data,
+                              colour = colour, size = size, linetype = linetype,
+                              alpha = alpha, fill = fill, shape = shape)
+    }
+    p5 <- p5 + ggplot2::geom_line(x = smoother$x, y = smoother$y,
+                                 colour = smooth.colour, linetype = smooth.linetype) +
       ggplot2::geom_hline(linetype = ad.linetype, size = ad.size,
                           colour = ad.colour) +
       ggplot2::expand_limits(x = 0)
@@ -189,10 +218,14 @@ autoplot.lm <- function(object, which=c(1:3, 5),
     t6 <- "Cook's dist vs Leverage"
     mapping <- ggplot2::aes_string(x = '.hat', y = '.cooksd')
     smoother <- .smooth(plot.data$.hat, plot.data$.cooksd)
-    p6 <- ggplot2::ggplot(plot.data, mapping = mapping) +
-      ggplot2::geom_point(fill = fill, colour = colour) +
-      ggplot2::geom_line(x = smoother$x, y = smoother$y,
-                         colour = smooth.colour, linetype = smooth.linetype) +
+    p6 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+    if (!is.logical(shape) || shape) {
+      p6 <- p6 + geom_factory(geom_point, plot.data,
+                              colour = colour, size = size, linetype = linetype,
+                              alpha = alpha, fill = fill, shape = shape)
+    }
+    p6 <- p6 + ggplot2::geom_line(x = smoother$x, y = smoother$y,
+                                  colour = smooth.colour, linetype = smooth.linetype) +
       ggplot2::expand_limits(x = 0, y = 0)
     p6 <- .decorate.label(p6, cd.data)
     p6 <- .decorate.plot(p6, xlab = 'Leverage', ylab = "Cook's distance",

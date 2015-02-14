@@ -12,8 +12,11 @@
 \method{autoplot}{ts}(object, columns = NULL, group = NULL,
   is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
   scales = "free_y", facet = TRUE, facets = facet, nrow = NULL,
-  ncol = 1, ts.geom = "line", ts.colour = "#000000",
-  ts.linetype = "solid", xlab = "", ylab = "", ...)
+  ncol = 1, ts.geom = "line", ts.colour = NULL, ts.size = NULL,
+  ts.linetype = NULL, ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
+  colour = ts.colour, size = ts.size, linetype = ts.linetype,
+  alpha = ts.alpha, fill = ts.fill, shape = ts.shape, xlab = "",
+  ylab = "", ...)
 }
 \arguments{
 \item{object}{time-series-like instance}
@@ -22,8 +25,8 @@
 
 \item{group}{Character vector specifies grouping}
 
-\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
-If not provided, regard the input as date when the frequency is 4 or 12.}
+\item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not
+If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{index.name}{Specify column name for time series index when passing \code{data.frame} via data.}
 
@@ -41,17 +44,39 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{ncol}{Number of facet/subplot columns}
 
-\item{ts.geom}{Geometric string for time-series plotting. 'line', 'bar' or 'point'.}
+\item{ts.geom}{geometric string for time-series. 'line', 'bar' or 'point'}
 
-\item{ts.colour}{Line colour for time-series}
+\item{ts.colour}{line colour for time-series}
 
-\item{ts.linetype}{Line type for time-series}
+\item{ts.size}{point size for time-series}
+
+\item{ts.linetype}{line type for time-series}
+
+\item{ts.alpha}{alpha for time-series}
+
+\item{ts.fill}{fill colour for time-series}
+
+\item{ts.shape}{point shape for time-series}
+
+\item{colour}{same as ts.colour}
+
+\item{size}{same as ts.size}
+
+\item{linetype}{same as ts.linetype}
+
+\item{alpha}{same as ts.alpha}
+
+\item{fill}{same as ts.fill}
+
+\item{shape}{same as ts.shape}
 
 \item{xlab}{Character vector or expression for x axis label}
 
 \item{ylab}{Character vector or expression for y axis label}
 
 \item{...}{other arguments passed to methods}
+
+\item{geom}{same as ts.geom}
 }
 \value{
 ggplot
@@ -64,17 +89,11 @@ data(Canada, package = 'vars')
 autoplot(AirPassengers)
 autoplot(UKgas, ts.geom = 'bar')
 autoplot(Canada)
-autoplot(Canada, columns = 'e', is.date = TRUE)
 autoplot(Canada, facets = FALSE)
 
 library(zoo)
 autoplot(xts::as.xts(AirPassengers))
-autoplot(xts::as.xts(UKgas))
-autoplot(xts::as.xts(Canada))
-
 autoplot(timeSeries::as.timeSeries(AirPassengers))
-autoplot(timeSeries::as.timeSeries(Canada))
-
 its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
 autoplot(its)
 
