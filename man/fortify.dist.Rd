@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats.R
 \name{fortify.dist}
 \alias{fortify.dist}
-\title{Convert \code{stats::dist} to data.frame.}
+\title{Convert \code{stats::dist} to \code{data.frame}}
 \usage{
 \method{fortify}{dist}(model, data = NULL, ...)
 }
@@ -17,7 +17,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::dist} to data.frame.
+Convert \code{stats::dist} to \code{data.frame}
 }
 \examples{
 fortify(eurodist)

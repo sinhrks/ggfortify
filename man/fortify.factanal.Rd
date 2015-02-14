@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_stats.R
 \name{fortify.factanal}
 \alias{fortify.factanal}
-\title{Convert \code{stats::factanal} to data.frame.}
+\title{Convert \code{stats::factanal} to \code{data.frame}}
 \usage{
 \method{fortify}{factanal}(model, data = NULL, original = NULL, ...)
 }
@@ -19,7 +19,7 @@
 data.frame
 }
 \description{
-Convert \code{stats::factanal} to data.frame.
+Convert \code{stats::factanal} to \code{data.frame}
 }
 \examples{
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')

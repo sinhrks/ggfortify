@@ -2,7 +2,7 @@
 % Please edit documentation in R/base_fortify_ts.R
 \name{fortify.ts}
 \alias{fortify.ts}
-\title{Convert time-series-like to data.frame.}
+\title{Convert time-series-like to data.frame}
 \usage{
 \method{fortify}{ts}(model, data = NULL, columns = NULL, is.date = NULL,
   index.name = "Index", data.name = "Data", scale = FALSE, melt = FALSE,
@@ -32,7 +32,7 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 data.frame
 }
 \description{
-Convert time-series-like to data.frame.
+Convert time-series-like to data.frame
 }
 \examples{
 fortify(AirPassengers)

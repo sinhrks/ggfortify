@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_base.R
 \name{fortify.table}
 \alias{fortify.table}
-\title{Convert \code{base::table} to data.frame.}
+\title{Convert \code{base::table} to \code{data.frame}}
 \usage{
 \method{fortify}{table}(model, data, ...)
 }
@@ -17,7 +17,7 @@
 data.frame
 }
 \description{
-Convert \code{base::table} to data.frame.
+Convert \code{base::table} to \code{data.frame}
 }
 \examples{
 fortify(Titanic)

@@ -2,8 +2,7 @@
 % Please edit documentation in R/fortify_cluster.R
 \name{autoplot.kmeans}
 \alias{autoplot.kmeans}
-\title{Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
-\code{cluster::pam}.}
+\title{Autoplot cluster instances}
 \usage{
 \method{autoplot}{kmeans}(object, data = NULL, original = NULL,
   colour = "cluster", ...)
@@ -23,8 +22,7 @@
 ggplot
 }
 \description{
-Autoplot \code{stats::kmeans}, \code{cluster::clara}, \code{cluster::fanny} and
-\code{cluster::pam}.
+Autoplot cluster instances
 }
 \examples{
 autoplot(stats::kmeans(iris[-5], 3), data = iris)

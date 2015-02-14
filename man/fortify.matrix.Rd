@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_base.R
 \name{fortify.matrix}
 \alias{fortify.matrix}
-\title{Convert \code{base::matrix} to data.frame.}
+\title{Convert \code{base::matrix} to \code{data.frame}}
 \usage{
 \method{fortify}{matrix}(model, data = NULL, compat = FALSE, ...)
 }
@@ -21,7 +21,7 @@ If \code{TRUE}, result has character columns like c('V1', 'V2', ...).}
 data.frame
 }
 \description{
-Different from \code{as.data.frame},
+Different from \code{as.data.frame}
 }
 \examples{
 fortify(matrix(1:6, nrow=2, ncol=3))

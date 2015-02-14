@@ -3,7 +3,7 @@
 \name{autoplot.acf}
 \alias{autoplot.acf}
 \title{Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
-standard plot output.}
+standard plot output}
 \usage{
 \method{autoplot}{acf}(object, colour = "#000000", linetype = "solid",
   conf.int = TRUE, conf.int.colour = "#0000FF",
@@ -39,7 +39,7 @@ ggplot
 }
 \description{
 Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
-standard plot output.
+standard plot output
 }
 \examples{
 autoplot(stats::acf(AirPassengers, plot = FALSE))

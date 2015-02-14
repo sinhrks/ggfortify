@@ -8,7 +8,7 @@
 \alias{fortify.fracdiff}
 \alias{fortify.nnetar}
 \alias{fortify.tsmodel}
-\title{Convert time series models (like AR, ARIMA) to data.frame.}
+\title{Convert time series models (like AR, ARIMA) to \code{data.frame}}
 \usage{
 \method{fortify}{tsmodel}(model, data = NULL, original = NULL,
   predict = NULL, is.date = NULL, ts.connect = TRUE, ...)
@@ -34,7 +34,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 data.frame
 }
 \description{
-Convert time series models (like AR, ARIMA) to data.frame.
+Convert time series models (like AR, ARIMA) to \code{data.frame}
 }
 \examples{
 fortify(stats::ar(AirPassengers))

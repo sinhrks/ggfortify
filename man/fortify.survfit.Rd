@@ -3,7 +3,7 @@
 \name{fortify.survfit}
 \alias{fortify.survfit}
 \alias{fortify.survfit.cox}
-\title{Convert \code{survival::survfit} to data.frame.}
+\title{Convert \code{survival::survfit} to \code{data.frame}}
 \usage{
 \method{fortify}{survfit}(model, data = NULL, ...)
 }
@@ -18,7 +18,7 @@
 data.frame
 }
 \description{
-Convert \code{survival::survfit} to data.frame.
+Convert \code{survival::survfit} to \code{data.frame}
 }
 \examples{
 d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)

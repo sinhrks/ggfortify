@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{ggcpgram}
 \alias{ggcpgram}
-\title{Plots a cumulative periodogram.}
+\title{Plots a cumulative periodogram}
 \usage{
 ggcpgram(ts, taper = 0.1, colour = "#000000", linetype = "solid",
   conf.int = TRUE, conf.int.colour = "#0000FF",
@@ -32,7 +32,7 @@ ggcpgram(ts, taper = 0.1, colour = "#000000", linetype = "solid",
 ggplot
 }
 \description{
-Plots a cumulative periodogram.
+Plots a cumulative periodogram
 }
 \examples{
 ggcpgram(AirPassengers)

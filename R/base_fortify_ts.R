@@ -1,4 +1,4 @@
-#' Convert time-series-like to data.frame.
+#' Convert time-series-like to data.frame
 #'
 #' @param model time-series-like instance
 #' @param data original dataset, if needed
@@ -96,7 +96,7 @@ fortify.timeSeries <- fortify.ts
 #' @export
 fortify.irts <- fortify.ts
 
-#' Autoplot time-series-like.
+#' Autoplot time-series-like
 #'
 #' @param object time-series-like instance
 #' @param columns Character vector specifies target column name(s)
@@ -243,7 +243,7 @@ autoplot.timeSeries <- autoplot.ts
 #' @export
 autoplot.irts <- autoplot.ts
 
-#' Convert time series models (like AR, ARIMA) to data.frame.
+#' Convert time series models (like AR, ARIMA) to \code{data.frame}
 #'
 #' @param model Time series model instance
 #' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}
@@ -384,7 +384,7 @@ fortify.dlmFiltered <- fortify.tsmodel
 #' @export
 fortify.KFS <- fortify.tsmodel
 
-#' Autoplot time series models (like AR, ARIMA).
+#' Autoplot time series models (like AR, ARIMA)
 #'
 #' @param object Time series model instance
 #' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}

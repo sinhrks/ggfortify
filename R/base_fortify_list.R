@@ -1,4 +1,4 @@
-#' Convert list to data.frame.
+#' Convert list to data.frame
 #'
 #' @param model \code{list} instance
 #' @param data original dataset, if needed
@@ -17,7 +17,7 @@ fortify.list <- function(model, data = NULL, ...) {
   stop('Unable to infer class from input list')
 }
 
-#' Autoplot list.
+#' Autoplot list
 #'
 #' @param object \code{list} instance
 #' @param ... other arguments passed to methods

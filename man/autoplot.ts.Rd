@@ -7,7 +7,7 @@
 \alias{autoplot.timeSeries}
 \alias{autoplot.ts}
 \alias{autoplot.xts}
-\title{Autoplot time-series-like.}
+\title{Autoplot time-series-like}
 \usage{
 \method{autoplot}{ts}(object, columns = NULL, group = NULL,
   is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
@@ -82,7 +82,7 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 ggplot
 }
 \description{
-Autoplot time-series-like.
+Autoplot time-series-like
 }
 \examples{
 data(Canada, package = 'vars')

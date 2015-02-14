@@ -3,7 +3,7 @@
 \name{autoplot.survfit}
 \alias{autoplot.survfit}
 \alias{autoplot.survfit.cox}
-\title{Autoplot \code{survival::survfit}.}
+\title{Autoplot \code{survival::survfit}}
 \usage{
 \method{autoplot}{survfit}(object, surv.geom = "line", surv.colour = NULL,
   surv.size = NULL, surv.linetype = NULL, surv.alpha = NULL,
@@ -51,7 +51,7 @@
 ggplot
 }
 \description{
-Autoplot \code{survival::survfit}.
+Autoplot \code{survival::survfit}
 }
 \examples{
 d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)

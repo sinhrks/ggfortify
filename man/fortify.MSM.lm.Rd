@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_MSwM.R
 \name{fortify.MSM.lm}
 \alias{fortify.MSM.lm}
-\title{Convert \code{MSwM::MSM.lm} to data.frame.}
+\title{Convert \code{MSwM::MSM.lm} to \code{data.frame}}
 \usage{
 \method{fortify}{MSM.lm}(model, data = NULL, melt = FALSE, ...)
 }
@@ -19,7 +19,7 @@
 data.frame
 }
 \description{
-Convert \code{MSwM::MSM.lm} to data.frame.
+Convert \code{MSwM::MSM.lm} to \code{data.frame}
 }
 \examples{
 library(MSwM)

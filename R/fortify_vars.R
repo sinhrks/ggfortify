@@ -1,4 +1,4 @@
-#' Convert \code{vars::varprd} to data.frame.
+#' Convert \code{vars::varprd} to \code{data.frame}
 #'
 #' @param model \code{vars::varprd} instance
 #' @param data original dataset, if needed
@@ -46,7 +46,7 @@ fortify.varprd <- function(model, data = NULL, is.date = NULL,
   }
 }
 
-#' Autoplot \code{vars::varprd}.
+#' Autoplot \code{vars::varprd}
 #'
 #' @param object \code{vars::varpred} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.

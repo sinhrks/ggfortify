@@ -4,7 +4,7 @@
 \alias{fortify.breakpoints}
 \alias{fortify.breakpointsfull}
 \alias{fortify.cpt}
-\title{Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to data.frame.}
+\title{Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to \code{data.frame}}
 \usage{
 \method{fortify}{cpt}(model, data = NULL, original = NULL, is.date = NULL,
   ...)
@@ -25,7 +25,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 data.frame
 }
 \description{
-Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to data.frame.
+Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to \code{data.frame}
 }
 \examples{
 library(changepoint)

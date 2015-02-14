@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{get.dtindex}
 \alias{get.dtindex}
-\title{Convert \code{ts} index to \code{Date} \code{vector}.}
+\title{Convert \code{ts} index to \code{Date} \code{vector}}
 \usage{
 get.dtindex(data, is.tsp = FALSE, is.date = NULL)
 }
@@ -18,7 +18,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 vector
 }
 \description{
-Convert \code{ts} index to \code{Date} \code{vector}.
+Convert \code{ts} index to \code{Date} \code{vector}
 }
 \examples{
 ggfortify:::get.dtindex(AirPassengers)

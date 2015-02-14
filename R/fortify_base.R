@@ -1,4 +1,4 @@
-#' Convert \code{base::table} to data.frame.
+#' Convert \code{base::table} to \code{data.frame}
 #'
 #' @param model \code{base::table} instance
 #' @param data original dataset, if needed
@@ -11,9 +11,9 @@ fortify.table <- function(model, data, ...) {
   as.data.frame(model)
 }
 
-#' Convert \code{base::matrix} to data.frame.
+#' Convert \code{base::matrix} to \code{data.frame}
 #'
-#' Different from \code{as.data.frame},
+#' Different from \code{as.data.frame}
 #'
 #' @param model \code{base::matrix} instance
 #' @param data original dataset, if needed

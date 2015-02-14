@@ -1,4 +1,4 @@
-#' Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to data.frame.
+#' Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to \code{data.frame}
 #'
 #' @param model \code{chantepoint::cpt} or \code{strucchange::breakpoints} instance
 #' @param data original dataset, if needed
@@ -66,7 +66,7 @@ fortify.breakpoints <- fortify.cpt
 #' @export
 fortify.breakpointsfull <- fortify.cpt
 
-#' Autoplot \code{changepoint::cpt}.
+#' Autoplot \code{changepoint::cpt}
 #'
 #' @param object \code{changepoint::cpt} instance
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
@@ -100,7 +100,7 @@ autoplot.cpt <- function(object, is.date = NULL,
   p
 }
 
-#' Autoplot \code{strucchange::breakpoints}.
+#' Autoplot \code{strucchange::breakpoints}
 #'
 #' @param object \code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.
 #' @param data Original time series. Mandatory for plotting \code{strucchange::breakpoints} instance.

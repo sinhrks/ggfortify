@@ -3,7 +3,7 @@
 \name{autoplot.breakpoints}
 \alias{autoplot.breakpoints}
 \alias{autoplot.breakpointsfull}
-\title{Autoplot \code{strucchange::breakpoints}.}
+\title{Autoplot \code{strucchange::breakpoints}}
 \usage{
 \method{autoplot}{breakpoints}(object, data = NULL, original = NULL,
   cpt.colour = "#FF0000", cpt.linetype = "dashed", ...)
@@ -25,7 +25,7 @@
 ggplot
 }
 \description{
-Autoplot \code{strucchange::breakpoints}.
+Autoplot \code{strucchange::breakpoints}
 }
 \examples{
 library(strucchange)

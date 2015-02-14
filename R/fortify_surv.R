@@ -1,4 +1,4 @@
-#' Convert \code{survival::survfit} to data.frame.
+#' Convert \code{survival::survfit} to \code{data.frame}
 #'
 #' @param model \code{survival::survfit} instance
 #' @param data original dataset, if needed
@@ -32,7 +32,7 @@ fortify.survfit <- function(model, data = NULL, ...) {
   post.fortify(d)
 }
 
-#' Autoplot \code{survival::survfit}.
+#' Autoplot \code{survival::survfit}
 #'
 #' @param object \code{survival::survfit} instance
 #' @param surv.geom geometric string for survival curve. 'line' or 'point'

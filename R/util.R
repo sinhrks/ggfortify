@@ -24,28 +24,6 @@ unscale <- function(data, center = NULL, scale = NULL) {
   as.data.frame(data)
 }
 
-
-#' Expand \code{stats::formula} expression
-#'
-#' @param formula \code{stats::formula} instance
-#' @return list
-#' @examples
-#' ggfortify:::parse.formula(y ~ x)
-parse.formula <- function(formula) {
-  requireNamespace('nlme')
-  vars <- stats::terms(as.formula(formula))
-  endog <- if(attr(vars, 'response'))
-    nlme::getResponseFormula(formula)
-  exog <- nlme::getCovariateFormula(formula)
-  group <- nlme::getGroupsFormula(formula)
-
-  result <- list(response = all.vars(endog),
-                 covariates = all.vars(exog),
-                 groups = all.vars(group))
-  result
-}
-
-
 #' Wrapper for cbind
 #'
 #' @param df1 1st data

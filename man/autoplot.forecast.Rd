@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_forecast.R
 \name{autoplot.forecast}
 \alias{autoplot.forecast}
-\title{Autoplot \code{forecast::forecast}.}
+\title{Autoplot \code{forecast::forecast}}
 \usage{
 \method{autoplot}{forecast}(object, is.date = NULL, ts.connect = TRUE,
   predict.geom = "line", predict.colour = "#0000FF", predict.size = NULL,
@@ -49,7 +49,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 ggplot
 }
 \description{
-Autoplot \code{forecast::forecast}.
+Autoplot \code{forecast::forecast}
 }
 \examples{
 d.arima <- forecast::auto.arima(AirPassengers)

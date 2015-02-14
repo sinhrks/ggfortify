@@ -2,7 +2,7 @@
 % Please edit documentation in R/fortify_changepoint.R
 \name{autoplot.cpt}
 \alias{autoplot.cpt}
-\title{Autoplot \code{changepoint::cpt}.}
+\title{Autoplot \code{changepoint::cpt}}
 \usage{
 \method{autoplot}{cpt}(object, is.date = NULL, cpt.colour = "#FF0000",
   cpt.linetype = "dashed", ...)
@@ -23,7 +23,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 ggplot
 }
 \description{
-Autoplot \code{changepoint::cpt}.
+Autoplot \code{changepoint::cpt}
 }
 \examples{
 library(changepoint)
