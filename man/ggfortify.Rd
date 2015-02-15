@@ -6,6 +6,6 @@
 \alias{ggfortify-package}
 \title{ggfortify}
 \description{
-Define Fortify and Autoplot to Allow 'ggplot2' to Draw Some Popular Packages.
+Define Fortify and Autoplot to Allow 'ggplot2' to Draw Some Popular Packages
 }
 

@@ -1,0 +1,75 @@
+---
+title: "Introduction to ggfortify package"
+output: pdf_document
+---
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Introduction to ggfortify package}
+-->
+
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=4, fig.height=3, fig.path='figures/basics-', warning=FALSE)
+```
+
+This document explains concepts and basics of `ggfortify`. `ggfortify` helps plotting some popular R packages with `ggplot2` in a unified way. See [github](https://github.com/sinhrks/ggfortify) to check the list of supported packages / classes.
+
+# Loading Packages
+
+```{r, message = FALSE}
+library(ggfortify)
+```
+
+# Using `ggplot2::autoplot`
+
+This is the easiest way to use `ggfortify`. Calling `autoplot` with supported instance should output "natural" plot, as standard `plot` function does.
+
+```{r}
+autoplot(AirPassengers)
+```
+
+You can specify some options to control plotting properties. As is often the case with statistic classes, there are some objects to be drawn, such as actual value, predicted value and confidence interval, etc. Thus, each plotting option has a format like `<target name>.<ggplot option name>` such as `ts.colour` and `conf.int.linetype`.
+
+These options can be used for the similar type of instances commonly. For example, `ts.colour` works for all time-series-likes, rather than having separate options such as `xts.colour` and `timeSeries.colour`. To check available options, use `help(autoplot.ts)` or `help(autoplot.*)` for any other objects.
+
+```{r}
+autoplot(AirPassengers, ts.colour = 'blue')
+```
+
+# Decorating Plots
+
+Because `autoplot` returns `ggplot` instance, you can decorate it as you want. To make `autoplot` API simple, `ggfortify` offers some options which must be done during `ggplot` instance creation. Additional decoration should be done after `autoplot`.
+
+```{r}
+p <- autoplot(AirPassengers)
+class(p)
+# plot as it is
+p
+
+# add title and labels
+p + ggtitle('AirPassengers') + xlab('Year') + ylab('Passengers')
+
+```{r}
+set.seed(1)
+p <- autoplot(kmeans(iris[-5], 3), data = iris)
+# plot as it is
+p
+
+# change colour mapping
+p + scale_colour_brewer()
+```
+
+# Want Different Plots?
+
+Internally, `autoplot` calls a generic function named `ggplot2::fortify` to convert the input to `data.frame`. As `ggfortify` defines `fortify` function for all the supported classes, you can use `fortify` to convert the instance to plot-friendly `data.frame`.
+
+If you want a different type of plot, you can use `fortify` to get `data.frame`, then call `ggplot` in a normal way.
+
+Following example shows a bar plot counting k-means clusters.
+
+```{r}
+df <- fortify(kmeans(iris[-5], 3), data = iris)
+head(df)
+
+ggplot(df, aes(x= cluster, fill = cluster)) + geom_bar()
+```
