@@ -61,8 +61,10 @@ ggplot
 Autoplot \code{stats::lm} and \code{stats::glm}
 }
 \examples{
+\dontrun{
 autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
 autoplot(glm(Petal.Width ~ Petal.Length, data = iris), which = 1:6)
 autoplot(lm(Petal.Width~Petal.Length, data = iris), data = iris, colour = 'Species')
+}
 }
 

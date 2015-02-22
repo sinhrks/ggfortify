@@ -1,12 +1,11 @@
 Package: ggfortify
 Type: Package
-Title: Define Fortify and Autoplot to Allow 'ggplot2' to Draw Some Popular Packages
-Version: 0.0.2
+Title: Define Fortify and Autoplot to Allow 'ggplot2' to Draw some Popular Packages
+Version: 0.0.3
 Date: 2015-02-15
 Author: Masaaki Horikoshi
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
-Description:This helps plotting some popular R packages using 'ggplot2'. The package offers unified
-    functions to draw 'ggplot2' plots of some popular R packages like standard plot function does.
+Description: It helps plotting classes in some popular R packages using 'ggplot2'. It offers unified plotting functions which output the same looks as standard plot function does.
 License: GPL-2
 VignetteBuilder: knitr
 Depends: methods, grid, scales, ggplot2
