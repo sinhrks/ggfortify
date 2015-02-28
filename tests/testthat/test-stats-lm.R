@@ -21,9 +21,9 @@ test_that('fortify.lm works for USArrests', {
 test_that('autplot.lm can accept + operator', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5) + theme_bw()
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(length(p@plots), 4)
+  expect_equal(length(p$plots), 4)
 
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), which = 1:6) + scale_colour_brewer()
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(length(p@plots), 6)
+  expect_equal(length(p$plots), 6)
 })

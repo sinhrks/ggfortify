@@ -1,23 +1,31 @@
 context('test plotlib')
 
 test_that('Check get.layout works', {
+  p <- ggplot(iris, aes(Petal.Width, Petal.Length)) + geom_point()
+  mp <- ggmultiplot$new(plots = list(), ncol = 2)
+  expect_equal(mp$get_layout(5), t(matrix(0, 2, 3)))
+  expect_equal(mp$get_layout(1), t(matrix(0, 2, 1)))
+  expect_equal(mp$get_layout(2), t(matrix(0, 2, 1)))
+  expect_equal(mp$get_layout(3), t(matrix(0, 2, 2)))
 
-  expect_equal(ggfortify:::get.layout(5, 2, 0), t(matrix(1:6, 2, 3)))
-  expect_equal(ggfortify:::get.layout(1, 2, 0), t(matrix(1:2, 2, 1)))
-  expect_equal(ggfortify:::get.layout(2, 2, 0), t(matrix(1:2, 2, 1)))
-  expect_equal(ggfortify:::get.layout(3, 2, 0), t(matrix(1:4, 2, 2)))
+  mp <- ggmultiplot$new(plots = list(), ncol = 3)
+  expect_equal(mp$get_layout(8), t(matrix(0, 3, 3)))
+  expect_equal(mp$get_layout(12), t(matrix(0, 3, 4)))
 
-  expect_equal(ggfortify:::get.layout(8, 3, 0), t(matrix(1:9, 3, 3)))
-  expect_equal(ggfortify:::get.layout(2, 3, 4), t(matrix(1:12, 3, 4)))
+  mp <- ggmultiplot$new(plots = list(), nrow = 3)
+  expect_equal(mp$get_layout(5), t(matrix(0, 2, 3)))
+  expect_equal(mp$get_layout(2), t(matrix(0, 1, 3)))
 
-  expect_equal(ggfortify:::get.layout(5, 0, 3), t(matrix(1:6, 2, 3)))
-  expect_equal(ggfortify:::get.layout(1, 0, 2), t(matrix(1:2, 1, 2)))
-  expect_equal(ggfortify:::get.layout(2, 0, 3), t(matrix(1:3, 1, 3)))
-  expect_equal(ggfortify:::get.layout(3, 0, 2), t(matrix(1:4, 2, 2)))
+  mp <- ggmultiplot$new(plots = list(), nrow = 2)
+  expect_equal(mp$get_layout(1), t(matrix(0, 1, 2)))
+  expect_equal(mp$get_layout(3), t(matrix(0, 2, 2)))
 
-  expect_equal(ggfortify:::get.layout(3, 2, 2), t(matrix(1:4, 2, 2)))
-  expect_equal(ggfortify:::get.layout(2, 1, 3), t(matrix(1:3, 1, 3)))
-  expect_equal(ggfortify:::get.layout(3, 1, 3), t(matrix(1:3, 1, 3)))
+  mp <- ggmultiplot$new(plots = list(), ncol = 2, nrow = 2)
+  expect_equal(mp$get_layout(3), t(matrix(0, 2, 2)))
+
+  mp <- ggmultiplot$new(plots = list(), ncol = 1, nrow = 3)
+  expect_equal(mp$get_layout(2), t(matrix(0, 1, 3)))
+  expect_equal(mp$get_layout(3), t(matrix(0, 1, 3)))
 
 })
 

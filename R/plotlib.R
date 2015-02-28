@@ -126,76 +126,78 @@ geom_factory <- function(geomfunc, data, ...) {
   return(proto)
 }
 
-#' An S4 class to hold multiple \code{ggplot2::ggplot} instances
+#' An R6 class to hold multiple \code{ggplot2::ggplot} instances
 #'
-#' @slot plots List of \code{ggplot2::ggplot} instances
-#' @slot ncol Number of grid columns
-#' @slot nrow Number of grid rows
-setClass('ggmultiplot',
-         representation(plots = 'list', ncol = 'numeric', 'nrow' = 'numeric'),
-         prototype = list(ncol = 0, nrow = 0))
+#' @param plots List of \code{ggplot2::ggplot} instances
+#' @param ncol Number of grid columns
+#' @param nrow Number of grid rows
+#' @export
+ggmultiplot <- R6::R6Class('ggmultiplot',
+  public = list(
+
+    plots = list(),
+    ncol = NULL,
+    nrow = NULL,
+
+    initialize =  function(plots, ncol = NULL, nrow = NULL) {
+      self$plots <- plots
+      self$ncol <- ncol
+      self$nrow <- nrow
+    },
+
+    print = function() {
+      nplots = length(self$plots)
+      if (nplots==1) {
+        print(self$plots[[1]])
+      } else {
+        layout <- self$get_layout(nplots)
+        args <- c(self$plots, list(ncol = ncol(layout), nrow = nrow(layout)))
+        do.call(gridExtra::grid.arrange, args)
+      }
+    },
+    get_layout = function(nplots) {
+      ncol <- self$ncol
+      nrow <- self$nrow
+
+      if (is.null(ncol) && is.null(nrow)) {
+        ncol <- 2
+      } else if (is.null(ncol) && !is.null(nrow)) {
+        ncol <- ceiling(nplots / nrow)
+      }
+
+      if (is.null(nrow)) {
+        nrow <- ceiling(nplots / ncol)
+      } else {
+        nrow <- nrow
+      }
+
+      if (nrow * ncol < nplots) {
+        message <- paste('nrow * ncol (', nrow, '*', ncol ,
+                         ')must be larger than number of plots', nplots)
+        stop(message)
+      }
+
+      return(t(matrix(0, ncol = nrow, nrow = ncol)))
+    }
+  )
+)
 
 #' Generic add operator for \code{ggmultiplot}
 #'
 #' @param e1 first argument
 #' @param e2 second argument
 #' @return \code{ggmultiplot}
-setMethod('+', c('ggmultiplot', 'ANY'),
-  function(e1, e2) {
-    plots <- lapply(e1@plots, function(x) { x + e2 })
-    new('ggmultiplot', plots = plots,
-        ncol = e1@ncol, nrow = e1@nrow)
-})
-
-#' Calcurate layout matrix for \code{ggmultiplot}
-#'
-#' @param nplots Number of plots
-#' @param ncol Number of grid columns
-#' @param nrow Number of grid rows
-#' @return matrix
-#' @examples
-#' ggfortify:::get.layout(3, 2, 2)
-get.layout <- function(nplots, ncol, nrow) {
-  if (ncol == 0 && nrow == 0) {
-    ncol <- 2
-  } else if (ncol == 0 && nrow != 0) {
-    ncol <- ceiling(nplots / nrow)
-  }
-
-  if (nrow == 0) {
-    nrow <- ceiling(nplots / ncol)
+`+.ggmultiplot` <- function(e1, e2) {
+  if ('ggmultiplot' %in% class(e1)) {
+    plots <- lapply(e1$plots, function(x) { x + e2 })
+    return(ggmultiplot$new(plots = plots, ncol = e1$ncol, nrow = e1$nrow))
   } else {
-    nrow <- nrow
-  }
-
-  if (nrow * ncol < nplots) {
-    message <- paste('nrow * ncol (', nrow, '*', ncol ,
-                     ')must be larger than number of plots', nplots)
-    stop(message)
-  }
-
-  t(matrix(1:(ncol * nrow), ncol = nrow, nrow = ncol))
-}
-
-#' Generic print function for \code{ggmultiplot}
-#'
-#' @param p \code{ggmultiplot}
-#' @return NULL
-print.ggmultiplot <- function(p) {
-  nplots = length(p@plots)
-  if (nplots==1) {
-    print(p@plots[[1]])
-  } else {
-    layout <- get.layout(nplots, p@ncol, p@nrow)
-    args <- c(p@plots, list(ncol = ncol(layout), nrow = nrow(layout)))
-    do.call(gridExtra::grid.arrange, args)
+    e2name <- deparse(substitute(e2))
+    if (is.theme(e1)) return(ggplot2:::add_theme(e1, e2, e2name))
+    else if (is.ggplot(e1)) return(ggplot2:::add_ggplot(e1, e2, e2name))
   }
 }
 
-#' Generic show function for \code{ggmultiplot}
-#'
-#' @param object \code{ggmultiplot}
-#' @return NULL
-setMethod('show', 'ggmultiplot',
-          function(object) { print(object) })
-
+.onLoad <- function(...) {
+  registerS3method("+", "gg", `+.ggmultiplot`)
+}

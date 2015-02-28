@@ -314,9 +314,7 @@ ggtsdiag <- function(object, gof.lag = 10,
                        colour = conf.int.colour, linetype = conf.int.linetype,
                        fill = conf.int.fill, alpha = conf.int.alpha)
 
-  if (is.null(ncol)) { ncol <- 0 }
-  if (is.null(nrow)) { nrow <- 0 }
-  new('ggmultiplot', plots = list(p.std, p.acf, p.lb), nrow = nrow, ncol = ncol)
+  ggmultiplot$new(plots = list(p.std, p.acf, p.lb), nrow = nrow, ncol = ncol)
 }
 
 #' Plot time series against lagged versions of themselves
