@@ -244,11 +244,8 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     }
   }
 
-  if (is.null(ncol)) { ncol <- 0 }
-  if (is.null(nrow)) { nrow <- 0 }
-
   plot.list <- list(p1, p2, p3, p4, p5, p6)[which]
-  new('ggmultiplot', plots = plot.list, nrow = nrow, ncol = ncol)
+  ggmultiplot$new(plots = plot.list, nrow = nrow, ncol = ncol)
 }
 
 #' @export

@@ -4,5 +4,5 @@
 #'
 #' @name ggfortify
 #' @docType package
-#' @import methods grid scales ggplot2 dplyr tidyr gridExtra
+#' @import methods R6 grid scales ggplot2 dplyr tidyr gridExtra
 NULL
