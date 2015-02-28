@@ -1,8 +1,7 @@
 #' Convert list to data.frame
 #'
 #' @param model \code{list} instance
-#' @param data original dataset, if needed
-#' @param ... other arguments passed to methods
+#' @inheritParams fortify_base
 #' @return data.frame
 #' @export
 fortify.list <- function(model, data = NULL, ...) {

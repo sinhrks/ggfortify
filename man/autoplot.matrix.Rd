@@ -6,7 +6,10 @@
 \usage{
 \method{autoplot}{matrix}(object, original = NULL, geom = "tile",
   colour = NULL, size = NULL, alpha = NULL, fill = "#0000FF",
-  shape = NULL, label = FALSE, label.colour = colour, label.size = 4,
+  shape = NULL, label = FALSE, label.label = "rownames",
+  label.colour = colour, label.alpha = NULL, label.size = NULL,
+  label.angle = NULL, label.family = NULL, label.fontface = NULL,
+  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
   scale = NULL, ...)
 }
 \arguments{
@@ -27,11 +30,27 @@ returns not containing original data.}
 
 \item{shape}{point shape}
 
-\item{label}{logical value whether to display data labels ('point' Only)}
+\item{label}{Logical value whether to display labels}
 
-\item{label.colour}{Text colour for data labels ('point' Only)}
+\item{label.label}{Column name used for label text}
 
-\item{label.size}{Text size for data labels ('point' Only)}
+\item{label.colour}{Colour for text labels}
+
+\item{label.alpha}{Alpha for text labels}
+
+\item{label.size}{Size for text labels}
+
+\item{label.angle}{Angle for text labels}
+
+\item{label.family}{Font family for text labels}
+
+\item{label.fontface}{Fontface for text labels}
+
+\item{label.lineheight}{Lineheight for text labels}
+
+\item{label.hjust}{Horizontal adjustment for text labels}
+
+\item{label.vjust}{Vertical adjustment for text labels}
 
 \item{scale}{(Deprecated) \code{ggplot2::scale} instance to plot. ('tile' Only)}
 

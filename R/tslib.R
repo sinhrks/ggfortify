@@ -203,11 +203,7 @@ residuals.ar <- function(object, ...) {
 #' @param taper Proportion tapered in forming the periodogram
 #' @param colour Line colour
 #' @param linetype Line type
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams plot_confint
 #' @return ggplot
 #' @examples
 #' ggcpgram(AirPassengers)
@@ -245,9 +241,10 @@ ggcpgram <- function (ts, taper = 0.1,
     ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
     ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
 
-  p <- plot_confint(p, d, conf.int = conf.int,
-                    colour = conf.int.colour, linetype = conf.int.linetype,
-                    fill = conf.int.fill, alpha = conf.int.alpha)
+  p <- plot_confint(p = p, data = d, conf.int = conf.int,
+                    conf.int.colour = conf.int.colour,
+                    conf.int.linetype = conf.int.linetype,
+                    conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   p
 }
 
@@ -255,11 +252,7 @@ ggcpgram <- function (ts, taper = 0.1,
 #'
 #' @param object A fitted time-series model
 #' @param gof.lag The maximum number of lags for a Portmanteau goodness-of-fit test
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams plot_confint
 #' @param ad.colour Line colour for additional lines
 #' @param ad.linetype Line type for additional lines
 #' @param ad.size Fill colour for additional lines
@@ -310,9 +303,10 @@ ggtsdiag <- function(object, gof.lag = 10,
     ggplot2::geom_point(mapping = ggplot2::aes_string(y = '`p value`')) +
     ggplot2::scale_y_continuous(limits=c(0, 1)) +
     ggplot2::ggtitle('p values for Ljung-Box statistic')
-  p.lb <- plot_confint(p.lb, lb.df, conf.int = conf.int,
-                       colour = conf.int.colour, linetype = conf.int.linetype,
-                       fill = conf.int.fill, alpha = conf.int.alpha)
+  p.lb <- plot_confint(p = p.lb, data = lb.df, conf.int = conf.int,
+                       conf.int.colour = conf.int.colour,
+                       conf.int.linetype = conf.int.linetype,
+                       conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
 
   if (is.null(ncol)) { ncol <- 0 }
   if (is.null(nrow)) { nrow <- 0 }
@@ -365,11 +359,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
 #' @param freq Length of frequency. If not provided, use time-series frequency
 #' @param nrow Number of plot rows
 #' @param ncol Number of plot columns
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams plot_confint
 #' @param conf.int.value Coverage probability for confidence interval
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
@@ -412,8 +402,9 @@ ggfreqplot <- function(data, freq = NULL,
   p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'),
                        colour = conf.int.colour) +
     ggplot2::facet_wrap(~Frequency)
-  p <- plot_confint(p, d, conf.int = conf.int,
-                    colour = conf.int.colour, linetype = conf.int.linetype,
-                    fill = conf.int.fill,alpha = conf.int.alpha)
+  p <- plot_confint(p = p, data = d, conf.int = conf.int,
+                    conf.int.colour = conf.int.colour,
+                    conf.int.linetype = conf.int.linetype,
+                    conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   p
 }

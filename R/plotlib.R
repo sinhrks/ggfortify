@@ -5,10 +5,10 @@
 #' @param lower Column name for lower confidence interval
 #' @param upper Column name for upper confidence interval
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param colour Line colour for confidence intervals
-#' @param linetype Line type for confidence intervals
-#' @param fill Fill colour for confidence intervals
-#' @param alpha Alpha for confidence intervals
+#' @param conf.int.colour Line colour for confidence intervals
+#' @param conf.int.linetype Line type for confidence intervals
+#' @param conf.int.fill Fill colour for confidence intervals
+#' @param conf.int.alpha Alpha for confidence intervals
 #' @return ggplot
 #' @examples
 #' d <- fortify(stats::acf(AirPassengers, plot = FALSE))
@@ -16,13 +16,13 @@
 #' ggfortify:::plot_confint(p, data = d)
 plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
                           conf.int = TRUE,
-                          colour = '#0000FF', linetype = 'none',
-                          fill = '#000000', alpha = 0.3) {
+                          conf.int.colour = '#0000FF', conf.int.linetype = 'none',
+                          conf.int.fill = '#000000', conf.int.alpha = 0.3) {
 
-  if (missing(conf.int) && (!missing(colour) ||
-                            !missing(linetype) ||
-                            !missing(fill) ||
-                            !missing(alpha))) {
+  if (missing(conf.int) && (!missing(conf.int.colour) ||
+                            !missing(conf.int.linetype) ||
+                            !missing(conf.int.fill) ||
+                            !missing(conf.int.alpha))) {
     # if conf.int is missing but other options are specified, turn conf.in to TRUE
     conf.int <- TRUE
   }
@@ -32,16 +32,16 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
   }
 
   if (conf.int) {
-    if (!is.null(fill)) {
+    if (!is.null(conf.int.fill)) {
       p<- p + geom_factory(geom_ribbon, data, ymin = lower, ymax = upper,
-                           fill = fill, alpha = alpha, na.rm = TRUE)
+                           fill = conf.int.fill, alpha = conf.int.alpha, na.rm = TRUE)
     }
-    if (linetype != 'none') {
+    if (conf.int.linetype != 'none') {
       p <- p + geom_factory(geom_line, data, y = lower,
-                            colour = colour, linetype = linetype,
+                            colour = conf.int.colour, linetype = conf.int.linetype,
                             na.rm = TRUE)
       p <- p + geom_factory(geom_line, data, y = upper,
-                     colour = colour, linetype = linetype,
+                     colour = conf.int.colour, linetype = conf.int.linetype,
                      na.rm = TRUE)
     }
   }
@@ -52,30 +52,46 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #'
 #' @param p \code{ggplot2::ggplot} instance
 #' @param data Data contains text label
-#' @param flag Logical value whether to display labels
-#' @param label Column name used for label text
-#' @param colour Text colour for labels
-#' @param size Text size for labels
+#' @param label Logical value whether to display labels
+#' @param label.label Column name used for label text
+#' @param label.colour Colour for text labels
+#' @param label.alpha Alpha for text labels
+#' @param label.size Size for text labels
+#' @param label.angle Angle for text labels
+#' @param label.family Font family for text labels
+#' @param label.fontface Fontface for text labels
+#' @param label.lineheight Lineheight for text labels
+#' @param label.hjust Horizontal adjustment for text labels
+#' @param label.vjust Vertical adjustment for text labels
 #' @return ggplot
-plot.label <- function(p, data, flag = TRUE, label = 'rownames',
-                       colour = NULL, size = 4) {
+plot_label <- function(p, data, label = TRUE, label.label = 'rownames',
+                       label.colour = NULL, label.alpha = NULL,
+                       label.size = NULL, label.angle = NULL,
+                       label.family = NULL, label.fontface = NULL,
+                       label.lineheight = NULL,
+                       label.hjust = NULL, label.vjust = NULL) {
 
   if (!is.data.frame(data)) {
     stop(paste0('Unsupported class: ', class(data)))
   }
 
-  if (!missing(colour) && !is.null(colour) && missing(flag)) {
+  if (!missing(label.colour) && !is.null(label.colour) && missing(label)) {
     # if flag is missing but colour is specified, turn flag to TRUE
-    flag <- TRUE
+    label <- TRUE
   }
 
-  if (flag) {
-    if (is.null(colour)) {
+  if (label) {
+    if (is.null(label.colour)) {
       # NULL may be explicitly passed from parent functions
-      colour <- '#000000'
+      label.colour <- '#000000'
     }
     p <- p + geom_factory(ggplot2::geom_text, data,
-                          label = label, colour = colour, size = size)
+                          label = label.label,
+                          colour = label.colour, alpha = label.alpha,
+                          size = label.size, angle = label.angle,
+                          family = label.family, fontface = label.fontface,
+                          lineheight = label.lineheight,
+                          hjust = label.hjust, vjust = label.vjust)
   }
   p
 }
@@ -132,7 +148,7 @@ geom_factory <- function(geomfunc, data, ...) {
 #' @slot ncol Number of grid columns
 #' @slot nrow Number of grid rows
 setClass('ggmultiplot',
-         representation(plots = 'list', ncol = 'numeric', 'nrow' = 'numeric'),
+         representation(plots = 'list', ncol = 'numeric', nrow = 'numeric'),
          prototype = list(ncol = 0, nrow = 0))
 
 #' Generic add operator for \code{ggmultiplot}
@@ -179,18 +195,19 @@ get.layout <- function(nplots, ncol, nrow) {
 
 #' Generic print function for \code{ggmultiplot}
 #'
-#' @param p \code{ggmultiplot}
+#' @param x \code{ggmultiplot}
 #' @return NULL
-print.ggmultiplot <- function(p) {
-  nplots = length(p@plots)
-  if (nplots==1) {
-    print(p@plots[[1]])
-  } else {
-    layout <- get.layout(nplots, p@ncol, p@nrow)
-    args <- c(p@plots, list(ncol = ncol(layout), nrow = nrow(layout)))
-    do.call(gridExtra::grid.arrange, args)
-  }
-}
+setMethod('print', 'ggmultiplot',
+  function(x) {
+    nplots = length(x@plots)
+    if (nplots==1) {
+      print(x@plots[[1]])
+    } else {
+      layout <- get.layout(nplots, x@ncol, x@nrow)
+      args <- c(x@plots, list(ncol = ncol(layout), nrow = nrow(layout)))
+      do.call(gridExtra::grid.arrange, args)
+    }
+})
 
 #' Generic show function for \code{ggmultiplot}
 #'

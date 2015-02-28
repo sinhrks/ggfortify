@@ -43,7 +43,7 @@ autoplot(cmdscale(eurodist, eig = TRUE))
 Specify `label = TRUE` to plot labels.
 
 ```{r}
-autoplot(cmdscale(eurodist, eig = TRUE), label = TRUE)
+autoplot(cmdscale(eurodist, eig = TRUE), label = TRUE, label.size = 3)
 ```
 
 # Plotting Non-metric Multidimensional Scaling
@@ -60,7 +60,7 @@ autoplot(isoMDS(eurodist), colour = 'orange', size = 4, shape = 3)
 Passing `shape = FALSE` makes plot without points. In this case, `label` is turned on unless otherwise specified.
 
 ```{r, message = FALSE}
-autoplot(sammon(eurodist), shape = FALSE, label.colour = 'blue')
+autoplot(sammon(eurodist), shape = FALSE, label.colour = 'blue', label.size = 3)
 ```
 
 # Resources related to ggfortify

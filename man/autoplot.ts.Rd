@@ -14,9 +14,9 @@
   scales = "free_y", facet = TRUE, facets = facet, nrow = NULL,
   ncol = 1, ts.geom = "line", ts.colour = NULL, ts.size = NULL,
   ts.linetype = NULL, ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
-  colour = ts.colour, size = ts.size, linetype = ts.linetype,
-  alpha = ts.alpha, fill = ts.fill, shape = ts.shape, xlab = "",
-  ylab = "", ...)
+  geom = ts.geom, colour = ts.colour, size = ts.size,
+  linetype = ts.linetype, alpha = ts.alpha, fill = ts.fill,
+  shape = ts.shape, xlab = "", ylab = "", ...)
 }
 \arguments{
 \item{object}{time-series-like instance}
@@ -58,6 +58,8 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{ts.shape}{point shape for time-series}
 
+\item{geom}{same as ts.geom}
+
 \item{colour}{same as ts.colour}
 
 \item{size}{same as ts.size}
@@ -75,8 +77,6 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 \item{ylab}{Character vector or expression for y axis label}
 
 \item{...}{other arguments passed to methods}
-
-\item{geom}{same as ts.geom}
 }
 \value{
 ggplot

@@ -1,9 +1,8 @@
 #' Convert \code{MSwM::MSM.lm} to \code{data.frame}
 #'
 #' @param model \code{MSwM::MSM.lm} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param melt Logical flag indicating whether to melt each models
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' library(MSwM)

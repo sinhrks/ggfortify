@@ -1,11 +1,10 @@
 #' Convert \code{forecast::forecast} to \code{data.frame}
 #'
 #' @param model \code{forecast::forecast} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @export
 #' @examples
@@ -28,21 +27,8 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
 #' Autoplot \code{forecast::forecast}
 #'
 #' @param object \code{forecast::forecast} instance
-#' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
-#' If not provided, regard the input as date when the frequency is 4 or 12.
-#' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
-#' @param predict.geom geometric string for predicted time-series
-#' @param predict.colour line colour for predicted time-series
-#' @param predict.size point size for predicted time-series
-#' @param predict.linetype line type for predicted time-series
-#' @param predict.alpha alpha for predicted time-series
-#' @param predict.fill fill colour for predicted time-series
-#' @param predict.shape point shape for predicted time-series
-#' @param conf.int logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams autoplot.tsmodel
+#' @inheritParams plot_confint
 #' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
@@ -90,18 +76,18 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
                    ts.colour = predict.colour, ts.size = predict.size,
                    ts.linetype = predict.linetype, ts.alpha = predict.alpha,
                    ts.fill = predict.fill, ts.shape = predict.shape)
-  p <- plot_confint(p, data = predict.data, lower = lower,
+  p <- plot_confint(p = p, data = predict.data, lower = lower,
                     upper = upper, conf.int = conf.int,
-                    colour = conf.int.colour, linetype = conf.int.linetype,
-                    fill = conf.int.fill, alpha = conf.int.alpha)
+                    conf.int.colour = conf.int.colour,
+                    conf.int.linetype = conf.int.linetype,
+                    conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   p
 }
 
 #' Convert \code{forecast::bats} and \code{forecast::ets} to \code{data.frame}
 #'
 #' @param model \code{forecast::bats} or \code{forecast::ets} instance
-#' @param data original dataset, if needed
-#' @param ... other arguments passed to methods
+#' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
 #' \dontrun{

@@ -1,8 +1,7 @@
 #' Convert \code{stats::density} to \code{data.frame}
 #'
 #' @param model \code{stats::density} instance
-#' @param data original dataset, if needed
-#' @param ... other arguments passed to methods
+#' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
 #' fortify(stats::density(stats::rnorm(1:50)))

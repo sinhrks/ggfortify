@@ -25,7 +25,7 @@ install_github('sinhrks/ggfortify')
 
 ```{r, message = FALSE, fig.width = 5, fig.height = 5}
 library(ggfortify)
-autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
+autoplot(lm(Petal.Width ~ Petal.Length, data = iris), label.size = 3)
 ```
 
 You can select desired plot by `which` option as the same manner as standard `plot`. Also, 
@@ -35,7 +35,7 @@ You can select desired plot by `which` option as the same manner as standard `pl
 par(mfrow = c(1, 2))
 m <- lm(Petal.Width ~ Petal.Length, data = iris)
 
-autoplot(m, which = 1:6, ncol = 3)
+autoplot(m, which = 1:6, ncol = 3, label.size = 3)
 ```
 
 # Plotting Diagnostics for Generalized Linear Models
@@ -46,7 +46,7 @@ It also suppotgs `glm` instance.
 m <- glm(Murder ~ Assault + UrbanPop + Rape,
          family = gaussian, data = USArrests)
 
-autoplot(m, which = 1:6)
+autoplot(m, which = 1:6, label.size = 3)
 ```
 
 # Decorating Plots
@@ -55,7 +55,7 @@ Because `{ggplot2}` itself cannot handle different kinds of plots in a single in
 
 ```{r, message = FALSE, fig.width = 5, fig.height = 5}
 class(autoplot(m))
-autoplot(m) + theme_bw()
+autoplot(m, label.size = 3) + theme_bw()
 ```
 
 # Specifing Plotting Options
@@ -73,7 +73,8 @@ autoplot(m, which = 1:6, colour = 'dodgerblue3',
 Also, you can use column names for these properties. Note that `lm` and `glm` instances doesn't retain original data, you should pass original data via `data` keyword to use column names not included in the model.
 
 ```{r, message = FALSE, fig.width = 8, fig.height = 5}
-autoplot(lm(Petal.Width ~ Petal.Length, data = iris), data = iris, colour = 'Species')
+autoplot(lm(Petal.Width ~ Petal.Length, data = iris), data = iris,
+         colour = 'Species', label.size = 3)
 ```
 
 # Resources related to ggfortify

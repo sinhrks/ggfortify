@@ -6,10 +6,13 @@
 \usage{
 \method{autoplot}{lm}(object, which = c(1:3, 5), data = NULL,
   colour = "#444444", size = NULL, linetype = NULL, alpha = NULL,
-  fill = NULL, shape = NULL, label = TRUE, label.colour = "#000000",
-  label.size = 4, label.n = 3, smooth.colour = "#0000FF",
-  smooth.linetype = "solid", ad.colour = "#888888",
-  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = NULL, ...)
+  fill = NULL, shape = NULL, label = TRUE, label.label = ".label",
+  label.colour = "#000000", label.alpha = NULL, label.size = NULL,
+  label.angle = NULL, label.family = NULL, label.fontface = NULL,
+  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
+  label.n = 3, smooth.colour = "#0000FF", smooth.linetype = "solid",
+  ad.colour = "#888888", ad.linetype = "dashed", ad.size = 0.2,
+  nrow = NULL, ncol = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::lm} instance}
@@ -30,11 +33,27 @@
 
 \item{shape}{point shape}
 
-\item{label}{logical value whether to display data labels}
+\item{label}{Logical value whether to display labels}
 
-\item{label.colour}{Text colour for point labels}
+\item{label.label}{Column name used for label text}
 
-\item{label.size}{Text size for point labels}
+\item{label.colour}{Colour for text labels}
+
+\item{label.alpha}{Alpha for text labels}
+
+\item{label.size}{Size for text labels}
+
+\item{label.angle}{Angle for text labels}
+
+\item{label.family}{Font family for text labels}
+
+\item{label.fontface}{Fontface for text labels}
+
+\item{label.lineheight}{Lineheight for text labels}
+
+\item{label.hjust}{Horizontal adjustment for text labels}
+
+\item{label.vjust}{Vertical adjustment for text labels}
 
 \item{label.n}{Number of points to be laeled in each plot, starting with the most extreme}
 

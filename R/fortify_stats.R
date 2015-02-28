@@ -13,11 +13,10 @@ autoplot.decomposed.ts <- autoplot.ts
 #' Convert \code{stats::acf} to \code{data.frame}
 #'
 #' @param model \code{stats::acf} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param conf.int Logical flag indicating whether to attach confidence intervals
 #' @param conf.int.value Coverage probability for confidence interval
 #' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' fortify(stats::acf(AirPassengers))
@@ -44,11 +43,7 @@ fortify.acf <- function(model, data = NULL,
 #' @param object \code{stats::acf} instance
 #' @param colour Line colour
 #' @param linetype Line type
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams plot_confint
 #' @param conf.int.value Coverage probability for confidence interval
 #' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
 #' @param ... other arguments passed to methods
@@ -78,9 +73,10 @@ autoplot.acf <- function(object,
     ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
                             colour = colour, linetype = linetype)
 
-  p <- plot_confint(p, data = plot.data, conf.int = conf.int,
-                    colour = conf.int.colour, linetype = conf.int.linetype,
-                    fill = conf.int.fill, alpha = conf.int.alpha)
+  p <- plot_confint(p = p, data = plot.data, conf.int = conf.int,
+                    conf.int.colour = conf.int.colour,
+                    conf.int.linetype = conf.int.linetype,
+                    conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   p <- p + ggplot2::ylab('ACF')
   p
 }
@@ -88,8 +84,7 @@ autoplot.acf <- function(object,
 #' Convert \code{stats::spec} to \code{data.frame}
 #'
 #' @param model \code{stats::spec} instance
-#' @param data original dataset, if needed
-#' @param ... other arguments passed to methods
+#' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
 #' fortify(spectrum(AirPassengers))
@@ -122,9 +117,8 @@ autoplot.spec <- function(object, ...) {
 #' Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}
 #'
 #' @param model \code{stats::prcomp} or \code{stats::princomp} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param original (Deprecated) use data
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @aliases fortify.princomp
 #' @examples
@@ -164,9 +158,8 @@ fortify.princomp <- fortify.prcomp
 #' Convert \code{stats::factanal} to \code{data.frame}
 #'
 #' @param model \code{stats::factanal} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param original (Deprecated) use data
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
@@ -202,13 +195,20 @@ fortify.factanal <- function(model, data = NULL,
 #' @param fill fill
 #' @param shape shape
 #' @param label Logical value whether to display data labels
-#' @param label.colour Text colour for data labels
-#' @param label.size Text size for data labels
+#' @inheritParams plot_label
 #' @param loadings Logical value whether to display loadings arrows
 #' @param loadings.colour Point colour for data
 #' @param loadings.label Logical value whether to display loadings labels
-#' @param loadings.label.colour Text colour for loadings labels
-#' @param loadings.label.size Text size for loadings labels
+#' @param loadings.label.label Column name used for loadings text labels
+#' @param loadings.label.colour Colour for loadings text labels
+#' @param loadings.label.alpha Alpha for loadings text labels
+#' @param loadings.label.size Size for loadings text labels
+#' @param loadings.label.angle Angle for loadings text labels
+#' @param loadings.label.family Font family for loadings text labels
+#' @param loadings.label.fontface Fontface for loadings text labels
+#' @param loadings.label.lineheight Lineheight for loadings text labels
+#' @param loadings.label.hjust Horizontal adjustment for loadings text labels
+#' @param loadings.label.vjust Vertical adjustment for loadings text labels
 #' @param frame Logical value whether to draw outliner convex / ellipse
 #' @param frame.type Character specifying frame type.
 #' 'convex' or types supporeted by \code{ggplot2::stat_ellipse} can be used.
@@ -241,11 +241,21 @@ fortify.factanal <- function(model, data = NULL,
 autoplot.pca_common <- function(object, data = NULL, original = NULL,
                                 colour = NULL, size = NULL, linetype = NULL,
                                 alpha = NULL, fill = NULL, shape = NULL,
-                                label = FALSE, label.colour = colour, label.size = 4,
+                                label = FALSE, label.label = 'rownames',
+                                label.colour = colour, label.alpha = NULL,
+                                label.size = NULL, label.angle = NULL,
+                                label.family = NULL, label.fontface = NULL,
+                                label.lineheight = NULL,
+                                label.hjust = NULL, label.vjust = NULL,
                                 loadings = FALSE, loadings.colour = '#FF0000',
                                 loadings.label = FALSE,
+                                loadings.label.label = 'rownames',
                                 loadings.label.colour = '#FF0000',
-                                loadings.label.size = 4,
+                                loadings.label.alpha = NULL,
+                                loadings.label.size = NULL, loadings.label.angle = NULL,
+                                loadings.label.family = NULL, loadings.label.fontface = NULL,
+                                loadings.label.lineheight = NULL,
+                                loadings.label.hjust = NULL, loadings.label.vjust = NULL,
                                 frame = FALSE, frame.type = 'convex',
                                 frame.colour = colour, frame.level = 0.95,
                                 frame.alpha = 0.2, ...) {
@@ -291,10 +301,12 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
                           colour = colour, size = size, linetype = linetype,
                           alpha = alpha, fill = fill, shape = shape)
   }
-
-  p <- plot.label(p = p, data = plot.data, flag = label, label = 'rownames',
-                  colour = label.colour, size = label.size)
-
+  p <- plot_label(p = p, data = plot.data, label = label,
+                  label.label = label.label, label.colour = label.colour,
+                  label.alpha = label.alpha, label.size = label.size,
+                  label.angle = label.angle, label.family = label.family,
+                  label.fontface = label.fontface, label.lineheight = label.lineheight,
+                  label.hjust = label.hjust, label.vjust = label.vjust)
   if (loadings) {
     loadings.data = as.data.frame(object[[loadings.column]][,])
     loadings.data$rownames <- rownames(loadings.data)
@@ -303,9 +315,13 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
                           mapping = loadings.mapping,
                           arrow = grid::arrow(length = grid::unit(8, 'points')),
                           colour = loadings.colour)
-
-    p <- plot.label(p = p, data = loadings.data, flag = loadings.label, label = 'rownames',
-                    colour = loadings.label.colour, size = loadings.label.size)
+    p <- plot_label(p = p, data = loadings.data, label = loadings.label,
+                    label.label = loadings.label.label, label.colour = loadings.label.colour,
+                    label.alpha = loadings.label.alpha, label.size = loadings.label.size,
+                    label.angle = loadings.label.angle, label.family = loadings.label.family,
+                    label.fontface = loadings.label.fontface,
+                    label.lineheight = loadings.label.lineheight,
+                    label.hjust = loadings.label.hjust, label.vjust = loadings.label.vjust)
   }
 
   if (missing(frame) && !missing(frame.type)) {

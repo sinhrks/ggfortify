@@ -1,11 +1,10 @@
 #' Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to \code{data.frame}
 #'
 #' @param model \code{chantepoint::cpt} or \code{strucchange::breakpoints} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param original (Deprecated) use data
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @aliases fortify.breakpointsfull fortify.breakpoints
 #' @examples

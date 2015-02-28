@@ -1,8 +1,7 @@
 #' Convert \code{survival::survfit} to \code{data.frame}
 #'
 #' @param model \code{survival::survfit} instance
-#' @param data original dataset, if needed
-#' @param ... other arguments passed to methods
+#' @inheritParams fortify_base
 #' @return data.frame
 #' @aliases fortify.survfit.cox
 #' @examples
@@ -42,11 +41,7 @@ fortify.survfit <- function(model, data = NULL, ...) {
 #' @param surv.alpha alpha for survival curve
 #' @param surv.fill fill colour survival curve
 #' @param surv.shape point shape survival curve
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams plot_confint
 #' @param censor Logical flag indicating whether to plot censors
 #' @param censor.shape Shape for censors
 #' @param censor.size Size for censors
@@ -87,15 +82,17 @@ autoplot.survfit <- function(object,
                           colour = surv.colour, size = surv.size, linetype = surv.linetype,
                           alpha = surv.alpha, fill = surv.fill, shape = surv.shape)
     p <- plot_confint(p, data = plot.data, conf.int = conf.int,
-                      colour = conf.int.colour, linetype = conf.int.linetype,
-                      fill = surv.colour, alpha = conf.int.alpha)
+                      conf.int.colour = conf.int.colour,
+                      conf.int.linetype = conf.int.linetype,
+                      conf.int.fill = surv.colour, conf.int.alpha = conf.int.alpha)
   } else {
     p <- p + geom_factory(geomfunc, plot.data,
                           colour = surv.colour, size = surv.size, linetype = surv.linetype,
                           alpha = surv.alpha, fill = surv.fill, shape = surv.shape)
-    p <- plot_confint(p, data = plot.data, conf.int = conf.int,
-                      colour = conf.int.colour, linetype = conf.int.linetype,
-                      fill = conf.int.fill, alpha = conf.int.alpha)
+    p <- plot_confint(p = p, data = plot.data, conf.int = conf.int,
+                      conf.int.colour = conf.int.colour,
+                      conf.int.linetype = conf.int.linetype,
+                      conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   }
 
   if (censor) {

@@ -9,11 +9,18 @@
 \usage{
 \method{autoplot}{pca_common}(object, data = NULL, original = NULL,
   colour = NULL, size = NULL, linetype = NULL, alpha = NULL,
-  fill = NULL, shape = NULL, label = FALSE, label.colour = colour,
-  label.size = 4, loadings = FALSE, loadings.colour = "#FF0000",
-  loadings.label = FALSE, loadings.label.colour = "#FF0000",
-  loadings.label.size = 4, frame = FALSE, frame.type = "convex",
-  frame.colour = colour, frame.level = 0.95, frame.alpha = 0.2, ...)
+  fill = NULL, shape = NULL, label = FALSE, label.label = "rownames",
+  label.colour = colour, label.alpha = NULL, label.size = NULL,
+  label.angle = NULL, label.family = NULL, label.fontface = NULL,
+  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
+  loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
+  loadings.label.label = "rownames", loadings.label.colour = "#FF0000",
+  loadings.label.alpha = NULL, loadings.label.size = NULL,
+  loadings.label.angle = NULL, loadings.label.family = NULL,
+  loadings.label.fontface = NULL, loadings.label.lineheight = NULL,
+  loadings.label.hjust = NULL, loadings.label.vjust = NULL, frame = FALSE,
+  frame.type = "convex", frame.colour = colour, frame.level = 0.95,
+  frame.alpha = 0.2, ...)
 }
 \arguments{
 \item{object}{PCA-like instance}
@@ -36,9 +43,25 @@
 
 \item{label}{Logical value whether to display data labels}
 
-\item{label.colour}{Text colour for data labels}
+\item{label.label}{Column name used for label text}
 
-\item{label.size}{Text size for data labels}
+\item{label.colour}{Colour for text labels}
+
+\item{label.alpha}{Alpha for text labels}
+
+\item{label.size}{Size for text labels}
+
+\item{label.angle}{Angle for text labels}
+
+\item{label.family}{Font family for text labels}
+
+\item{label.fontface}{Fontface for text labels}
+
+\item{label.lineheight}{Lineheight for text labels}
+
+\item{label.hjust}{Horizontal adjustment for text labels}
+
+\item{label.vjust}{Vertical adjustment for text labels}
 
 \item{loadings}{Logical value whether to display loadings arrows}
 
@@ -46,9 +69,25 @@
 
 \item{loadings.label}{Logical value whether to display loadings labels}
 
-\item{loadings.label.colour}{Text colour for loadings labels}
+\item{loadings.label.label}{Column name used for loadings text labels}
 
-\item{loadings.label.size}{Text size for loadings labels}
+\item{loadings.label.colour}{Colour for loadings text labels}
+
+\item{loadings.label.alpha}{Alpha for loadings text labels}
+
+\item{loadings.label.size}{Size for loadings text labels}
+
+\item{loadings.label.angle}{Angle for loadings text labels}
+
+\item{loadings.label.family}{Font family for loadings text labels}
+
+\item{loadings.label.fontface}{Fontface for loadings text labels}
+
+\item{loadings.label.lineheight}{Lineheight for loadings text labels}
+
+\item{loadings.label.hjust}{Horizontal adjustment for loadings text labels}
+
+\item{loadings.label.vjust}{Vertical adjustment for loadings text labels}
 
 \item{frame}{Logical value whether to draw outliner convex / ellipse}
 

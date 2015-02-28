@@ -1,9 +1,8 @@
 #' Convert cluster instances to \code{data.frame}
 #'
 #' @param model Clustered instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param original (Deprecated) use data
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' fortify(stats::kmeans(iris[-5], 3))
