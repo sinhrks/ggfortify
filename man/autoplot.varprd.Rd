@@ -5,8 +5,9 @@
 \title{Autoplot \code{vars::varprd}}
 \usage{
 \method{autoplot}{varprd}(object, is.date = NULL, ts.connect = TRUE,
-  scales = "free_y", predict.colour = "#0000FF",
-  predict.linetype = "solid", conf.int = TRUE,
+  scales = "free_y", predict.geom = "line", predict.colour = "#0000FF",
+  predict.size = NULL, predict.linetype = NULL, predict.alpha = NULL,
+  predict.fill = NULL, predict.shape = NULL, conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
@@ -20,9 +21,19 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
-\item{predict.colour}{Line colour for predicted time-series}
+\item{predict.geom}{geometric string for predicted time-series}
 
-\item{predict.linetype}{Line type for predicted time-series}
+\item{predict.colour}{line colour for predicted time-series}
+
+\item{predict.size}{point size for predicted time-series}
+
+\item{predict.linetype}{line type for predicted time-series}
+
+\item{predict.alpha}{alpha for predicted time-series}
+
+\item{predict.fill}{fill colour for predicted time-series}
+
+\item{predict.shape}{point shape for predicted time-series}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
@@ -44,8 +55,7 @@ Autoplot \code{vars::varprd}
 }
 \examples{
 data(Canada, package = 'vars')
-d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
-d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
+d.var <- vars::VAR(Canada, p = 3, type = 'const')
 autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
 autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 }

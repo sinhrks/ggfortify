@@ -1,7 +1,7 @@
 #' Convert time-series-like to data.frame
 #'
 #' @param model time-series-like instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param columns character vector specifies target column name(s)
 #' @param is.date logical frag indicates whether the \code{stats::ts} is date or not
 #' If not provided, regard the input as date when the frequency is 4 or 12
@@ -9,7 +9,6 @@
 #' @param data.name specify column name for univariate time series data. Ignored in multivariate time series.
 #' @param scale logical flag indicating whether to perform scaling each timeseries
 #' @param melt logical flag indicating whether to melt each timeseries as variable
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' fortify(AirPassengers)
@@ -152,10 +151,9 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                         ts.scale = FALSE, scales = 'free_y',
                         facet = TRUE, facets = facet,
                         nrow = NULL, ncol = 1,
-                        ts.geom = 'line',
-                        ts.colour = NULL, ts.size = NULL, ts.linetype = NULL,
+                        ts.geom = 'line', ts.colour = NULL, ts.size = NULL, ts.linetype = NULL,
                         ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
-                        colour = ts.colour, size = ts.size, linetype = ts.linetype,
+                        geom = ts.geom, colour = ts.colour, size = ts.size, linetype = ts.linetype,
                         alpha = ts.alpha, fill = ts.fill, shape = ts.shape,
                         xlab = '', ylab = '', ...) {
 
@@ -206,7 +204,7 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
     plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
   }
 
-  geomfunc <- get_geom_function(ts.geom, allowed = c('line', 'bar', 'point'))
+  geomfunc <- get_geom_function(geom, allowed = c('line', 'bar', 'point'))
   if (facets) {
     p <- p + geom_factory(geomfunc, plot.data, group = 'variable', y = 'value',
                           colour = colour, size = size, linetype = linetype,
@@ -247,13 +245,13 @@ autoplot.irts <- autoplot.ts
 #'
 #' @param model Time series model instance
 #' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}
+#' @inheritParams fortify_base
 #' @param original (Deprecated) use data
 #' @param predict Predicted \code{stats::ts}
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @aliases fortify.ar fortify.Arima fortify.fracdiff
 #' fortify.nnetar fortify.HoltWinters fortify.fGARCH
@@ -408,11 +406,7 @@ fortify.KFS <- fortify.tsmodel
 #' @param predict.alpha alpha for predicted time-series
 #' @param predict.fill fill colour for predicted time-series
 #' @param predict.shape point shape for predicted time-series
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams plot_confint
 #' @param ... Keywords passed to \code{autoplot.ts}
 #' @return ggplot
 #' @aliases autoplot.ar autoplot.fracdiff autoplot.nnetar autoplot.HoltWinters autoplot.fGARCH
@@ -476,9 +470,10 @@ autoplot.tsmodel <- function(object, data = NULL, original = NULL,
                      ts.colour = predict.colour, ts.size = predict.size,
                      ts.linetype = predict.linetype, ts.alpha = predict.alpha,
                      ts.fill = predict.fill, ts.shape = predict.shape)
-    p <- plot_confint(p, data = predict.data, conf.int = conf.int,
-                      colour = conf.int.colour, linetype = conf.int.linetype,
-                      fill = conf.int.fill, alpha = conf.int.alpha)
+    p <- plot_confint(p = p, data = predict.data, conf.int = conf.int,
+                      conf.int.colour = conf.int.colour,
+                      conf.int.linetype = conf.int.linetype,
+                      conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   }
   p
 }

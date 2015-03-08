@@ -29,8 +29,7 @@ Convert \code{vars::varprd} to \code{data.frame}
 }
 \examples{
 data(Canada, package = 'vars')
-d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
-d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
+d.var <- vars::VAR(Canada, p = 3, type = 'const')
 fortify(stats::predict(d.var, n.ahead = 50))
 }
 

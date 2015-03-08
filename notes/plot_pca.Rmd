@@ -40,13 +40,13 @@ autoplot(prcomp(df), data = iris, colour = 'Species')
 Passing `label = TRUE` draws each data label using `rownames`
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species', label = TRUE)
+autoplot(prcomp(df), data = iris, colour = 'Species', label = TRUE, label.size = 3)
 ```
 
 Passing `shape = FALSE` makes plot without points. In this case, `label` is turned on unless otherwise specified.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species', shape = FALSE)
+autoplot(prcomp(df), data = iris, colour = 'Species', shape = FALSE, label.size = 3)
 ```
 
 Passing `loadings = TRUE` draws eigenvectors.
@@ -72,7 +72,8 @@ autoplot(prcomp(df), data = iris, colour = 'Species',
 ```{r, message = FALSE}
 d.factanal <- factanal(state.x77, factors = 3, scores = 'regression')
 autoplot(d.factanal, data = state.x77, colour = 'Income')
-autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
+autoplot(d.factanal, label = TRUE, label.size = 3,
+         loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3)
 ```
 
 # Plotting K-means
@@ -85,7 +86,7 @@ autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 set.seed(1)
 autoplot(kmeans(USArrests, 3), data = USArrests)
 
-autoplot(kmeans(USArrests, 3), data = USArrests, label = TRUE)
+autoplot(kmeans(USArrests, 3), data = USArrests, label = TRUE, label.size = 3)
 ```
 
 # Plotting cluster package

@@ -4,11 +4,21 @@
 #' @param data original dataset, if needed
 #' @param ... other arguments passed to methods
 #' @return data.frame
+fortify_base <- function(model, data, ...) {
+  # the function should be base for all fortify roxygen
+  as.data.frame(model)
+}
+
+#' Convert \code{base::table} to \code{data.frame}
+#'
+#' @param model \code{base::table} instance
+#' @inheritParams fortify_base
+#' @return data.frame
 #' @examples
 #' fortify(Titanic)
 #' @export
 fortify.table <- function(model, data, ...) {
-  as.data.frame(model)
+  fortify_base(model, data, ...)
 }
 
 #' Convert \code{base::matrix} to \code{data.frame}
@@ -47,10 +57,7 @@ fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
 #' @param alpha alpha
 #' @param fill fill colour. Ignored if scale keyword is passed. ('tile' Only)
 #' @param shape point shape
-#' @param label logical value whether to display data labels ('point' Only)
-#' @param label.colour Text colour for data labels ('point' Only)
-#' @param label.size Text size for data labels ('point' Only)
-
+#' @inheritParams plot_label
 #' @param scale (Deprecated) \code{ggplot2::scale} instance to plot. ('tile' Only)
 #' @param ... other arguments passed to methods
 #' @return ggplot
@@ -62,7 +69,12 @@ fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
 autoplot.matrix <- function (object, original = NULL, geom = 'tile',
                              colour = NULL, size = NULL, alpha = NULL,
                              fill = '#0000FF', shape = NULL,
-                             label = FALSE, label.colour = colour, label.size = 4,
+                             label = FALSE, label.label = 'rownames',
+                             label.colour = colour, label.alpha = NULL,
+                             label.size = NULL, label.angle = NULL,
+                             label.family = NULL, label.fontface = NULL,
+                             label.lineheight = NULL,
+                             label.hjust = NULL, label.vjust = NULL,
                              scale = NULL, ...) {
   if (geom == 'tile') {
     fortified <- ggplot2::fortify(object, original = original)
@@ -99,8 +111,12 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
       p <- p + geom_factory(geom_point, plot.data, colour = colour, size = size,
                             alpha = alpha, fill = fill, shape = shape)
     }
-    p <- plot.label(p = p, data = plot.data, flag = label, label = 'rownames',
-                    colour = label.colour, size = label.size)
+    p <- plot_label(p = p, data = plot.data, label = label,
+                    label.label = label.label, label.colour = label.colour,
+                    label.alpha = label.alpha, label.size = label.size,
+                    label.angle = label.angle, label.family = label.family,
+                    label.fontface = label.fontface, label.lineheight = label.lineheight,
+                    label.hjust = label.hjust, label.vjust = label.vjust)
   } else {
     stop("Invalid geom is specified. Use 'tile' or 'point'.")
   }

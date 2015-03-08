@@ -5,8 +5,9 @@
 \title{Attach confidence interval to \code{ggplot2::ggplot}}
 \usage{
 plot_confint(p, data = NULL, lower = "lower", upper = "upper",
-  conf.int = TRUE, colour = "#0000FF", linetype = "none",
-  fill = "#000000", alpha = 0.3)
+  conf.int = TRUE, conf.int.colour = "#0000FF",
+  conf.int.linetype = "none", conf.int.fill = "#000000",
+  conf.int.alpha = 0.3)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instance}
@@ -19,13 +20,13 @@ plot_confint(p, data = NULL, lower = "lower", upper = "upper",
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
-\item{colour}{Line colour for confidence intervals}
+\item{conf.int.colour}{Line colour for confidence intervals}
 
-\item{linetype}{Line type for confidence intervals}
+\item{conf.int.linetype}{Line type for confidence intervals}
 
-\item{fill}{Fill colour for confidence intervals}
+\item{conf.int.fill}{Fill colour for confidence intervals}
 
-\item{alpha}{Alpha for confidence intervals}
+\item{conf.int.alpha}{Alpha for confidence intervals}
 }
 \value{
 ggplot

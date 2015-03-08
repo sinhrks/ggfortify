@@ -1,17 +1,15 @@
 #' Convert \code{vars::varprd} to \code{data.frame}
 #'
 #' @param model \code{vars::varprd} instance
-#' @param data original dataset, if needed
+#' @inheritParams fortify_base
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
-#' @param ... other arguments passed to methods
 #' @return data.frame
 #' @examples
 #' data(Canada, package = 'vars')
-#' d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
-#' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
+#' d.var <- vars::VAR(Canada, p = 3, type = 'const')
 #' fortify(stats::predict(d.var, n.ahead = 50))
 #' @export
 fortify.varprd <- function(model, data = NULL, is.date = NULL,
@@ -53,25 +51,22 @@ fortify.varprd <- function(model, data = NULL, is.date = NULL,
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @param ts.connect Logical frag indicates whether connects original time-series and predicted values
 #' @param scales Scale value passed to \code{ggplot2}
-#' @param predict.colour Line colour for predicted time-series
-#' @param predict.linetype Line type for predicted time-series
-#' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @inheritParams autoplot.tsmodel
+#' @inheritParams plot_confint
 #' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
 #' data(Canada, package = 'vars')
-#' d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
-#' d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
+#' d.var <- vars::VAR(Canada, p = 3, type = 'const')
 #' autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
 #' autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
 #' @export
 autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
                             scales = 'free_y',
-                            predict.colour = '#0000FF', predict.linetype = 'solid',
+                            predict.geom = 'line',
+                            predict.colour = '#0000FF', predict.size = NULL,
+                            predict.linetype = NULL, predict.alpha = NULL,
+                            predict.fill = NULL, predict.shape = NULL,
                             conf.int = TRUE,
                             conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                             conf.int.fill = '#000000', conf.int.alpha = 0.3,
@@ -85,13 +80,16 @@ autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
 
   p <- autoplot.ts(original.data, columns = 'Data', ...)
   p <- autoplot.ts(predict.data, columns = 'fcst', p = p,
-                   ts.colour = predict.colour,
-                   ts.linetype = predict.linetype)
+                   geom = predict.geom,
+                   colour = predict.colour, size = predict.size,
+                   linetype = predict.linetype, alpha = predict.alpha,
+                   fill = predict.fill, shape = predict.shape)
 
   p <- p + ggplot2::facet_grid(variable ~ ., scales = scales)
 
-  p <- plot_confint(p, predict.data, conf.int = conf.int,
-                    colour = conf.int.colour, linetype = conf.int.linetype,
-                    fill = conf.int.fill, alpha = conf.int.alpha)
+  p <- plot_confint(p = p, data = predict.data, conf.int = conf.int,
+                    conf.int.colour = conf.int.colour,
+                    conf.int.linetype = conf.int.linetype,
+                    conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
   p
 }

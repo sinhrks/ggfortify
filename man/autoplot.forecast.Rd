@@ -15,7 +15,7 @@
 \item{object}{\code{forecast::forecast} instance}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
-If not provided, regard the input as date when the frequency is 4 or 12.}
+If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{ts.connect}{Logical frag indicates whether connects original time-series and predicted values}
 
@@ -33,7 +33,7 @@ If not provided, regard the input as date when the frequency is 4 or 12.}
 
 \item{predict.shape}{point shape for predicted time-series}
 
-\item{conf.int}{logical flag indicating whether to plot confidence intervals}
+\item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
 \item{conf.int.colour}{Line colour for confidence intervals}
 
