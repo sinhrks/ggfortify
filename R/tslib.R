@@ -401,7 +401,7 @@ ggfreqplot <- function(data, freq = NULL,
   p <- autoplot.ts(d, columns = 'Data', ...)
   p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'),
                        colour = conf.int.colour) +
-    ggplot2::facet_wrap(~Frequency)
+    ggplot2::facet_wrap(~Frequency, nrow = nrow, ncol = ncol)
   p <- plot_confint(p = p, data = d, conf.int = conf.int,
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
