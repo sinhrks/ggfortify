@@ -1,4 +1,4 @@
-context('test stats')
+context('test stats density')
 
 test_that('fortify.density works for rnorm', {
   dens <- stats::density(stats::rnorm(1:50))

@@ -32,6 +32,8 @@ This covers following classes:
 - ``forecast::ets``
 - ``forecast::nnetar``
 - ``fracdiff::fracdiff``
+- ``glmnet::cv.glmnet``
+- ``glmnet::glmnet``
 - ``KFAS::KFS``
 - ``KFAS::signal`` (inference)
 - ``lfda::lfda``

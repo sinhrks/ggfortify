@@ -1,4 +1,4 @@
-context('test stats')
+context('test stats lm')
 
 test_that('fortify.lm works for USArrests', {
   fortified <- ggplot2::fortify(lm(Murder ~ Assault + UrbanPop, data = USArrests))

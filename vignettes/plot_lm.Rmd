@@ -1,6 +1,6 @@
 ---
 title: "Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify"
-output: pdf_document
+output: html_document
 ---
 
 <!--
@@ -71,4 +71,19 @@ Also, you can use column names for these properties. Note that `lm` and `glm` in
 ```{r, message = FALSE, fig.width = 8, fig.height = 5}
 autoplot(lm(Petal.Width ~ Petal.Length, data = iris), data = iris,
          colour = 'Species', label.size = 3)
+```
+
+
+# Plotting ``{glmnet}``
+
+``{ggfortify}`` supports ``{glmnet}`` package which supports Regularized Generalized Linear Models (Ridge, Lasso and Elastic-net).
+
+```{r, message = FALSE, fig.width = 5, fig.height = 3}
+library(glmnet)
+data(QuickStartExample)
+fit <- glmnet::glmnet(x, y)
+autoplot(fit)
+
+fit <- glmnet::cv.glmnet(x, y)
+autoplot(fit, colour = 'blue')
 ```

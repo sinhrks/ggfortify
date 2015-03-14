@@ -1,13 +1,17 @@
 NEWS
 =====================
+
 ggfortify dev version
 ---------------------
+
 - Compatible with ggplot2 v1.1.0
+- Support glmnet
 - Support multiplots from a list contains classes supported by autoplot
 - Support ggmultiplot extraction getter / setter
 - Support ggmultiplot arithmetics
 
 ggfortify v0.0.4
----------------------
+----------------
+
 - First release on CRAN
 
