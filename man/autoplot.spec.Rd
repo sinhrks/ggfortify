@@ -4,10 +4,25 @@
 \alias{autoplot.spec}
 \title{Autoplot \code{stats::spec}}
 \usage{
-\method{autoplot}{spec}(object, ...)
+\method{autoplot}{spec}(object, xlim = c(NA, NA), ylim = c(NA, NA),
+  log = "y", main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::spec} instance}
+
+\item{xlim}{limits for x axis}
+
+\item{ylim}{limits for y axis}
+
+\item{log}{which variables to log transform ("x", "y", or "xy")}
+
+\item{main}{character vector or expression for plot title}
+
+\item{xlab}{character vector or expression for x axis label}
+
+\item{ylab}{character vector or expression for y axis label}
+
+\item{asp}{the y/x aspect ratio}
 
 \item{...}{other arguments passed to methods}
 }

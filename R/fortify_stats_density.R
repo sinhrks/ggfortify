@@ -8,7 +8,7 @@
 #' @export
 fortify.density <- function(model, data = NULL, ...) {
   d <- data.frame(x = model$x, y = model$y)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot \code{stats::density}
@@ -19,6 +19,7 @@ fortify.density <- function(model, data = NULL, ...) {
 #' @param linetype Line type
 #' @param fill Fill colour
 #' @param alpha Alpha
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to PDC/CDF func
 #' @return ggplot
 #' @examples
@@ -27,7 +28,10 @@ fortify.density <- function(model, data = NULL, ...) {
 #' @export
 autoplot.density <- function (object, p = NULL,
                               colour = '#000000', linetype = NULL,
-                              fill = NULL, alpha = NULL, ...)  {
+                              fill = NULL, alpha = NULL,
+                              xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+                              ...)  {
   if (!is.data.frame(object)) {
     object <- ggplot2::fortify(object)
     object$ymin <- rep(0, nrow(object))
@@ -52,6 +56,8 @@ autoplot.density <- function (object, p = NULL,
     p <- p + geom_factory(geom_line, object, colour = colour,
                           linetype = linetype, alpha = alpha)
   }
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }
 

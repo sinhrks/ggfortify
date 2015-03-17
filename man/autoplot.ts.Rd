@@ -16,7 +16,8 @@
   ts.linetype = NULL, ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
   geom = ts.geom, colour = ts.colour, size = ts.size,
   linetype = ts.linetype, alpha = ts.alpha, fill = ts.fill,
-  shape = ts.shape, xlab = "", ylab = "", ...)
+  shape = ts.shape, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+  main = NULL, xlab = "", ylab = "", asp = NULL, ...)
 }
 \arguments{
 \item{object}{time-series-like instance}
@@ -72,9 +73,19 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{shape}{same as ts.shape}
 
-\item{xlab}{Character vector or expression for x axis label}
+\item{xlim}{limits for x axis}
 
-\item{ylab}{Character vector or expression for y axis label}
+\item{ylim}{limits for y axis}
+
+\item{log}{which variables to log transform ("x", "y", or "xy")}
+
+\item{main}{character vector or expression for plot title}
+
+\item{xlab}{character vector or expression for x axis label}
+
+\item{ylab}{character vector or expression for y axis label}
+
+\item{asp}{the y/x aspect ratio}
 
 \item{...}{other arguments passed to methods}
 }

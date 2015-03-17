@@ -27,7 +27,7 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
     stop(paste0('Unsupported class for fortify.kmeans: ', class(model)))
   }
   d <- cbind_wraps(data, d)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 

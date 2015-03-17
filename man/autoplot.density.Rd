@@ -5,7 +5,9 @@
 \title{Autoplot \code{stats::density}}
 \usage{
 \method{autoplot}{density}(object, p = NULL, colour = "#000000",
-  linetype = NULL, fill = NULL, alpha = NULL, ...)
+  linetype = NULL, fill = NULL, alpha = NULL, xlim = c(NA, NA),
+  ylim = c(NA, NA), log = "", main = NULL, xlab = NULL, ylab = NULL,
+  asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::density} instance}
@@ -19,6 +21,20 @@
 \item{fill}{Fill colour}
 
 \item{alpha}{Alpha}
+
+\item{xlim}{limits for x axis}
+
+\item{ylim}{limits for y axis}
+
+\item{log}{which variables to log transform ("x", "y", or "xy")}
+
+\item{main}{character vector or expression for plot title}
+
+\item{xlab}{character vector or expression for x axis label}
+
+\item{ylab}{character vector or expression for y axis label}
+
+\item{asp}{the y/x aspect ratio}
 
 \item{...}{other arguments passed to PDC/CDF func}
 }

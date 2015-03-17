@@ -43,7 +43,7 @@ fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
   }
   # dplyr doesn't guarantee rownames
   d <- cbind_wraps(d, data)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Plot \code{base::matrix}
@@ -59,6 +59,7 @@ fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
 #' @param shape point shape
 #' @inheritParams plot_label
 #' @param scale (Deprecated) \code{ggplot2::scale} instance to plot. ('tile' Only)
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
@@ -75,7 +76,10 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
                              label.family = NULL, label.fontface = NULL,
                              label.lineheight = NULL,
                              label.hjust = NULL, label.vjust = NULL,
-                             scale = NULL, ...) {
+                             scale = NULL,
+                             xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                             main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+                             ...) {
   if (geom == 'tile') {
     fortified <- ggplot2::fortify(object, original = original)
     fortified$Index <- rownames(fortified)
@@ -120,5 +124,7 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
   } else {
     stop("Invalid geom is specified. Use 'tile' or 'point'.")
   }
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }

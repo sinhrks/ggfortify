@@ -75,7 +75,7 @@ stop.unsupported.type <- function() {
 #'
 #' @param data data.frame
 #' @return data.frame
-post.fortify <- function(data) {
+post_fortify <- function(data) {
   # does nothing in current version
   # dplyr::tbl_df(data)
   as.data.frame(data)
