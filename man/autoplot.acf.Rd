@@ -9,7 +9,8 @@ standard plot output}
   conf.int = TRUE, conf.int.colour = "#0000FF",
   conf.int.linetype = "dashed", conf.int.fill = NULL,
   conf.int.alpha = 0.3, conf.int.value = 0.95, conf.int.type = "white",
-  ...)
+  xlim = c(NA, NA), ylim = c(NA, NA), log = "", main = NULL,
+  xlab = NULL, ylab = "ACF", asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::acf} instance}
@@ -31,6 +32,20 @@ standard plot output}
 \item{conf.int.value}{Coverage probability for confidence interval}
 
 \item{conf.int.type}{Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model}
+
+\item{xlim}{limits for x axis}
+
+\item{ylim}{limits for y axis}
+
+\item{log}{which variables to log transform ("x", "y", or "xy")}
+
+\item{main}{character vector or expression for plot title}
+
+\item{xlab}{character vector or expression for x axis label}
+
+\item{ylab}{character vector or expression for y axis label}
+
+\item{asp}{the y/x aspect ratio}
 
 \item{...}{other arguments passed to methods}
 }

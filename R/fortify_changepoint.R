@@ -56,7 +56,7 @@ fortify.cpt <- function(model, data = NULL, original = NULL,
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(model)))
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' @export

@@ -86,7 +86,7 @@ fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
   if (melt) {
     d <- tidyr::gather_(d, 'variable', 'value', columns)
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' @export
@@ -124,8 +124,7 @@ fortify.irts <- fortify.ts
 #' @param alpha same as ts.alpha
 #' @param fill same as ts.fill
 #' @param shape same as ts.shape
-#' @param xlab Character vector or expression for x axis label
-#' @param ylab Character vector or expression for y axis label
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @aliases autoplot.xts autoplot.timeSeries autoplot.irts autoplot.stl autoplot.decomposed.ts
@@ -155,7 +154,9 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                         ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
                         geom = ts.geom, colour = ts.colour, size = ts.size, linetype = ts.linetype,
                         alpha = ts.alpha, fill = ts.fill, shape = ts.shape,
-                        xlab = '', ylab = '', ...) {
+                        xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                        main = NULL, xlab = '', ylab = '', asp = NULL,
+                        ...) {
 
   # deprecation
   if (! missing(facet)) {
@@ -222,10 +223,10 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                           stat = 'identity')
   }
   if (null.p) {
-    p <- p +
-      ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
-      ggplot2::scale_y_continuous()
+    p <- p + ggplot2::scale_y_continuous()
   }
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }
 
@@ -352,7 +353,7 @@ fortify.tsmodel <- function(model, data = NULL, original = NULL,
     n <- nrow(d)
     d <- rbind_ts(pred, d, ts.connect = ts.connect)
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' @export

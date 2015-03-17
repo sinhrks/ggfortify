@@ -10,7 +10,9 @@
   surv.fill = NULL, surv.shape = NULL, conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, censor = TRUE,
-  censor.shape = "+", censor.size = 3, ...)
+  censor.shape = "+", censor.size = 3, xlim = c(NA, NA), ylim = c(NA,
+  NA), log = "", main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+  ...)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}
@@ -44,6 +46,20 @@
 \item{censor.shape}{Shape for censors}
 
 \item{censor.size}{Size for censors}
+
+\item{xlim}{limits for x axis}
+
+\item{ylim}{limits for y axis}
+
+\item{log}{which variables to log transform ("x", "y", or "xy")}
+
+\item{main}{character vector or expression for plot title}
+
+\item{xlab}{character vector or expression for x axis label}
+
+\item{ylab}{character vector or expression for y axis label}
+
+\item{asp}{the y/x aspect ratio}
 
 \item{...}{other arguments passed to methods}
 }

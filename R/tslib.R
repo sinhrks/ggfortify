@@ -109,7 +109,7 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
     # Use fnames not to overwrite Index
     d[n, dnames] <- d[n, data.name]
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 

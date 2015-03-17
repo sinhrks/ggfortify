@@ -216,3 +216,40 @@ setMethod('print', 'ggmultiplot',
 setMethod('show', 'ggmultiplot',
           function(object) { print(object) })
 
+
+#' Post process for fortify. Based on \code{ggplot2::qplot}
+#'
+#' @param p \code{ggplot2::ggplot} instances
+#' @param xlim limits for x axis
+#' @param ylim limits for y axis
+#' @param log which variables to log transform ("x", "y", or "xy")
+#' @param main character vector or expression for plot title
+#' @param xlab character vector or expression for x axis label
+#' @param ylab character vector or expression for y axis label
+#' @param asp the y/x aspect ratio
+#' @return data.frame
+#' @examples
+#' p <- qplot(Petal.Length, Petal.Width, data = iris)
+#' ggfortify:::post_autoplot(p, xlim = c(1, 5), ylim = c(1, 5), log = 'xy', main = 'title',
+#'                           xlab = 'x', ylab = 'y', asp = 1.5)
+post_autoplot <- function(p, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                          main = NULL, xlab = NULL, ylab = NULL, asp = NULL) {
+  logv <- function(var) var %in% strsplit(log, "")[[1]]
+  if (logv("x"))
+    p <- p + scale_x_log10()
+  if (logv("y"))
+    p <- p + scale_y_log10()
+  if (!is.null(asp))
+    p <- p + ggplot2::theme(aspect.ratio = asp)
+  if (!is.null(main))
+    p <- p + ggplot2::ggtitle(main)
+  if (!is.null(xlab))
+    p <- p + ggplot2::xlab(xlab)
+  if (!is.null(ylab))
+    p <- p + ggplot2::ylab(ylab)
+  if (!all(is.na(xlim)))
+    p <- p + ggplot2::xlim(xlim)
+  if (!all(is.na(ylim)))
+    p <- p + ggplot2::ylim(ylim)
+  p
+}

@@ -10,7 +10,8 @@
   label.colour = colour, label.alpha = NULL, label.size = NULL,
   label.angle = NULL, label.family = NULL, label.fontface = NULL,
   label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
-  scale = NULL, ...)
+  scale = NULL, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{base::matrix} instance}
@@ -53,6 +54,20 @@ returns not containing original data.}
 \item{label.vjust}{Vertical adjustment for text labels}
 
 \item{scale}{(Deprecated) \code{ggplot2::scale} instance to plot. ('tile' Only)}
+
+\item{xlim}{limits for x axis}
+
+\item{ylim}{limits for y axis}
+
+\item{log}{which variables to log transform ("x", "y", or "xy")}
+
+\item{main}{character vector or expression for plot title}
+
+\item{xlab}{character vector or expression for x axis label}
+
+\item{ylab}{character vector or expression for y axis label}
+
+\item{asp}{the y/x aspect ratio}
 
 \item{...}{other arguments passed to methods}
 }

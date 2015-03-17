@@ -41,7 +41,7 @@ fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
                           SmoProb = model@Fit@smoProb[-1, ],
                           ProbableModel = probable))
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot \code{MSwM::MSM.lm}

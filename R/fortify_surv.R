@@ -28,7 +28,7 @@ fortify.survfit <- function(model, data = NULL, ...) {
   } else {
     stop(paste0('Unsupported class for fortify.survfit: ', class(model)))
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot \code{survival::survfit}
@@ -45,6 +45,7 @@ fortify.survfit <- function(model, data = NULL, ...) {
 #' @param censor Logical flag indicating whether to plot censors
 #' @param censor.shape Shape for censors
 #' @param censor.size Size for censors
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @aliases autoplot.survfit.cox
@@ -65,6 +66,8 @@ autoplot.survfit <- function(object,
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              censor = TRUE,
                              censor.shape = '+', censor.size = 3,
+                             xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                             main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
 
   plot.data <- ggplot2::fortify(object)
@@ -100,5 +103,7 @@ autoplot.survfit <- function(object,
                                  ggplot2::aes_string(y = 'surv'),
                                  shape = censor.shape, size = censor.size)
   }
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }

@@ -45,9 +45,14 @@ autoplot(AirPassengers, ts.colour = 'blue')
 
 # Decorating Plots
 
-Because `autoplot` returns `ggplot` instance, you can decorate it as you want. To make `autoplot` API simple, `ggfortify` offers some options which must be done during `ggplot` instance creation. Additional decoration should be done after `autoplot`.   
+Because `autoplot` returns `ggplot` instance, you can decorate it either way.
+
+- Use `+` operator after calling `autoplot`.   
+- Use common options supported in `ggplot2::qplot`. `xlim`, `ylim`, `log`, `main`, `xlab`, `ylab` and `asp`.
 
 ```{r}
+p <- 
+
 p <- autoplot(AirPassengers)
 class(p)
 # plot as it is
@@ -56,7 +61,9 @@ p
 # add title and labels
 p + ggtitle('AirPassengers') + xlab('Year') + ylab('Passengers')
 
-```{r}
+# or specify them via options
+autoplot(AirPassengers, main = 'AirPassengers', xlab = 'Year', ylab = 'Passengers')
+
 set.seed(1)
 p <- autoplot(kmeans(iris[-5], 3), data = iris)
 # plot as it is

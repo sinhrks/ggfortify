@@ -21,7 +21,7 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
   fitted <- ggplot2::fortify(model$fitted, data.name = 'Fitted', is.date = is.date)
   d <- dplyr::left_join(d, fitted, by = 'Index')
   d <- ggfortify::rbind_ts(forecasted, d, ts.connect = ts.connect)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot \code{forecast::forecast}
@@ -139,7 +139,7 @@ fortify.ets <- function(model, data = NULL, ...) {
   } else {
     stop(paste0('Unsupported class for fortify.ets: ', class(model)))
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' @export

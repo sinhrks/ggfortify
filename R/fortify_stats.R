@@ -34,7 +34,7 @@ fortify.acf <- function(model, data = NULL,
     cfd <- data.frame(lower = -cf, upper = cf)
     d <- cbind(d, cfd)
   }
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
@@ -46,6 +46,7 @@ fortify.acf <- function(model, data = NULL,
 #' @inheritParams plot_confint
 #' @param conf.int.value Coverage probability for confidence interval
 #' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
@@ -59,6 +60,8 @@ autoplot.acf <- function(object,
                          conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                          conf.int.fill = NULL, conf.int.alpha = 0.3,
                          conf.int.value = 0.95, conf.int.type = 'white',
+                         xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                         main = NULL, xlab = NULL, ylab = 'ACF', asp = NULL,
                          ...) {
   plot.data <- ggplot2::fortify(object, conf.int = conf.int,
                                 conf.int.value = conf.int.value,
@@ -77,7 +80,8 @@ autoplot.acf <- function(object,
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
                     conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
-  p <- p + ggplot2::ylab('ACF')
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }
 
@@ -94,24 +98,30 @@ autoplot.acf <- function(object,
 fortify.spec <- function(model, data = NULL, ...) {
   d <- data.frame(Frequency = model$freq,
                   Spectrum = model$spec)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot \code{stats::spec}
 #'
 #' @param object \code{stats::spec} instance
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
 #' autoplot(stats::spec.ar(AirPassengers))
 #' autoplot(stats::spec.pgram(AirPassengers))
 #' @export
-autoplot.spec <- function(object, ...) {
+autoplot.spec <- function(object,
+                          xlim = c(NA, NA), ylim = c(NA, NA), log = "y",
+                          main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+                          ...) {
   plot.data <- ggplot2::fortify(object)
   mapping <- ggplot2::aes_string(x = 'Frequency', y = 'Spectrum')
-  ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_line(mapping = mapping, stat = 'identity') +
-    ggplot2::scale_y_log10()
+  p <- ggplot2::ggplot(data = plot.data) +
+    ggplot2::geom_line(mapping = mapping, stat = 'identity')
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
+  p
 }
 
 #' Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}
@@ -149,7 +159,7 @@ fortify.prcomp <- function(model, data = NULL,
                                scale = model$scale)
   values <- cbind_wraps(data, values)
   d <- cbind_wraps(values, d)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' @export
@@ -180,7 +190,7 @@ fortify.factanal <- function(model, data = NULL,
   }
   d <- as.data.frame(model$scores)
   d <- cbind_wraps(data, d)
-  post.fortify(d)
+  post_fortify(d)
 }
 
 #' Autoplot PCA-likes
@@ -215,6 +225,7 @@ fortify.factanal <- function(model, data = NULL,
 #' @param frame.colour Colour for frame
 #' @param frame.level Passed for \code{ggplot2::stat_ellipse} 's level. Ignored in 'convex'.
 #' @param frame.alpha Alpha for frame
+#' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal
@@ -258,7 +269,10 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
                                 loadings.label.hjust = NULL, loadings.label.vjust = NULL,
                                 frame = FALSE, frame.type = 'convex',
                                 frame.colour = colour, frame.level = 0.95,
-                                frame.alpha = 0.2, ...) {
+                                frame.alpha = 0.2,
+                                xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                                main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+                                ...) {
 
   if (!is.null(original)) {
     deprecate.warning('original', 'data')
@@ -357,6 +371,8 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
 
     }
   }
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }
 
