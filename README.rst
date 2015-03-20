@@ -77,3 +77,13 @@ Examples
 * `Plotting Multidimensional Scaling using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_mds>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_
 * `Plotting Probability Distributions with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_dist>`_
+
+ggplot2 Families
+----------------
+
+There are some useful plotting packages using ggplot2. ``ggfortify`` will not focus on area already covered by these packages. 
+
+* `GGally <http://cran.r-project.org/web/packages/GGally/index.html>`_
+* `ggdendro <http://cran.r-project.org/web/packages/ggdendro/index.html>`_
+* `ggRandomForests <http://cran.r-project.org/web/packages/ggRandomForests/>`_
+* `ggmcmc <http://cran.r-project.org/web/packages/ggmcmc/index.html>`_
