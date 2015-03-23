@@ -21,10 +21,10 @@ data.frame
 Convert \code{survival::survfit} to \code{data.frame}
 }
 \examples{
-d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
-fortify(d.survfit)
-
-d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-fortify(survival::survfit(d.coxph))
+library(survival)
+fortify(survfit(Surv(time, status) ~ sex, data = lung))
+fortify(survfit(Surv(time, status) ~ 1, data = lung))
+fortify(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
+fortify(survfit(coxph(Surv(time, status) ~ 1, data = lung)))
 }
 
