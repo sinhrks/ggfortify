@@ -26,20 +26,22 @@ install_github('sinhrks/ggfortify')
 ```{r, message = FALSE}
 library(ggfortify)
 library(survival)
-d.survfit <- survfit(Surv(time, status) ~ sex, data = lung)
-autoplot(d.survfit)
+fit <- survfit(Surv(time, status) ~ sex, data = lung)
+autoplot(fit)
 ```
 
 There are some options to change survival curve output. Use `help(autoplot.survfit)` (or `help(autoplot.*)` for any other objects) to check available options.
 
 ```{r, message = FALSE}
-autoplot(d.survfit, surv.linetype = 'dashed', conf.int = FALSE,
+autoplot(fit, surv.linetype = 'dashed', conf.int = FALSE,
          censor.shape = '*', censor.size = 5)
 ```
 
 In case the target only has single survival curve, you can specify some options to colorize the curve.  Use `help(autoplot.survfit)` (or `help(autoplot.*)` for any other objects) to check available options.
 
 ```{r, message = FALSE}
+autoplot(survfit(Surv(time, status) ~ 1, data = lung), surv.colour = 'orange', censor.colour = 'red')
+
 d.coxph <- survfit(coxph(Surv(time, status) ~ sex, data = lung))
 autoplot(d.coxph, surv.linetype = 'dashed', surv.colour = 'blue',
          conf.int.fill = 'dodgerblue3', conf.int.alpha = 0.5, censor = FALSE)

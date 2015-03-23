@@ -10,9 +10,9 @@
   surv.fill = NULL, surv.shape = NULL, conf.int = TRUE,
   conf.int.colour = "#0000FF", conf.int.linetype = "none",
   conf.int.fill = "#000000", conf.int.alpha = 0.3, censor = TRUE,
-  censor.shape = "+", censor.size = 3, xlim = c(NA, NA), ylim = c(NA,
-  NA), log = "", main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
-  ...)
+  censor.colour = NULL, censor.size = 3, censor.alpha = NULL,
+  censor.shape = "+", xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}
@@ -43,9 +43,13 @@
 
 \item{censor}{Logical flag indicating whether to plot censors}
 
-\item{censor.shape}{Shape for censors}
+\item{censor.colour}{colour for censors}
 
-\item{censor.size}{Size for censors}
+\item{censor.size}{size for censors}
+
+\item{censor.alpha}{alpha for censors}
+
+\item{censor.shape}{shape for censors}
 
 \item{xlim}{limits for x axis}
 
@@ -70,11 +74,10 @@ ggplot
 Autoplot \code{survival::survfit}
 }
 \examples{
-d.survfit <- survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung)
-autoplot(d.survfit)
-autoplot(d.survfit, conf.int = FALSE, censor = FALSE)
-
-d.coxph <- survival::coxph(survival::Surv(time, status) ~ sex, data = survival::lung)
-autoplot(survival::survfit(d.coxph))
+library(survival)
+autoplot(survfit(Surv(time, status) ~ sex, data = lung))
+autoplot(survfit(Surv(time, status) ~ 1, data = lung))
+autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
+autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 }
 
