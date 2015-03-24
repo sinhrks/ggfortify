@@ -13,10 +13,8 @@ geom_confint <- function (mapping = NULL, data = NULL, stat = "identity",
 
 GeomConfint <- proto(ggplot2:::GeomRibbon, {
   # mostly derived from ggplot2
-  # - geom-path-step.r
-  # - geom-ribbon.r
-  # Authors: Hadley Wickham, Winston Chang
   # License: GPL-2
+  # https://github.com/hadley/ggplot2/blob/master/DESCRIPTION
   objname <- "confint"
   required_aes <- c("x", "ymin", "ymax")
 
