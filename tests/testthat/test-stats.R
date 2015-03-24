@@ -255,3 +255,26 @@ test_that('autoplot.acf works', {
   p <- autoplot(stats::ccf(AirPassengers, AirPassengers, plot = FALSE))
   expect_true(is(p, 'ggplot'))
 })
+
+test_that('autoplot.stepfun works', {
+  fortified <- fortify(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))
+  expected <- data.frame(x = c(0, 1, 1, 2, 2, 3, 3, 4),
+                         y = c(4, 4, 5, 5, 6, 6, 7, 7))
+  expect_equal(fortified, expected)
+
+  fortified <- fortify(stepfun(c(1), c(4, 5)))
+  expected <- data.frame(x = c(0.9375, 1.0000, 1.0000, 1.0625),
+                         y = c(4, 4, 5, 5))
+  expect_equal(fortified, expected)
+
+  fortified <- fortify(stepfun(c(1, 3, 4, 8), c(4, 5, 2, 3, 5)))
+  expected <- data.frame(x = c(-1, 1, 1, 3, 3, 4, 4, 8, 8, 10),
+                         y = c(4, 4, 5, 5, 2, 2, 3, 3, 5, 5))
+  expect_equal(fortified, expected)
+
+  fortified <- fortify(stepfun(c(1, 2, 3, 4, 5, 6, 7, 8, 10),
+                               c(4, 5, 6, 7, 8, 9, 10, 11, 12, 9)))
+  expected <- data.frame(x = c(0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11),
+                         y = c(4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 9, 9))
+  expect_equal(fortified, expected)
+})

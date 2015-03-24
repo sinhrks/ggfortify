@@ -44,6 +44,7 @@ This covers following classes:
 - ``stats::prcomp``
 - ``stats::princomp``
 - ``stats::spec``
+- ``stats::stepfun``
 - ``stats::stl``
 - ``stats::ts``
 - ``survival::survfit``
@@ -81,7 +82,7 @@ Examples
 ggplot2 Families
 ----------------
 
-There are some useful plotting packages using ggplot2. ``ggfortify`` will not focus on area already covered by these packages. 
+There are some useful plotting packages using ggplot2. ``ggfortify`` will not focus on area already covered by these packages.
 
 * `GGally <http://cran.r-project.org/web/packages/GGally/index.html>`_
 * `ggdendro <http://cran.r-project.org/web/packages/ggdendro/index.html>`_

@@ -401,3 +401,81 @@ fortify.dist <- function(model, data = NULL, ...) {
 
 #' @export
 autoplot.dist <- autoplot.matrix
+
+
+#' Convert \code{stats::stepfun} to \code{data.frame}
+#'
+#' @param model \code{stats::stepfun} instance
+#' @inheritParams fortify_base
+#' @return data.frame
+#' @examples
+#' fortify(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))
+#' fortify(stepfun(c(1), c(4, 5)))
+#' fortify(stepfun(c(1, 3, 4, 8), c(4, 5, 2, 3, 5)))
+#' fortify(stepfun(c(1, 2, 3, 4, 5, 6, 7, 8, 10), c(4, 5, 6, 7, 8, 9, 10, 11, 12, 9)))
+#' @export
+fortify.stepfun <- function(model, data, ...) {
+  x <- knots(model)
+  lim <- range(x)
+  if (length(x) > 1L) {
+    dr <- max(0.08 * diff(lim), median(diff(x)))
+  } else {
+    dr <- abs(x) / 16
+  }
+  lim <- lim + dr * c(-1, 1)
+  x <- c(lim[1], rep(x, each = 2), lim[2])
+  y <- eval(expression(c(yleft, y)), envir = environment(model))
+  y <- rep(y, each = 2)
+  d <- data.frame(x = x, y = y)
+  post_fortify(d)
+}
+
+#' Plot \code{stats::stepfun}
+#'
+#' @param object \code{stats::stepfun} instance
+#' @param colour colour
+#' @param size point size
+#' @param linetype line type
+#' @param alpha alpha
+#' @param shape point shape
+#' @inheritParams post_autoplot
+#' @param ... other arguments passed to methods
+#' @return ggplot
+#' @examples
+#' autoplot(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))
+#' autoplot(stepfun(c(1), c(4, 5)), shape = NULL)
+#' autoplot(stepfun(c(1, 3, 4, 8), c(4, 5, 2, 3, 5)), linetype = 'dashed')
+#' autoplot(stepfun(c(1, 2, 3, 4, 5, 6, 7, 8, 10), c(4, 5, 6, 7, 8, 9, 10, 11, 12, 9)), colour = 'red')
+#' @export
+autoplot.stepfun <- function(object,
+                             colour = NULL, size = NULL, linetype = NULL,
+                             alpha = NULL, shape = 1,
+                             xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                             main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+                             ...) {
+  # not accept shape kw
+
+  plot.data <- ggplot2::fortify(object)
+
+  mapping <- ggplot2::aes_string(x = 'x', y = 'y')
+  p <- ggplot2::ggplot(plot.data, mapping = mapping) +
+    geom_factory(ggplot2::geom_line, data = plot.data,
+                colour = colour, size = size, linetype = linetype,
+                alpha = alpha, stat = 'identity')
+  if (nrow(plot.data) >= 3 & !is.null(shape)) {
+    # indexer will be logical vector
+    # to skip first value, start with c(FALSE, FALSE)
+    indexer <- c(FALSE, FALSE, 3:nrow(plot.data) %% 2 == 1)
+    point.data <- plot.data[indexer, ]
+    p <- p +
+      geom_factory(ggplot2::geom_point, data = point.data,
+                   colour = colour, size = size,
+                   alpha = alpha, shape = shape)
+  }
+
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
+  p
+}
+
+
