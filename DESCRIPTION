@@ -8,7 +8,7 @@ Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
 Description: It helps plotting classes in some popular R packages using 'ggplot2'. It offers unified plotting functions which output the same looks as standard plot function does.
 License: GPL-2
 VignetteBuilder: knitr
-Depends: methods, grid, scales, ggplot2
+Depends: methods, grid, scales, proto, ggplot2
 Imports:
     dplyr,
     tidyr,

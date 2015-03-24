@@ -1,21 +1,22 @@
 #' Attach confidence interval to \code{ggplot2::ggplot}
 #'
 #' @param p \code{ggplot2::ggplot} instance
-#' @param data Data contains lower and upper confidence intervals
-#' @param lower Column name for lower confidence interval
-#' @param upper Column name for upper confidence interval
+#' @param data data contains lower and upper confidence intervals
+#' @param lower column name for lower confidence interval
+#' @param upper column name for upper confidence interval
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
-#' @param conf.int.colour Line colour for confidence intervals
-#' @param conf.int.linetype Line type for confidence intervals
-#' @param conf.int.fill Fill colour for confidence intervals
-#' @param conf.int.alpha Alpha for confidence intervals
+#' @param conf.int.geom geometric string for confidence interval. 'line' or 'step'
+#' @param conf.int.colour line colour for confidence intervals
+#' @param conf.int.linetype line type for confidence intervals
+#' @param conf.int.fill fill colour for confidence intervals
+#' @param conf.int.alpha alpha for confidence intervals
 #' @return ggplot
 #' @examples
 #' d <- fortify(stats::acf(AirPassengers, plot = FALSE))
 #' p <- ggplot(data = d, mapping = aes(x = Lag))
 #' ggfortify:::plot_confint(p, data = d)
 plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
-                          conf.int = TRUE,
+                          conf.int = TRUE, conf.int.geom = 'line',
                           conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                           conf.int.fill = '#000000', conf.int.alpha = 0.3) {
 
@@ -31,16 +32,24 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
     stop("Internal Error: 'data' must be provided to plot_confint")
   }
 
+  if (conf.int.geom == 'step') {
+    ribbon_func <- geom_confint
+    line_func <- geom_step
+  } else {
+    ribbon_func <- geom_ribbon
+    line_func <- geom_line
+  }
+
   if (conf.int) {
     if (!is.null(conf.int.fill)) {
-      p<- p + geom_factory(geom_ribbon, data, ymin = lower, ymax = upper,
+      p<- p + geom_factory(ribbon_func, data, ymin = lower, ymax = upper,
                            fill = conf.int.fill, alpha = conf.int.alpha, na.rm = TRUE)
     }
     if (conf.int.linetype != 'none') {
-      p <- p + geom_factory(geom_line, data, y = lower,
+      p <- p + geom_factory(line_func, data, y = lower,
                             colour = conf.int.colour, linetype = conf.int.linetype,
                             na.rm = TRUE)
-      p <- p + geom_factory(geom_line, data, y = upper,
+      p <- p + geom_factory(line_func, data, y = upper,
                      colour = conf.int.colour, linetype = conf.int.linetype,
                      na.rm = TRUE)
     }
@@ -111,6 +120,8 @@ get_geom_function <- function(geom, allowed = c('line', 'bar', 'point')) {
     return(ggplot2::geom_bar)
   } else if (geom == 'point' && 'point' %in% allowed) {
     return(ggplot2::geom_point)
+  } else if (geom == 'step' && 'step' %in% allowed) {
+    return(ggplot2::geom_step)
   }
   stop(paste("Invalid geom is specified. Use", allowed))
 }

@@ -5,28 +5,30 @@
 \title{Attach confidence interval to \code{ggplot2::ggplot}}
 \usage{
 plot_confint(p, data = NULL, lower = "lower", upper = "upper",
-  conf.int = TRUE, conf.int.colour = "#0000FF",
+  conf.int = TRUE, conf.int.geom = "line", conf.int.colour = "#0000FF",
   conf.int.linetype = "none", conf.int.fill = "#000000",
   conf.int.alpha = 0.3)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instance}
 
-\item{data}{Data contains lower and upper confidence intervals}
+\item{data}{data contains lower and upper confidence intervals}
 
-\item{lower}{Column name for lower confidence interval}
+\item{lower}{column name for lower confidence interval}
 
-\item{upper}{Column name for upper confidence interval}
+\item{upper}{column name for upper confidence interval}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
-\item{conf.int.colour}{Line colour for confidence intervals}
+\item{conf.int.geom}{geometric string for confidence interval. 'line' or 'step'}
 
-\item{conf.int.linetype}{Line type for confidence intervals}
+\item{conf.int.colour}{line colour for confidence intervals}
 
-\item{conf.int.fill}{Fill colour for confidence intervals}
+\item{conf.int.linetype}{line type for confidence intervals}
 
-\item{conf.int.alpha}{Alpha for confidence intervals}
+\item{conf.int.fill}{fill colour for confidence intervals}
+
+\item{conf.int.alpha}{alpha for confidence intervals}
 }
 \value{
 ggplot

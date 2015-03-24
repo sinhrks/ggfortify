@@ -5,12 +5,14 @@
 \alias{fortify.survfit.cox}
 \title{Convert \code{survival::survfit} to \code{data.frame}}
 \usage{
-\method{fortify}{survfit}(model, data = NULL, ...)
+\method{fortify}{survfit}(model, data = NULL, surv.connect = FALSE, ...)
 }
 \arguments{
 \item{model}{\code{survival::survfit} instance}
 
 \item{data}{original dataset, if needed}
+
+\item{surv.connect}{logical frag indicates whether connects survival curve to the origin}
 
 \item{...}{other arguments passed to methods}
 }
