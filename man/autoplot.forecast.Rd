@@ -35,13 +35,13 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
-\item{conf.int.colour}{Line colour for confidence intervals}
+\item{conf.int.colour}{line colour for confidence intervals}
 
-\item{conf.int.linetype}{Line type for confidence intervals}
+\item{conf.int.linetype}{line type for confidence intervals}
 
-\item{conf.int.fill}{Fill colour for confidence intervals}
+\item{conf.int.fill}{fill colour for confidence intervals}
 
-\item{conf.int.alpha}{Alpha for confidence intervals}
+\item{conf.int.alpha}{alpha for confidence intervals}
 
 \item{...}{other arguments passed to \code{autoplot.ts}}
 }

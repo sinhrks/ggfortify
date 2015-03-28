@@ -5,14 +5,15 @@
 \alias{autoplot.survfit.cox}
 \title{Autoplot \code{survival::survfit}}
 \usage{
-\method{autoplot}{survfit}(object, surv.geom = "line", surv.colour = NULL,
+\method{autoplot}{survfit}(object, surv.geom = "step", surv.colour = NULL,
   surv.size = NULL, surv.linetype = NULL, surv.alpha = NULL,
-  surv.fill = NULL, surv.shape = NULL, conf.int = TRUE,
-  conf.int.colour = "#0000FF", conf.int.linetype = "none",
-  conf.int.fill = "#000000", conf.int.alpha = 0.3, censor = TRUE,
-  censor.colour = NULL, censor.size = 3, censor.alpha = NULL,
-  censor.shape = "+", xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
+  surv.fill = NULL, surv.shape = NULL, surv.connect = TRUE,
+  conf.int = TRUE, conf.int.colour = "#0000FF",
+  conf.int.linetype = "none", conf.int.fill = "#000000",
+  conf.int.alpha = 0.3, censor = TRUE, censor.colour = NULL,
+  censor.size = 3, censor.alpha = NULL, censor.shape = "+", xlim = c(NA,
+  NA), ylim = c(NA, NA), log = "", main = NULL, xlab = NULL,
+  ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}
@@ -31,15 +32,17 @@
 
 \item{surv.shape}{point shape survival curve}
 
+\item{surv.connect}{logical frag indicates whether connects survival curve to the origin}
+
 \item{conf.int}{Logical flag indicating whether to plot confidence intervals}
 
-\item{conf.int.colour}{Line colour for confidence intervals}
+\item{conf.int.colour}{line colour for confidence intervals}
 
-\item{conf.int.linetype}{Line type for confidence intervals}
+\item{conf.int.linetype}{line type for confidence intervals}
 
-\item{conf.int.fill}{Fill colour for confidence intervals}
+\item{conf.int.fill}{fill colour for confidence intervals}
 
-\item{conf.int.alpha}{Alpha for confidence intervals}
+\item{conf.int.alpha}{alpha for confidence intervals}
 
 \item{censor}{Logical flag indicating whether to plot censors}
 

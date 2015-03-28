@@ -3,3 +3,4 @@
 .RData
 *.png
 *.html
+.httr-oauth
