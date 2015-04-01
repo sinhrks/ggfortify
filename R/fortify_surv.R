@@ -95,19 +95,39 @@ autoplot.survfit <- function(object,
                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
 
-  plot.data <- fortify(object, surv.connect = surv.connect)
+  if (is.data.frame(object)) {
+    # for autoplot.aareg
+    plot.data <- object
+    mapping <- aes_string(x = 'time', y = 'value')
+    facets_formula <- ~ variable
+    if (is.null(surv.colour)) {
+      surv.colour <- 'variable'
+    }
+    # use default
+    scale_labels <- ggplot2::waiver()
 
-  if (is.null(surv.colour) & ('strata' %in% colnames(plot.data))) {
-      surv.colour <- 'strata'
+  } else {
+    plot.data <- fortify(object, surv.connect = surv.connect)
+    mapping <- aes_string(x = 'time', y = 'surv')
+    if ('strata' %in% colnames(plot.data)) {
+      facets_formula <- ~ strata
+      if (is.null(surv.colour)) {
+        surv.colour <- 'strata'
+      }
+    } else {
+      facets_formula <- NULL
+    }
+    scale_labels <- scales::percent
   }
+
   if (missing(conf.int.fill) & !is.null(surv.colour)) {
     conf.int.fill <- surv.colour
   }
 
   geomfunc <- get_geom_function(surv.geom, allowed = c('step', 'line', 'point'))
 
-  p <- ggplot(data = plot.data, mapping = aes_string(x = 'time', y = 'surv')) +
-    scale_y_continuous(labels = scales::percent)
+  p <- ggplot(data = plot.data, mapping = mapping) +
+    scale_y_continuous(labels = scale_labels)
   p <- p + geom_factory(geomfunc, plot.data,
                         colour = surv.colour, size = surv.size, linetype = surv.linetype,
                         alpha = surv.alpha, fill = surv.fill, shape = surv.shape)
@@ -121,18 +141,88 @@ autoplot.survfit <- function(object,
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
                     conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
-  if (censor) {
+  if (censor & 'n.censor' %in% colnames(plot.data)) {
     p <- p + geom_factory(geom_point, plot.data[plot.data$n.censor > 0, ],
                           colour = censor.colour, size = censor.size,
                           alpha = censor.alpha, shape = censor.shape)
   }
   if (facets) {
-    if ('strata' %in% colnames(plot.data)) {
-      p <- apply_facets(p, ~ strata, nrow = nrow, ncol = ncol, scales = scales)
-    }
-
+    p <- apply_facets(p, facets_formula, nrow = nrow, ncol = ncol, scales = scales)
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
+}
+
+#' Convert \code{survival::aareg} to \code{data.frame}
+#'
+#' @param model \code{survival::aareg} instance
+#' @param maxtime
+#' @inheritParams fortify.survfit
+#' @return data.frame
+#' @examples
+#' library(survival)
+#' fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
+#' fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1), melt = TRUE)
+#' @export
+fortify.aareg <- function(x, maxtime, surv.connect = TRUE, melt = FALSE) {
+
+  if (missing(maxtime)) {
+    keep <- 1:length(x$time)
+  } else {
+    keep <- 1:sum(x$time <= maxtime)
+  }
+
+  if (is.matrix(x$coefficient) && ncol(x$coefficient) > 1) {
+    coefs <- x$coefficient[keep, ]
+  } else {
+    coefs <- x$coefficient[keep]
+  }
+  rownames(coefs) <- NULL
+  coefs <- as.data.frame(coefs)
+  cols <- colnames(coefs)
+
+  if (melt) {
+    d <- cbind(data.frame(time = x$time[keep]), coefs)
+    if (surv.connect) {
+      d <- rbind(0, d)
+    }
+    d <- tidyr::gather_(d, 'variable', 'coef', cols)
+    d <- d %>%
+      dplyr::group_by_('variable') %>%
+      dplyr::mutate(se = sqrt(cumsum(coef^2)),
+                    value = cumsum(coef),
+                    upper = value + se * 1.96,
+                    lower = value - se * 1.96)
+  } else {
+    d <- cbind_wraps(data.frame(time = x$time[keep]),
+                     apply(coefs, 2, cumsum))
+    indexer <- 1 + length(d$time) - rev(match(unique(rev(d$time)), rev(d$time)))
+    d <- d[indexer, ]
+    if (surv.connect) {
+      d <- rbind(0, d)
+    }
+  }
+  post_fortify(d)
+}
+
+#' Autoplot \code{survival::aareg}
+#'
+#' @param object \code{survival::aareg} instance
+#' @param maxtime
+#' @inheritParams autoplot.survfit
+#' @param ... other arguments passed to \code{autoplot.survfit}
+#' @return ggplot
+#' @examples
+#' library(survival)
+#' autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
+#' @export
+autoplot.aareg <- function (object, maxtime, surv.connect = TRUE,
+                            facets = TRUE, ncol = NULL,
+                            xlab = '', ylab = '',...) {
+
+  plot.data <- fortify(object, maxtime = maxtime,
+                       surv.connect = surv.connect, melt = TRUE)
+  autoplot.survfit(plot.data, facets = facets, ncol = ncol,
+                   xlab = '', ylab = '', ...)
 }
