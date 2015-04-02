@@ -5,6 +5,7 @@
 #' @param stat the statistical transformation to use on the data for this layer
 #' @param position the position adjustment to use for overlapping points on this layer
 #' @param na.rm logical frag whether silently remove missing values
+#' @param ... other arguments passed to methods
 geom_confint <- function (mapping = NULL, data = NULL, stat = "identity",
                           position = "identity", na.rm = FALSE, ...) {
   GeomConfint$new(mapping = mapping, data = data, stat = stat,

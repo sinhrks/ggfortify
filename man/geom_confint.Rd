@@ -17,6 +17,8 @@ geom_confint(mapping = NULL, data = NULL, stat = "identity",
 \item{position}{the position adjustment to use for overlapping points on this layer}
 
 \item{na.rm}{logical frag whether silently remove missing values}
+
+\item{...}{other arguments passed to methods}
 }
 \description{
 Connect observations by stairs.

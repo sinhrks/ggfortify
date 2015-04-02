@@ -13,10 +13,7 @@
 #' @examples
 #' fortify(AirPassengers)
 #' fortify(timeSeries::as.timeSeries(AirPassengers))
-#'
-#' its <- tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2))
-#' fortify(its)
-#'
+#' fortify(tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2)))
 #' fortify(stats::stl(UKgas, s.window = 'periodic'))
 #' fortify(stats::decompose(UKgas))
 #' @export
@@ -105,11 +102,7 @@ fortify.irts <- fortify.ts
 #' @param index.name Specify column name for time series index when passing \code{data.frame} via data.
 #' @param p \code{ggplot2::ggplot} instance
 #' @param ts.scale Logical flag indicating whether to perform scaling each timeseries
-#' @param scales Scale value passed to \code{ggplot2}
-#' @param facets Logical value to specify use facets for multivariate time-series
-#' @param facet (Deprecated) use facets
-#' @param nrow Number of facet/subplot rows
-#' @param ncol Number of facet/subplot columns
+#' @inheritParams apply_facets
 #' @param ts.geom geometric string for time-series. 'line', 'bar' or 'point'
 #' @param ts.colour line colour for time-series
 #' @param ts.size point size for time-series
@@ -146,10 +139,8 @@ fortify.irts <- fortify.ts
 #' @export
 autoplot.ts <- function(object, columns = NULL, group = NULL,
                         is.date = NULL, index.name = 'Index',
-                        p = NULL,
-                        ts.scale = FALSE, scales = 'free_y',
-                        facet = TRUE, facets = facet,
-                        nrow = NULL, ncol = 1,
+                        p = NULL, ts.scale = FALSE,
+                        facets = TRUE, nrow = NULL, ncol = 1, scales = 'free_y',
                         ts.geom = 'line', ts.colour = NULL, ts.size = NULL, ts.linetype = NULL,
                         ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
                         geom = ts.geom, colour = ts.colour, size = ts.size, linetype = ts.linetype,
@@ -157,13 +148,6 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                         xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                         main = NULL, xlab = '', ylab = '', asp = NULL,
                         ...) {
-
-  # deprecation
-  if (! missing(facet)) {
-    deprecate.warning('facet', 'facets')
-    facets <- facet
-  }
-
   # fortify data
   if (is.data.frame(object)) {
     plot.data <- object
@@ -212,8 +196,7 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                           alpha = alpha, fill = fill, shape = shape,
                           stat = 'identity')
     if (!.is.univariate) {
-      p <- p + ggplot2::facet_wrap(~ variable, scales = scales,
-                                   nrow = nrow, ncol = ncol)
+       p <- apply_facets(p, ~ variable, nrow = nrow, ncol = ncol, scales = scales)
     }
   } else {
     # ts.colour cannot be used

@@ -34,7 +34,7 @@ There are some options to change survival curve output. Use `help(autoplot.survf
 
 ```{r, message = FALSE}
 autoplot(fit, surv.linetype = 'dashed', conf.int = FALSE,
-         censor.shape = '*', censor.size = 5)
+         censor.shape = '*', censor.size = 5, facets = TRUE, ncol = 2)
 
 autoplot(survfit(Surv(time, status) ~ 1, data = lung), surv.colour = 'orange', censor.colour = 'red')
 

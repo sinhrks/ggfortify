@@ -105,6 +105,25 @@ plot_label <- function(p, data, label = TRUE, label.label = 'rownames',
   p
 }
 
+
+#' Apply facets to to \code{ggplot2::ggplot}
+#'
+#' @param p \code{ggplot2::ggplot} instance
+#' @param formula \code{stats::formula} instance
+#' @param facets Logical value to specify use facets
+#' @param nrow Number of facet/subplot rows
+#' @param ncol Number of facet/subplot columns
+#' @param scales Scale value passed to \code{ggplot2}
+#' @param ... other arguments passed to methods
+#' @return ggplot
+apply_facets <- function(p, formula, facets = TRUE, nrow = NULL, ncol = 1,
+                         scales = 'free_y', ...) {
+  p <- p + ggplot2::facet_wrap(formula, scales = scales,
+                               nrow = nrow, ncol = ncol)
+  return(p)
+}
+
+
 #' Factory function to control \code{ggplot2::geom_xxx} functions
 #'
 #' @param geom string representation of \code{ggplot2::geom_xxx} function
