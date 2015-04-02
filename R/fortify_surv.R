@@ -67,6 +67,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE, ...) {
 #' @param censor.size size for censors
 #' @param censor.alpha alpha for censors
 #' @param censor.shape shape for censors
+#' @inheritParams apply_facets
 #' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
@@ -74,6 +75,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE, ...) {
 #' @examples
 #' library(survival)
 #' autoplot(survfit(Surv(time, status) ~ sex, data = lung))
+#' autoplot(survfit(Surv(time, status) ~ sex, data = lung), facets = TRUE)
 #' autoplot(survfit(Surv(time, status) ~ 1, data = lung))
 #' autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
 #' autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
@@ -88,6 +90,7 @@ autoplot.survfit <- function(object,
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              censor = TRUE, censor.colour = NULL, censor.size = 3,
                              censor.alpha = NULL, censor.shape = '+',
+                             facets = FALSE, nrow = NULL, ncol = 1, scales = 'free_y',
                              xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
@@ -122,6 +125,12 @@ autoplot.survfit <- function(object,
     p <- p + geom_factory(geom_point, plot.data[plot.data$n.censor > 0, ],
                           colour = censor.colour, size = censor.size,
                           alpha = censor.alpha, shape = censor.shape)
+  }
+  if (facets) {
+    if ('strata' %in% colnames(plot.data)) {
+      p <- apply_facets(p, ~ strata, nrow = nrow, ncol = ncol, scales = scales)
+    }
+
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)

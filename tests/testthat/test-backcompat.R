@@ -1,12 +1,4 @@
 context('backward compatibility for deprecated keywords')
-
-test_that('deprecated in v0.0.1:: ts.facet', {
-  data(Canada, package = 'vars')
-  expect_warning(p1 <- ggplot2::autoplot(Canada, facet = FALSE))
-  p2 <- ggplot2::autoplot(Canada, facets = FALSE)
-  expect_equal(p1, p2)
-})
-
 test_that('deprecated in v0.0.2:: tsmodel.original', {
   library(forecast)
   library(ggfortify)
