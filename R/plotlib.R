@@ -118,8 +118,10 @@ plot_label <- function(p, data, label = TRUE, label.label = 'rownames',
 #' @return ggplot
 apply_facets <- function(p, formula, facets = TRUE, nrow = NULL, ncol = 1,
                          scales = 'free_y', ...) {
-  p <- p + ggplot2::facet_wrap(formula, scales = scales,
-                               nrow = nrow, ncol = ncol)
+  if (!is.null(formula)) {
+    p <- p + ggplot2::facet_wrap(formula, scales = scales,
+                                 nrow = nrow, ncol = ncol)
+  }
   return(p)
 }
 

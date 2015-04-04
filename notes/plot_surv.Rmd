@@ -43,6 +43,12 @@ autoplot(d.coxph, surv.linetype = 'dashed', surv.colour = 'blue',
          conf.int.fill = 'dodgerblue3', conf.int.alpha = 0.5, censor = FALSE)
 ```
 
+Also, you can use ``autoplot`` for ``survival::aareg`` instance.
+
+```{r, fig.width = 8, fig.height = 4}
+autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung))
+```
+
 # Resources related to ggfortify
 
 * [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)

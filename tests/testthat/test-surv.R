@@ -108,3 +108,38 @@ test_that('fortify.survfit.cox works for lung', {
                       'std.err', 'upper', 'lower', 'cumhaz')
   expect_equal(names(fortified), expected_names)
 })
+
+test_that('fortify.aareg works for lung', {
+  fit <- aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1)
+  fortified <- fortify(fit)
+  expected <- apply(fit$coefficient, 2, cumsum)
+  rownames(expected) <- NULL
+  expected <- as.data.frame(expected)
+
+  # compare cumulated last row
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(dim(fortified), c(139, 5))
+  expect_equal(colnames(fortified), c("time", "Intercept", "age", "sex", "ph.ecog"))
+  expect_equal(as.numeric(fortified[-1][nrow(fortified), ]),
+               as.numeric(as.data.frame(expected)[nrow(expected), ]))
+  expect_equal(as.numeric(fortified$time), c(0, unique(fit$time)))
+
+  fortified <- fortify(fit, surv.connect = FALSE)
+  # compare cumulated last row
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(dim(fortified), c(138, 5))
+  expect_equal(colnames(fortified), c("time", "Intercept", "age", "sex", "ph.ecog"))
+  expect_equal(as.numeric(fortified[nrow(fortified), ][-1]),
+               as.numeric(as.data.frame(expected)[nrow(expected), ]))
+  expect_equal(as.numeric(fortified$time), unique(fit$time))
+
+  fortified <- fortify(fit, melt = TRUE)
+  # compare cumulated last row
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(dim(fortified), c(660, 7))
+  expect_equal(colnames(fortified), c("time", "variable", "coef", "se", "value", "upper", "lower"))
+  expect_equal(fortified$upper - fortified$value, fortified$se * 1.96)
+  expect_equal(fortified$value - fortified$lower, fortified$se * 1.96)
+  expect_equal(as.numeric(fortified[nrow(fortified), ][c(-1, -2)]),
+               c(-4.50000000000, 4.5453070233, -3.2842219995, 5.624579766, -12.193023765192))
+})
