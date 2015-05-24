@@ -312,6 +312,9 @@ fortify.tsmodel <- function(model, data = NULL, original = NULL,
   } else if (is(model, 'dlmFiltered')) {
     d <- ggplot2::fortify(model$y, is.date = is.date)
     m <- dlm::dropFirst(model$m)
+    if (!is.univariate(m, raise = FALSE)) {
+      m <- m[, 1]
+    }
     fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
     resid <- ggplot2::fortify(model$y - m, data.name = 'Residuals', is.date = is.date)
   } else if (is(model, 'KFS')) {
