@@ -24,11 +24,11 @@ test_that('get.dtindex works for Nile', {
   result <- ggfortify:::get.dtindex(Nile)
   expect_equal(result[1], 1871)
   expect_equal(result[length(result)], 1970)
-  
+
   result <- ggfortify:::get.dtindex(Nile, is.date = FALSE)
   expect_equal(result[1], 1871)
   expect_equal(result[length(result)], 1970)
-  
+
   result <- ggfortify:::get.dtindex(Nile, is.date = TRUE)
   expect_equal(result[1], as.Date('1871-01-01'))
   expect_equal(result[length(result)], as.Date('1970-01-01'))
@@ -49,7 +49,7 @@ test_that('get.dtindex.continuous works for UKgas', {
 test_that('confint.acf works for AirPassengers', {
   result <- ggfortify:::confint.acf(stats::acf(AirPassengers, plot = FALSE))
   expect_equal(result, 0.1633303, tolerance = .000001)
-  
+
   result <- ggfortify:::confint.acf(stats::acf(AirPassengers, plot = FALSE), ci.type = 'ma')
   expected <- c(NA, 0.1633303, 0.2731862, 0.3399018, 0.3876238, 0.4248224, 0.4556929,
                 0.4821335, 0.5058641, 0.5280447, 0.5503176, 0.5737563, 0.5988899,
@@ -57,14 +57,14 @@ test_that('confint.acf works for AirPassengers', {
                 0.7054849, 0.7130967, 0.7203560)
   expect_equal(result, expected, tolerance = .000001)
 })
-       
+
 test_that('fitted/residuals works for Arima/ar', {
   m <- stats::ar(UKgas)
   resid <- residuals(m)
   testthat::expect_false(is.null(resid))
   fit <- fitted(m)
   testthat::expect_false(is.null(fitted))
-  
+
   original <- as.vector(UKgas)[7:length(UKgas)]
   calcurated <- as.vector(fit + resid)[7:length(UKgas)]
   testthat::expect_equal(original, calcurated)
@@ -74,8 +74,13 @@ test_that('fitted/residuals works for Arima/ar', {
   testthat::expect_false(is.null(resid))
   fit <- fitted(m)
   testthat::expect_false(is.null(fitted))
-  
+
   original <- as.vector(UKgas)[7:length(UKgas)]
   calcurated <- as.vector(fit + resid)[7:length(UKgas)]
   testthat::expect_equal(original, calcurated)
+})
+
+test_that('ggfreqplot', {
+  p <- ggfreqplot(AirPassengers)
+  p <- ggfreqplot(AirPassengers, facet.labeller = c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2))
 })

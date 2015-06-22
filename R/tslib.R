@@ -361,6 +361,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
 #' @param ncol Number of plot columns
 #' @inheritParams plot_confint
 #' @param conf.int.value Coverage probability for confidence interval
+#' @param facet.labeller A vector used as facet labels
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
 #' @examples
@@ -373,7 +374,7 @@ ggfreqplot <- function(data, freq = NULL,
                        conf.int = FALSE,
                        conf.int.colour = '#0000FF', conf.int.linetype = 'dashed',
                        conf.int.fill = NULL, conf.int.alpha = 0.3,
-                       conf.int.value = 0.95,
+                       conf.int.value = 0.95, facet.labeller = NULL,
                        ...) {
   is.univariate(data)
 
@@ -386,7 +387,14 @@ ggfreqplot <- function(data, freq = NULL,
   }
 
   d <- ggplot2::fortify(data)
-  freqd <- data.frame(Frequency = rep(1:freq, length.out = length(data)))
+  if (is.null(facet.labeller)) {
+    freqs <- 1:freq
+  } else if (length(facet.labeller)  == freq) {
+    freqs <- factor(facet.labeller, levels = facet.labeller)
+  } else {
+    stop('facet.labeller must be a vector which has the same length as freq')
+  }
+  freqd <- data.frame(Frequency = rep(freqs, length.out = length(data)))
   d <- cbind(d, freqd)
 
   summarised <- dplyr::group_by_(d, 'Frequency') %>%
