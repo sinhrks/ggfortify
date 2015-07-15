@@ -10,7 +10,7 @@ License: GPL-2
 VignetteBuilder: knitr
 Depends: methods, grid, scales, proto, ggplot2
 Imports:
-    dplyr,
+    dplyr (>= 0.3),
     tidyr,
     gridExtra
 Suggests:
