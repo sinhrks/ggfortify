@@ -30,6 +30,8 @@ ggfreqplot(data, freq = NULL, nrow = NULL, ncol = NULL,
 
 \item{conf.int.value}{Coverage probability for confidence interval}
 
+\item{facet.labeller}{A vector used as facet labels}
+
 \item{...}{Keywords passed to autoplot.ts}
 }
 \value{
