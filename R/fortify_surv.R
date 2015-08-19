@@ -2,6 +2,7 @@
 #'
 #' @param model \code{survival::survfit} instance
 #' @param surv.connect logical frag indicates whether connects survival curve to the origin
+#' @param fun an arbitrary function defining a transformation of the survival curve
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @aliases fortify.survfit.cox
@@ -12,7 +13,8 @@
 #' fortify(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 #' fortify(survfit(coxph(Surv(time, status) ~ 1, data = lung)))
 #' @export
-fortify.survfit <- function(model, data = NULL, surv.connect = FALSE, ...) {
+fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
+                            fun = NULL, ...) {
   d <- data.frame(time = model$time,
                   n.risk = model$n.risk,
                   n.event = model$n.event,
@@ -47,12 +49,32 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE, ...) {
     }
     d <- rbind(base, d)
   }
+
+  if (!is.null(fun)) {
+    if (is.character(fun)) {
+      fun <- switch(fun, log = function(x) x,
+                     event = function(x) 1 - x,
+                     cumhaz = function(x) -log(x),
+                     cloglog = function(x) log(-log(x)),
+                     pct = function(x) x * 100,
+                     logpct = function(x) 100 * x,
+                     identity = function(x) x,
+                     stop("Unrecognized function argument"))
+    }
+    else if (!is.function(fun)) {
+      stop("Invalid 'fun' argument")
+    }
+    d$surv = fun(d$surv)
+    d$upper = fun(d$upper)
+    d$lower = fun(d$lower)
+  }
   post_fortify(d)
 }
 
 #' Autoplot \code{survival::survfit}
 #'
 #' @param object \code{survival::survfit} instance
+#' @param fun an arbitrary function defining a transformation of the survival curve
 #' @param surv.geom geometric string for survival curve. 'line' or 'point'
 #' @param surv.colour line colour for survival curve
 #' @param surv.size point size for survival curve
@@ -80,7 +102,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE, ...) {
 #' autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
 #' autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 #' @export
-autoplot.survfit <- function(object,
+autoplot.survfit <- function(object, fun = NULL,
                              surv.geom = 'step',
                              surv.colour = NULL, surv.size = NULL, surv.linetype = NULL,
                              surv.alpha = NULL, surv.fill = NULL, surv.shape = NULL,
@@ -107,7 +129,7 @@ autoplot.survfit <- function(object,
     scale_labels <- ggplot2::waiver()
 
   } else {
-    plot.data <- fortify(object, surv.connect = surv.connect)
+    plot.data <- fortify(object, surv.connect = surv.connect, fun = fun)
     mapping <- aes_string(x = 'time', y = 'surv')
     if ('strata' %in% colnames(plot.data)) {
       facets_formula <- ~ strata
@@ -117,7 +139,11 @@ autoplot.survfit <- function(object,
     } else {
       facets_formula <- NULL
     }
-    scale_labels <- scales::percent
+    if (is.null(fun) || fun %in% c('identity', 'event')) {
+      scale_labels <- scales::percent
+    } else {
+      scale_labels <- ggplot2::waiver()
+    }
   }
 
   if (missing(conf.int.fill) & !is.null(surv.colour)) {
