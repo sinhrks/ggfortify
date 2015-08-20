@@ -35,7 +35,7 @@ test_that('fortify.cpt works for AirPassengers', {
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
 
   filtered <- dplyr::filter(fortified, !is.na(mean) | !is.na(variance))
-  expect_equal(filtered$Index[1], as.Date('1955-04-01'))
+  expect_equal(filtered$Index[1], as.Date('1955-05-01'))
   expect_equal(filtered$Index[nrow(filtered)], as.Date('1960-12-01'))
 
 })

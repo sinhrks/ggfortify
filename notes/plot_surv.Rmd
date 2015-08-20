@@ -38,6 +38,8 @@ autoplot(fit, surv.linetype = 'dashed', conf.int = FALSE,
 
 autoplot(survfit(Surv(time, status) ~ 1, data = lung), surv.colour = 'orange', censor.colour = 'red')
 
+autoplot(survfit(Surv(time, status) ~ sex, data = lung), fun = 'event')
+
 d.coxph <- survfit(coxph(Surv(time, status) ~ sex, data = lung))
 autoplot(d.coxph, surv.linetype = 'dashed', surv.colour = 'blue',
          conf.int.fill = 'dodgerblue3', conf.int.alpha = 0.5, censor = FALSE)
