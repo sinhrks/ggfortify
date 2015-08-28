@@ -242,18 +242,19 @@ test_that('fortify.dist works for eurodist', {
 })
 
 test_that('fortify.lfda works for iris', {
+  library(lfda)
   k <- iris[,-5]
   y <- iris[,5]
   r <- 3
-  model <- lfda::lfda(k, y, r, metric = "plain")
+  model <- lfda(k, y, r, metric = "plain")
   fortified <- ggplot2::fortify(model)
   expect_equal(is.data.frame(fortified), TRUE)
 
-  model <- lfda::klfda(kmatrixGauss(k), y, r, metric = "plain")
+  model <- klfda(kmatrixGauss(k), y, r, metric = "plain")
   fortified <- ggplot2::fortify(model)
   expect_equal(is.data.frame(fortified), TRUE)
 
-  model <- lfda::self(k, y, beta=0.1, r, metric = "plain")
+  model <- self(k, y, beta=0.1, r, metric = "plain")
   fortified <- ggplot2::fortify(model)
   expect_equal(is.data.frame(fortified), TRUE)
 })
