@@ -241,6 +241,17 @@ test_that('fortify.dist works for eurodist', {
   expect_equal(dim(fortified), c(21, 21))
 })
 
+test_that('fortify.lfda works for iris', {
+  library(lfda)
+  k <- iris[,-5]
+  y <- iris[,5]
+  r <- 3
+  model <- lfda(k,y,r,metric="plain")
+
+  fortified <- ggplot2::fortify(model)
+  expect_equal(is.data.frame(fortified), TRUE)
+})
+
 test_that('autoplot.acf works', {
 
   p <- autoplot(stats::acf(AirPassengers, plot = FALSE))
