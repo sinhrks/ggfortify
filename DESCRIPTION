@@ -31,4 +31,5 @@ Suggests:
     tseries,
     vars,
     xts,
-    zoo
+    zoo,
+    lfda
