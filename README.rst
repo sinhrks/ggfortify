@@ -28,6 +28,9 @@ This covers following classes:
 - ``fracdiff::fracdiff``
 - ``KFAS::KFS``
 - ``KFAS::signal`` (inference)
+- ``lfda::lfda``
+- ``lfda::klfda``
+- ``lfda::self``
 - ``MASS::isoMDS`` (inference)
 - ``MASS::sammon`` (inference)
 - ``stats::acf``

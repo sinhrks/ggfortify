@@ -6,7 +6,7 @@
 \title{Convert \code{survival::survfit} to \code{data.frame}}
 \usage{
 \method{fortify}{survfit}(model, data = NULL, surv.connect = FALSE,
-  fun = NULL...)
+  fun = NULL, ...)
 }
 \arguments{
 \item{model}{\code{survival::survfit} instance}
@@ -16,6 +16,8 @@
 \item{surv.connect}{logical frag indicates whether connects survival curve to the origin}
 
 \item{fun}{an arbitrary function defining a transformation of the survival curve}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

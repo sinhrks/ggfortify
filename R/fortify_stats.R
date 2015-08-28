@@ -193,6 +193,46 @@ fortify.factanal <- function(model, data = NULL,
   post_fortify(d)
 }
 
+#' Convert \code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} to \code{data.frame}
+#'
+#' @param model \code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} instance
+#' @inheritParams fortify_base
+#' @return data.frame
+#' @aliases fortify.princomp
+#' @examples
+#' k <- iris[,-5]
+#' y <- iris[,5]
+#' r <- 3
+#' model <- lfda::lfda(k,y,r,metric="plain")
+#' fortify(model)
+#' @export
+fortify.lfda <- function(model, data = NULL,
+                         original = NULL, ...) {
+  if (!is.null(original)) {
+    deprecate.warning('original', 'data')
+    data <- original
+  }
+  if(!is(model, 'lfda')){stop('model is not a lfda object')}
+
+  pcaModel <- stats::prcomp(model$Z)
+
+  if (is(pcaModel, 'prcomp')) {
+    d <- as.data.frame(pcaModel$x)
+    values <- pcaModel$x %*% t(pcaModel$rotation)
+  } else if (is(pcaModel, 'princomp')) {
+    d <- as.data.frame(pcaModel$scores)
+    values <- pcaModel$scores %*% t(pcaModel$loadings[,])
+  } else {
+    stop(paste0('Unsupported class for fortify.pca_common: ', class(pcaModel)))
+  }
+
+  values <- ggfortify::unscale(values, center = pcaModel$center,
+                               scale = pcaModel$scale)
+  values <- cbind_wraps(data, values)
+  d <- cbind_wraps(values, d)
+  post_fortify(d)
+}
+
 #' Autoplot PCA-likes
 #'
 #' @param object PCA-like instance
@@ -294,6 +334,10 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
     x.column <- 'Factor1'
     y.column <- 'Factor2'
     loadings.column <- 'loadings'
+  } else if (is(object, 'lfda')) {
+    x.column <- 'PC1'
+    y.column <- 'PC2'
+    loadings.column <- 'rotation'
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(object)))
   }
@@ -384,6 +428,9 @@ autoplot.princomp <- autoplot.pca_common
 
 #' @export
 autoplot.factanal <- autoplot.pca_common
+
+#' @export
+autoplot.lfda <- autoplot.pca_common
 
 #' Convert \code{stats::dist} to \code{data.frame}
 #'
