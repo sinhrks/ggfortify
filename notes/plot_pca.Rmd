@@ -110,6 +110,33 @@ If you want probability ellipse, `ggplot2` 1.0.0 or later is required. Specify w
 autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 ```
 
+
+# Plotting Local Fisher Discriminant Analysis with ``{lfda}`` package
+
+[``{lfda}``](https://cran.r-project.org/web/packages/lfda/index.html) package supports a set of Local Fisher Discriminant Analysis methods. You can use ``autoplot`` to plot the analysis result as the same manner as PCA.
+
+Thanks to the kind contribution of [Yuan Tang](https://github.com/terrytangyuan), the author of ``{lfda}`` package. 
+
+```{r, message = FALSE}
+library(lfda)
+
+# Local Fisher Discriminant Analysis (LFDA)
+model <- lfda(iris[-5], iris[, 5], 4, metric="plain")
+autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
+
+# Kernel Local Fisher Discriminant Analysis (KLFDA)
+model <- klfda(kmatrixGauss(iris[-5]), iris[, 5], 4, metric="plain")
+autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
+```
+
+**NOTE** Note that for ``iris`` data set the relationships between different classes are not linear. Kernel Local Fisher Discriminant Analysis is only aimed for capturing non-linear relationships, especially when it comes to many different classes. In this case, visualization of ``iris`` data set is poor because ``klfda`` is too strong for capturing linear relationships. If using ``klfda`` for this kind of data, later when it comes to classification or clustering tasks, the model would very likely overfit the transformed data set.
+
+```{r, message = FALSE}
+# Semi-supervised Local Fisher Discriminant Analysis (SELF)
+model <- self(iris[-5], iris[, 5], beta = 0.1, r = 3, metric="plain")
+autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
+```
+
 # Resources related to ggfortify
 
 * [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)
