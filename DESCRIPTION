@@ -3,7 +3,7 @@ Type: Package
 Title: Define Fortify and Autoplot to Allow 'ggplot2' to Draw some Popular Packages
 Version: 0.0.3
 Date: 2015-02-15
-Author: Masaaki Horikoshi
+Author: Masaaki Horikoshi with contributions from Yuan Tang
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
 Description: It helps plotting classes in some popular R packages using 'ggplot2'. It offers unified plotting functions which output the same looks as standard plot function does.
 License: GPL-2

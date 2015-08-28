@@ -245,8 +245,15 @@ test_that('fortify.lfda works for iris', {
   k <- iris[,-5]
   y <- iris[,5]
   r <- 3
-  model <- lfda::lfda(k,y,r,metric="plain")
+  model <- lfda::lfda(k, y, r, metric = "plain")
+  fortified <- ggplot2::fortify(model)
+  expect_equal(is.data.frame(fortified), TRUE)
 
+  model <- lfda::klfda(kmatrixGauss(k), y, r, metric = "plain")
+  fortified <- ggplot2::fortify(model)
+  expect_equal(is.data.frame(fortified), TRUE)
+
+  model <- lfda::self(k, y, beta=0.1, r, metric = "plain")
   fortified <- ggplot2::fortify(model)
   expect_equal(is.data.frame(fortified), TRUE)
 })
