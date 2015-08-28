@@ -334,6 +334,10 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
     x.column <- 'Factor1'
     y.column <- 'Factor2'
     loadings.column <- 'loadings'
+  } else if (is(object, 'lfda')) {
+    x.column <- 'PC1'
+    y.column <- 'PC2'
+    loadings.column <- 'rotation'
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(object)))
   }
