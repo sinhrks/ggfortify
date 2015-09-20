@@ -1,18 +1,15 @@
 Package: ggfortify
 Type: Package
-Title: Define Fortify and Autoplot to Allow 'ggplot2' to Draw some Popular Packages
-Version: 0.0.3
-Date: 2015-02-15
-Author: Masaaki Horikoshi with contributions from Yuan Tang
+Title: Data Visualization Tools for Statistical Analysis Results
+Version: 0.0.4
+Date: 2015-09-20
+Author: Masaaki Horikoshi, Yuan Tang
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
-Description: It helps plotting classes in some popular R packages using 'ggplot2'. It offers unified plotting functions which output the same looks as standard plot function does.
+Description: Unified plotting tools for statistics commonly used, such as GLM, time series, PCA families, clustering and survival analysis. The package offers a single plotting interface for these analysis results and plots in a unified style using 'ggplot2'.
 License: GPL-2
 VignetteBuilder: knitr
 Depends: methods, grid, scales, proto, ggplot2
-Imports:
-    dplyr (>= 0.3),
-    tidyr,
-    gridExtra
+Imports: dplyr (>= 0.3), tidyr, gridExtra
 Suggests:
     testthat,
     cluster,

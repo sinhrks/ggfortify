@@ -2,7 +2,6 @@
 #'
 #' @param model Clustered instance
 #' @inheritParams fortify_base
-#' @param original (Deprecated) use data
 #' @return data.frame
 #' @examples
 #' fortify(stats::kmeans(iris[-5], 3))
@@ -11,12 +10,7 @@
 #' fortify(cluster::fanny(iris[-5], 3))
 #' fortify(cluster::pam(iris[-5], 3), data = iris)
 #' @export
-fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
+fortify.kmeans <- function(model, data = NULL, ...) {
 
   if (is(model, 'kmeans')) {
     d <- data.frame(cluster = as.factor(model$cluster))
@@ -35,7 +29,6 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 #'
 #' @param object Clustered instance
 #' @param data Original data used for clustering. Mandatory for \code{stats::kmeans}.
-#' @param original (Deprecated) use data
 #' @param colour line colour for points
 #' @param ... other arguments passed to \code{autoplot::prcomp}
 #' @return ggplot
@@ -47,13 +40,8 @@ fortify.kmeans <- function(model, data = NULL, original = NULL, ...) {
 #' autoplot(cluster::pam(iris[-5], 3), data = iris, colour = 'Species')
 #' autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
 #' @export
-autoplot.kmeans <- function(object, data = NULL, original = NULL,
+autoplot.kmeans <- function(object, data = NULL,
                             colour = 'cluster', ...) {
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
 
   if (is(object, 'kmeans')) {
     if (is.null(data)) {

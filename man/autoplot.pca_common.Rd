@@ -7,9 +7,9 @@
 \alias{autoplot.princomp}
 \title{Autoplot PCA-likes}
 \usage{
-\method{autoplot}{pca_common}(object, data = NULL, original = NULL,
-  colour = NULL, size = NULL, linetype = NULL, alpha = NULL,
-  fill = NULL, shape = NULL, label = FALSE, label.label = "rownames",
+\method{autoplot}{pca_common}(object, data = NULL, colour = NULL,
+  size = NULL, linetype = NULL, alpha = NULL, fill = NULL,
+  shape = NULL, label = FALSE, label.label = "rownames",
   label.colour = colour, label.alpha = NULL, label.size = NULL,
   label.angle = NULL, label.family = NULL, label.fontface = NULL,
   label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
@@ -27,8 +27,6 @@
 \item{object}{PCA-like instance}
 
 \item{data}{Joined to fitting result if provided.}
-
-\item{original}{(Deprecated) use data}
 
 \item{colour}{colour}
 

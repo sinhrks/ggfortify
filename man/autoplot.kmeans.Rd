@@ -4,15 +4,12 @@
 \alias{autoplot.kmeans}
 \title{Autoplot cluster instances}
 \usage{
-\method{autoplot}{kmeans}(object, data = NULL, original = NULL,
-  colour = "cluster", ...)
+\method{autoplot}{kmeans}(object, data = NULL, colour = "cluster", ...)
 }
 \arguments{
 \item{object}{Clustered instance}
 
 \item{data}{Original data used for clustering. Mandatory for \code{stats::kmeans}.}
-
-\item{original}{(Deprecated) use data}
 
 \item{colour}{line colour for points}
 

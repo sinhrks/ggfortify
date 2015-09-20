@@ -229,6 +229,7 @@ get.layout <- function(nplots, ncol, nrow) {
 #'
 #' @param x \code{ggmultiplot}
 #' @return NULL
+#' @importFrom gridExtra grid.arrange
 setMethod('print', 'ggmultiplot',
   function(x) {
     nplots = length(x@plots)

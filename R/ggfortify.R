@@ -4,5 +4,7 @@
 #'
 #' @name ggfortify
 #' @docType package
-#' @import methods grid scales proto ggplot2 dplyr tidyr gridExtra
+#' @import methods grid scales proto ggplot2 dplyr
+#' @importFrom tidyr gather_
+#' @importFrom gridExtra grid.arrange
 NULL

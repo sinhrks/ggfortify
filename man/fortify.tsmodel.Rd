@@ -10,15 +10,13 @@
 \alias{fortify.tsmodel}
 \title{Convert time series models (like AR, ARIMA) to \code{data.frame}}
 \usage{
-\method{fortify}{tsmodel}(model, data = NULL, original = NULL,
-  predict = NULL, is.date = NULL, ts.connect = TRUE, ...)
+\method{fortify}{tsmodel}(model, data = NULL, predict = NULL,
+  is.date = NULL, ts.connect = TRUE, ...)
 }
 \arguments{
 \item{model}{Time series model instance}
 
 \item{data}{original dataset, needed for \code{stats::ar}, \code{stats::Arima}}
-
-\item{original}{(Deprecated) use data}
 
 \item{predict}{Predicted \code{stats::ts}
 If not provided, try to retrieve from current environment using variable name.}

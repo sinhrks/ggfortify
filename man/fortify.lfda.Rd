@@ -2,10 +2,9 @@
 % Please edit documentation in R/fortify_stats.R
 \name{fortify.lfda}
 \alias{fortify.lfda}
-\alias{fortify.princomp}
 \title{Convert \code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} to \code{data.frame}}
 \usage{
-\method{fortify}{lfda}(model, data = NULL, original = NULL, ...)
+\method{fortify}{lfda}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{\code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} instance}
@@ -21,10 +20,7 @@ data.frame
 Convert \code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} to \code{data.frame}
 }
 \examples{
-k <- iris[,-5]
-y <- iris[,5]
-r <- 3
-model <- lfda::lfda(k,y,r,metric="plain")
+model <- lfda::lfda(iris[, -5], iris[, 5], 3, metric = "plain")
 fortify(model)
 }
 

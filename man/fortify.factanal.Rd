@@ -4,14 +4,12 @@
 \alias{fortify.factanal}
 \title{Convert \code{stats::factanal} to \code{data.frame}}
 \usage{
-\method{fortify}{factanal}(model, data = NULL, original = NULL, ...)
+\method{fortify}{factanal}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{\code{stats::factanal} instance}
 
 \item{data}{original dataset, if needed}
-
-\item{original}{(Deprecated) use data}
 
 \item{...}{other arguments passed to methods}
 }

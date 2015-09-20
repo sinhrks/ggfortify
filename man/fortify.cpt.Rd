@@ -6,15 +6,12 @@
 \alias{fortify.cpt}
 \title{Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to \code{data.frame}}
 \usage{
-\method{fortify}{cpt}(model, data = NULL, original = NULL, is.date = NULL,
-  ...)
+\method{fortify}{cpt}(model, data = NULL, is.date = NULL, ...)
 }
 \arguments{
 \item{model}{\code{chantepoint::cpt} or \code{strucchange::breakpoints} instance}
 
 \item{data}{original dataset, if needed}
-
-\item{original}{(Deprecated) use data}
 
 \item{is.date}{Logical frag indicates whether the \code{stats::ts} is date or not.
 If not provided, regard the input as date when the frequency is 4 or 12.}

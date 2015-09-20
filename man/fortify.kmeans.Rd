@@ -4,14 +4,12 @@
 \alias{fortify.kmeans}
 \title{Convert cluster instances to \code{data.frame}}
 \usage{
-\method{fortify}{kmeans}(model, data = NULL, original = NULL, ...)
+\method{fortify}{kmeans}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{Clustered instance}
 
 \item{data}{original dataset, if needed}
-
-\item{original}{(Deprecated) use data}
 
 \item{...}{other arguments passed to methods}
 }
