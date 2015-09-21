@@ -230,7 +230,6 @@ autoplot.irts <- autoplot.ts
 #' @param model Time series model instance
 #' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}
 #' @inheritParams fortify_base
-#' @param original (Deprecated) use data
 #' @param predict Predicted \code{stats::ts}
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
@@ -252,15 +251,10 @@ autoplot.irts <- autoplot.ts
 #' x = timeSeries::as.timeSeries(LPP2005REC)
 #' d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
 #' fortify(d.Garch)
-fortify.tsmodel <- function(model, data = NULL, original = NULL,
+fortify.tsmodel <- function(model, data = NULL,
                             predict = NULL,
                             is.date = NULL,
                             ts.connect = TRUE, ...) {
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
 
   if (is(model, 'Arima') || is(model, 'ar')) {
     if (is.null(data)) {
@@ -373,7 +367,6 @@ fortify.KFS <- fortify.tsmodel
 #'
 #' @param object Time series model instance
 #' @param data original dataset, needed for \code{stats::ar}, \code{stats::Arima}
-#' @param original (Deprecated) use data
 #' @param predict Predicted \code{stats::ts}
 #' If not provided, try to retrieve from current environment using variable name.
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
@@ -418,7 +411,7 @@ fortify.KFS <- fortify.tsmodel
 #' autoplot(filtered)
 #' autoplot(dlm::dlmSmooth(filtered))
 #' @export
-autoplot.tsmodel <- function(object, data = NULL, original = NULL,
+autoplot.tsmodel <- function(object, data = NULL,
                              predict = NULL,
                              is.date = NULL, ts.connect = TRUE,
                              fitted.geom = 'line',
@@ -433,12 +426,6 @@ autoplot.tsmodel <- function(object, data = NULL, original = NULL,
                              conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              ...) {
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
-
   fcol <- ifelse(is(object, 'HoltWinters'), 'xhat', 'Fitted')
   plot.data <- ggplot2::fortify(object, predict = predict,
                                 data = data, is.date = is.date)

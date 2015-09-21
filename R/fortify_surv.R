@@ -183,45 +183,49 @@ autoplot.survfit <- function(object, fun = NULL,
 #' Convert \code{survival::aareg} to \code{data.frame}
 #'
 #' @param model \code{survival::aareg} instance
-#' @param maxtime
+#' @param maxtime truncate the input to the model at time "maxtime"
 #' @inheritParams fortify.survfit
+#' @param melt Logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
 #' library(survival)
 #' fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
 #' fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1), melt = TRUE)
 #' @export
-fortify.aareg <- function(x, maxtime, surv.connect = TRUE, melt = FALSE) {
+fortify.aareg <- function(model, data = NULL,
+                          maxtime = NULL,
+                          surv.connect = TRUE,
+                          melt = FALSE, ...) {
 
-  if (missing(maxtime)) {
-    keep <- 1:length(x$time)
+  if (is.null(maxtime)) {
+    keep <- 1:length(model$time)
   } else {
-    keep <- 1:sum(x$time <= maxtime)
+    keep <- 1:sum(model$time <= maxtime)
   }
 
-  if (is.matrix(x$coefficient) && ncol(x$coefficient) > 1) {
-    coefs <- x$coefficient[keep, ]
+  if (is.matrix(model$coefficient) && ncol(model$coefficient) > 1) {
+    coefs <- model$coefficient[keep, ]
   } else {
-    coefs <- x$coefficient[keep]
+    coefs <- model$coefficient[keep]
   }
   rownames(coefs) <- NULL
   coefs <- as.data.frame(coefs)
   cols <- colnames(coefs)
 
   if (melt) {
-    d <- cbind(data.frame(time = x$time[keep]), coefs)
+    d <- cbind(data.frame(time = model$time[keep]), coefs)
     if (surv.connect) {
       d <- rbind(0, d)
     }
     d <- tidyr::gather_(d, 'variable', 'coef', cols)
     d <- d %>%
       dplyr::group_by_('variable') %>%
-      dplyr::mutate(se = sqrt(cumsum(coef^2)),
-                    value = cumsum(coef),
-                    upper = value + se * 1.96,
-                    lower = value - se * 1.96)
+      dplyr::mutate_('se' = 'sqrt(cumsum(coef ^ 2))',
+                     'value' = 'cumsum(coef)',
+                     'upper' = 'value + se * 1.96',
+                     'lower' = 'value - se * 1.96')
   } else {
-    d <- cbind_wraps(data.frame(time = x$time[keep]),
+    d <- cbind_wraps(data.frame(time = model$time[keep]),
                      apply(coefs, 2, cumsum))
     indexer <- 1 + length(d$time) - rev(match(unique(rev(d$time)), rev(d$time)))
     d <- d[indexer, ]
@@ -235,7 +239,7 @@ fortify.aareg <- function(x, maxtime, surv.connect = TRUE, melt = FALSE) {
 #' Autoplot \code{survival::aareg}
 #'
 #' @param object \code{survival::aareg} instance
-#' @param maxtime
+#' @param maxtime truncate the input to the model at time "maxtime"
 #' @inheritParams autoplot.survfit
 #' @param ... other arguments passed to \code{autoplot.survfit}
 #' @return ggplot
@@ -243,7 +247,8 @@ fortify.aareg <- function(x, maxtime, surv.connect = TRUE, melt = FALSE) {
 #' library(survival)
 #' autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
 #' @export
-autoplot.aareg <- function (object, maxtime, surv.connect = TRUE,
+autoplot.aareg <- function (object, maxtime = NULL,
+                            surv.connect = TRUE,
                             facets = TRUE, ncol = NULL,
                             xlab = '', ylab = '',...) {
 

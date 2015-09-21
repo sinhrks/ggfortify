@@ -4,14 +4,21 @@
 \alias{fortify.aareg}
 \title{Convert \code{survival::aareg} to \code{data.frame}}
 \usage{
-\method{fortify}{aareg}(x, maxtime, surv.connect = TRUE, melt = FALSE)
+\method{fortify}{aareg}(model, data = NULL, maxtime = NULL,
+  surv.connect = TRUE, melt = FALSE, ...)
 }
 \arguments{
-\item{maxtime}{}
+\item{model}{\code{survival::aareg} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{maxtime}{truncate the input to the model at time "maxtime"}
 
 \item{surv.connect}{logical frag indicates whether connects survival curve to the origin}
 
-\item{model}{\code{survival::aareg} instance}
+\item{melt}{Logical flag indicating whether to melt each timeseries as variable}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 data.frame

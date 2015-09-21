@@ -4,13 +4,13 @@
 \alias{autoplot.aareg}
 \title{Autoplot \code{survival::aareg}}
 \usage{
-\method{autoplot}{aareg}(object, maxtime, surv.connect = TRUE,
+\method{autoplot}{aareg}(object, maxtime = NULL, surv.connect = TRUE,
   facets = TRUE, ncol = NULL, xlab = "", ylab = "", ...)
 }
 \arguments{
 \item{object}{\code{survival::aareg} instance}
 
-\item{maxtime}{}
+\item{maxtime}{truncate the input to the model at time "maxtime"}
 
 \item{surv.connect}{logical frag indicates whether connects survival curve to the origin}
 

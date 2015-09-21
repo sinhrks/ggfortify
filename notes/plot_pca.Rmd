@@ -31,8 +31,6 @@ autoplot(prcomp(df))
 
 PCA result should only contains numeric values. If you want to colorize by non-numeric values which original data has, pass original data using `data` keyword and then specify column name by `colour` keyword. Use `help(autoplot.prcomp)` (or `help(autoplot.*)` for any other objects) to check available options.
 
-**NOTE** In v0.0.1, `original` keyword is used for passing original data. This keyword is deprecated to be compat with `{ggplot2}`, and being removed in future version.
-
 ```{r, message = FALSE}
 autoplot(prcomp(df), data = iris, colour = 'Species')
 ```
@@ -79,8 +77,6 @@ autoplot(d.factanal, label = TRUE, label.size = 3,
 # Plotting K-means
 
 `{ggfortify}` supports `stats::kmeans` class. You must explicitly pass original data to `autoplot` function via `data` keyword. Because `kmeans` object doesn't store original data. The result will be automatically colorized by categorized cluster.
-
-**NOTE** In v0.0.1, `original` keyword is used for passing original data. This keyword is deprecated to be compat with `{ggplot2}`, and being removed in future version.
 
 ```{r, message = FALSE}
 set.seed(1)

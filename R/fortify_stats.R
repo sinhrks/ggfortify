@@ -128,7 +128,6 @@ autoplot.spec <- function(object,
 #'
 #' @param model \code{stats::prcomp} or \code{stats::princomp} instance
 #' @inheritParams fortify_base
-#' @param original (Deprecated) use data
 #' @return data.frame
 #' @aliases fortify.princomp
 #' @examples
@@ -138,12 +137,7 @@ autoplot.spec <- function(object,
 #' fortify(stats::princomp(iris[-5]))
 #' fortify(stats::princomp(iris[-5]), data = iris)
 #' @export
-fortify.prcomp <- function(model, data = NULL,
-                           original = NULL, ...) {
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
+fortify.prcomp <- function(model, data = NULL, ...) {
 
   if (is(model, 'prcomp')) {
     d <- as.data.frame(model$x)
@@ -169,20 +163,13 @@ fortify.princomp <- fortify.prcomp
 #'
 #' @param model \code{stats::factanal} instance
 #' @inheritParams fortify_base
-#' @param original (Deprecated) use data
 #' @return data.frame
 #' @examples
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' fortify(d.factanal)
 #' fortify(d.factanal, data = state.x77)
 #' @export
-fortify.factanal <- function(model, data = NULL,
-                             original = NULL, ...) {
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
+fortify.factanal <- function(model, data = NULL, ...) {
 
   if (is.null(model$scores)) {
     stop(paste0('Unable to fortify factanal result without scores, ',
@@ -198,20 +185,12 @@ fortify.factanal <- function(model, data = NULL,
 #' @param model \code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} instance
 #' @inheritParams fortify_base
 #' @return data.frame
-#' @aliases fortify.princomp
 #' @examples
-#' k <- iris[,-5]
-#' y <- iris[,5]
-#' r <- 3
-#' model <- lfda::lfda(k,y,r,metric="plain")
+#' model <- lfda::lfda(iris[, -5], iris[, 5], 3, metric = "plain")
 #' fortify(model)
 #' @export
-fortify.lfda <- function(model, data = NULL,
-                         original = NULL, ...) {
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
+fortify.lfda <- function(model, data = NULL, ...) {
+
   if(!is(model, 'lfda')){stop('model is not a lfda object')}
 
   pcaModel <- stats::prcomp(model$Z)
@@ -237,7 +216,6 @@ fortify.lfda <- function(model, data = NULL,
 #'
 #' @param object PCA-like instance
 #' @param data Joined to fitting result if provided.
-#' @param original (Deprecated) use data
 #' @param colour colour
 #' @param size size
 #' @param linetype line type
@@ -289,7 +267,7 @@ fortify.lfda <- function(model, data = NULL,
 #' autoplot(d.factanal)
 #' autoplot(d.factanal, data = state.x77, colour = 'Income')
 #' autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
-autoplot.pca_common <- function(object, data = NULL, original = NULL,
+autoplot.pca_common <- function(object, data = NULL,
                                 colour = NULL, size = NULL, linetype = NULL,
                                 alpha = NULL, fill = NULL, shape = NULL,
                                 label = FALSE, label.label = 'rownames',
@@ -313,11 +291,6 @@ autoplot.pca_common <- function(object, data = NULL, original = NULL,
                                 xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                                 main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                                 ...) {
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
 
   plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)

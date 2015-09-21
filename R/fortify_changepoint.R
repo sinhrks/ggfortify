@@ -2,7 +2,6 @@
 #'
 #' @param model \code{chantepoint::cpt} or \code{strucchange::breakpoints} instance
 #' @inheritParams fortify_base
-#' @param original (Deprecated) use data
 #' @param is.date Logical frag indicates whether the \code{stats::ts} is date or not.
 #' If not provided, regard the input as date when the frequency is 4 or 12.
 #' @return data.frame
@@ -19,15 +18,9 @@
 #' fortify(breakpoints(bp.nile, breaks = 2))
 #' fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
 #' @export
-fortify.cpt <- function(model, data = NULL, original = NULL,
+fortify.cpt <- function(model, data = NULL,
                         is.date = NULL, ...) {
   # changepoint::cpt is S4 class
-
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
-
   if (is(model, 'cpt')) {
     d <- ggplot2::fortify(model@data.set, is.date = is.date)
 
@@ -103,7 +96,6 @@ autoplot.cpt <- function(object, is.date = NULL,
 #'
 #' @param object \code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.
 #' @param data Original time series. Mandatory for plotting \code{strucchange::breakpoints} instance.
-#' @param original (Deprecated) use data
 #' @param cpt.colour Line colour for changepoints
 #' @param cpt.linetype Line type for changepoints
 #' @param ... other arguments passed to \code{autoplot.ts}
@@ -116,13 +108,9 @@ autoplot.cpt <- function(object, is.date = NULL,
 #' autoplot(bp.nile, is.date = TRUE)
 #' autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 #' @export
-autoplot.breakpoints <- function(object, data = NULL, original = NULL,
+autoplot.breakpoints <- function(object, data = NULL,
                                  cpt.colour = '#FF0000', cpt.linetype = 'dashed',
                                  ...) {
-  if (!is.null(original)) {
-    deprecate.warning('original', 'data')
-    data <- original
-  }
   plot.data <- ggplot2::fortify(object, data = data)
   y = 'Data'
   if (y %in% names(plot.data)) {

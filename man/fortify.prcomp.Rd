@@ -5,14 +5,12 @@
 \alias{fortify.princomp}
 \title{Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}}
 \usage{
-\method{fortify}{prcomp}(model, data = NULL, original = NULL, ...)
+\method{fortify}{prcomp}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{\code{stats::prcomp} or \code{stats::princomp} instance}
 
 \item{data}{original dataset, if needed}
-
-\item{original}{(Deprecated) use data}
 
 \item{...}{other arguments passed to methods}
 }
