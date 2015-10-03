@@ -366,18 +366,18 @@ autoplot.pca_common <- function(object, data = NULL,
   if (frame) {
     if (frame.type == 'convex') {
       if (is.null(frame.colour) || !(frame.colour %in% colnames(plot.data))) {
-        hulls <- plot.data[chull(plot.data[c(x.column, y.column)]), ]
+        hulls <- plot.data[grDevices::chull(plot.data[c(x.column, y.column)]), ]
       } else {
         hulls <- plot.data %>%
           dplyr::group_by_(frame.colour) %>%
-          dplyr::do(.[chull(.[c(x.column, y.column)]), ])
+          dplyr::do(.[grDevices::chull(.[c(x.column, y.column)]), ])
       }
       mapping = aes_string(colour = frame.colour, fill = frame.colour)
       p <- p + ggplot2::geom_polygon(data = hulls, mapping = mapping,
                                      alpha = frame.alpha)
     } else if (frame.type %in% c('t', 'norm', 'euclid')) {
       ggversion <- utils::packageVersion('ggplot2')
-      if (compareVersion(as.character(ggversion), '1.0.0') >= 0) {
+      if (utils::compareVersion(as.character(ggversion), '1.0.0') >= 0) {
         mapping = aes_string(colur = frame.colour, fill = frame.colour)
         p <- p + ggplot2::stat_ellipse(mapping = mapping,
                                        level = frame.level, type = frame.type,
@@ -435,10 +435,10 @@ autoplot.dist <- autoplot.matrix
 #' fortify(stepfun(c(1, 2, 3, 4, 5, 6, 7, 8, 10), c(4, 5, 6, 7, 8, 9, 10, 11, 12, 9)))
 #' @export
 fortify.stepfun <- function(model, data, ...) {
-  x <- knots(model)
+  x <- stats::knots(model)
   lim <- range(x)
   if (length(x) > 1L) {
-    dr <- max(0.08 * diff(lim), median(diff(x)))
+    dr <- max(0.08 * diff(lim), stats::median(diff(x)))
   } else {
     dr <- abs(x) / 16
   }

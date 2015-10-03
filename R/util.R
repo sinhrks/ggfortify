@@ -63,14 +63,6 @@ deprecate.warning <- function(old.kw, new.kw) {
   warning(message, call. = FALSE)
 }
 
-#' Raise error for unsupported type
-#'
-#' @return NULL
-stop.unsupported.type <- function() {
-  stop(paste0('Unsupported class for autoplot: ', class(data)), call. = FALSE)
-}
-
-
 #' Post process for fortify.
 #'
 #' @param data data.frame

@@ -80,11 +80,11 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   } else if (is_glm) {
     sqrt(summary(object)$dispersion)
   } else {
-    sqrt(deviance(object)/stats::df.residual(object))
+    sqrt(stats::deviance(object)/stats::df.residual(object))
   }
   label.fitted <- ifelse(is_glm, 'Predicted values', 'Fitted values')
   label.y23 <- ifelse(is_glm, 'Std. deviance resid.', 'Standardized residuals')
-  hii <- lm.influence(object, do.coef = FALSE)$hat
+  hii <- stats::lm.influence(object, do.coef = FALSE)$hat
 
   if (is.logical(shape) && !shape) {
     if (missing(label)) {
@@ -98,9 +98,9 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   if (label.n > 0L) {
     r.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.resid))')
-    r.data <- head(r.data, label.n)
+    r.data <- utils::head(r.data, label.n)
     cd.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.cooksd))')
-    cd.data <- head(cd.data, label.n)
+    cd.data <- utils::head(cd.data, label.n)
   }
 
   .smooth <- function(x, y) {
@@ -147,9 +147,9 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   if (show[2L]) {
     t2 <- 'Normal Q-Q'
     qprobs <- c(0.25, 0.75)
-    qy <- quantile(plot.data$.stdresid, probs = qprobs, names = FALSE,
-                   type = 7, na.rm = TRUE)
-    qx <- qnorm(qprobs)
+    qy <- stats::quantile(plot.data$.stdresid, probs = qprobs, names = FALSE,
+                          type = 7, na.rm = TRUE)
+    qx <- stats::qnorm(qprobs)
     slope <- diff(qy) / diff(qx)
     int <- qy[1L] - slope * qx[1L]
 
@@ -241,7 +241,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
                          title = t6)
 
     g <- dropInf(hii/(1 - hii), hii)
-    p <- length(coef(object))
+    p <- length(stats::coef(object))
     bval <- pretty(sqrt(p * plot.data$.cooksd / g), 5)
     for (i in seq_along(bval)) {
       bi2 <- bval[i]^2

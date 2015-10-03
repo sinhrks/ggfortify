@@ -90,13 +90,5 @@ d.holt <- stats::HoltWinters(USAccDeaths)
 autoplot(d.holt)
 autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
-
-form <- function(theta){
-  dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
-}
-model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
-filtered <- dlm::dlmFilter(Nile, model)
-autoplot(filtered)
-autoplot(dlm::dlmSmooth(filtered))
 }
 
