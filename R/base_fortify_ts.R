@@ -259,13 +259,13 @@ fortify.tsmodel <- function(model, data = NULL,
   if (is(model, 'Arima') || is(model, 'ar')) {
     if (is.null(data)) {
       data <- forecast::getResponse(model)
-      fit <- fitted(model)
+      fit <- stats::fitted(model)
     } else {
-      fit <- data - residuals(model)
+      fit <- data - stats::residuals(model)
     }
     d <- ggplot2::fortify(data, is.date = is.date)
     fit <- ggplot2::fortify(fit, data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
+    resid <- ggplot2::fortify(stats::residuals(model), data.name = 'Residuals', is.date = is.date)
 
     if (!is.null(predict)) {
       pred <- ggplot2::fortify(predict$pred, data.name = 'Predicted')
@@ -276,8 +276,8 @@ fortify.tsmodel <- function(model, data = NULL,
   } else if (is(model, 'HoltWinters')) {
     # same as fracdiff and nnetar
     d <- ggplot2::fortify(model$x, is.date = is.date)
-    fit <- ggplot2::fortify(fitted(model), data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
+    fit <- ggplot2::fortify(stats::fitted(model), data.name = 'Fitted', is.date = is.date)
+    resid <- ggplot2::fortify(stats::residuals(model), data.name = 'Residuals', is.date = is.date)
 
     if (!is.null(predict)) {
       pred <- ggplot2::fortify(predict)
@@ -289,8 +289,8 @@ fortify.tsmodel <- function(model, data = NULL,
     }
   } else if (is(model, 'fracdiff') || is(model, 'nnetar')) {
     d <- ggplot2::fortify(model$x, is.date = is.date)
-    fit <- ggplot2::fortify(fitted(model), data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(residuals(model), data.name = 'Residuals', is.date = is.date)
+    fit <- ggplot2::fortify(stats::fitted(model), data.name = 'Fitted', is.date = is.date)
+    resid <- ggplot2::fortify(stats::residuals(model), data.name = 'Residuals', is.date = is.date)
   } else if (is(model, 'fGARCH')) {
     index <- attr(model@data, 'names')
     index <- as.vector(index)
@@ -402,14 +402,6 @@ fortify.KFS <- fortify.tsmodel
 #' autoplot(d.holt)
 #' autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 #' autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
-#'
-#' form <- function(theta){
-#'   dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
-#' }
-#' model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
-#' filtered <- dlm::dlmFilter(Nile, model)
-#' autoplot(filtered)
-#' autoplot(dlm::dlmSmooth(filtered))
 #' @export
 autoplot.tsmodel <- function(object, data = NULL,
                              predict = NULL,

@@ -134,7 +134,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     with.ci.ma <- FALSE
   }
   clim0 <- if (with.ci)
-    qnorm((1 + ci)/2)/sqrt(x$n.used)
+    stats::qnorm((1 + ci)/2)/sqrt(x$n.used)
   else c(0, 0)
 
   Npgs <- 1L
@@ -182,7 +182,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 fitted.ar <- function(object, ...) {
   requireNamespace('forecast')
   x <- forecast::getResponse(object)
-  return(x - residuals(object))
+  return(x - stats::residuals(object))
 }
 
 #' Calcurate residuals for \code{stats::ar}
@@ -217,18 +217,18 @@ ggcpgram <- function (ts, taper = 0.1,
 
   x <- as.vector(ts)
   x <- x[!is.na(x)]
-  x <- spec.taper(scale(x, TRUE, FALSE), p = taper)
-  y <- Mod(fft(x)) ^ 2 / length(x)
+  x <- stats::spec.taper(scale(x, TRUE, FALSE), p = taper)
+  y <- Mod(stats::fft(x)) ^ 2 / length(x)
   y[1L] <- 0
   n <- length(x)
-  x <- (0:(n / 2)) * frequency(ts) / n
+  x <- (0:(n / 2)) * stats::frequency(ts) / n
   if (length(x)%%2 == 0) {
     n <- length(x) - 1
     y <- y[1L:n]
     x <- x[1L:n]
   }
   else y <- y[seq_along(x)]
-  xm <- frequency(ts) / 2
+  xm <- stats::frequency(ts) / 2
   mp <- length(x) - 1
   crit <- 1.358 / (sqrt(mp) + 0.12 + 0.11 / sqrt(mp))
 
@@ -269,7 +269,7 @@ ggtsdiag <- function(object, gof.lag = 10,
                      conf.int.fill = NULL, conf.int.alpha = 0.3,
                      ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2,
                      nrow = NULL, ncol = 1, ...) {
-  rs <- residuals(object)
+  rs <- stats::residuals(object)
   if (is.null(rs)) {
     rs <- object$residuals
   }
@@ -284,7 +284,7 @@ ggtsdiag <- function(object, gof.lag = 10,
                         colour = ad.colour) +
     ggplot2::ggtitle('Standardized Residuals')
 
-  acfobj <- stats::acf(rs, plot = FALSE, na.action = na.pass)
+  acfobj <- stats::acf(rs, plot = FALSE, na.action = stats::na.pass)
   p.acf <- autoplot.acf(acfobj, conf.int = conf.int,
                         conf.int.colour = conf.int.colour,
                         conf.int.linetype = conf.int.linetype,
@@ -294,7 +294,7 @@ ggtsdiag <- function(object, gof.lag = 10,
 
   nlag <- gof.lag
   pval <- numeric(nlag)
-  for (i in 1L:nlag) pval[i] <- Box.test(rs, i, type = "Ljung-Box")$p.value
+  for (i in 1L:nlag) pval[i] <- stats::Box.test(rs, i, type = "Ljung-Box")$p.value
   lb.df <- data.frame(Lag = 1L:nlag, `p value` = pval,
                       lower = -0.05, upper = 0.05)
   # Unnable to create column with space by above expression
@@ -379,7 +379,7 @@ ggfreqplot <- function(data, freq = NULL,
   is.univariate(data)
 
   if (is.null(freq)) {
-    freq <- frequency(data)
+    freq <- stats::frequency(data)
   }
 
   if (is.null(nrow) && is.null(ncol)) {
@@ -401,8 +401,8 @@ ggfreqplot <- function(data, freq = NULL,
     dplyr::summarise_(m = 'mean(Data)', s = 'sd(Data)')
 
   p <- (1 - conf.int.value) / 2
-  summarised$lower <- qnorm(p, mean = summarised$m, sd = summarised$s)
-  summarised$upper <- qnorm(1 - p, mean = summarised$m, sd = summarised$s)
+  summarised$lower <- stats::qnorm(p, mean = summarised$m, sd = summarised$s)
+  summarised$upper <- stats::qnorm(1 - p, mean = summarised$m, sd = summarised$s)
 
   d <- dplyr::left_join(d, summarised, by = 'Frequency')
 

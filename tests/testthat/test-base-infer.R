@@ -65,26 +65,26 @@ test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
 
   autoplot(filtered)
   autoplot(smoothed)
-  
+
   form <- function(parm){
     dlmModPoly(order = 2, dV = exp(parm[1]), dW = exp(parm[2:3]))
   }
   y <- log(Nile)
   model <- form(dlm::dlmMLE(y, parm=log(c(var(y), 0.001, 0.001)), form)$par)
   parm <- log(c(var(y), 0.001, 0.001))
-  
+
   filtered <- dlm::dlmFilter(y, model)
   fortified <- fortify(filtered)
   expect_equal(colnames(fortified), c('Index', 'Data', 'Fitted', 'Residuals'))
   expect_equal(fortified$Index, nile_fortified$Index)
-  
+
   smoothed <- dlm::dlmSmooth(filtered)
   expect_equal(infer(smoothed), 'dlmSmooth')
-  
+
   fortified <- fortify(smoothed)
   expect_equal(colnames(fortified), c('Index', 'Data'))
   expect_equal(fortified$Index, nile_fortified$Index)
-  
+
   autoplot(filtered)
   autoplot(smoothed)
 })
