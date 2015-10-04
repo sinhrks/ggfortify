@@ -1,6 +1,8 @@
 
 .. image:: https://travis-ci.org/sinhrks/ggfortify.svg?branch=master
     :target: https://travis-ci.org/sinhrks/ggfortify
+.. image:: http://www.r-pkg.org/badges/version/ggfortify
+    :target: https://cran.r-project.org/web/packages/ggfortify/index.html
 
 ggfortify
 =========
@@ -81,6 +83,15 @@ Examples
 * `Plotting Multidimensional Scaling using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_mds>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_
 * `Plotting Probability Distributions with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_dist>`_
+
+Installation
+------------
+* Install the current release from CRAN:
+``install.packages('lfda')``
+
+
+* Install the latest development version from Github:
+``devtools::install_github('terrytangyuan/lfda')``
 
 ggplot2 Families
 ----------------
