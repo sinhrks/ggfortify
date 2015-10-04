@@ -1,6 +1,8 @@
 
 .. image:: https://travis-ci.org/sinhrks/ggfortify.svg?branch=master
     :target: https://travis-ci.org/sinhrks/ggfortify
+.. image:: http://www.r-pkg.org/badges/version/ggfortify
+    :target: https://cran.r-project.org/web/packages/ggfortify/index.html
 
 ggfortify
 =========
@@ -59,6 +61,18 @@ This covers following classes:
 - ``vars::varprd``
 - ``xts::xts``
 - ``zoo::zooreg``
+
+Installation
+------------
+
+- Install the latest stable release from CRAN: ::
+
+    install.packages('ggfortify')
+
+- Install the development version from Github: ::
+
+    library(devtools)
+    install_github('sinhrks/ggfortify')
 
 Helper Functions
 ----------------

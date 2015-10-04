@@ -1,7 +1,12 @@
 ---
 title: "Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify"
-output: html_document
+output: pdf_document
 ---
+
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Introduction to ggfortify package}
+-->
 
 ```{r global_options, include=FALSE}
 library(knitr)
@@ -9,15 +14,6 @@ opts_chunk$set(fig.width=8, fig.height=6, fig.path='figures/lm-', warning=FALSE)
 ```
 
 This document explains plotting diagnostics for LM and GLM using `{ggplot2}` and `{ggfortify}`. 
-
-# Installation
-
-First, install `{ggfortify}` from [github](https://github.com/sinhrks/ggfortify).
-
-```{r, eval = FALSE}
-library(devtools)
-install_github('sinhrks/ggfortify')
-```
 
 # Plotting Diagnostics for Linear Models 
 
@@ -76,17 +72,3 @@ Also, you can use column names for these properties. Note that `lm` and `glm` in
 autoplot(lm(Petal.Width ~ Petal.Length, data = iris), data = iris,
          colour = 'Species', label.size = 3)
 ```
-
-# Resources related to ggfortify
-
-* [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)
-* [Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_lm)
-* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
-* [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
-* [Plotting State Space Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts_dlm)
-* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
-* [Plotting Multidimensional Scaling using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_mds)
-* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
-* [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)
- 
- 　

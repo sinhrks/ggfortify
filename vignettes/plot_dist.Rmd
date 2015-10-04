@@ -1,23 +1,19 @@
 ---
 title: "Plotting Probability Distributions with ggplot2 and ggfortify"
-output: html_document
+output: pdf_document
 ---
+
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Introduction to ggfortify package}
+-->
 
 ```{r global_options, include=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/dist-', warning=FALSE)
+opts_chunk$set(fig.width=6, fig.height=4, fig.path='figures/dist-', warning=FALSE)
 ```
 
 This document explains how to plot probability distributions using `ggplot2` and `ggfortify`. 
-
-# Installation
-
-First, install `ggfortify` from [github](https://github.com/sinhrks/ggfortify).
-
-```{r, eval = FALSE, message = FALSE}
-library(devtools)
-install_github('sinhrks/ggfortify')
-```
 
 # Plotting Probability Distributions
 
@@ -52,17 +48,3 @@ Also, `autoplot` can accept `stats::density`.
 ```{r, message = FALSE}
 autoplot(density(rnorm(1:50)), fill = 'green')
 ```
-
-# Resources related to ggfortify
-
-* [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)
-* [Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_lm)
-* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
-* [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
-* [Plotting State Space Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts_dlm)
-* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
-* [Plotting Multidimensional Scaling using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_mds)
-* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
-* [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)
- 
- 　
