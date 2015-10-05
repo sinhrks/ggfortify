@@ -2,6 +2,7 @@
 title: "Introduction to ggfortify package"
 output: pdf_document
 ---
+
 <!--
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Introduction to ggfortify package}
@@ -9,7 +10,7 @@ output: pdf_document
 
 ```{r global_options, include=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=4, fig.height=3, fig.path='figures/basics-', warning=FALSE)
+opts_chunk$set(fig.width=6, fig.height=4, fig.path='figures/basics-', warning=FALSE)
 ```
 
 This document explains concepts and basics of `ggfortify`. `ggfortify` helps plotting some popular R packages with `ggplot2` in a unified way. See [github](https://github.com/sinhrks/ggfortify) to check the list of supported packages / classes.
