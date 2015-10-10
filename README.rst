@@ -3,6 +3,8 @@
     :target: https://travis-ci.org/sinhrks/ggfortify
 .. image:: http://www.r-pkg.org/badges/version/ggfortify
     :target: https://cran.r-project.org/web/packages/ggfortify/index.html
+.. image:: http://cranlogs.r-pkg.org/badges/ggfortify
+    :target: http://cran.rstudio.com/package=ggfortify
 
 ggfortify
 =========
