@@ -1,1 +1,21 @@
-language: r
+sudo: required
+
+language: c
+
+before_install:
+  ## r-travis by Craig Citro et al
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+
+install:
+  # install binaries
+  - ./travis-tool.sh install_aptget r-cran-testthat r-cran-ggplot2 r-cran-dplyr r-cran-tidyr r-cran-gridExtra r-cran-survival r-cran-forecast r-cran-changepoint r-cran-dlm r-cran-fGarch r-cran-KFAS r-cran-knitr r-cran-MSwM r-cran-strucchange r-cran-timeSeries r-cran-vars r-cran-xts
+  # install other deps
+  - ./travis-tool.sh install_deps 
+
+script:
+  - ./travis-tool.sh run_tests
+
+after_failure:
+  - ./travis-tool.sh dump_logs
