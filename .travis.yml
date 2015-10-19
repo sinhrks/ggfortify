@@ -12,7 +12,13 @@ install:
   # install binaries
   - ./travis-tool.sh install_aptget r-cran-testthat r-cran-ggplot2 r-cran-dplyr r-cran-tidyr r-cran-gridExtra r-cran-survival r-cran-forecast r-cran-changepoint r-cran-dlm r-cran-fGarch r-cran-KFAS r-cran-knitr r-cran-MSwM r-cran-strucchange r-cran-timeSeries r-cran-vars r-cran-xts
   # install other deps
-  - ./travis-tool.sh install_deps 
+  - ./travis-tool.sh install_deps
+
+before_install:
+  - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
+
+after_success:
+  - Rscript -e 'library(covr);coveralls()'
 
 script:
   - ./travis-tool.sh run_tests
