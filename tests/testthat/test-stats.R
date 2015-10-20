@@ -107,6 +107,10 @@ test_that('fortify.prcomp works for iris', {
   expect_equal(names(fortified), expected_names)
   expect_equal(data.frame(fortified[c(1, 2, 3, 4, 5)]), iris)
   expect_equal(rownames(fortified), rownames(df))
+  
+  tmp <- stats::prcomp(df)
+  class(tmp) <- 'unsupportedClass'
+  expect_error(ggplot2::fortify(tmp, data = iris))
 })
 
 test_that('fortify.princomp works for iris', {
@@ -284,6 +288,9 @@ test_that('autoplot.acf works', {
 })
 
 test_that('autoplot.stepfun works', {
+  
+  expect_that(autoplot(stepfun(c(1, 2, 3), c(4, 5, 6, 7))), not(throws_error()))
+
   fortified <- fortify(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))
   expected <- data.frame(x = c(0, 1, 1, 2, 2, 3, 3, 4),
                          y = c(4, 4, 5, 5, 6, 6, 7, 7))
@@ -304,4 +311,12 @@ test_that('autoplot.stepfun works', {
   expected <- data.frame(x = c(0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11),
                          y = c(4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 9, 9))
   expect_equal(fortified, expected)
+})
+
+
+test_that('autoplot.spec works', {
+  result <- stats::spec.ar(AirPassengers)
+  expect_that(autoplot(result), not(throws_error()))
+  expect_equal(sum(fortify(result)[1]), 1500, tolerance = 0.01)
+  expect_equal(sum(fortify(result)[2]), 684799.7, tolerance = 0.01)
 })
