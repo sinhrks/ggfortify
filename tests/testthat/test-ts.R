@@ -66,3 +66,50 @@ test_that('fortify.timeSeries works for Canada', {
   expect_equal(names(fortified), expected_names)
 })
 
+
+test_that('fortify.forecast works for AirPassengers', {
+  d.arima <- forecast::auto.arima(AirPassengers)
+  d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
+
+  fortified <- fortify(d.forecast)
+  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
+                      'Lo 95', 'Hi 95')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
+  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
+  p <- autoplot(d.forecast)
+  expect_true(inherits(p, 'ggplot'))
+
+  fortified <- fortify(d.forecast, ts.connect = TRUE)
+  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
+                      'Lo 95', 'Hi 95')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
+  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
+  p <- autoplot(d.forecast, ts.connect = TRUE)
+  expect_true(inherits(p, 'ggplot'))
+})
+
+
+test_that('fortify.ets works for AirPassengers', {
+  d.arima <- forecast::auto.arima(AirPassengers)
+  d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
+
+  fortified <- fortify(d.forecast)
+  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
+                      'Lo 95', 'Hi 95')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
+  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
+  p <- autoplot(d.forecast)
+  expect_true(inherits(p, 'ggplot'))
+
+  fortified <- fortify(d.forecast, ts.connect = TRUE)
+  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
+                      'Lo 95', 'Hi 95')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
+  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
+  p <- autoplot(d.forecast, ts.connect = TRUE)
+  expect_true(inherits(p, 'ggplot'))
+})
