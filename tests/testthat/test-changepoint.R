@@ -47,7 +47,7 @@ test_that('fortify.cpt works for AirPassengers', {
 test_that('fortify.breakpoints works for Nile', {
 
   bp.nile <- strucchange::breakpoints(Nile ~ 1)
-  expect_that(ggplot2::autoplot(bp.nile), data = Nile)
+  expect_that(ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile), not(throws_error()))
   fortified <- ggplot2::fortify(bp.nile, is.date = TRUE)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), c('Index', 'Data', 'Breaks'))
