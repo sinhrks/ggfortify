@@ -25,26 +25,23 @@ r_binary_packages:
   - dlm
   - fGarch
   - forecast
-  - grDevices
   - KFAS
   - knitr
   - MASS
   - MSwM
   - nlme
-  - stats
   - strucchange
   - survival
   - timeSeries
   - tseries
-  - utils
   - vars
   - xts
   - zoo
-  - lfda
 
 r_github_packages:
   - hadley/devtools
   - jimhester/covr
+  - terrytangyuan/lfda
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
