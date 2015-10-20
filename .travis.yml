@@ -1,30 +1,56 @@
+language: r
+warnings_are_errors: true
 sudo: required
 
-language: c
+env:
+ global:
+   - CRAN: http://cran.rstudio.com
+   - RGL_USE_NULL: true
 
-before_install:
-  ## r-travis by Craig Citro et al
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
+apt_packages:
+  - freeglut3-dev
+  - xvfb
+  - xserver-xorg-core
+  - xserver-xorg
+  - xorg
+  - openbox
+  - xauth
+  - libcurl4-openssl-dev
+  - curl
 
-install:
-  # install binaries
-  - ./travis-tool.sh install_aptget r-cran-testthat r-cran-ggplot2 r-cran-dplyr r-cran-tidyr r-cran-gridExtra r-cran-survival r-cran-forecast r-cran-changepoint r-cran-dlm r-cran-fGarch r-cran-KFAS r-cran-knitr r-cran-MSwM r-cran-strucchange r-cran-timeSeries r-cran-vars r-cran-xts
-  # install other deps
-  - ./travis-tool.sh install_deps
+r_binary_packages:
+  - testthat
+  - cluster
+  - changepoint
+  - dlm
+  - fGarch
+  - forecast
+  - grDevices
+  - KFAS
+  - knitr
+  - MASS
+  - MSwM
+  - nlme
+  - stats
+  - strucchange
+  - survival
+  - timeSeries
+  - tseries
+  - utils
+  - vars
+  - xts
+  - zoo
+  - lfda
+
+r_github_packages:
+  - hadley/devtools
+  - jimhester/covr
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
 
-r_github_packages:
-  - jimhester/covr
-
 after_success:
   - Rscript -e 'library(covr);coveralls()'
 
-script:
-  - ./travis-tool.sh run_tests
-
 after_failure:
-  - ./travis-tool.sh dump_logs
+  - Rscript -e 'devtools::load_all(); devtools::test()'
