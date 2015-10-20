@@ -1,9 +1,9 @@
 Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
-Version: 0.0.4
+Version: 0.0.4.9000
 Date: 2015-10-03
-Author: Masaaki Horikoshi, Yuan Tang
+Author: Masaaki Horikoshi <sinhrks@gmail.com> and Yuan Tang <terrytangyuan@gmail.com>
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
 Description: Unified plotting tools for statistics commonly used, such as GLM, time series, PCA families, clustering and survival analysis. The package offers a single plotting interface for these analysis results and plots in a unified style using 'ggplot2'.
 License: GPL-2

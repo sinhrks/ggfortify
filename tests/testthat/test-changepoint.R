@@ -6,7 +6,9 @@ context('test changepoint')
 test_that('fortify.cpt works for AirPassengers', {
 
   # mean
-  fortified <- ggplot2::fortify(changepoint::cpt.mean(AirPassengers))
+  result <- changepoint::cpt.mean(AirPassengers)
+  expect_that(ggplot2::autoplot(result), not(throws_error()))
+  fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), c('Index', 'Data', 'mean'))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
@@ -38,12 +40,14 @@ test_that('fortify.cpt works for AirPassengers', {
   expect_equal(filtered$Index[1], as.Date('1955-05-01'))
   expect_equal(filtered$Index[nrow(filtered)], as.Date('1960-12-01'))
 
+  
 })
 
 
 test_that('fortify.breakpoints works for Nile', {
 
   bp.nile <- strucchange::breakpoints(Nile ~ 1)
+  expect_that(ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile), not(throws_error()))
   fortified <- ggplot2::fortify(bp.nile, is.date = TRUE)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), c('Index', 'Data', 'Breaks'))
