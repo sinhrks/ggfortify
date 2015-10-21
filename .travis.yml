@@ -27,7 +27,6 @@ r_binary_packages:
   - zoo
 
 r_github_packages:
-  - hadley/devtools
   - jimhester/covr
   - terrytangyuan/lfda
 
@@ -36,6 +35,3 @@ before_install:
 
 after_success:
   - Rscript -e 'library(covr);coveralls()'
-
-after_failure:
-  - Rscript -e 'devtools::load_all(); devtools::test()'
