@@ -8,7 +8,6 @@ env:
 
 r_binary_packages:
   - testthat
-  - cluster
   - changepoint
   - dlm
   - fGarch
@@ -17,18 +16,14 @@ r_binary_packages:
   - knitr
   - MASS
   - MSwM
-  - nlme
   - strucchange
   - survival
   - timeSeries
-  - tseries
   - vars
   - xts
-  - zoo
 
 r_github_packages:
   - jimhester/covr
-  - terrytangyuan/lfda
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
