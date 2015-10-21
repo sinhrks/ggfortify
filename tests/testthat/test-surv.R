@@ -3,13 +3,19 @@ library(survival)
 context('test survival')
 
 test_that('fortify.survfit works for lung', {
-  d.survfit <- survfit(Surv(time, status) ~ sex, data = lung)
+  d.survfit <- survival::survfit(Surv(time, status) ~ sex, data = lung)
   fortified <- ggplot2::fortify(d.survfit)
   expect_equal(is.data.frame(fortified), TRUE)
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'strata')
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(206, 9))
+
+  p <- ggplot2::autoplot(d.survfit)
+  expect_true(is(p, 'ggplot'))
+
+  p <- ggplot2::autoplot(d.survfit, surv.geom = 'line')
+  expect_true(is(p, 'ggplot'))
 
   fortified2 <- ggplot2::fortify(d.survfit, fun = 'event')
   expect_equal(is.data.frame(fortified), TRUE)
@@ -20,6 +26,9 @@ test_that('fortify.survfit works for lung', {
   expect_equal(fortified$surv, 1 - fortified2$surv)
   expect_equal(fortified$upper, 1 - fortified2$upper)
   expect_equal(fortified$lower, 1 - fortified2$lower)
+
+  p <- ggplot2::autoplot(d.survfit, fun = 'event')
+  expect_true(is(p, 'ggplot'))
 
   fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
   expect_equal(is.data.frame(fortified), TRUE)
@@ -32,6 +41,12 @@ test_that('fortify.survfit works for lung', {
                          strata = as.factor(c('sex=1', 'sex=2')))
   expect_equal(fortified[1:2, ], expected)
 
+  p <- ggplot2::autoplot(d.survfit, surv.connect = TRUE)
+  expect_true(is(p, 'ggplot'))
+
+  p <- ggplot2::autoplot(d.survfit, surv.connect = FALSE)
+  expect_true(is(p, 'ggplot'))
+
   d.survfit <- survfit(Surv(time, status) ~ 1, data = lung)
   fortified <- ggplot2::fortify(d.survfit)
 
@@ -40,6 +55,9 @@ test_that('fortify.survfit works for lung', {
                       'std.err', 'upper', 'lower')
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(186, 8))
+
+  p <- ggplot2::autoplot(d.survfit)
+  expect_true(is(p, 'ggplot'))
 
   fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
   expect_equal(is.data.frame(fortified), TRUE)
@@ -50,6 +68,9 @@ test_that('fortify.survfit works for lung', {
   expected <- data.frame(time = 0, n.risk = 228, n.event = 1, n.censor = 0,
                          surv = 1, std.err = 0, upper = 1, lower = 1)
   expect_equal(fortified[1, ], expected)
+
+  p <- ggplot2::autoplot(d.survfit)
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.survfit works for simple data', {
@@ -79,6 +100,9 @@ test_that('fortify.survfit works for simple data', {
                         lower = c(1.0, 0.40870968683, 0.18264959088, 0.11186383878, 0.03328139035))
   expect_equal(fortified, expected)
 
+  p <- ggplot2::autoplot(fit)
+  expect_true(is(p, 'ggplot'))
+
   tdata <- data.frame(time = c(1, 1, 2, 2, 3, 3, 4, 4),
                       status = rep(c(1, 2), 4),
                       n = c(24, 3, 20, 4, 18, 2, 15, 3))
@@ -107,6 +131,9 @@ test_that('fortify.survfit works for simple data', {
                         lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
                         cumhaz = c(0, 0.1250000000, 0.2916666667, 0.5416666667,1.0416666667))
   expect_equal(fortified, expected)
+
+  p <- ggplot2::autoplot(fit)
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.survfit.cox works for lung', {
@@ -117,6 +144,9 @@ test_that('fortify.survfit.cox works for lung', {
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'cumhaz')
   expect_equal(names(fortified), expected_names)
+
+  p <- ggplot2::autoplot(survfit(d.coxph))
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.aareg works for lung', {
@@ -133,6 +163,9 @@ test_that('fortify.aareg works for lung', {
   expect_equal(as.numeric(fortified[-1][nrow(fortified), ]),
                as.numeric(as.data.frame(expected)[nrow(expected), ]))
   expect_equal(as.numeric(fortified$time), c(0, unique(fit$time)))
+
+  p <- ggplot2::autoplot(fit)
+  expect_true(is(p, 'ggplot'))
 
   fortified <- fortify(fit, surv.connect = FALSE)
   # compare cumulated last row
