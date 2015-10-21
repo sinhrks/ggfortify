@@ -5,22 +5,9 @@ sudo: required
 env:
  global:
    - CRAN: http://cran.rstudio.com
-   - RGL_USE_NULL: true
-
-apt_packages:
-  - freeglut3-dev
-  - xvfb
-  - xserver-xorg-core
-  - xserver-xorg
-  - xorg
-  - openbox
-  - xauth
-  - libcurl4-openssl-dev
-  - curl
 
 r_binary_packages:
   - testthat
-  - cluster
   - changepoint
   - dlm
   - fGarch
@@ -29,25 +16,17 @@ r_binary_packages:
   - knitr
   - MASS
   - MSwM
-  - nlme
   - strucchange
   - survival
   - timeSeries
-  - tseries
   - vars
   - xts
-  - zoo
 
 r_github_packages:
-  - hadley/devtools
   - jimhester/covr
-  - terrytangyuan/lfda
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
 
 after_success:
   - Rscript -e 'library(covr);coveralls()'
-
-after_failure:
-  - Rscript -e 'devtools::load_all(); devtools::test()'
