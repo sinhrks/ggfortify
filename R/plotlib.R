@@ -232,7 +232,7 @@ get.layout <- function(nplots, ncol, nrow) {
 #' @importFrom gridExtra grid.arrange
 setMethod('print', 'ggmultiplot',
   function(x) {
-    nplots = length(x@plots)
+    nplots <- length(x@plots)
     if (nplots==1) {
       print(x@plots[[1]])
     } else {

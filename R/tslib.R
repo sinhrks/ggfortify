@@ -346,7 +346,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   lag.df <- dplyr::filter_(lag.df, '!is.na(Lag)')
   lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
 
-  mapping = ggplot2::aes_string(x = 'Lag', y = 'Data')
+  mapping <- ggplot2::aes_string(x = 'Lag', y = 'Data')
   p <- ggplot2::ggplot(data = lag.df, mapping = mapping) +
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~ Lag_dist, nrow = nrow, ncol = ncol)

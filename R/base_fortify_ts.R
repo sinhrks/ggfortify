@@ -177,7 +177,7 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
   # create ggplot instance if not passed
   if (is.null(p)) {
     null.p <- TRUE
-    mapping = ggplot2::aes_string(x = index.name)
+    mapping <- ggplot2::aes_string(x = index.name)
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
   } else {
     null.p <- FALSE
