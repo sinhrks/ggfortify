@@ -76,7 +76,7 @@ autoplot.cpt <- function(object, is.date = NULL,
                          cpt.colour = '#FF0000', cpt.linetype = 'dashed',
                          ...) {
   plot.data <- ggplot2::fortify(object, is.date = is.date)
-  y = 'Data'
+  y <- 'Data'
   p <- autoplot.ts(plot.data, columns = y, ...)
 
   if ('mean' %in% names(plot.data)) {
@@ -112,7 +112,7 @@ autoplot.breakpoints <- function(object, data = NULL,
                                  cpt.colour = '#FF0000', cpt.linetype = 'dashed',
                                  ...) {
   plot.data <- ggplot2::fortify(object, data = data)
-  y = 'Data'
+  y <- 'Data'
   if (y %in% names(plot.data)) {
     p <- autoplot.ts(plot.data, columns = y, ...)
   } else {

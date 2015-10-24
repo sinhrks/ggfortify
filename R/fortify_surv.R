@@ -64,9 +64,9 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     else if (!is.function(fun)) {
       stop("Invalid 'fun' argument")
     }
-    d$surv = fun(d$surv)
-    d$upper = fun(d$upper)
-    d$lower = fun(d$lower)
+    d$surv <- fun(d$surv)
+    d$upper <- fun(d$upper)
+    d$lower <- fun(d$lower)
   }
   post_fortify(d)
 }

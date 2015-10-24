@@ -53,8 +53,8 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
   plot.data <- ggplot2::fortify(object, is.date = is.date, ts.connect = ts.connect)
   # replace whitespace to underscore to make column name handling easie
   colnames(plot.data) <- sub(' ', '_', colnames(plot.data))
-  lower = 'Lo_95'  # prioritize to use 95%
-  upper = 'Hi_95'
+  lower <- 'Lo_95'  # prioritize to use 95%
+  upper <- 'Hi_95'
   # lower = 'Lo 95'  # prioritize to use 95%
   # upper = 'Hi 95'
 

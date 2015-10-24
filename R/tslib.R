@@ -134,7 +134,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     with.ci.ma <- FALSE
   }
   clim0 <- if (with.ci)
-    stats::qnorm((1 + ci)/2)/sqrt(x$n.used)
+    stats::qnorm( (1 + ci) / 2) / sqrt(x$n.used)
   else c(0, 0)
 
   Npgs <- 1L
@@ -153,7 +153,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
       for (j in jind) {
         if (!(max(i, j) > nser)) {
           clim <- if (with.ci.ma && i == j)
-            clim0 * sqrt(cumsum(c(1, 2 * x$acf[-1, i, j]^2)))
+            clim0 * sqrt(cumsum(c(1, 2 * x$acf[-1, i, j] ^ 2)))
           else clim0
 
           if (with.ci && ci.type == "white") {
@@ -222,7 +222,7 @@ ggcpgram <- function (ts, taper = 0.1,
   y[1L] <- 0
   n <- length(x)
   x <- (0:(n / 2)) * stats::frequency(ts) / n
-  if (length(x)%%2 == 0) {
+  if (length(x) %% 2 == 0) {
     n <- length(x) - 1
     y <- y[1L:n]
     x <- x[1L:n]
@@ -326,8 +326,6 @@ ggtsdiag <- function(object, gof.lag = 10,
 gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   is.univariate(ts)
 
-  xnam <- deparse(substitute(ts))
-  n <- nrow(ts)
   nser <- 1
   tot.lags <- nser * lags
 
@@ -346,7 +344,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   lag.df <- dplyr::filter_(lag.df, '!is.na(Lag)')
   lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
 
-  mapping = ggplot2::aes_string(x = 'Lag', y = 'Data')
+  mapping <- ggplot2::aes_string(x = 'Lag', y = 'Data')
   p <- ggplot2::ggplot(data = lag.df, mapping = mapping) +
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~ Lag_dist, nrow = nrow, ncol = ncol)

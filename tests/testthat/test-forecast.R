@@ -101,4 +101,3 @@ test_that('fortify.bats works for austres', {
   p <- ggplot2::autoplot(result)
   expect_true(is(p, 'ggplot'))
 })
-

@@ -23,4 +23,3 @@ test_that('fortify.ts works for timeserieses', {
   # p <- autoplot(forecast::bats(UKgas), columns = 'Residuals')
   # expect_true(is(p, 'ggplot'))
 })
-

@@ -79,7 +79,7 @@ test_that('fortify.survfit works for simple data', {
                       n = c(12, 3, 2, 6, 2, 4, 2, 0, 2, 3, 3, 5))
   fit  <- survfit(Surv(time, time, status, type='interval') ~1, data = tdata, weight = n)
   fortified <- fortify(fit)
-  expected = data.frame(time = c(1, 2, 3, 4),
+  expected <- data.frame(time = c(1, 2, 3, 4),
                         n.risk = c(44.000000000, 20.652979445, 9.318098786, 6.634779353),
                         n.event = c(20.347020555, 9.334880659, 2.683319433, 3.634779353),
                         n.censor = c(3, 2, 0, 3),
@@ -90,7 +90,7 @@ test_that('fortify.survfit works for simple data', {
   expect_equal(fortified, expected)
 
   fortified <- fortify(fit, surv.connect = TRUE)
-  expected = data.frame(time = c(0, 1, 2, 3, 4),
+  expected <- data.frame(time = c(0, 1, 2, 3, 4),
                         n.risk = c(44.000000000, 44.000000000, 20.652979445, 9.318098786, 6.634779353),
                         n.event = c(20.347020555, 20.347020555, 9.334880659, 2.683319433, 3.634779353),
                         n.censor = c(0, 3, 2, 0, 3),
@@ -109,7 +109,7 @@ test_that('fortify.survfit works for simple data', {
 
   fit <- survfit(coxph(Surv(time, status) ~ 1, data = tdata))
   fortified <- fortify(fit)
-  expected = data.frame(time = c(1, 2, 3, 4),
+  expected <- data.frame(time = c(1, 2, 3, 4),
                         n.risk = c(8, 6, 4, 2),
                         n.event = c(1, 1, 1, 1),
                         n.censor = c(1, 1, 1, 1),
@@ -121,7 +121,7 @@ test_that('fortify.survfit works for simple data', {
   expect_equal(fortified, expected)
 
   fortified <- fortify(fit, surv.connect = TRUE)
-  expected = data.frame(time = c(0, 1, 2, 3, 4),
+  expected <- data.frame(time = c(0, 1, 2, 3, 4),
                         n.risk = c(8, 8, 6, 4, 2),
                         n.event = c(1, 1, 1, 1, 1),
                         n.censor = c(0, 1, 1, 1, 1),

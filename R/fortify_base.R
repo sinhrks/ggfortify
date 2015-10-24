@@ -37,7 +37,7 @@ fortify.table <- function(model, data, ...) {
 #' @export
 fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
   d <- as.data.frame(model)
-  if ((!compat) && is.null(colnames(model))) {
+  if ( (!compat) && is.null(colnames(model)) ) {
     # set numeric column names
     colnames(d) <- 1:ncol(model)
   }
@@ -94,7 +94,7 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
       warning(message, call. = FALSE)
     }
     ylim <- rev(levels(as.factor(gathered$Index)))
-    mapping = ggplot2::aes_string(x = 'variable', y = 'Index', fill = 'value')
+    mapping <- ggplot2::aes_string(x = 'variable', y = 'Index', fill = 'value')
     p <- ggplot2::ggplot(mapping = mapping) +
       geom_factory(geom_tile, gathered, alpha = alpha) +
       scale +
@@ -109,7 +109,7 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
     }
     plot.data <- ggplot2::fortify(object, original = original, compat = TRUE)
     plot.data$rownames <- rownames(plot.data)
-    mapping = ggplot2::aes_string(x = 'V1', y = 'V2')
+    mapping <- ggplot2::aes_string(x = 'V1', y = 'V2')
     p <- ggplot2::ggplot(mapping = mapping)
     if (!is.logical(shape) || shape) {
       p <- p + geom_factory(geom_point, plot.data, colour = colour, size = size,
