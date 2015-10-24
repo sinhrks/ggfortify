@@ -65,4 +65,3 @@ test_that('fortify.timeSeries works for Canada', {
   expected_names <- c('time', 'e', 'prod', 'rw', 'U')
   expect_equal(names(fortified), expected_names)
 })
-

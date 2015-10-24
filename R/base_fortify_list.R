@@ -79,4 +79,3 @@ check_names <- function(data, expected) {
   }
   return (FALSE)
 }
-

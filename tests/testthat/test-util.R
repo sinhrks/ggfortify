@@ -23,5 +23,3 @@ test_that('unscale', {
   scaled <- scale(df, center = FALSE, scale = FALSE)
   expect_equal(ggfortify::unscale(scaled, center = FALSE, scale = FALSE), df)
 })
-
-

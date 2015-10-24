@@ -134,7 +134,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
     with.ci.ma <- FALSE
   }
   clim0 <- if (with.ci)
-    stats::qnorm((1 + ci) / 2) / sqrt(x$n.used)
+    stats::qnorm( (1 + ci) / 2) / sqrt(x$n.used)
   else c(0, 0)
 
   Npgs <- 1L

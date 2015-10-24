@@ -497,5 +497,3 @@ autoplot.stepfun <- function(object,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }
-
-

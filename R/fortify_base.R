@@ -37,7 +37,7 @@ fortify.table <- function(model, data, ...) {
 #' @export
 fortify.matrix <- function(model, data = NULL, compat = FALSE, ...) {
   d <- as.data.frame(model)
-  if ((!compat) && is.null(colnames(model))) {
+  if ( (!compat) && is.null(colnames(model)) ) {
     # set numeric column names
     colnames(d) <- 1:ncol(model)
   }

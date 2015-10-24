@@ -72,4 +72,3 @@ post_fortify <- function(data) {
   # dplyr::tbl_df(data)
   as.data.frame(data)
 }
-
