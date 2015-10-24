@@ -3,7 +3,7 @@ context('test forecast')
 test_that('fortify.forecast works for AirPassengers', {
   d.arima <- forecast::auto.arima(AirPassengers)
   d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
-  
+
   expect_that(ggplot2::autoplot(d.forecast), not(throws_error()))
 
   fortified <- ggplot2::fortify(d.forecast)

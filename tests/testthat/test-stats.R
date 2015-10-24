@@ -107,7 +107,7 @@ test_that('fortify.prcomp works for iris', {
   expect_equal(names(fortified), expected_names)
   expect_equal(data.frame(fortified[c(1, 2, 3, 4, 5)]), iris)
   expect_equal(rownames(fortified), rownames(df))
-  
+
   tmp <- stats::prcomp(df)
   class(tmp) <- 'unsupportedClass'
   expect_error(ggplot2::fortify(tmp, data = iris))
@@ -288,7 +288,7 @@ test_that('autoplot.acf works', {
 })
 
 test_that('autoplot.stepfun works', {
-  
+
   expect_that(autoplot(stepfun(c(1, 2, 3), c(4, 5, 6, 7))), not(throws_error()))
 
   fortified <- fortify(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))

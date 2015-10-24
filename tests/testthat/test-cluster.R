@@ -14,7 +14,7 @@ test_that('fortify.kmeans works for iris', {
   expect_equal(colnames(fortified), c(colnames(iris), 'cluster'))
   expect_equal(is.factor(fortified$cluster), TRUE)
   expect_equal(rownames(fortified), rownames(df))
-  
+
   expect_that(ggplot2::autoplot(stats::kmeans(df, 3), data = df), not(throws_error()))
   expect_that(ggplot2::autoplot(stats::kmeans(df, 3)), throws_error())
 })
