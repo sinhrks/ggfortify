@@ -33,7 +33,6 @@ fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
   } else if (is(model, 'stl')) {
       # stl allows only univariate series
       ts.data <- model$time.series
-      ncomp <- ncol(ts.data)
       orig <- drop(ts.data %*% rep(1, ncol(ts.data)))
 
       dtindex <- get.dtindex(ts.data, is.date = is.date)
@@ -330,7 +329,6 @@ fortify.tsmodel <- function(model, data = NULL,
   d <- dplyr::left_join(d, fit, by = 'Index')
   d <- dplyr::left_join(d, resid, by = 'Index')
   if (!is.null(predict)) {
-    n <- nrow(d)
     d <- rbind_ts(pred, d, ts.connect = ts.connect)
   }
   post_fortify(d)

@@ -326,8 +326,6 @@ ggtsdiag <- function(object, gof.lag = 10,
 gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   is.univariate(ts)
 
-  xnam <- deparse(substitute(ts))
-  n <- nrow(ts)
   nser <- 1
   tot.lags <- nser * lags
 

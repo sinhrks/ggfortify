@@ -12,7 +12,7 @@ test_that("Code Lint", {
     infix_spaces_linter=lintr::infix_spaces_linter,
     line_length_linter=lintr::line_length_linter,
     no_tab_linter=lintr::no_tab_linter,
-    # object_usage_linter=lintr::object_usage_linter,
+    object_usage_linter=lintr::object_usage_linter,
     # snake_case_linter=lintr::snake_case_linter,
     # multiple_dots_linter=lintr::multiple_dots_linter,
     object_length_linter=lintr::object_length_linter,
