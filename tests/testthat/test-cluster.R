@@ -34,6 +34,9 @@ test_that('fortify.partition works for iris', {
   expect_equal(is.factor(fortified$cluster), TRUE)
   expect_equal(rownames(fortified), rownames(df))
 
+  p <- autoplot(cluster::clara(df, 3), data = iris)
+  expect_true(inherits(p, 'ggplot'))
+
   # fanny
   fortified <- ggplot2::fortify(cluster::fanny(df, 3))
   expect_equal(is.data.frame(fortified), TRUE)
@@ -47,6 +50,9 @@ test_that('fortify.partition works for iris', {
   expect_equal(is.factor(fortified$cluster), TRUE)
   expect_equal(rownames(fortified), rownames(df))
 
+  p <- autoplot(cluster::fanny(df, 3), data = iris)
+  expect_true(inherits(p, 'ggplot'))
+
   # pam
   fortified <- ggplot2::fortify(cluster::pam(df, 3))
   expect_equal(is.data.frame(fortified), TRUE)
@@ -59,6 +65,9 @@ test_that('fortify.partition works for iris', {
   expect_equal(colnames(fortified), c(colnames(iris), 'cluster'))
   expect_equal(is.factor(fortified$cluster), TRUE)
   expect_equal(rownames(fortified), rownames(df))
+
+  p <- autoplot(cluster::pam(df, 3), data = iris)
+  expect_true(inherits(p, 'ggplot'))
 })
 
 test_that('fortify.partition works for USArrests', {

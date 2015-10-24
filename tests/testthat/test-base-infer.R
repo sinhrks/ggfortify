@@ -115,7 +115,12 @@ test_that('infer, fortify and autoplot works for KFAS::signal', {
   expect_equal(colnames(fortified), c('Index', 'Data'))
   expect_equal(fortified$Index, nile_fortified$Index)
 
-  autoplot(filtered)
-  autoplot(smoothed)
-  autoplot(trend)
+  p <- autoplot(filtered)
+  expect_true(inherits(p, 'ggplot'))
+
+  p <- autoplot(smoothed)
+  expect_true(inherits(p, 'ggplot'))
+
+  p <- autoplot(trend)
+  expect_true(inherits(p, 'ggplot'))
 })

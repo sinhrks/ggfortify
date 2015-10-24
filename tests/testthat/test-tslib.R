@@ -82,5 +82,28 @@ test_that('fitted/residuals works for Arima/ar', {
 
 test_that('ggfreqplot', {
   p <- ggfreqplot(AirPassengers)
+  expect_true(inherits(p, 'ggplot'))
+
   p <- ggfreqplot(AirPassengers, facet.labeller = c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2))
+  expect_true(inherits(p, 'ggplot'))
+})
+
+
+test_that('ggcpgram', {
+  p <- ggcpgram(AirPassengers)
+  expect_true(inherits(p, 'ggplot'))
+})
+
+test_that('ggtsdiag', {
+  p <- ggtsdiag(arima(AirPassengers))
+  expect_true(inherits(p, 'ggmultiplot'))
+})
+
+test_that('gglagplot', {
+  p <- gglagplot(AirPassengers)
+  expect_true(inherits(p, 'ggplot'))
+
+  p <- gglagplot(AirPassengers, 4)
+  expect_true(inherits(p, 'ggplot'))
+
 })
