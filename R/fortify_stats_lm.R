@@ -80,7 +80,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   } else if (is_glm) {
     sqrt(summary(object)$dispersion)
   } else {
-    sqrt(stats::deviance(object)/stats::df.residual(object))
+    sqrt(stats::deviance(object) / stats::df.residual(object))
   }
   label.fitted <- ifelse(is_glm, 'Predicted values', 'Fitted values')
   label.y23 <- ifelse(is_glm, 'Std. deviance resid.', 'Standardized residuals')
@@ -104,7 +104,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   }
 
   .smooth <- function(x, y) {
-    stats::lowess(x, y, f = 2/3, iter = 3)
+    stats::lowess(x, y, f = 2 / 3, iter = 3)
   }
 
   .decorate.label <- function(p, data) {
@@ -240,11 +240,11 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     p6 <- .decorate.plot(p6, xlab = 'Leverage', ylab = "Cook's distance",
                          title = t6)
 
-    g <- dropInf(hii/(1 - hii), hii)
+    g <- dropInf(hii / (1 - hii), hii)
     p <- length(stats::coef(object))
     bval <- pretty(sqrt(p * plot.data$.cooksd / g), 5)
     for (i in seq_along(bval)) {
-      bi2 <- bval[i]^2
+      bi2 <- bval[i] ^ 2
       p6 <- p6 + ggplot2::geom_abline(intercept=0, slope=bi2,
                                       linetype = ad.linetype, size = ad.size,
                                       colour = ad.colour)

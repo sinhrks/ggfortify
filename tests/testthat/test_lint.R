@@ -9,7 +9,7 @@ test_that("Code Lint", {
     closed_curly_linter=lintr::closed_curly_linter,
     commas_linter=lintr::commas_linter,
     # commented_code_linter=lintr::commented_code_linter,
-    # infix_spaces_linter=lintr::infix_spaces_linter, #(73)
+    infix_spaces_linter=lintr::infix_spaces_linter, 
     # line_length_linter=lintr::line_length_linter, #(181)
     no_tab_linter=lintr::no_tab_linter,
     # object_usage_linter=lintr::object_usage_linter,

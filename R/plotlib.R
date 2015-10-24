@@ -42,7 +42,7 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 
   if (conf.int) {
     if (!is.null(conf.int.fill)) {
-      p<- p + geom_factory(ribbon_func, data, ymin = lower, ymax = upper,
+      p <- p + geom_factory(ribbon_func, data, ymin = lower, ymax = upper,
                            fill = conf.int.fill, alpha = conf.int.alpha, na.rm = TRUE)
     }
     if (conf.int.linetype != 'none') {
@@ -233,7 +233,7 @@ get.layout <- function(nplots, ncol, nrow) {
 setMethod('print', 'ggmultiplot',
   function(x) {
     nplots <- length(x@plots)
-    if (nplots==1) {
+    if (nplots == 1) {
       print(x@plots[[1]])
     } else {
       layout <- get.layout(nplots, x@ncol, x@nrow)
