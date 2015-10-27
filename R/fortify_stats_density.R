@@ -25,6 +25,7 @@ fortify.density <- function(model, data = NULL, ...) {
 #' @examples
 #' autoplot(stats::density(stats::rnorm(1:50)))
 #' autoplot(stats::density(stats::rnorm(1:50)), fill = 'blue')
+#' @importFrom scales percent
 #' @export
 autoplot.density <- function (object, p = NULL,
                               colour = '#000000', linetype = NULL,
