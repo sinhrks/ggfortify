@@ -55,8 +55,6 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
   colnames(plot.data) <- sub(' ', '_', colnames(plot.data))
   lower <- 'Lo_95'  # prioritize to use 95%
   upper <- 'Hi_95'
-  # lower = 'Lo 95'  # prioritize to use 95%
-  # upper = 'Hi 95'
 
   if (! 'Lo 95' %in% names(plot.data)) {
     # escape by backquote

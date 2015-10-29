@@ -8,8 +8,8 @@ test_that("Code Lint", {
     assignment_linter=lintr::assignment_linter,
     closed_curly_linter=lintr::closed_curly_linter,
     commas_linter=lintr::commas_linter,
-    # commented_code_linter=lintr::commented_code_linter,
-    infix_spaces_linter=lintr::infix_spaces_linter, # does not handle lm(Data~.-1) well
+    commented_code_linter=lintr::commented_code_linter,
+    # infix_spaces_linter=lintr::infix_spaces_linter, # (1)
     line_length_linter=lintr::line_length_linter,
     no_tab_linter=lintr::no_tab_linter,
     object_usage_linter=lintr::object_usage_linter,
@@ -23,5 +23,5 @@ test_that("Code Lint", {
     trailing_blank_lines_linter=lintr::trailing_blank_lines_linter,
     trailing_whitespace_linter=lintr::trailing_whitespace_linter
   )
-  # lintr::expect_lint_free(linters=my_linters) # uncomment this if you want to check code quality
+  lintr::expect_lint_free(linters=my_linters) # uncomment this if you want to check code quality
 })

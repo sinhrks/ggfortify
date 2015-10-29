@@ -31,7 +31,6 @@ test_that('fortify.forecast works for AirPassengers', {
 })
 
 test_that('fortify.arfima works for austres', {
-  # skip_on_travis()
 
   fortified <- ggplot2::fortify(forecast::arfima(austres))
   expect_equal(is.data.frame(fortified), TRUE)
