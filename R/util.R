@@ -69,6 +69,5 @@ deprecate.warning <- function(old.kw, new.kw) {
 #' @return data.frame
 post_fortify <- function(data) {
   # does nothing in current version
-  # dplyr::tbl_df(data)
   as.data.frame(data)
 }

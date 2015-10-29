@@ -43,7 +43,6 @@ fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
       dtframe <- ggplot2::fortify(model$x)
 
       # for tbl_df
-      # dtframe <- dtframe[, -1]
       dtframe <- data.frame(Data = dtframe[['Data']])
 
       # trend and random can be multivariate
