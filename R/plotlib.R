@@ -170,8 +170,7 @@ geom_factory <- function(geomfunc, data, ...) {
   }
   option[['data']] <- data
   option[['mapping']] <- do.call(ggplot2::aes_string, mapping)
-  proto <- do.call(geomfunc, option)
-  return(proto)
+  return(do.call(geomfunc, option))
 }
 
 #' An S4 class to hold multiple \code{ggplot2::ggplot} instances

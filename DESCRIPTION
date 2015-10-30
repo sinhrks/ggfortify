@@ -8,8 +8,8 @@ Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
 Description: Unified plotting tools for statistics commonly used, such as GLM, time series, PCA families, clustering and survival analysis. The package offers a single plotting interface for these analysis results and plots in a unified style using 'ggplot2'.
 License: GPL-2
 VignetteBuilder: knitr
-Depends: methods, grid, scales, proto, ggplot2
-Imports: dplyr (>= 0.3), tidyr, gridExtra
+Depends: methods, proto, ggplot2
+Imports: dplyr (>= 0.3), tidyr, gridExtra, scales
 Suggests:
     testthat,
     cluster,

@@ -444,7 +444,7 @@ fortify.stepfun <- function(model, data, ...) {
   }
   lim <- lim + dr * c(-1, 1)
   x <- c(lim[1], rep(x, each = 2), lim[2])
-  y <- eval(expression(c(yleft, y)), envir = environment(model))
+  y <- base::eval(expression(c(yleft, y)), envir = environment(model))
   y <- rep(y, each = 2)
   d <- data.frame(x = x, y = y)
   post_fortify(d)

@@ -60,6 +60,7 @@ fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
 #'                        control = list(parallelization = FALSE))
 #' autoplot(d.mswm)
 #' }
+#' @importFrom scales percent
 #' @export
 autoplot.MSM.lm <- function(object, prob.colour = '#FF0000',
                             prob.linetype = 'dashed', ...) {

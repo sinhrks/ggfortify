@@ -101,6 +101,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #' autoplot(survfit(Surv(time, status) ~ 1, data = lung))
 #' autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
 #' autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
+#' @importFrom scales percent
 #' @export
 autoplot.survfit <- function(object, fun = NULL,
                              surv.geom = 'step',

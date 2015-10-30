@@ -1,6 +1,6 @@
 ---
 title: "Plotting Time Series with ggplot2 and ggfortify"
-output: pdf_document
+output: html_document
 ---
 
 <!--
