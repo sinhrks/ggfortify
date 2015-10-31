@@ -103,8 +103,7 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
     mapping <- ggplot2::aes_string(x = 'variable', y = 'Index', fill = 'value')
     p <- ggplot2::ggplot(mapping = mapping) +
       geom_factory(geom_tile, gathered, alpha = alpha) +
-      scale +
-      xlab('Columns') + ylab('Rows') + ylim(ylim)
+      scale + xlab('Columns') + ylab('Rows') + ylim(ylim)
   } else if (geom == 'point') {
     if (ncol(object) != 2) {
       stop("Number of columns must be 2 to plot with 'geom = point'")

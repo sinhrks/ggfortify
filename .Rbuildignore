@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^README\.rst$
+^install_rdevel\.sh$
 ^vignettes/rsconnect/.*$
 ^\.httr-oauth$
 ^NEWS\.rst$

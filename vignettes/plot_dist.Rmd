@@ -8,7 +8,7 @@ library(knitr)
 opts_chunk$set(fig.width=6, fig.height=4, fig.path='figures/dist-', warning=FALSE)
 ```
 
-This document explains how to plot probability distributions using `{ggplot2}` and `{ggfortify}`. 
+This document explains how to plot probability distributions using `{ggplot2}` and `{ggfortify}`.
 
 # Plotting Probability Distributions
 

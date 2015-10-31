@@ -168,3 +168,4 @@ Passing `shape = FALSE` makes plot without points. In this case, `label` is turn
 ```{r, message = FALSE}
 autoplot(sammon(eurodist), shape = FALSE, label.colour = 'blue', label.size = 3)
 ```
+
