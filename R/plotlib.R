@@ -189,7 +189,15 @@ setClass('ggmultiplot',
 #' @return \code{ggmultiplot}
 setMethod('+', c('ggmultiplot', 'ANY'),
   function(e1, e2) {
-    plots <- lapply(e1@plots, function(x) { x + e2 })
+    if (is(e2, 'ggmultiplot')) {
+      # concat 2 ggmultiplots using lhs ncol / nrow
+      plots <- c(e1@plots, e2@plots)
+    } else if (is(e2, 'ggplot')) {
+      plots <- c(e1@plots, list(e2))
+    } else {
+      # apply theme / add geom
+      plots <- lapply(e1@plots, function(x) { x + e2 })
+    }
     new('ggmultiplot', plots = plots,
         ncol = e1@ncol, nrow = e1@nrow)
 })

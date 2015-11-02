@@ -1,5 +1,24 @@
 context('test plotlib')
 
+test_that('Check ggmultiplot arithmetics', {
+  p1 <- autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
+  p2 <- autoplot(lm(Sepal.Width ~ Sepal.Length, data = iris))
+  expect_true(is(p1, 'ggmultiplot'))
+  expect_true(is(p2, 'ggmultiplot'))
+
+  res <- p1 + p2
+  expect_true(is(res, 'ggmultiplot'))
+  expect_equal(length(res@plots), 8)
+
+  res <- p1 + (ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length)) + geom_point())
+  expect_true(is(res, 'ggmultiplot'))
+  expect_equal(length(res@plots), 5)
+
+  res <- res + theme_bw()
+  expect_true(is(res, 'ggmultiplot'))
+  expect_equal(length(res@plots), 5)
+})
+
 test_that('Check get.layout works', {
 
   expect_equal(ggfortify:::get.layout(5, 2, 0), t(matrix(1:6, 2, 3)))
