@@ -295,19 +295,19 @@ autoplot.pca_common <- function(object, data = NULL,
   plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)
 
-  if (is(object, 'prcomp')) {
+  if (is_derived_from(object, 'prcomp')) {
     x.column <- 'PC1'
     y.column <- 'PC2'
     loadings.column <- 'rotation'
-  } else if (is(object, 'princomp')) {
+  } else if (is_derived_from(object, 'princomp')) {
     x.column <- 'Comp.1'
     y.column <- 'Comp.2'
     loadings.column <- 'loadings'
-  } else if (is(object, 'factanal')) {
+  } else if (is_derived_from(object, 'factanal')) {
     x.column <- 'Factor1'
     y.column <- 'Factor2'
     loadings.column <- 'loadings'
-  } else if (is(object, 'lfda')) {
+  } else if (is_derived_from(object, 'lfda')) {
     x.column <- 'PC1'
     y.column <- 'PC2'
     loadings.column <- 'rotation'

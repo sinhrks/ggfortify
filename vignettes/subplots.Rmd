@@ -1,0 +1,109 @@
+---
+title: "Handling subplots with ggfortify package"
+output: html_document
+---
+
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Introduction to ggfortify package}
+-->
+
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=4, fig.path='figures/basics-', warning=FALSE)
+```
+
+This document explains subplots related functions `ggfortify`. To use the functionality, you need to install the development version 0.0.4.9100 or later.
+
+# Loading package
+
+```{r, message = FALSE, eval = FALSE}
+library(devtools)
+install_github('sinhrks/ggfortify')
+```
+
+```{r, message = FALSE}
+library(ggfortify)
+packageVersion('ggfortify')
+```
+
+# Draw subplots
+
+``autoplot`` may outputs subplots for some classes. For exmple, ``autoplot.lm`` draws diagnostics plots as below.
+
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+res <- lm(Volume ~ Girth, data = trees)  
+mp <- autoplot(res, ncol = 4)
+mp
+```
+
+Because `{ggplot2}` itself cannot handle different kinds of plots in a single instance, `{ggfortify}` handle them using its original class named `ggmultiplot`. You can use `+` operator to decorate `ggmultiplot`.
+
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+class(mp)
+mp + theme_bw()
+```
+
+Also, ``+`` operator appends plots if ``ggplot`` or ``ggmultiplot`` instance is given as right-hand-side. Following example attaches 2 scatter plots after diagnostics.
+
+```{r, message = FALSE, fig.width = 9, fig.height = 5}
+mp +
+  (ggplot(trees, aes(Girth, Volume)) + geom_point()) +
+  (ggplot(trees, aes(Girth, Height)) + geom_point())
+```
+
+You can extract subset using ``[`` and ``[[`` operators.
+
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+mp[2:3]
+```
+
+```{r, message = FALSE, fig.width = 2.25, fig.height = 2.5}
+mp[[1]]
+```
+
+You can extract arbitrary subset, modify, and draw.
+
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+mp[2:3] <- mp[2:3] + theme_bw()
+mp
+```
+
+# Draw multiple instances
+
+Assuming you want to plot multiple instances at once. ``ggfortify`` can accept ``list`` of supported instances and can output subplots.
+
+**NOTE** Currently, ``ggfortify`` NEITHER support list of mixed instances and list of instances which has multiple classes.
+
+Following example shows 3 ``kmeans`` plots changing number of clusters.
+
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+library(purrr)
+res <- purrr::map(c(3, 4, 5), ~ kmeans(iris[-5], .))
+autoplot(res, data = iris[-5], ncol = 3)
+```
+
+Also, can draw multiple survival curves as subplots.
+
+```{r, message = FALSE, fig.width = 8, fig.height = 2.5}
+library(survival)
+res <- list(a = survfit(Surv(time, status) ~ 1, data = lung),
+            b = survfit(Surv(time, status) ~ sex, data = lung))
+autoplot(res)
+```
+
+# Create your own subplots
+
+You can instanciate ``ggmultiplot`` from a ``list`` of ``ggplot`` instances.
+
+```{r, message = FALSE, fig.width = 4.5, fig.height = 2.5}
+p1 <- ggplot(iris, aes(Petal.Width, Petal.Length)) + geom_point()
+p2 <- ggplot(iris, aes(Petal.Width, Petal.Length)) + geom_point()
+new('ggmultiplot', plots = list(p1, p2))
+```
+
+Layout can be specified via ``nrow`` and ``ncol`` keywords.
+
+```{r, message = FALSE, fig.width = 2.25, fig.height = 5}
+new('ggmultiplot', plots = list(p1, p2), ncol = 1)
+```

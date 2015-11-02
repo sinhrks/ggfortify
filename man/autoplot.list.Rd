@@ -4,10 +4,19 @@
 \alias{autoplot.list}
 \title{Autoplot list}
 \usage{
-\method{autoplot}{list}(object, ...)
+\method{autoplot}{list}(object, data = NULL, nrow = NULL, ncol = NULL,
+  scales = "free_y", ...)
 }
 \arguments{
 \item{object}{\code{list} instance}
+
+\item{data}{original dataset, if needed}
+
+\item{nrow}{Number of facet/subplot rows}
+
+\item{ncol}{Number of facet/subplot columns}
+
+\item{scales}{Scale value passed to \code{ggplot2}}
 
 \item{...}{other arguments passed to methods}
 }

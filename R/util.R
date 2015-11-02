@@ -51,6 +51,29 @@ cbind_wraps <- function(df1, df2) {
 }
 
 
+#' Check object is target class, or object is \code{data.frame} fortified from target.
+#'
+#' @param object instance to be checked. For data.frame, check whether it is fortified from target class
+#' @param target class name
+#' @return logical
+#' @examples
+#' ggfortify:::is_derived_from(prcomp(iris[-5]), 'prcomp')
+is_derived_from <- function(object, target) {
+  if (is(object, target)) {
+    return(TRUE)
+  } else {
+    # 'base_class' attr is only added by autoplot.aareg for now
+    atr <- attr(object, 'base_class')
+    # this null check should be separeted to avoid logical(0)
+    if (is.null(atr)) {
+      return(FALSE)
+    }
+    return(atr == target)
+  }
+  return(FALSE)
+}
+
+
 #' Show deprecate warning
 #'
 #' @param old.kw Keyword being deprecated

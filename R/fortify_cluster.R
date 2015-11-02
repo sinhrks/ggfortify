@@ -43,17 +43,19 @@ fortify.kmeans <- function(model, data = NULL, ...) {
 autoplot.kmeans <- function(object, data = NULL,
                             colour = 'cluster', ...) {
 
-  if (is(object, 'kmeans')) {
+  if (is_derived_from(object, 'kmeans')) {
     if (is.null(data)) {
       stop("'data' is mandatory for plotting kmeans instance")
     }
-    dots <- colnames(object$center)
-  } else if (is(object, 'partition')) {
-    dots <- colnames(object$data)
+    dots <- 'centers'
+  } else if (is_derived_from(object, 'partition')) {
+    dots <- 'data'
   } else {
     stop(paste0('Unsupported class for autoplot.kmeans: ', class(object)))
   }
+
   plot.data <- ggplot2::fortify(object, data = data)
+  dots <- colnames(object[[dots]])
   plot.data$rownames <- rownames(plot.data)
 
   pca.data <- dplyr::select_(plot.data, .dots = dots)

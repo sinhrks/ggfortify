@@ -1,7 +1,7 @@
 Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
-Version: 0.0.4.9000
+Version: 0.0.4.9100
 Date: 2015-10-03
 Author: Masaaki Horikoshi <sinhrks@gmail.com> and Yuan Tang
     <terrytangyuan@gmail.com>
@@ -34,6 +34,7 @@ Suggests:
     MASS,
     MSwM,
     nlme,
+    purrr,
     stats,
     strucchange,
     survival,

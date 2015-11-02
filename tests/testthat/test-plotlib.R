@@ -90,6 +90,30 @@ test_that('Check ggmultiplot extraction', {
   expect_error(temp(p), 'Unable to set type, unsupported type')
 })
 
+test_that('Check ggmultiplot multiple instances', {
+  res <- lapply(c(3, 4, 5), function(x) kmeans(iris[-5], x))
+  p <- autoplot(res, data = iris[-5])
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 3)
+
+  p <- autoplot(list(a = AirPassengers, b = AirPassengers))
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 2)
+
+  library(survival)
+  sf <- survfit(Surv(time, status) ~ sex, data = lung)
+  res <- list(a = sf, b = sf, c = sf)
+  p <- autoplot(res)
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 3)
+
+  res <- list(a = lm(Sepal.Width ~ Sepal.Length, data = iris),
+              b = lm(Petal.Width ~ Petal.Length, data = iris))
+  p <- autoplot(res, ncol = 4)
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 8)
+})
+
 test_that('Check get.layout works', {
 
   expect_equal(ggfortify:::get.layout(5, 2, 0), t(matrix(1:6, 2, 3)))
