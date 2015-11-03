@@ -118,8 +118,8 @@ autoplot.survfit <- function(object, fun = NULL,
                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
 
-  if (is.data.frame(object)) {
-    # for autoplot.aareg
+  if (is_derived_from(object, 'aareg')) {
+    # for autoplot.aareg, object must be a data.frame
     plot.data <- object
     mapping <- aes_string(x = 'time', y = 'value')
     facets_formula <- ~ variable
@@ -128,7 +128,6 @@ autoplot.survfit <- function(object, fun = NULL,
     }
     # use default
     scale_labels <- ggplot2::waiver()
-
   } else {
     plot.data <- fortify(object, surv.connect = surv.connect, fun = fun)
     mapping <- aes_string(x = 'time', y = 'surv')
@@ -255,6 +254,7 @@ autoplot.aareg <- function (object, maxtime = NULL,
 
   plot.data <- fortify(object, maxtime = maxtime,
                        surv.connect = surv.connect, melt = TRUE)
+  attr(plot.data, 'base_class') <- 'aareg'
   autoplot.survfit(plot.data, facets = facets, ncol = ncol,
                    xlab = '', ylab = '', ...)
 }

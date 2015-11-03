@@ -119,6 +119,9 @@ plot_label <- function(p, data, label = TRUE, label.label = 'rownames',
 apply_facets <- function(p, formula, facets = TRUE, nrow = NULL, ncol = 1,
                          scales = 'free_y', ...) {
   if (!is.null(formula)) {
+    if (is.character(formula)) {
+      formula <- formula(paste('~', formula))
+    }
     p <- p + ggplot2::facet_wrap(formula, scales = scales,
                                  nrow = nrow, ncol = ncol)
   }

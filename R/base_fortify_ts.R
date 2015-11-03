@@ -165,11 +165,13 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
       columns <- data.names[data.names != index.name]
     }
   }
+
   if (length(columns) > 1) {
     .is.univariate <- FALSE
   } else {
     .is.univariate <- TRUE
   }
+
   plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
 
   # create ggplot instance if not passed
