@@ -34,6 +34,8 @@ before_install:
       Rscript -e 'install.packages("devtools")';
       Rscript -e 'library(devtools);install_github("hadley/ggplot2")';
     fi
+  # install latest
+  - Rscript -e 'install.packages("roxygen2")';
 
 after_success:
   - Rscript -e 'library(covr);coveralls()'

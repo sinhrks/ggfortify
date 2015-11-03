@@ -175,12 +175,20 @@ geom_factory <- function(geomfunc, data, ...) {
 
 #' An S4 class to hold multiple \code{ggplot2::ggplot} instances
 #'
+#' @name ggmultiplot-class
+#' @rdname ggmultiplot-class
+#' @exportClass ggmultiplot
+#'
 #' @slot plots List of \code{ggplot2::ggplot} instances
 #' @slot ncol Number of grid columns
 #' @slot nrow Number of grid rows
 setClass('ggmultiplot',
          representation(plots = 'list', ncol = 'numeric', nrow = 'numeric'),
          prototype = list(ncol = 0, nrow = 0))
+
+# ref:
+# https://stat.ethz.ch/R-manual/R-devel/library/methods/html/setMethod.html
+# https://github.com/variani/pckdev/wiki/Documenting-with-roxygen2
 
 #' Generic add operator for \code{ggmultiplot}
 #'
@@ -200,6 +208,79 @@ setMethod('+', c('ggmultiplot', 'ANY'),
     }
     new('ggmultiplot', plots = plots,
         ncol = e1@ncol, nrow = e1@nrow)
+})
+
+#' @param x \code{ggmultiplot}
+#'
+#' @rdname ggmultiplot-class
+#' @aliases length,ggmultiplot-method
+setMethod('length', 'ggmultiplot',
+  function(x) {
+    return(length(x@plots))
+})
+
+#' @param i elements to extract or replace
+#' @param j not used
+#' @param ... not used
+#' @param drop not used
+#'
+#' @rdname ggmultiplot-class
+#' @aliases [,ggmultiplot-method
+setMethod("[", signature(x = "ggmultiplot"),
+  function(x, i, j, ..., drop) {
+    new('ggmultiplot', plots = x@plots[i],
+        ncol = x@ncol, nrow = x@nrow)
+})
+
+#' @rdname ggmultiplot-class
+#' @aliases [[,ggmultiplot-method
+setMethod("[[", signature(x = "ggmultiplot"),
+  function(x, i, j, ..., drop) {
+    x@plots[[i]]
+})
+
+#' @param value value to be set
+#'
+#' @rdname ggmultiplot-class
+#' @aliases [<-,ggmultiplot-method
+setMethod("[<-", signature(x = "ggmultiplot"),
+  function(x, i, j, ..., value) {
+
+    if (is(value, 'ggmultiplot')) {
+      if (length(value) == length(x@plots[i])) {
+        x@plots[i] <- value@plots
+      } else {
+        stop(paste('Unable to set value, length mismatch:', length(value)))
+      }
+    } else if (is(value, 'ggplot')) {
+      if (length(x@plots[i]) == 1) {
+        x@plots[[i]] <- value
+      } else {
+        stop(paste('Unable to set ggplot to multiple slice'))
+      }
+    } else {
+      stop(paste('Unable to set type, unsupported type:', class(value)))
+    }
+    x
+})
+
+#' @rdname ggmultiplot-class
+#' @aliases [[<-,ggmultiplot-method
+setMethod("[[<-", signature(x = "ggmultiplot"),
+  function(x, i, j, ..., value) {
+
+    if (is(value, 'ggmultiplot')) {
+      if (length(value) == 1) {
+        x@plots[[i]] <- value@plots[[1]]
+      } else {
+        stop(paste('Unable to set value, length mismatch:', length(value)))
+      }
+    } else if (is(value, 'ggplot')) {
+      x@plots[[i]] <- value
+    } else {
+      stop(paste('Unable to set type, unsupported type:', class(value)))
+    }
+    x
 })
 
 #' Calcurate layout matrix for \code{ggmultiplot}
@@ -236,6 +317,7 @@ get.layout <- function(nplots, ncol, nrow) {
 #'
 #' @param x \code{ggmultiplot}
 #' @return NULL
+#'
 #' @importFrom gridExtra grid.arrange
 setMethod('print', 'ggmultiplot',
   function(x) {
@@ -253,8 +335,7 @@ setMethod('print', 'ggmultiplot',
 #'
 #' @param object \code{ggmultiplot}
 #' @return NULL
-setMethod('show', 'ggmultiplot',
-          function(object) { print(object) })
+setMethod('show', 'ggmultiplot', function(object) { print(object) })
 
 
 #' Post process for fortify. Based on \code{ggplot2::qplot}
