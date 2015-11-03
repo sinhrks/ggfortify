@@ -19,6 +19,77 @@ test_that('Check ggmultiplot arithmetics', {
   expect_equal(length(res@plots), 5)
 })
 
+
+test_that('Check ggmultiplot extraction', {
+  p <- autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
+  expect_equal(length(p), 4)
+
+  # getter
+
+  res <- p[1]
+  expect_true(is(res, 'ggmultiplot'))
+  expect_equal(length(res), 1)
+
+  res <- p[2:3]
+  expect_true(is(res, 'ggmultiplot'))
+  expect_equal(length(res), 2)
+
+  res <- p[[1]]
+  expect_true(is(res, 'ggplot'))
+
+  # setter
+  p[1] <- p[1] # same length
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 4)
+
+  p[2:3] <- p[1:2] # same length
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 4)
+
+  p[1] <- p[[1]] # same length (set ggplot)
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 4)
+
+  # different length
+  temp <- function(x) {
+    x[2:4] <- x[1:2]
+  }
+  expect_error(temp(p), 'Unable to set value, length mismatch')
+
+  # different length (set ggplot to slice)
+  temp <- function(x) {
+    x[2:4] <- x[[1]]
+  }
+  expect_error(temp(p), 'Unable to set ggplot to multiple slice')
+
+  # invalid value
+  temp <- function(x) {
+    x[2:4] <- 'xxx'
+  }
+  expect_error(temp(p), 'Unable to set type, unsupported type')
+
+  # setter
+  p[[1]] <- p[1] # same length
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 4)
+
+  p[[1]] <- p[[1]] # same length (set ggplot)
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 4)
+
+  # different length
+  temp <- function(x) {
+    x[[1]] <- x[1:2]
+  }
+  expect_error(temp(p), 'Unable to set value, length mismatch')
+
+  # invalid value
+  temp <- function(x) {
+    x[2:4] <- 'xxx'
+  }
+  expect_error(temp(p), 'Unable to set type, unsupported type')
+})
+
 test_that('Check get.layout works', {
 
   expect_equal(ggfortify:::get.layout(5, 2, 0), t(matrix(1:6, 2, 3)))
