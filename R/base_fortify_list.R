@@ -33,35 +33,6 @@ autoplot.list <- function(object, data = NULL,
   if (length(object) ==0) {
     stop('list length = 0, contains nothing')
   }
-  # if model is a list of a single class instances, try to plot them with facets
-  maybe_class <- unique(sapply(object, class))
-
-  if (length(maybe_class) == 1) {
-    if (paste0('fortify.', maybe_class) %in% methods('fortify')) {
-      fortifier <- function(x, list_names) {
-        ret <- ggplot2::fortify(object[[x]], data = data, ...)
-        # not use mutate, can't resolve values in SE
-        ret['.group'] <- list_names[[x]]
-        ret
-      }
-
-      if (is.null(names(object))) {
-        list_names <- seq_along(object)
-      } else {
-        list_names <- names(object)
-      }
-      p <- lapply(object, function(x) autoplot(x, data = data, nrow = nrow,
-                                               ncol = ncol, scales = scales, ...))
-      if (is(p[[1]], 'ggmultiplot')) {
-        p <- unlist(lapply(p, function(x) x@plots), recursive = FALSE)
-      }
-      # set default
-      if (is.null(ncol)) { ncol <- 0 }
-      if (is.null(nrow)) { nrow <- 0 }
-      p <- new('ggmultiplot', plots = p, nrow = nrow, ncol = ncol)
-      return(p)
-    }
-  }
 
   klass <- infer(object)
   if (klass == 'mds-like') {
@@ -75,6 +46,27 @@ autoplot.list <- function(object, data = NULL,
   } else if (klass == 'KFASSignal') {
     return(ggplot2::autoplot(object$signal, ...))
   }
+
+  # if model is a list of a single class instances, try to plot them with facets
+  if (all(sapply(object, support_autoplot))) {
+
+    if (is.null(names(object))) {
+      list_names <- seq_along(object)
+    } else {
+      list_names <- names(object)
+    }
+    p <- lapply(object, function(x) autoplot(x, data = data, nrow = nrow,
+                                             ncol = ncol, scales = scales, ...))
+    if (is(p[[1]], 'ggmultiplot')) {
+      p <- unlist(lapply(p, function(x) x@plots), recursive = FALSE)
+    }
+    # set default
+    if (is.null(ncol)) { ncol <- 0 }
+    if (is.null(nrow)) { nrow <- 0 }
+    p <- new('ggmultiplot', plots = p, nrow = nrow, ncol = ncol)
+    return(p)
+  }
+
   stop('Unable to infer class from input list')
 }
 
@@ -82,7 +74,6 @@ autoplot.list <- function(object, data = NULL,
 #'
 #' @param data list instance
 #' @return character
-#' @export
 infer <- function(data) {
   if (check_names(data, c('points', 'eig', 'x', 'ac', 'GOF'))) {
     # cmdscale
@@ -97,10 +88,11 @@ infer <- function(data) {
     # dlm::dlmSmooth
     return('dlmSmooth')
   } else if (check_names(data, c('signal', 'variance'))) {
-      # KFAS::signal
-      return('KFASSignal')
+    # KFAS::signal
+    return('KFASSignal')
+  } else {
+    return('list')
   }
-  stop('Unable to infer class from input list')
 }
 
 #' Check data names are equal with expected

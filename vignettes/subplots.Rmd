@@ -73,8 +73,6 @@ mp
 
 Assuming you want to plot multiple instances at once. ``ggfortify`` can accept ``list`` of supported instances and can output subplots.
 
-**NOTE** Currently, ``ggfortify`` NEITHER support list of mixed instances and list of instances which has multiple classes.
-
 Following example shows 3 ``kmeans`` plots changing number of clusters.
 
 ```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
@@ -83,12 +81,21 @@ res <- purrr::map(c(3, 4, 5), ~ kmeans(iris[-5], .))
 autoplot(res, data = iris[-5], ncol = 3)
 ```
 
-Also, can draw multiple survival curves as subplots.
+Next example shows multiple survival curves as subplots.
 
 ```{r, message = FALSE, fig.width = 8, fig.height = 2.5}
 library(survival)
 res <- list(a = survfit(Surv(time, status) ~ 1, data = lung),
             b = survfit(Surv(time, status) ~ sex, data = lung))
+autoplot(res)
+```
+
+You can pass a list contains different classes to ``autoplot``.
+
+```{r, message = FALSE, fig.width = 8, fig.height = 2.5}
+library(vars)
+data(Canada)
+res <- list(a = Canada, b = AirPassengers)
 autoplot(res)
 ```
 

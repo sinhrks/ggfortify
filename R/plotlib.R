@@ -377,3 +377,12 @@ post_autoplot <- function(p, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
     p <- p + ggplot2::ylim(ylim)
   p
 }
+
+#' Check if passed object is supported by \code{ggplot2::autoplot}
+#'
+#' @param obj object
+#' @return logical
+support_autoplot <- function(obj) {
+  maybe_autoplot <- paste0('autoplot.', class(obj))
+  return(any(sapply(maybe_autoplot, function(x) x %in% methods('autoplot'))))
+}

@@ -112,6 +112,10 @@ test_that('Check ggmultiplot multiple instances', {
   p <- autoplot(res, ncol = 4)
   expect_true(is(p, 'ggmultiplot'))
   expect_equal(length(p), 8)
+
+  p <- autoplot(list(a=Canada, b=AirPassengers))
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(length(p), 2)
 })
 
 test_that('Check get.layout works', {
