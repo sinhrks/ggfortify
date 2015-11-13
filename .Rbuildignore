@@ -2,6 +2,6 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^README\.rst$
-^notes$
+^vignettes/rsconnect/.*$
 ^\.httr-oauth$
 ^NEWS\.rst$
