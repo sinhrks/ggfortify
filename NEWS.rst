@@ -1,8 +1,8 @@
 NEWS
 =====================
 
-ggfortify dev version
----------------------
+ggfortify v0.1.0
+----------------
 
 - Compatible with ggplot2 v1.1.0
 - Support glmnet

@@ -118,25 +118,7 @@ test_that('fortify.princomp works for iris', {
   pcs <- c('Comp.1', 'Comp.2', 'Comp.3', 'Comp.4')
   expected_names <- c(names(df), pcs)
 
-  fortified <- ggplot2::fortify(stats::princomp(df, center = TRUE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), expected_names)
-  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
-  expect_equal(rownames(fortified), rownames(df))
-
-  fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), expected_names)
-  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
-  expect_equal(rownames(fortified), rownames(df))
-
-  fortified <- ggplot2::fortify(stats::princomp(df, center = TRUE, scale = FALSE))
-  expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), expected_names)
-  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
-  expect_equal(rownames(fortified), rownames(df))
-
-  fortified <- ggplot2::fortify(stats::princomp(df, center = FALSE, scale = FALSE))
+  fortified <- ggplot2::fortify(stats::princomp(df))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), df)
@@ -207,25 +189,7 @@ test_that('fortify.princomp works for USArrests', {
   pcs <- c('Comp.1', 'Comp.2', 'Comp.3', 'Comp.4')
   expected_names <- c(names(USArrests), pcs)
 
-  fortified <- ggplot2::fortify(stats::princomp(USArrests, center = TRUE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), expected_names)
-  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), USArrests)
-  expect_equal(rownames(fortified), rownames(USArrests))
-
-  fortified <- ggplot2::fortify(stats::princomp(USArrests, center = FALSE, scale = TRUE))
-  expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), expected_names)
-  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), USArrests)
-  expect_equal(rownames(fortified), rownames(USArrests))
-
-  fortified <- ggplot2::fortify(stats::princomp(USArrests, center = TRUE, scale = FALSE))
-  expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), expected_names)
-  expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), USArrests)
-  expect_equal(rownames(fortified), rownames(USArrests))
-
-  fortified <- ggplot2::fortify(stats::princomp(USArrests, center = FALSE, scale = FALSE))
+  fortified <- ggplot2::fortify(stats::princomp(USArrests))
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), expected_names)
   expect_equal(data.frame(fortified[c(1, 2, 3, 4)]), USArrests)
@@ -246,30 +210,30 @@ test_that('fortify.dist works for eurodist', {
 })
 
 test_that('fortify.lfda works for iris', {
-  library(lfda)
-  k <- iris[,-5]
-  y <- iris[,5]
-  r <- 3
-  model <- lfda(k, y, r, metric = "plain")
-  fortified <- ggplot2::fortify(model)
-  expect_equal(is.data.frame(fortified), TRUE)
-
-  model <- klfda(kmatrixGauss(k), y, r, metric = "plain")
-  fortified <- ggplot2::fortify(model)
-  expect_equal(is.data.frame(fortified), TRUE)
-
-  model <- self(k, y, beta=0.1, r, metric = "plain")
-  fortified <- ggplot2::fortify(model)
-  expect_equal(is.data.frame(fortified), TRUE)
+    skip_on_cran()
+    library(lfda)
+    k <- iris[,-5]
+    y <- iris[,5]
+    r <- 3
+    model <- lfda(k, y, r, metric = "plain")
+    fortified <- ggplot2::fortify(model)
+    expect_equal(is.data.frame(fortified), TRUE)
+    model <- klfda(kmatrixGauss(k), y, r, metric = "plain")
+    fortified <- ggplot2::fortify(model)
+    expect_equal(is.data.frame(fortified), TRUE)
+    model <- self(k, y, beta=0.1, r, metric = "plain")
+    fortified <- ggplot2::fortify(model)
+    expect_equal(is.data.frame(fortified), TRUE)
 })
 
 test_that('autoplot.lfda works for iris', {
-  k <- iris[,-5]
-  y <- iris[,5]
-  r <- 4
-  model <- lfda::lfda(k,y,r,metric="plain")
-  p <- autoplot(model, data=iris, frame = TRUE, frame.colour='Species')
-  expect_true(is(p, 'ggplot'))
+    skip_on_cran()
+    k <- iris[,-5]
+    y <- iris[,5]
+    r <- 4
+    model <- lfda::lfda(k,y,r,metric="plain")
+    p <- autoplot(model, data=iris, frame = TRUE, frame.colour='Species')
+    expect_true(is(p, 'ggplot'))
 })
 
 test_that('autoplot.acf works', {

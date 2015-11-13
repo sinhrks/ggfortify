@@ -186,8 +186,10 @@ fortify.factanal <- function(model, data = NULL, ...) {
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' model <- lfda::lfda(iris[, -5], iris[, 5], 3, metric = "plain")
 #' fortify(model)
+#' }
 #' @export
 fortify.lfda <- function(model, data = NULL, ...) {
 

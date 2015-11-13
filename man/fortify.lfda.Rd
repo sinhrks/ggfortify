@@ -20,7 +20,9 @@ data.frame
 Convert \code{lfda::lfda} or \code{lfda::klfda} or \code{lfda::self} to \code{data.frame}
 }
 \examples{
+\dontrun{
 model <- lfda::lfda(iris[, -5], iris[, 5], 3, metric = "plain")
 fortify(model)
+}
 }
 

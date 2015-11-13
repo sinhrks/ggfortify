@@ -8,7 +8,7 @@
 #' @param ... other arguments passed to methods
 geom_confint <- function (mapping = NULL, data = NULL, stat = "identity",
                           position = "identity", na.rm = FALSE, ...) {
-  if (packageVersion("ggplot2") <= '1.0.1') {
+  if (utils::packageVersion("ggplot2") <= '1.0.1') {
     GeomConfint$new(mapping = mapping, data = data, stat = stat,
                     position = position, na.rm = na.rm, ...)
   } else {
@@ -21,7 +21,7 @@ geom_confint <- function (mapping = NULL, data = NULL, stat = "identity",
   }
 }
 
-if (packageVersion("ggplot2") <= '1.0.1') {
+if (utils::packageVersion("ggplot2") <= '1.0.1') {
   # mostly derived from ggplot2
   # Licensed under GPL-2
   # Link - https://github.com/hadley/ggplot2/blob/master/DESCRIPTION
