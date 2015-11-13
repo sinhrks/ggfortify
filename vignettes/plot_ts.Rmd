@@ -13,11 +13,11 @@ library(knitr)
 opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/ts-', warning=FALSE)
 ```
 
-This document explains time series related plotting using `ggplot2` and `ggfortify`. 
+This document explains time series related plotting using `ggplot2` and `{ggfortify}`. 
 
 # Plotting ts objects
 
-`ggfortify` let `ggplot2` know how to interpret `ts` objects. After loading `ggfortify`, you can use `ggplot2::autoplot` function for `ts` objects. 
+`{ggfortify}` let `{ggplot2}` know how to interpret `ts` objects. After loading `{ggfortify}`, you can use `ggplot2::autoplot` function for `ts` objects. 
 
 ```{r, message = FALSE}
 library(ggfortify)
@@ -73,7 +73,7 @@ autoplot(AirPassengers, ts.geom = 'point', shape = 3)
 
 # Plotting with forecast package
 
-`ggfortify` supports `forecast` object in `forecast` package. 
+`{ggfortify}` supports `forecast` object in the `{forecast}` package. 
 
 ```{r, message = FALSE}
 library(forecast)
@@ -108,7 +108,7 @@ autoplot(predict(d.var, n.ahead = 50), ts.colour = 'dodgerblue4',
 
 # Plotting with changepoint package
 
-`ggfortify` supports `cpt` object in `changepoint` package. 
+`{ggfortify}` supports `cpt` object in `{changepoint}` package. 
 
 ```{r message = FALSE}
 library(changepoint)
@@ -154,7 +154,7 @@ You can specify some options to change how plot looks, such as `ts.linetype` and
 autoplot(filtered, ts.linetype = 'dashed', fitted.colour = 'blue')
 ```
 
-`ggfortify` can plot `dlm::dlmSmooth` instance which returns a `list` instance using using class inference. Note that only smoothed result is plotted because `dlm::dlmSmooth` doesn't contain original `ts`.
+`{ggfortify}` can plot `dlm::dlmSmooth` instance which returns a `list` instance using using class inference. Note that only smoothed result is plotted because `dlm::dlmSmooth` doesn't contain original `ts`.
 
 ```{r}
 smoothed <- dlmSmooth(filtered)
@@ -208,7 +208,7 @@ autoplot(trend, ts.colour = 'blue', p = p)
 
 # Plotting time series statistics
 
-`ggfortify` supports following time series related statistics in `stats` package:
+`{ggfortify}` supports following time series related statistics in `stats` package:
 
 * `stl`, `decomposed.ts`
 * `acf`, `pacf`, `ccf`
@@ -261,16 +261,3 @@ gglagplot(AirPassengers, lags = 4)
 ggfreqplot(AirPassengers)
 ggfreqplot(AirPassengers, freq = 4)
 ```
-
-# Resources related to ggfortify
-
-* [Concepts and Basics of ggfortify](http://rpubs.com/sinhrks/basics)
-* [Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_lm)
-* [Plotting Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts)
-* [Plotting Time Series Statistics with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_tsstats)
-* [Plotting State Space Time Series with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_ts_dlm)
-* [Plotting PCA/clustering results using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_pca)
-* [Plotting Multidimensional Scaling using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_mds)
-* [Plotting Survival Curves using ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_surv)
-* [Plotting Probability Distributions with ggplot2 and ggfortify](http://rpubs.com/sinhrks/plot_dist)
- 
