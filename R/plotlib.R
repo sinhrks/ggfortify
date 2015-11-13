@@ -61,6 +61,8 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #'
 #' @param p \code{ggplot2::ggplot} instance
 #' @param data Data contains text label
+#' @param x x coordinates for label
+#' @param y y coordinates for label
 #' @param label Logical value whether to display labels
 #' @param label.label Column name used for label text
 #' @param label.colour Colour for text labels
@@ -73,7 +75,7 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #' @param label.hjust Horizontal adjustment for text labels
 #' @param label.vjust Vertical adjustment for text labels
 #' @return ggplot
-plot_label <- function(p, data, label = TRUE, label.label = 'rownames',
+plot_label <- function(p, data, x = NULL, y = NULL, label = TRUE, label.label = 'rownames',
                        label.colour = NULL, label.alpha = NULL,
                        label.size = NULL, label.angle = NULL,
                        label.family = NULL, label.fontface = NULL,
@@ -94,7 +96,7 @@ plot_label <- function(p, data, label = TRUE, label.label = 'rownames',
       # NULL may be explicitly passed from parent functions
       label.colour <- '#000000'
     }
-    p <- p + geom_factory(ggplot2::geom_text, data,
+    p <- p + geom_factory(ggplot2::geom_text, data, x = x, y = y,
                           label = label.label,
                           colour = label.colour, alpha = label.alpha,
                           size = label.size, angle = label.angle,

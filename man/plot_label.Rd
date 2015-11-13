@@ -4,15 +4,20 @@
 \alias{plot_label}
 \title{Attach label to \code{ggplot2::ggplot}}
 \usage{
-plot_label(p, data, label = TRUE, label.label = "rownames",
-  label.colour = NULL, label.alpha = NULL, label.size = NULL,
-  label.angle = NULL, label.family = NULL, label.fontface = NULL,
-  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL)
+plot_label(p, data, x = NULL, y = NULL, label = TRUE,
+  label.label = "rownames", label.colour = NULL, label.alpha = NULL,
+  label.size = NULL, label.angle = NULL, label.family = NULL,
+  label.fontface = NULL, label.lineheight = NULL, label.hjust = NULL,
+  label.vjust = NULL)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instance}
 
 \item{data}{Data contains text label}
+
+\item{x}{x coordinates for label}
+
+\item{y}{y coordinates for label}
 
 \item{label}{Logical value whether to display labels}
 

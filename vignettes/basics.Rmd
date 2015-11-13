@@ -128,8 +128,7 @@ Assuming you want to plot multiple instances at once. ``{ggfortify}`` can accept
 Following example shows 3 ``kmeans`` plots changing number of clusters.
 
 ```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
-library(purrr)
-res <- purrr::map(c(3, 4, 5), ~ kmeans(iris[-5], .))
+res <- lapply(c(3, 4, 5), function(x) kmeans(iris[-5], x))
 autoplot(res, data = iris[-5], ncol = 3)
 ```
 
