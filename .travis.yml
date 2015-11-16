@@ -13,7 +13,7 @@ r_binary_packages:
   - testthat
   - changepoint
   - dlm
-  - fGarch
+  # - fGarch
   - forecast
   - KFAS
   - knitr
