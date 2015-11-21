@@ -5,4 +5,3 @@
 ^vignettes/rsconnect/.*$
 ^\.httr-oauth$
 ^NEWS\.rst$
-^vignettes/intro_Chinese.Rmd

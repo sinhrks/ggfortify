@@ -120,13 +120,7 @@ library(lfda)
 # Fisher局部判别分析 (LFDA)
 model <- lfda(iris[-5], iris[, 5], 4, metric="plain")
 autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
-
-# 非线性核Fisher局部判别分析 (KLFDA)
-model <- klfda(kmatrixGauss(iris[-5]), iris[, 5], 4, metric="plain")
-autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
 ```
-
-**注意** 对 ``iris`` 数据来说，不同的类之间的关系很显然不是简单的线性，这种情况下非线性的klfda影响可能太强大而影响了可视化的效果，在使用前请充分理解每个算法的意义以及效果。
 
 ```{r, message = FALSE}
 # 半监督Fisher局部判别分析 (SELF)
