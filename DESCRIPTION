@@ -6,6 +6,7 @@ Date: 2015-10-03
 Author: Masaaki Horikoshi <sinhrks@gmail.com> and Yuan Tang
     <terrytangyuan@gmail.com>
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
+Encoding: UTF-8
 Description: Unified plotting tools for statistics commonly used, such as GLM,
     time series, PCA families, clustering and survival analysis. The package offers
     a single plotting interface for these analysis results and plots in a unified
