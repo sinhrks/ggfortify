@@ -27,6 +27,7 @@ r_binary_packages:
 
 r_github_packages:
   - jimhester/covr
+  - terrytangyuan/lfda
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
