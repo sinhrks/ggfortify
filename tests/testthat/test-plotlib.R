@@ -245,3 +245,20 @@ test_that('Check geom_factory works', {
   }
   expect_equal(capture.output(print(result)), expected)
 })
+
+test_that('Check autoplot works for list of ggplot', {
+  library(dplyr)
+  p <- iris %>% ggplot(aes(Sepal.Length, Petal.Length)) + geom_point()
+  plots <- iris %>% group_by(Species) %>%
+    do(plots = p %+% . + facet_wrap(~Species))
+  p <- autoplot(plots$plots)
+  expect_true(inherits(p, 'ggmultiplot'))
+})
+
+test_that('Check autoplot works for list of ggpmultilot', {
+  library(dplyr)
+  plots <- iris %>% group_by(Species) %>%
+    do(plots = autoplot(lm(Petal.Width ~ Petal.Length, data = .)))
+  p <- autoplot(plots$plots)
+  expect_true(inherits(p, 'ggmultiplot'))
+})

@@ -12,7 +12,7 @@ output: word_document
 
 [ggfortify](https://github.com/sinhrks/ggfortify) 有着简单易用的统一的界面来用一行代码来对许多受欢迎的R软件包结果进行二维可视化的一个R工具包。这让许多的统计学家以及数据科学家省去了许多繁琐和重复的过程，不用对结果进行任何处理就能以 `{ggplot}` 的风格画出好看的图，大大地提高了工作的效率。
 
-虽然ggfortify已经在[CRAN](https://cran.fhcrc.org/web/packages/ggfortify/index.html)上，但是由于最近很多的功能都还在快速增加，还是推荐大家从[Github](https://github.com/sinhrks/ggfortify)上下载和安装
+虽然ggfortify已经在[CRAN](https://cran.r-project.org/package=ggfortify)上，但是由于最近很多的功能都还在快速增加，还是推荐大家从[Github](https://github.com/sinhrks/ggfortify)上下载和安装
 ```
 library(devtools)
 install_github('sinhrks/ggfortify')
@@ -112,7 +112,7 @@ autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 
 # lfda(Fisher局部判别分析)
 
-[``{lfda}``](https://cran.r-project.org/web/packages/lfda/index.html) 包支持一系列的Fisher局部判别分析方法，包括半监督lfda，非线性lfda。你也可以使用`{ggfortify}`来对他们的结果进行可视化。
+[``{lfda}``](https://cran.r-project.org/package=lfda)包支持一系列的Fisher局部判别分析方法，包括半监督lfda，非线性lfda。你也可以使用`{ggfortify}`来对他们的结果进行可视化。
 
 ```{r, message = FALSE}
 library(lfda)
