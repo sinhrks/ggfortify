@@ -388,3 +388,26 @@ support_autoplot <- function(obj) {
   maybe_autoplot <- paste0('autoplot.', class(obj))
   return(any(sapply(maybe_autoplot, function(x) x %in% methods('autoplot'))))
 }
+
+
+#' Autoplot \code{ggplot} instances.
+#' It returns the passed instance as it is.
+#'
+#' @param object ggplot instance
+#' @param ... Not used.
+#' @return ggplot
+#' @export
+autoplot.ggplot <- function(object, ...) {
+  return (object)
+}
+
+#' Autoplot \code{ggmultiplot} instances.
+#' It returns the passed instance as it is.
+#'
+#' @param object ggmultiplot instance
+#' @param ... Not used.
+#' @return ggmultiplot
+#' @export
+autoplot.ggmultiplot <- function(object, ...) {
+  return (object)
+}
