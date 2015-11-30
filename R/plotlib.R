@@ -386,7 +386,7 @@ post_autoplot <- function(p, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
 #' @return logical
 support_autoplot <- function(obj) {
   maybe_autoplot <- paste0('autoplot.', class(obj))
-  return(any(sapply(maybe_autoplot, function(x) x %in% methods('autoplot'))))
+  return(any(sapply(maybe_autoplot, function(x) x %in% utils::methods('autoplot'))))
 }
 
 

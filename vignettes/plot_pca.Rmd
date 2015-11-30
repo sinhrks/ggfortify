@@ -5,7 +5,7 @@ output: html_document
 
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Introduction to ggfortify package}
+%\VignetteIndexEntry{Plotting PCA, clustering, LFDA and MDS results}
 -->
 
 ```{r global_options, include=FALSE}
@@ -104,7 +104,7 @@ autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 
 # Plotting Local Fisher Discriminant Analysis with ``{lfda}`` package
 
-[``{lfda}``](https://cran.r-project.org/web/packages/lfda/index.html) package supports a set of Local Fisher Discriminant Analysis methods. You can use ``autoplot`` to plot the analysis result as the same manner as PCA.
+``{lfda}`` package supports a set of Local Fisher Discriminant Analysis methods. You can use ``autoplot`` to plot the analysis result as the same manner as PCA.
 
 Thanks to the kind contribution of [Yuan Tang](https://github.com/terrytangyuan), the author of ``{lfda}`` package. 
 

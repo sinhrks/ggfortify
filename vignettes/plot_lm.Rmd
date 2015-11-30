@@ -5,7 +5,7 @@ output: html_document
 
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Introduction to ggfortify package}
+%\VignetteIndexEntry{Plotting Diagnostics for LM and GLM}
 -->
 
 ```{r global_options, include=FALSE}
