@@ -145,104 +145,61 @@ test_that('Check geom_factory works', {
   # Thus, capture the printed result and check equalities
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 'Species')
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping: shape = Species ",
-                  "geom_point: na.rm = FALSE ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping: shape = Species ",
-                  "geom_point: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping: shape = Species ",
+                "geom_point: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
   expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 'Species', size = 10)
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping: shape = Species ",
-                  "geom_point: na.rm = FALSE, size = 10 ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping: shape = Species ",
-                  "geom_point: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping: shape = Species ",
+                "geom_point: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
+
   expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 'Species',
                                      size = 'Sepal.Width')
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping: shape = Species, size = Sepal.Width ",
-                  "geom_point: na.rm = FALSE ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping: shape = Species, size = Sepal.Width ",
-                  "geom_point: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping: shape = Species, size = Sepal.Width ",
+                "geom_point: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
+
   expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 2,
                                      colour = 'Species', size = 'Sepal.Width')
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping: colour = Species, size = Sepal.Width ",
-                  "geom_point: na.rm = FALSE, shape = 2 ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping: colour = Species, size = Sepal.Width ",
-                  "geom_point: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping: colour = Species, size = Sepal.Width ",
+                "geom_point: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
+
   expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_line, iris)
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping:  ",
-                  "geom_line:  ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping:  ",
-                  "geom_line: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping:  ",
+                "geom_line: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
+
   expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_line, iris, linetype = 'dashed')
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping:  ",
-                  "geom_line: linetype = dashed ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping:  ",
-                  "geom_line: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping:  ",
+                "geom_line: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
+
   expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_line, iris, linetype = 'dashed',
                                      colour = 'Species')
-  if (packageVersion("ggplot2") <= '1.0.1') {
-    expected <- c("mapping: colour = Species ",
-                  "geom_line: linetype = dashed ",
-                  "stat_identity:  ",
-                  "position_identity: (width = NULL, height = NULL)")
-  } else {
-    expected <- c("mapping: colour = Species ",
-                  "geom_line: na.rm = FALSE",
-                  "stat_identity: na.rm = FALSE",
-                  "position_identity ")
-  }
+  expected <- c("mapping: colour = Species ",
+                "geom_line: na.rm = FALSE",
+                "stat_identity: na.rm = FALSE",
+                "position_identity ")
+
   expect_equal(capture.output(print(result)), expected)
 })
 
