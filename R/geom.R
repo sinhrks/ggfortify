@@ -16,13 +16,15 @@ geom_confint <- function (mapping = NULL, data = NULL, stat = "identity",
                  params = list(na.rm = na.rm, ...))
 }
 
+#' @rdname geom_confint
+#' @export
 GeomConfint <- ggplot2::ggproto('GeomConfint', ggplot2::GeomRibbon,
   required_aes = c("x", "ymin", "ymax"),
   draw_group = function(self, data, panel_scales, coord, na.rm = FALSE) {
     if (na.rm) data <- data[stats::complete.cases(self$required_aes), ]
     data <- data[order(data$group, data$x), ]
     data <- self$stairstep_confint(data)
-    ggplot2:::GeomRibbon$draw_group(data, panel_scales, coord, na.rm = FALSE)
+    ggplot2::GeomRibbon$draw_group(data, panel_scales, coord, na.rm = FALSE)
   },
   stairstep_confint = function (data) {
     data <- as.data.frame(data)[order(data$x), ]
