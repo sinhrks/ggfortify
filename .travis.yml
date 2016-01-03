@@ -3,8 +3,8 @@ warnings_are_errors: true
 sudo: required
 
 env:
-  - GGPLOT=DEV
-  - GGPLOT=STD
+  - PKG=DEV
+  - PKG=STD
 
 r_binary_packages:
   - dplyr
@@ -30,9 +30,11 @@ r_github_packages:
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
-  - if [[ "$GGPLOT" == "DEV" ]]; then
+  - if [[ "$PKG" == "DEV" ]]; then
       Rscript -e 'install.packages("devtools")';
       Rscript -e 'library(devtools);install_github("hadley/ggplot2")';
+      Rscript -e 'library(devtools);install_github("hadley/tidyr")';
+      Rscript -e 'library(devtools);install_github("hadley/dplyr")';
     fi
   # install latest
   - Rscript -e 'install.packages("roxygen2")';
