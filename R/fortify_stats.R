@@ -378,16 +378,10 @@ autoplot.pca_common <- function(object, data = NULL,
       p <- p + ggplot2::geom_polygon(data = hulls, mapping = mapping,
                                      alpha = frame.alpha)
     } else if (frame.type %in% c('t', 'norm', 'euclid')) {
-      ggversion <- utils::packageVersion('ggplot2')
-      if (utils::compareVersion(as.character(ggversion), '1.0.0') >= 0) {
-        mapping <- aes_string(colur = frame.colour, fill = frame.colour)
-        p <- p + ggplot2::stat_ellipse(mapping = mapping,
-                                       level = frame.level, type = frame.type,
-                                       geom = 'polygon', alpha = frame.alpha)
-      } else {
-        stop('ggplot 1.0.0 or later is required for stat_ellipse.')
-      }
-
+      mapping <- aes_string(colur = frame.colour, fill = frame.colour)
+      p <- p + ggplot2::stat_ellipse(mapping = mapping,
+                                     level = frame.level, type = frame.type,
+                                     geom = 'polygon', alpha = frame.alpha)
     }
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
