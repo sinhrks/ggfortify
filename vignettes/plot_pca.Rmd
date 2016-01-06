@@ -52,6 +52,12 @@ autoplot(prcomp(df), data = iris, colour = 'Species',
          loadings.label = TRUE, loadings.label.size = 3)
 ```
 
+By default, each component are scaled as the same as standard ``biplot``. You can disable the scaling by specifying ``scale = 0``
+
+```{r, message = FALSE}
+autoplot(prcomp(df), scale = 0)
+```
+
 # Plotting Factor Analysis
 
 `{ggfortify}` supports `stats::factanal` object as the same manner as PCAs. Available opitons are the same as PCAs.
