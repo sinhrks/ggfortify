@@ -1,8 +1,3 @@
----
-title: "Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify"
-output: html_document
----
-
 <!--
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Plotting Diagnostics for LM and GLM}

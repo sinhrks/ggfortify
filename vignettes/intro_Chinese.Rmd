@@ -1,14 +1,9 @@
----
-title: "一行R代码来实现繁琐的可视化"
-author: "唐源"
-date: "2015年11月7日"
-output: word_document
----
-
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Introduction to ggfortify package (Chinese)}
+%\VignetteIndexEntry{一行R代码来实现繁琐的可视化 (Introduction in Chinese)}
 -->
+
+author: "唐源"
 
 [ggfortify](https://github.com/sinhrks/ggfortify) 有着简单易用的统一的界面来用一行代码来对许多受欢迎的R软件包结果进行二维可视化的一个R工具包。这让许多的统计学家以及数据科学家省去了许多繁琐和重复的过程，不用对结果进行任何处理就能以 `{ggplot}` 的风格画出好看的图，大大地提高了工作的效率。
 
