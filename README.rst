@@ -92,15 +92,13 @@ Helper Functions
 Examples
 --------
 
-* `Concepts and Basics of ggfortify <http://rpubs.com/sinhrks/basics>`_
-* `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_lm>`_
-* `Plotting Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts>`_
-* `Plotting Time Series Statistics with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_tsstats>`_
-* `Plotting State Space Time Series with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_ts_dlm>`_
-* `Plotting PCA/clustering results using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_pca>`_
-* `Plotting Multidimensional Scaling using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_mds>`_
-* `Plotting Survival Curves using ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_surv>`_
-* `Plotting Probability Distributions with ggplot2 and ggfortify <http://rpubs.com/sinhrks/plot_dist>`_
+* `Concepts and Basics of ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/basics.html>`_
+* `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_lm.html>`_
+* `Plotting Time Series with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_ts.html>`_
+* `Plotting PCA, clustering, LFDA and MDS <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html>`_
+* `Plotting Survival Curves using ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html>`_
+* `Plotting Probability Distributions with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_dist.html>`_
+* `Introduction (Chinese) <https://cran.r-project.org/web/packages/ggfortify/vignettes/intro_Chinese.html>`_
 
 ggplot2 Families
 ----------------
