@@ -11,8 +11,8 @@
 \usage{
 \method{autoplot}{ts}(object, columns = NULL, group = NULL,
   is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
-  facets = TRUE, nrow = NULL, ncol = 1, scales = "free_y",
-  ts.geom = "line", ts.colour = NULL, ts.size = NULL,
+  stacked = FALSE, facets = TRUE, nrow = NULL, ncol = 1,
+  scales = "free_y", ts.geom = "line", ts.colour = NULL, ts.size = NULL,
   ts.linetype = NULL, ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
   geom = ts.geom, colour = ts.colour, size = ts.size,
   linetype = ts.linetype, alpha = ts.alpha, fill = ts.fill,
@@ -35,6 +35,8 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{ts.scale}{Logical flag indicating whether to perform scaling each timeseries}
 
+\item{stacked}{Logical flag indicating whether to stack multivariate timeseries}
+
 \item{facets}{Logical value to specify use facets}
 
 \item{nrow}{Number of facet/subplot rows}
@@ -43,7 +45,7 @@ If not provided, regard the input as date when the frequency is 4 or 12}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
-\item{ts.geom}{geometric string for time-series. 'line', 'bar' or 'point'}
+\item{ts.geom}{geometric string for time-series. 'line', 'bar', 'ribbon', or 'point'}
 
 \item{ts.colour}{line colour for time-series}
 

@@ -56,14 +56,37 @@ autoplot(as.timeSeries(AirPassengers), ts.colour = ('dodgerblue3'))
 
 # Specifying geometrics
 
-You can change `{ggplot2}` geometrics specifying by its name. Geometrics currently supported are `line`, `bar` and `point`.
+You can change `{ggplot2}` geometrics specifying by its name. Geometrics currently supported are `line`, `bar`, `ribbon` and `point`. 
 
 ```{r, message = FALSE}
 autoplot(AirPassengers, ts.geom = 'bar', fill = 'blue')
 ```
 
 ```{r, message = FALSE}
+autoplot(AirPassengers, ts.geom = 'ribbon', fill = 'green')
+```
+
+```{r, message = FALSE}
 autoplot(AirPassengers, ts.geom = 'point', shape = 3)
+```
+
+As described above, multivariate timeseries can be drawn in a single grid specifying ``facets = FALSE``. Time series are not stacked by default. Specifying ``stacked = TRUE`` allows stacking.
+
+```{r, message = FALSE}
+mts <- ts(data.frame(a = c(1, 2, 3, 4, 4, 3), b = c(3, 2, 3, 2, 2, 1)), start = 2010)
+autoplot(mts, ts.geom = 'bar', facets = FALSE)
+```
+
+```{r, message = FALSE}
+autoplot(mts, ts.geom = 'bar', facets = FALSE, stacked = TRUE)
+```
+
+```{r, message = FALSE}
+autoplot(mts, ts.geom = 'ribbon', facets = FALSE)
+```
+
+```{r, message = FALSE}
+autoplot(mts, ts.geom = 'ribbon', facets = FALSE, stacked = TRUE)
 ```
 
 # Plotting with forecast package

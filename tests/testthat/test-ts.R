@@ -113,3 +113,122 @@ test_that('fortify.ets works for AirPassengers', {
   p <- autoplot(d.forecast, ts.connect = TRUE)
   expect_true(inherits(p, 'ggplot'))
 })
+
+test_that('autoplot works for xts', {
+  library(vars)
+  data(Canada)
+
+  library(xts)
+  p <- autoplot(as.xts(AirPassengers), ts.colour = 'green')
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomLine' %in% class(p$layers[[1]]$geom))
+
+  p <- autoplot(as.xts(Canada), ts.colour = 'green')
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomLine' %in% class(p$layers[[1]]$geom))
+})
+
+test_that('autoplot ts works for univariate timeseries', {
+  sts <- as.ts(c(1, 2, 3, 4))
+
+  p <- autoplot(sts)
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomLine' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 2, 3, 4))
+  expect_equal(ld$x, c(1, 2, 3, 4))
+  expect_equal(ld$colour, rep('black', 4))
+
+  p <- autoplot(sts, facets = TRUE, stacked = TRUE, colour = 'blue')
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomLine' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 2, 3, 4))
+  expect_equal(ld$x, c(1, 2, 3, 4))
+  expect_equal(ld$colour, rep('blue', 4))
+  expect_equal(ld$alpha, rep(NA, 4))
+
+  p <- autoplot(sts, facets = TRUE, stacked = TRUE, colour = 'blue', geom = 'ribbon')
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomRibbon' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$ymin, c(0, 0, 0, 0))
+  expect_equal(ld$ymax, c(1, 2, 3, 4))
+  expect_equal(ld$x, c(1, 2, 3, 4))
+  expect_equal(ld$colour, rep('blue', 4))
+  expect_equal(ld$alpha, rep(NA, 4))
+
+  p <- autoplot(sts, geom = 'bar')
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomBar' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 2, 3, 4))
+  expect_equal(ld$x, c(1, 2, 3, 4))
+  expect_equal(ld$fill, rep('grey35', 4))
+  expect_equal(ld$alpha, rep(NA, 4))
+
+})
+
+test_that('autoplot ts works for multivariate timeseries', {
+  df <- data.frame(A=c(1, 2, 3, 4), B=c(5, 6, 7, 8))
+  mts <- as.ts(df)
+
+  p <- autoplot(mts, facets=FALSE, geom = 'bar')
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomBar' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 5, 2, 6, 3, 7, 4, 8)) # not stacked
+  expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), 4))
+  expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), 4))
+  expect_true(all(is.na(ld$alpha)))
+
+  p <- autoplot(mts, facets=FALSE, geom = 'bar', stacked = TRUE)
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomBar' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 6, 2, 8, 3, 10, 4, 12)) # stacked
+  expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), 4))
+  expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), 4))
+  expect_true(all(is.na(ld$alpha)))
+
+  p <- autoplot(mts, facets=FALSE, geom = 'ribbon', stacked = FALSE)
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomRibbon' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$ymin, c(0, 0, 0, 0, 0, 0, 0, 0)) # not stacked
+  expect_equal(ld$ymax, c(1, 2, 3, 4, 5, 6, 7, 8)) # not stacked
+  expect_equal(ld$x, c(1, 2, 3, 4, 1, 2, 3, 4))
+  expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
+  expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
+  expect_equal(ld$alpha, rep(0.5, 8))
+  expect_true('GeomRibbon' %in% class(p$layers[[1]]$geom))
+
+  p <- autoplot(mts, facets=FALSE, geom = 'ribbon', stacked = TRUE)
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomRibbon' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$ymin, c(0, 0, 0, 0, 1, 2, 3, 4)) # stacked
+  expect_equal(ld$ymax, c(1, 2, 3, 4, 6, 8, 10, 12)) # stacked
+  expect_equal(ld$x, c(1, 2, 3, 4, 1, 2, 3, 4))
+  expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
+  expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
+  expect_true(all(is.na(ld$alpha)))
+
+  p <- autoplot(mts, facets=FALSE, geom = 'line', stacked = FALSE)
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomLine' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 2, 3, 4, 5, 6, 7, 8)) # not stacked
+  expect_equal(ld$x, c(1, 2, 3, 4, 1, 2, 3, 4))
+  expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
+  expect_true(all(is.na(ld$alpha)))
+
+  p <- autoplot(mts, facets=FALSE, geom = 'line', stacked = TRUE)
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomLine' %in% class(p$layers[[1]]$geom))
+  ld <- ggplot2:::layer_data(p, 1)
+  expect_equal(ld$y, c(1, 2, 3, 4, 6, 8, 10, 12)) # stacked
+  expect_equal(ld$x, c(1, 2, 3, 4, 1, 2, 3, 4))
+  expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
+  expect_true(all(is.na(ld$alpha)))
+})

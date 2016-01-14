@@ -148,8 +148,11 @@ get_geom_function <- function(geom, allowed = c('line', 'bar', 'point')) {
     return(ggplot2::geom_point)
   } else if (geom == 'step' && 'step' %in% allowed) {
     return(ggplot2::geom_step)
+  } else if (geom == 'ribbon' && 'ribbon' %in% allowed) {
+    return(ggplot2::geom_ribbon)
   }
-  stop(paste("Invalid geom is specified. Use", allowed))
+
+  stop(paste("Invalid geom is specified. Use", paste(allowed, collapse=', ')))
 }
 
 #' Factory function to control \code{ggplot2::geom_xxx} functions
