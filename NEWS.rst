@@ -6,6 +6,8 @@ ggfortify dev version
 
 - Components of prcomp and princomp are now scaled. Scaling can be disabled by
   specifying scale = 0
+- autoplot.ts now supports stacked option
+- Support maps and sp packages
 
 ggfortify v0.1.0
 ----------------

@@ -4,10 +4,12 @@
 \alias{post_fortify}
 \title{Post process for fortify.}
 \usage{
-post_fortify(data)
+post_fortify(data, klass = NULL)
 }
 \arguments{
 \item{data}{data.frame}
+
+\item{klass}{instance to be added as base_class attr, should be original model before fortified}
 }
 \value{
 data.frame

@@ -89,8 +89,17 @@ deprecate.warning <- function(old.kw, new.kw) {
 #' Post process for fortify.
 #'
 #' @param data data.frame
+#' @param klass instance to be added as base_class attr, should be original model before fortified
 #' @return data.frame
-post_fortify <- function(data) {
-  # does nothing in current version
+post_fortify <- function(data, klass = NULL) {
+  if (is(data, 'tbl_df')) {
+    data <- as.data.frame(data)
+  }
+  if (!is.data.frame(data)) {
+    stop('data must be a data.frame')
+  }
+  if (!is.null(klass)) {
+    attr(data, 'base_class') <- class(klass)
+  }
   as.data.frame(data)
 }

@@ -140,18 +140,26 @@ apply_facets <- function(p, formula, facets = TRUE, nrow = NULL, ncol = 1,
 #' ggfortify:::get_geom_function('point')
 #' ggfortify:::get_geom_function('line', allowed = c('line'))
 get_geom_function <- function(geom, allowed = c('line', 'bar', 'point')) {
-  if (geom == 'line' && 'line' %in% allowed) {
-    return(ggplot2::geom_line)
-  } else if (geom == 'bar' && 'bar' %in% allowed) {
-    return(ggplot2::geom_bar)
-  } else if (geom == 'point' && 'point' %in% allowed) {
-    return(ggplot2::geom_point)
-  } else if (geom == 'step' && 'step' %in% allowed) {
-    return(ggplot2::geom_step)
-  } else if (geom == 'ribbon' && 'ribbon' %in% allowed) {
-    return(ggplot2::geom_ribbon)
-  }
 
+  if (!(geom %in% allowed)) {
+    stop(paste("Invalid geom is specified. Use", paste(allowed, collapse=', ')))
+  }
+  # ToDo: may better to use layer directly?
+  if (geom == 'line') {
+    return(ggplot2::geom_line)
+  } else if (geom == 'bar') {
+    return(ggplot2::geom_bar)
+  } else if (geom == 'point') {
+    return(ggplot2::geom_point)
+  } else if (geom == 'step') {
+    return(ggplot2::geom_step)
+  } else if (geom == 'ribbon') {
+    return(ggplot2::geom_ribbon)
+  } else if (geom == 'polygon') {
+    return(ggplot2::geom_polygon)
+  } else if (geom == 'path') {
+    return(ggplot2::geom_path)
+  }
   stop(paste("Invalid geom is specified. Use", paste(allowed, collapse=', ')))
 }
 
@@ -161,7 +169,7 @@ get_geom_function <- function(geom, allowed = c('line', 'bar', 'point')) {
 #' @param data plotting data
 #' @param ... other arguments passed to methods
 #' @return proto
-geom_factory <- function(geomfunc, data, ...) {
+geom_factory <- function(geomfunc, data = NULL, ...) {
   mapping <- list()
   option <- list()
 
@@ -176,7 +184,9 @@ geom_factory <- function(geomfunc, data, ...) {
         option[[key]] <- value
       }
   }
-  option[['data']] <- data
+  if (!is.null(data)) {
+    option[['data']] <- data
+  }
   option[['mapping']] <- do.call(ggplot2::aes_string, mapping)
   return(do.call(geomfunc, option))
 }

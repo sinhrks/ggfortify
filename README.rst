@@ -39,8 +39,19 @@ This covers following classes:
 - ``lfda::lfda``
 - ``lfda::klfda``
 - ``lfda::self``
+- ``maps::map``
 - ``MASS::isoMDS`` (inference)
 - ``MASS::sammon`` (inference)
+- ``sp::Line``
+- ``sp::Lines``
+- ``sp::Polygon``
+- ``sp::Polygons``
+- ``sp::SpatialLines``
+- ``sp::SpatialLinesDataFrame``
+- ``sp::SpatialPoints``
+- ``sp::SpatialPointsDataFrame``
+- ``sp::SpatialPolygons``
+- ``sp::SpatialPolygonsDataFrame``
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
