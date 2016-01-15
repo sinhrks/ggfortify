@@ -100,8 +100,9 @@ fortify.irts <- fortify.ts
 #' @param index.name Specify column name for time series index when passing \code{data.frame} via data.
 #' @param p \code{ggplot2::ggplot} instance
 #' @param ts.scale Logical flag indicating whether to perform scaling each timeseries
+#' @param stacked Logical flag indicating whether to stack multivariate timeseries
 #' @inheritParams apply_facets
-#' @param ts.geom geometric string for time-series. 'line', 'bar' or 'point'
+#' @param ts.geom geometric string for time-series. 'line', 'bar', 'ribbon', or 'point'
 #' @param ts.colour line colour for time-series
 #' @param ts.size point size for time-series
 #' @param ts.linetype line type for time-series
@@ -137,7 +138,7 @@ fortify.irts <- fortify.ts
 #' @export
 autoplot.ts <- function(object, columns = NULL, group = NULL,
                         is.date = NULL, index.name = 'Index',
-                        p = NULL, ts.scale = FALSE,
+                        p = NULL, ts.scale = FALSE, stacked = FALSE,
                         facets = TRUE, nrow = NULL, ncol = 1, scales = 'free_y',
                         ts.geom = 'line', ts.colour = NULL, ts.size = NULL, ts.linetype = NULL,
                         ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
@@ -166,12 +167,35 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
     }
   }
 
+  if (is.null(colour) && !is.null(fill)) {
+    colour <- fill
+  } else if (!is.null(colour) && is.null(fill)) {
+    if (geom %in% c('bar', 'ribbon')) {
+      # do not set for line / point to handle as NULL in geom_factory
+      fill <- colour
+    }
+  }
+
   if (length(columns) > 1) {
     .is.univariate <- FALSE
   } else {
     .is.univariate <- TRUE
+    facets <- FALSE
+    stacked <- FALSE
   }
+  # required for shift op
+  tslen <- nrow(plot.data)
 
+  if (!facets && stacked && geom != 'bar') {
+    for (i in seq_len(length(columns) - 1)) {
+      plot.data[columns[i + 1]] <- plot.data[columns[i + 1]] + plot.data[columns[i]]
+    }
+  }
+  # must be done here, because fortify.zoo is defined in zoo package
+  ts.column <- plot.data[[index.name]]
+  if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
+    plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
+  }
   plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
 
   # create ggplot instance if not passed
@@ -183,27 +207,50 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
     null.p <- FALSE
   }
 
-  # must be done here, because fortify.zoo is defined in zoo package
-  ts.column <- plot.data[[index.name]]
-  if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
-    plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
+  if (!facets && stacked) {
+    # using dplyr::lag may be easier, but it likely to
+    # cause a trouble in CMD check
+    value <- plot.data$value
+    shifted <- c(rep(0, times = tslen), value[1:(length(value) - tslen)])
+    plot.data[['base']] <- shifted
+  } else {
+    plot.data[['base']] <- 0
   }
 
-  geomfunc <- get_geom_function(geom, allowed = c('line', 'bar', 'point'))
-  if (facets) {
-    p <- p + geom_factory(geomfunc, plot.data, group = 'variable', y = 'value',
-                          colour = colour, size = size, linetype = linetype,
-                          alpha = alpha, fill = fill, shape = shape,
-                          stat = 'identity')
-    if (!.is.univariate) {
-       p <- apply_facets(p, ~ variable, nrow = nrow, ncol = ncol, scales = scales)
-    }
+  geomfunc <- get_geom_function(geom, allowed = c('line', 'bar', 'point', 'ribbon'))
+
+  args <- list(geomfunc, plot.data, colour = colour, size = size,
+               linetype = linetype, alpha = alpha, fill = fill,
+               shape = shape, stat = 'identity')
+  if (geom == 'ribbon') {
+    args['ymin'] <- 'base'
+    args['ymax'] <- 'value'
   } else {
-    # ts.colour cannot be used
-    p <- p + geom_factory(geomfunc, plot.data, colour = 'variable', y = 'value',
-                          colour = colour, size = size, linetype = linetype,
-                          alpha = alpha, fill = fill, shape = shape,
-                          stat = 'identity')
+    args['y'] <- 'value'
+  }
+
+  if (facets) {
+    args['group'] <- 'variable'
+    p <- p + do.call(geom_factory, args)
+    p <- apply_facets(p, ~ variable, nrow = nrow, ncol = ncol, scales = scales)
+  } else {
+    if (!.is.univariate) {
+      # ts.colour cannot be used
+      if (!is.null(colour)) {
+        warning('multivariate timeseries with facets=FALSE are colorized by variable, colour is ignored')
+      }
+      args['colour'] <- 'variable'
+      if (geom %in% c('bar', 'ribbon')) {
+        args['fill'] <- 'variable'
+      }
+      if (geom == 'ribbon' && !stacked && is.null(alpha)) {
+        args['alpha'] <- 0.5
+      }
+      if (geom == 'bar' && !stacked) {
+        args['position'] <- 'dodge'
+      }
+    }
+    p <- p + do.call(geom_factory, args)
   }
   if (null.p) {
     p <- p + ggplot2::scale_y_continuous()
