@@ -4,6 +4,9 @@ NEWS
 ggfortify dev version
 ---------------------
 
+- Components of prcomp and princomp are now scaled. Scaling can be disabled by
+  specifying scale = 0
+
 ggfortify v0.1.0
 ----------------
 

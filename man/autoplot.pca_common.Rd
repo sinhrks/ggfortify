@@ -7,116 +7,16 @@
 \alias{autoplot.princomp}
 \title{Autoplot PCA-likes}
 \usage{
-\method{autoplot}{pca_common}(object, data = NULL, colour = NULL,
-  size = NULL, linetype = NULL, alpha = NULL, fill = NULL,
-  shape = NULL, label = FALSE, label.label = "rownames",
-  label.colour = colour, label.alpha = NULL, label.size = NULL,
-  label.angle = NULL, label.family = NULL, label.fontface = NULL,
-  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
-  loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
-  loadings.label.label = "rownames", loadings.label.colour = "#FF0000",
-  loadings.label.alpha = NULL, loadings.label.size = NULL,
-  loadings.label.angle = NULL, loadings.label.family = NULL,
-  loadings.label.fontface = NULL, loadings.label.lineheight = NULL,
-  loadings.label.hjust = NULL, loadings.label.vjust = NULL, frame = FALSE,
-  frame.type = "convex", frame.colour = colour, frame.level = 0.95,
-  frame.alpha = 0.2, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
+\method{autoplot}{pca_common}(object, data = NULL, scale = 1, ...)
 }
 \arguments{
 \item{object}{PCA-like instance}
 
 \item{data}{Joined to fitting result if provided.}
 
-\item{colour}{colour}
+\item{scale}{scaling parameter, disabled by 0}
 
-\item{size}{size}
-
-\item{linetype}{line type}
-
-\item{alpha}{alpha}
-
-\item{fill}{fill}
-
-\item{shape}{shape}
-
-\item{label}{Logical value whether to display data labels}
-
-\item{label.label}{Column name used for label text}
-
-\item{label.colour}{Colour for text labels}
-
-\item{label.alpha}{Alpha for text labels}
-
-\item{label.size}{Size for text labels}
-
-\item{label.angle}{Angle for text labels}
-
-\item{label.family}{Font family for text labels}
-
-\item{label.fontface}{Fontface for text labels}
-
-\item{label.lineheight}{Lineheight for text labels}
-
-\item{label.hjust}{Horizontal adjustment for text labels}
-
-\item{label.vjust}{Vertical adjustment for text labels}
-
-\item{loadings}{Logical value whether to display loadings arrows}
-
-\item{loadings.colour}{Point colour for data}
-
-\item{loadings.label}{Logical value whether to display loadings labels}
-
-\item{loadings.label.label}{Column name used for loadings text labels}
-
-\item{loadings.label.colour}{Colour for loadings text labels}
-
-\item{loadings.label.alpha}{Alpha for loadings text labels}
-
-\item{loadings.label.size}{Size for loadings text labels}
-
-\item{loadings.label.angle}{Angle for loadings text labels}
-
-\item{loadings.label.family}{Font family for loadings text labels}
-
-\item{loadings.label.fontface}{Fontface for loadings text labels}
-
-\item{loadings.label.lineheight}{Lineheight for loadings text labels}
-
-\item{loadings.label.hjust}{Horizontal adjustment for loadings text labels}
-
-\item{loadings.label.vjust}{Vertical adjustment for loadings text labels}
-
-\item{frame}{Logical value whether to draw outliner convex / ellipse}
-
-\item{frame.type}{Character specifying frame type.
-'convex' or types supporeted by \code{ggplot2::stat_ellipse} can be used.}
-
-\item{frame.colour}{Colour for frame}
-
-\item{frame.level}{Passed for \code{ggplot2::stat_ellipse} 's level. Ignored in 'convex'.}
-
-\item{frame.alpha}{Alpha for frame}
-
-\item{xlim}{limits for x axis}
-
-\item{ylim}{limits for y axis}
-
-\item{log}{which variables to log transform ("x", "y", or "xy")}
-
-\item{main}{character vector or expression for plot title}
-
-\item{xlab}{character vector or expression for x axis label}
-
-\item{ylab}{character vector or expression for y axis label}
-
-\item{asp}{the y/x aspect ratio}
-
-\item{...}{other arguments passed to methods}
-}
-\value{
-ggplot
+\item{...}{other arguments passed to \code{ggbiplot}}
 }
 \description{
 Autoplot PCA-likes

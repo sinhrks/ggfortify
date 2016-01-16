@@ -112,3 +112,20 @@ test_that('fortify.partition works for USArrests', {
   expect_equal(is.factor(fortified$cluster), TRUE)
   expect_equal(rownames(fortified), rownames(df))
 })
+
+test_that('autoplot.kmeans works for iris', {
+
+  obj <- stats::kmeans(iris[-5], 3)
+
+  p <- ggplot2::autoplot(obj, data = iris)
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
+
+  p <- ggplot2::autoplot(obj, data = iris, frame.type = 'norm')
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 2)
+  expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
+  expect_true('GeomPolygon' %in% class(p$layers[[2]]$geom))
+
+})

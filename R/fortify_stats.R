@@ -218,36 +218,11 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #'
 #' @param object PCA-like instance
 #' @param data Joined to fitting result if provided.
-#' @param colour colour
-#' @param size size
-#' @param linetype line type
-#' @param alpha alpha
-#' @param fill fill
-#' @param shape shape
-#' @param label Logical value whether to display data labels
+#' @param scale scaling parameter, disabled by 0
+#' @param ... other arguments passed to \code{ggbiplot}
+#' @inheritParams ggbiplot
 #' @inheritParams plot_label
-#' @param loadings Logical value whether to display loadings arrows
-#' @param loadings.colour Point colour for data
-#' @param loadings.label Logical value whether to display loadings labels
-#' @param loadings.label.label Column name used for loadings text labels
-#' @param loadings.label.colour Colour for loadings text labels
-#' @param loadings.label.alpha Alpha for loadings text labels
-#' @param loadings.label.size Size for loadings text labels
-#' @param loadings.label.angle Angle for loadings text labels
-#' @param loadings.label.family Font family for loadings text labels
-#' @param loadings.label.fontface Fontface for loadings text labels
-#' @param loadings.label.lineheight Lineheight for loadings text labels
-#' @param loadings.label.hjust Horizontal adjustment for loadings text labels
-#' @param loadings.label.vjust Vertical adjustment for loadings text labels
-#' @param frame Logical value whether to draw outliner convex / ellipse
-#' @param frame.type Character specifying frame type.
-#' 'convex' or types supporeted by \code{ggplot2::stat_ellipse} can be used.
-#' @param frame.colour Colour for frame
-#' @param frame.level Passed for \code{ggplot2::stat_ellipse} 's level. Ignored in 'convex'.
-#' @param frame.alpha Alpha for frame
 #' @inheritParams post_autoplot
-#' @param ... other arguments passed to methods
-#' @return ggplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal
 #' @examples
 #' autoplot(stats::prcomp(iris[-5]))
@@ -269,30 +244,9 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' autoplot(d.factanal)
 #' autoplot(d.factanal, data = state.x77, colour = 'Income')
 #' autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' @export
 autoplot.pca_common <- function(object, data = NULL,
-                                colour = NULL, size = NULL, linetype = NULL,
-                                alpha = NULL, fill = NULL, shape = NULL,
-                                label = FALSE, label.label = 'rownames',
-                                label.colour = colour, label.alpha = NULL,
-                                label.size = NULL, label.angle = NULL,
-                                label.family = NULL, label.fontface = NULL,
-                                label.lineheight = NULL,
-                                label.hjust = NULL, label.vjust = NULL,
-                                loadings = FALSE, loadings.colour = '#FF0000',
-                                loadings.label = FALSE,
-                                loadings.label.label = 'rownames',
-                                loadings.label.colour = '#FF0000',
-                                loadings.label.alpha = NULL,
-                                loadings.label.size = NULL, loadings.label.angle = NULL,
-                                loadings.label.family = NULL, loadings.label.fontface = NULL,
-                                loadings.label.lineheight = NULL,
-                                loadings.label.hjust = NULL, loadings.label.vjust = NULL,
-                                frame = FALSE, frame.type = 'convex',
-                                frame.colour = colour, frame.level = 0.95,
-                                frame.alpha = 0.2,
-                                xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-                                main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
-                                ...) {
+                                scale = 1.0, ...) {
 
   plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)
@@ -301,92 +255,55 @@ autoplot.pca_common <- function(object, data = NULL,
     x.column <- 'PC1'
     y.column <- 'PC2'
     loadings.column <- 'rotation'
+
+    lam <- object$sdev[1L:2L]
+    lam <- lam * sqrt(nrow(plot.data))
+
   } else if (is_derived_from(object, 'princomp')) {
     x.column <- 'Comp.1'
     y.column <- 'Comp.2'
     loadings.column <- 'loadings'
+
+    lam <- object$sdev[1L:2L]
+    lam <- lam * sqrt(nrow(plot.data))
+
   } else if (is_derived_from(object, 'factanal')) {
     x.column <- 'Factor1'
     y.column <- 'Factor2'
+    scale <- 0
     loadings.column <- 'loadings'
   } else if (is_derived_from(object, 'lfda')) {
     x.column <- 'PC1'
     y.column <- 'PC2'
-    loadings.column <- 'rotation'
+    scale <- 0
+    loadings.column <- NULL
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(object)))
   }
-  mapping <-  ggplot2::aes_string(x = x.column, y = y.column)
-  loadings.mapping <- ggplot2::aes_string(x = 0, y = 0, xend = x.column, yend = y.column)
 
-  if (is.logical(shape) && !shape && missing(label)) {
-    # if label is missing and shape=FALSE, turn label to TRUE
-    label <- TRUE
-  }
-  if (loadings.label && !loadings) {
-    # If loadings.label is TRUE, draw loadings
-    loadings <- TRUE
+  # scaling
+  if (scale != 0) {
+    lam <- lam ^ scale
+    plot.data[, c(x.column, y.column)] <- t(t(plot.data[, c(x.column, y.column)]) / lam)
   }
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
-  if (!is.logical(shape) || shape) {
-    p <- p + geom_factory(ggplot2::geom_point, plot.data,
-                          colour = colour, size = size, linetype = linetype,
-                          alpha = alpha, fill = fill, shape = shape)
-  }
-  p <- plot_label(p = p, data = plot.data, label = label,
-                  label.label = label.label, label.colour = label.colour,
-                  label.alpha = label.alpha, label.size = label.size,
-                  label.angle = label.angle, label.family = label.family,
-                  label.fontface = label.fontface, label.lineheight = label.lineheight,
-                  label.hjust = label.hjust, label.vjust = label.vjust)
-  if (loadings) {
-    loadings.data <- as.data.frame(object[[loadings.column]][,])
+  # move target columns to 1st and 2nd
+  plot.columns <- unique(c(x.column, y.column, colnames(plot.data)))
+  plot.data <- plot.data[, plot.columns]
+
+  if (!is.null(loadings.column)) {
+    loadings.data <-as.data.frame(object[[loadings.column]][, ])
     loadings.data$rownames <- rownames(loadings.data)
 
-    p <- p + geom_segment(data = loadings.data,
-                          mapping = loadings.mapping,
-                          arrow = grid::arrow(length = grid::unit(8, 'points')),
-                          colour = loadings.colour)
-    p <- plot_label(p = p, data = loadings.data, label = loadings.label,
-                    label.label = loadings.label.label, label.colour = loadings.label.colour,
-                    label.alpha = loadings.label.alpha, label.size = loadings.label.size,
-                    label.angle = loadings.label.angle, label.family = loadings.label.family,
-                    label.fontface = loadings.label.fontface,
-                    label.lineheight = loadings.label.lineheight,
-                    label.hjust = loadings.label.hjust, label.vjust = loadings.label.vjust)
+    loadings.columns <- unique(c(x.column, y.column, colnames(loadings.data)))
+    loadings.data <- loadings.data[, loadings.columns]
+  } else {
+    loadings.data <- NULL
   }
 
-  if (missing(frame) && !missing(frame.type)) {
-    # if frame is missing but frame.type is specified, turn frame to TRUE
-    frame <- TRUE
-  }
-
-  # dummy to solve "no visible binding for global variable '.'" warnings
-  . <- NULL
-
-  if (frame) {
-    if (frame.type == 'convex') {
-      if (is.null(frame.colour) || !(frame.colour %in% colnames(plot.data))) {
-        hulls <- plot.data[grDevices::chull(plot.data[c(x.column, y.column)]), ]
-      } else {
-        hulls <- plot.data %>%
-          dplyr::group_by_(frame.colour) %>%
-          dplyr::do(.[grDevices::chull(.[c(x.column, y.column)]), ])
-      }
-      mapping <- aes_string(colour = frame.colour, fill = frame.colour)
-      p <- p + ggplot2::geom_polygon(data = hulls, mapping = mapping,
-                                     alpha = frame.alpha)
-    } else if (frame.type %in% c('t', 'norm', 'euclid')) {
-      mapping <- aes_string(colur = frame.colour, fill = frame.colour)
-      p <- p + ggplot2::stat_ellipse(mapping = mapping,
-                                     level = frame.level, type = frame.type,
-                                     geom = 'polygon', alpha = frame.alpha)
-    }
-  }
-  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
-                     main = main, xlab = xlab, ylab = ylab, asp = asp)
-  p
+  p <- ggbiplot(plot.data = plot.data,
+                loadings.data = loadings.data, ...)
+  return(p)
 }
 
 #' @export
