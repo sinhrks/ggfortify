@@ -10,9 +10,9 @@
   label.colour = "#000000", label.alpha = NULL, label.size = NULL,
   label.angle = NULL, label.family = NULL, label.fontface = NULL,
   label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
-  label.n = 3, smooth.colour = "#0000FF", smooth.linetype = "solid",
-  ad.colour = "#888888", ad.linetype = "dashed", ad.size = 0.2,
-  nrow = NULL, ncol = NULL, ...)
+  label.repel = FALSE, label.n = 3, smooth.colour = "#0000FF",
+  smooth.linetype = "solid", ad.colour = "#888888",
+  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = NULL, ...)
 }
 \arguments{
 \item{object}{\code{stats::lm} instance}
@@ -54,6 +54,8 @@
 \item{label.hjust}{Horizontal adjustment for text labels}
 
 \item{label.vjust}{Vertical adjustment for text labels}
+
+\item{label.repel}{Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting}
 
 \item{label.n}{Number of points to be laeled in each plot, starting with the most extreme}
 
