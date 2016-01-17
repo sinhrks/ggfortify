@@ -147,6 +147,8 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
                         xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                         main = NULL, xlab = '', ylab = '', asp = NULL,
                         ...) {
+  geomfunc <- get_geom_function(geom, allowed = c('line', 'bar', 'point', 'ribbon'))
+
   # fortify data
   if (is.data.frame(object)) {
     plot.data <- object
@@ -216,8 +218,6 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
   } else {
     plot.data[['base']] <- 0
   }
-
-  geomfunc <- get_geom_function(geom, allowed = c('line', 'bar', 'point', 'ribbon'))
 
   args <- list(geomfunc, plot.data, colour = colour, size = size,
                linetype = linetype, alpha = alpha, fill = fill,

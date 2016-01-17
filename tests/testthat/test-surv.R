@@ -18,7 +18,7 @@ test_that('fortify.survfit works for lung', {
   expect_true(is(p, 'ggplot'))
 
   fortified2 <- ggplot2::fortify(d.survfit, fun = 'event')
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_true(is.data.frame(fortified))
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'strata')
   expect_equal(names(fortified), expected_names)
@@ -31,7 +31,7 @@ test_that('fortify.survfit works for lung', {
   expect_true(is(p, 'ggplot'))
 
   fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_true(is.data.frame(fortified))
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'strata')
   expect_equal(names(fortified), expected_names)
@@ -50,7 +50,7 @@ test_that('fortify.survfit works for lung', {
   d.survfit <- survfit(Surv(time, status) ~ 1, data = lung)
   fortified <- ggplot2::fortify(d.survfit)
 
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_true(is.data.frame(fortified))
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower')
   expect_equal(names(fortified), expected_names)
@@ -140,7 +140,7 @@ test_that('fortify.survfit.cox works for lung', {
   d.coxph <- coxph(Surv(time, status) ~ sex, data = lung)
   fortified <- ggplot2::fortify(survfit(d.coxph))
 
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_true(is.data.frame(fortified))
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'cumhaz')
   expect_equal(names(fortified), expected_names)
@@ -169,7 +169,7 @@ test_that('fortify.aareg works for lung', {
 
   fortified <- fortify(fit, surv.connect = FALSE)
   # compare cumulated last row
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_true(is.data.frame(fortified))
   expect_equal(dim(fortified), c(138, 5))
   expect_equal(colnames(fortified), c("time", "Intercept", "age", "sex", "ph.ecog"))
   expect_equal(as.numeric(fortified[nrow(fortified), ][-1]),
@@ -178,11 +178,36 @@ test_that('fortify.aareg works for lung', {
 
   fortified <- fortify(fit, melt = TRUE)
   # compare cumulated last row
-  expect_equal(is.data.frame(fortified), TRUE)
+  expect_true(is.data.frame(fortified))
   expect_equal(dim(fortified), c(660, 7))
   expect_equal(colnames(fortified), c("time", "variable", "coef", "se", "value", "upper", "lower"))
   expect_equal(fortified$upper - fortified$value, fortified$se * 1.96)
   expect_equal(fortified$value - fortified$lower, fortified$se * 1.96)
   expect_equal(as.numeric(fortified[nrow(fortified), ][c(-1, -2)]),
                c(-4.50000000000, 4.5453070233, -3.2842219995, 5.624579766, -12.193023765192))
+})
+
+test_that('autoplot.aareg works for lung', {
+  library(survival)
+  fit <- aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1)
+  p <- autoplot(fit)
+
+  expect_equal(length(p$layers), 2)
+  expect_true(is(p$layers[[1]]$geom, 'GeomStep'))
+  expect_true(is(p$layers[[2]]$geom, 'GeomConfint'))
+  ld1 <- head(ggplot2:::layer_data(p, 1))
+  expect_equal(ld1$x, c(0, 5, 11, 11, 11, 12))
+  expect_equal(ld1$colour, rep("#F8766D", 6))
+  ld2 <- head(ggplot2:::layer_data(p, 2))
+  expect_equal(ld2$x, c(0, 5, 11, 11, 11, 12))
+  expect_equal(ld2$fill, rep("#F8766D", 6))
+  expect_equal(ld2$alpha, rep(0.3, 6))
+
+  # fail on travis
+  skip_on_cran()
+  skip_on_travis()
+  expect_equal(ld1$y, c(0.00000000, -0.02519653, -0.04832855, -0.09714763, -0.09554636, -0.11955510), tolerance=1e-3)
+  expect_equal(ld2$y, c(0.00000000, -0.02519653, -0.04832855, -0.09714763, -0.09554636, -0.11955510), tolerance=1e-3)
+  expect_equal(ld2$ymin, c(0.00000000, -0.07458172, -0.11536959, -0.21398169, -0.21242256, -0.24554884), tolerance=1e-3)
+  expect_equal(ld2$ymax, c(0.000000000, 0.024188665, 0.018712488, 0.019686425, 0.021329845, 0.006438632), tolerance=1e-3)
 })

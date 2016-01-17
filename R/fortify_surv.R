@@ -233,7 +233,7 @@ fortify.aareg <- function(model, data = NULL,
       d <- rbind(0, d)
     }
   }
-  post_fortify(d)
+  post_fortify(d, klass = model)
 }
 
 #' Autoplot \code{survival::aareg}
@@ -254,7 +254,6 @@ autoplot.aareg <- function (object, maxtime = NULL,
 
   plot.data <- fortify(object, maxtime = maxtime,
                        surv.connect = surv.connect, melt = TRUE)
-  attr(plot.data, 'base_class') <- 'aareg'
   autoplot.survfit(plot.data, facets = facets, ncol = ncol,
                    xlab = '', ylab = '', ...)
 }

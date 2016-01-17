@@ -4,7 +4,7 @@
 \alias{geom_factory}
 \title{Factory function to control \code{ggplot2::geom_xxx} functions}
 \usage{
-geom_factory(geomfunc, data, ...)
+geom_factory(geomfunc, data = NULL, ...)
 }
 \arguments{
 \item{geomfunc}{\code{ggplot2::geom_xxx} function}

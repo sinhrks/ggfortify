@@ -23,3 +23,21 @@ test_that('unscale', {
   scaled <- scale(df, center = FALSE, scale = FALSE)
   expect_equal(ggfortify::unscale(scaled, center = FALSE, scale = FALSE), df)
 })
+
+test_that('post_fortify', {
+  df <- data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
+  res <- ggfortify:::post_fortify(df)
+  expect_equal(res, df)
+
+  tbl <- dplyr::data_frame(x = c(1, 2, 3), y = c(4, 5, 6))
+  expect_true(is(tbl, 'tbl_df'))
+  res <- ggfortify:::post_fortify(tbl)
+  expect_equal(res, df)
+  expect_true(!is(res, 'tbl_df'))
+
+  res <- ggfortify:::post_fortify(tbl, klass = as.ts(tbl))
+  expect_equal(res$x, df$x)
+  expect_equal(res$y, df$y)
+  expect_true('mts' %in% attr(res, 'base_class'))
+})
+
