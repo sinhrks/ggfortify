@@ -74,13 +74,15 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #' @param label.lineheight Lineheight for text labels
 #' @param label.hjust Horizontal adjustment for text labels
 #' @param label.vjust Vertical adjustment for text labels
+#' @param label.repel Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting
 #' @return ggplot
 plot_label <- function(p, data, x = NULL, y = NULL, label = TRUE, label.label = 'rownames',
                        label.colour = NULL, label.alpha = NULL,
                        label.size = NULL, label.angle = NULL,
                        label.family = NULL, label.fontface = NULL,
                        label.lineheight = NULL,
-                       label.hjust = NULL, label.vjust = NULL) {
+                       label.hjust = NULL, label.vjust = NULL,
+                       label.repel = FALSE) {
 
   if (!is.data.frame(data)) {
     stop(paste0('Unsupported class: ', class(data)))
@@ -91,12 +93,18 @@ plot_label <- function(p, data, x = NULL, y = NULL, label = TRUE, label.label = 
     label <- TRUE
   }
 
-  if (label) {
+  if (label || label.repel) {
+    # user wants label if they enables repel
     if (is.null(label.colour)) {
       # NULL may be explicitly passed from parent functions
       label.colour <- '#000000'
     }
-    p <- p + geom_factory(ggplot2::geom_text, data, x = x, y = y,
+    if (label.repel && 'ggrepel' %in% rownames(installed.packages())) {
+      textfunc <- ggrepel::geom_text_repel
+    } else {
+      textfunc <- ggplot2::geom_text
+    }
+    p <- p + geom_factory(textfunc, data, x = x, y = y,
                           label = label.label,
                           colour = label.colour, alpha = label.alpha,
                           size = label.size, angle = label.angle,
@@ -450,6 +458,7 @@ autoplot.ggmultiplot <- function(object, ...) {
 #' @param loadings.label.lineheight Lineheight for loadings text labels
 #' @param loadings.label.hjust Horizontal adjustment for loadings text labels
 #' @param loadings.label.vjust Vertical adjustment for loadings text labels
+#' @param loadings.label.repel Logical flag indicating whether to use \code{ggrepel} automatically
 #' @param frame Logical value whether to draw outliner convex / ellipse
 #' @param frame.type Character specifying frame type.
 #' 'convex' or types supporeted by \code{ggplot2::stat_ellipse} can be used.
@@ -463,21 +472,32 @@ autoplot.ggmultiplot <- function(object, ...) {
 ggbiplot <- function(plot.data, loadings.data = NULL,
                      colour = NULL, size = NULL, linetype = NULL,
                      alpha = NULL, fill = NULL, shape = NULL,
-                     label = FALSE, label.label = 'rownames',
-                     label.colour = colour, label.alpha = NULL,
-                     label.size = NULL, label.angle = NULL,
-                     label.family = NULL, label.fontface = NULL,
+                     label = FALSE,
+                     label.label = 'rownames',
+                     label.colour = colour,
+                     label.alpha = NULL,
+                     label.size = NULL,
+                     label.angle = NULL,
+                     label.family = NULL,
+                     label.fontface = NULL,
                      label.lineheight = NULL,
-                     label.hjust = NULL, label.vjust = NULL,
-                     loadings = FALSE, loadings.colour = '#FF0000',
+                     label.hjust = NULL,
+                     label.vjust = NULL,
+                     label.repel = FALSE,
+                     loadings = FALSE,
+                     loadings.colour = '#FF0000',
                      loadings.label = FALSE,
                      loadings.label.label = 'rownames',
                      loadings.label.colour = '#FF0000',
                      loadings.label.alpha = NULL,
-                     loadings.label.size = NULL, loadings.label.angle = NULL,
-                     loadings.label.family = NULL, loadings.label.fontface = NULL,
+                     loadings.label.size = NULL,
+                     loadings.label.angle = NULL,
+                     loadings.label.family = NULL,
+                     loadings.label.fontface = NULL,
                      loadings.label.lineheight = NULL,
-                     loadings.label.hjust = NULL, loadings.label.vjust = NULL,
+                     loadings.label.hjust = NULL,
+                     loadings.label.vjust = NULL,
+                     loadings.label.repel = FALSE,
                      frame = FALSE, frame.type = NULL,
                      frame.colour = colour, frame.level = 0.95,
                      frame.alpha = 0.2,
@@ -500,11 +520,17 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                           alpha = alpha, fill = fill, shape = shape)
   }
   p <- plot_label(p = p, data = plot.data, label = label,
-                  label.label = label.label, label.colour = label.colour,
-                  label.alpha = label.alpha, label.size = label.size,
-                  label.angle = label.angle, label.family = label.family,
-                  label.fontface = label.fontface, label.lineheight = label.lineheight,
-                  label.hjust = label.hjust, label.vjust = label.vjust)
+                  label.label = label.label,
+                  label.colour = label.colour,
+                  label.alpha = label.alpha,
+                  label.size = label.size,
+                  label.angle = label.angle,
+                  label.family = label.family,
+                  label.fontface = label.fontface,
+                  label.lineheight = label.lineheight,
+                  label.hjust = label.hjust,
+                  label.vjust = label.vjust,
+                  label.repel = label.repel)
 
   if (loadings.label && !loadings) {
     # If loadings.label is TRUE, draw loadings
@@ -526,12 +552,17 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                           arrow = grid::arrow(length = grid::unit(8, 'points')),
                           colour = loadings.colour)
     p <- plot_label(p = p, data = loadings.data, label = loadings.label,
-                    label.label = loadings.label.label, label.colour = loadings.label.colour,
-                    label.alpha = loadings.label.alpha, label.size = loadings.label.size,
-                    label.angle = loadings.label.angle, label.family = loadings.label.family,
+                    label.label = loadings.label.label,
+                    label.colour = loadings.label.colour,
+                    label.alpha = loadings.label.alpha,
+                    label.size = loadings.label.size,
+                    label.angle = loadings.label.angle,
+                    label.family = loadings.label.family,
                     label.fontface = loadings.label.fontface,
                     label.lineheight = loadings.label.lineheight,
-                    label.hjust = loadings.label.hjust, label.vjust = loadings.label.vjust)
+                    label.hjust = loadings.label.hjust,
+                    label.vjust = loadings.label.vjust,
+                    label.repel = loadings.label.repel)
   }
 
   if (missing(frame) && !is.null(frame.type)) {

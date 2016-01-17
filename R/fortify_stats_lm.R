@@ -35,7 +35,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
                         label.size = NULL, label.angle = NULL,
                         label.family = NULL, label.fontface = NULL,
                         label.lineheight = NULL,
-                        label.hjust = NULL, label.vjust = NULL,
+                        label.hjust = NULL, label.vjust = NULL, label.repel = FALSE,
                         label.n = 3,
                         smooth.colour = '#0000FF', smooth.linetype = 'solid',
                         ad.colour = '#888888', ad.linetype = 'dashed', ad.size = .2,
@@ -109,12 +109,19 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   .decorate.label <- function(p, data) {
     if (label & label.n > 0) {
-      p <- plot_label(p = p, data = data, label = label, label.label = label.label,
-                      label.colour = label.colour, label.alpha = label.alpha,
-                      label.size = label.size, label.angle = label.angle,
-                      label.family = label.family, label.fontface = label.fontface,
+      p <- plot_label(p = p, data = data,
+                      label = label,
+                      label.label = label.label,
+                      label.colour = label.colour,
+                      label.alpha = label.alpha,
+                      label.size = label.size,
+                      label.angle = label.angle,
+                      label.family = label.family,
+                      label.fontface = label.fontface,
                       label.lineheight = label.lineheight,
-                      label.hjust = label.hjust, label.vjust = label.vjust)
+                      label.hjust = label.hjust,
+                      label.vjust = label.vjust,
+                      label.repel = label.repel)
     }
     p
   }

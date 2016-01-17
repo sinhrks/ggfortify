@@ -28,6 +28,7 @@ Suggests:
     dlm,
     fGarch,
     forecast,
+    ggrepel,
     glmnet,
     grDevices,
     KFAS,

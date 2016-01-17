@@ -9,16 +9,17 @@ ggbiplot(plot.data, loadings.data = NULL, colour = NULL, size = NULL,
   label = FALSE, label.label = "rownames", label.colour = colour,
   label.alpha = NULL, label.size = NULL, label.angle = NULL,
   label.family = NULL, label.fontface = NULL, label.lineheight = NULL,
-  label.hjust = NULL, label.vjust = NULL, loadings = FALSE,
-  loadings.colour = "#FF0000", loadings.label = FALSE,
+  label.hjust = NULL, label.vjust = NULL, label.repel = FALSE,
+  loadings = FALSE, loadings.colour = "#FF0000", loadings.label = FALSE,
   loadings.label.label = "rownames", loadings.label.colour = "#FF0000",
   loadings.label.alpha = NULL, loadings.label.size = NULL,
   loadings.label.angle = NULL, loadings.label.family = NULL,
   loadings.label.fontface = NULL, loadings.label.lineheight = NULL,
-  loadings.label.hjust = NULL, loadings.label.vjust = NULL, frame = FALSE,
-  frame.type = NULL, frame.colour = colour, frame.level = 0.95,
-  frame.alpha = 0.2, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
+  loadings.label.hjust = NULL, loadings.label.vjust = NULL,
+  loadings.label.repel = FALSE, frame = FALSE, frame.type = NULL,
+  frame.colour = colour, frame.level = 0.95, frame.alpha = 0.2,
+  xlim = c(NA, NA), ylim = c(NA, NA), log = "", main = NULL,
+  xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{plot.data}{data.frame}
@@ -59,6 +60,8 @@ ggbiplot(plot.data, loadings.data = NULL, colour = NULL, size = NULL,
 
 \item{label.vjust}{Vertical adjustment for text labels}
 
+\item{label.repel}{Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting}
+
 \item{loadings}{Logical value whether to display loadings arrows}
 
 \item{loadings.colour}{Point colour for data}
@@ -84,6 +87,8 @@ ggbiplot(plot.data, loadings.data = NULL, colour = NULL, size = NULL,
 \item{loadings.label.hjust}{Horizontal adjustment for loadings text labels}
 
 \item{loadings.label.vjust}{Vertical adjustment for loadings text labels}
+
+\item{loadings.label.repel}{Logical flag indicating whether to use \code{ggrepel} automatically}
 
 \item{frame}{Logical value whether to draw outliner convex / ellipse}
 

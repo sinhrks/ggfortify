@@ -10,8 +10,8 @@
   label.colour = colour, label.alpha = NULL, label.size = NULL,
   label.angle = NULL, label.family = NULL, label.fontface = NULL,
   label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
-  scale = NULL, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
+  label.repel = FALSE, scale = NULL, xlim = c(NA, NA), ylim = c(NA, NA),
+  log = "", main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{base::matrix} instance}
@@ -52,6 +52,8 @@ returns not containing original data.}
 \item{label.hjust}{Horizontal adjustment for text labels}
 
 \item{label.vjust}{Vertical adjustment for text labels}
+
+\item{label.repel}{Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting}
 
 \item{scale}{(Deprecated) \code{ggplot2::scale} instance to plot. ('tile' Only)}
 
