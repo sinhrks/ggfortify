@@ -8,6 +8,7 @@ ggfortify dev version
   specifying scale = 0
 - autoplot.ts now supports stacked option
 - Support maps and sp packages
+- Support ggrepel
 
 ggfortify v0.1.0
 ----------------
