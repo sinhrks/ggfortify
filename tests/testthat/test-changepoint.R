@@ -21,7 +21,7 @@ test_that('fortify.cpt works for AirPassengers', {
   # var
   fortified <- ggplot2::fortify(changepoint::cpt.var(AirPassengers))
   expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), c('Index', 'Data', 'variance'))
+  expect_equal(names(fortified), c('Index', 'Data', 'mean', 'variance'))
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1960-12-01'))
 
