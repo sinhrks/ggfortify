@@ -109,7 +109,7 @@ autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 
 [``{lfda}``](https://cran.r-project.org/package=lfda)包支持一系列的Fisher局部判别分析方法，包括半监督lfda，非线性lfda。你也可以使用`{ggfortify}`来对他们的结果进行可视化。
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval = FALSE}
 library(lfda)
 
 # Fisher局部判别分析 (LFDA)
@@ -117,7 +117,7 @@ model <- lfda(iris[-5], iris[, 5], 4, metric="plain")
 autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
 ```
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval = FALSE}
 # 半监督Fisher局部判别分析 (SELF)
 model <- self(iris[-5], iris[, 5], beta = 0.1, r = 3, metric="plain")
 autoplot(model, data = iris, frame = TRUE, frame.colour = 'Species')
