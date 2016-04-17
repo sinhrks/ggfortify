@@ -173,7 +173,7 @@ test_that('autoplot ts works for multivariate timeseries', {
   df <- data.frame(A=c(1, 2, 3, 4), B=c(5, 6, 7, 8))
   mts <- as.ts(df)
 
-  p <- autoplot(mts, facets=FALSE, geom = 'bar')
+  p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'bar')
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomBar'))
   ld <- ggplot2:::layer_data(p, 1)
@@ -182,7 +182,7 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), 4))
   expect_true(all(is.na(ld$alpha)))
 
-  p <- autoplot(mts, facets=FALSE, geom = 'bar', stacked = TRUE)
+  p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'bar', stacked = TRUE)
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomBar'))
   ld <- ggplot2:::layer_data(p, 1)
@@ -191,7 +191,7 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), 4))
   expect_true(all(is.na(ld$alpha)))
 
-  p <- autoplot(mts, facets=FALSE, geom = 'ribbon', stacked = FALSE)
+  p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'ribbon', stacked = FALSE)
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomRibbon'))
   ld <- ggplot2:::layer_data(p, 1)
@@ -203,7 +203,7 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_equal(ld$alpha, rep(0.5, 8))
   expect_true('GeomRibbon' %in% class(p$layers[[1]]$geom))
 
-  p <- autoplot(mts, facets=FALSE, geom = 'ribbon', stacked = TRUE)
+  p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'ribbon', stacked = TRUE)
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomRibbon'))
   ld <- ggplot2:::layer_data(p, 1)
@@ -214,7 +214,7 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_equal(ld$fill, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
   expect_true(all(is.na(ld$alpha)))
 
-  p <- autoplot(mts, facets=FALSE, geom = 'line', stacked = FALSE)
+  p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'line', stacked = FALSE)
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomLine'))
   ld <- ggplot2:::layer_data(p, 1)
@@ -223,7 +223,7 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_equal(ld$colour, rep(c('#F8766D',  '#00BFC4'), c(4, 4)))
   expect_true(all(is.na(ld$alpha)))
 
-  p <- autoplot(mts, facets=FALSE, geom = 'line', stacked = TRUE)
+  p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'line', stacked = TRUE)
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomLine'))
   ld <- ggplot2:::layer_data(p, 1)
@@ -233,5 +233,5 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_true(all(is.na(ld$alpha)))
 
   # error cases
-  expect_error(autoplot(mts, geom = 'xxx'))
+  expect_error(ggfortify:::autoplot.ts(mts, geom = 'xxx'))
 })

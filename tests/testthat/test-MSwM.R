@@ -1,4 +1,4 @@
-context('test forecast')
+context('test MSwM')
 
 test_that('fortify.MSwM works for sample data', {
   library(MSwM)
