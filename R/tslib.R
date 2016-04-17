@@ -180,7 +180,6 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' fitted(ar(WWWusage))
 #' @export
 fitted.ar <- function(object, ...) {
-  requireNamespace('forecast')
   x <- forecast::getResponse(object)
   return(x - stats::residuals(object))
 }
