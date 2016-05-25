@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{一行R代码来实现繁琐的可视化 (Introduction in Chinese)}
+%\VignetteIndexEntry{\u4e00\u884cR\u4ee3\u7801\u6765\u5b9e\u73b0\u7e41\u7410\u7684\u53ef\u89c6\u5316 (Introduction in Chinese)}
 -->
 
 author: "唐源"
