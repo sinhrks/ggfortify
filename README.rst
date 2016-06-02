@@ -107,7 +107,7 @@ Examples
 * `Plotting PCA, clustering, LFDA and MDS <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html>`_
 * `Plotting Probability Distributions with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_dist.html>`_
-* `Introduction (Chinese) <https://cran.r-project.org/web/packages/ggfortify/vignettes/intro_Chinese.html>`_
+* `Introduction (Chinese) <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
 
 ggplot2 Families
 ----------------
