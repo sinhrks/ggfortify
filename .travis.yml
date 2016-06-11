@@ -33,8 +33,10 @@ before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
   - if [[ "$PKG" == "DEV" ]]; then
       Rscript -e 'install.packages("devtools")';
+      Rscript -e 'library(devtools);install_github("hadley/devtools")';
       Rscript -e 'library(devtools);install_github("hadley/ggplot2")';
       Rscript -e 'library(devtools);install_github("hadley/tidyr")';
+      Rscript -e 'library(devtools);install_github("hadley/dtplyr")';
       Rscript -e 'library(devtools);install_github("hadley/dplyr")';
     fi
   # install latest
