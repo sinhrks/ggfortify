@@ -4,11 +4,18 @@ NEWS
 ggfortify dev version
 ---------------------
 
-- Components of prcomp and princomp are now scaled. Scaling can be disabled by
+- To be added
+
+ggfortify v0.2.0
+---------------------
+
+- Components of prcomp and princomp are now scaled. Scaling can be disabled by 
   specifying scale = 0
 - autoplot.ts now supports stacked option
 - Support maps and sp packages
 - Support ggrepel
+- Support ggbiplot
+- More compatible with recent version of forecast, dplyr, tidyr, etc.
 
 ggfortify v0.1.0
 ----------------
