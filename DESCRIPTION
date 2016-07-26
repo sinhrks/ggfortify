@@ -6,6 +6,8 @@ Date: 2016-06-02
 Author: Masaaki Horikoshi <sinhrks@gmail.com> and Yuan Tang
     <terrytangyuan@gmail.com>
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
+URL: https://github.com/sinhrks/ggfortify
+BugReports: https://github.com/sinhrks/ggfortify/issues
 Encoding: UTF-8
 Description: Unified plotting tools for statistics commonly used, such as GLM,
     time series, PCA families, clustering and survival analysis. The package offers
