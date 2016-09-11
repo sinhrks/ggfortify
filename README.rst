@@ -91,6 +91,21 @@ Installation
     library(devtools)
     install_github('sinhrks/ggfortify')
 
+Reference/Citation
+------------
+If you use this package, please cite our paper to appear in R Journal soon.
+
+`Yuan Tang, Massaki Horikoshi, and Wenxuan Li. "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages" <https://journal.r-project.org/archive/accepted/tang-horikoshi-li.pdf>`_
+
+.. highlight::
+
+@article{ggfortify,
+  title={ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages},
+  author={Yuan Tang, Massaki Horikoshi, and Wenxuan Li}
+}
+
+
+
 Helper Functions
 ----------------
 
