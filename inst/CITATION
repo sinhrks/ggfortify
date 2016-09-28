@@ -1,0 +1,19 @@
+citHeader("To cite ggfortify in publications, please use:")
+
+citEntry(entry = "article",
+  author = "Yuan Tang, Massaki Horikoshi, and Wenxuan Li",
+  title = "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages",
+  journal = "The R Journal",
+  year = "2016",
+  url = "https://journal.r-project.org/",
+  textVersion = "Yuan Tang, Massaki Horikoshi, and Wenxuan Li. ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages. The R Journal, 2016."
+)
+
+citEntry(entry = "manual",
+  author = "Massaki Horikoshi and Yuan Tang",
+  title = "ggfortify: Data Visualization Tools for Statistical Analysis Results",
+  year = "2016",
+  note = "R package version 0.2.0",
+  url = "https://CRAN.R-project.org/package=ggfortify",
+  textVersion = "Masaaki Horikoshi and Yuan Tang (2016). ggfortify: Data Visualization Tools for Statistical Analysis Results. R package version 0.2.0. https://CRAN.R-project.org/package=ggfortify"
+)

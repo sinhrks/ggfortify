@@ -15,6 +15,27 @@ Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle som
 
 **Note**: For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attribute names. Such functions are marked as "(inference)".
 
+Installation
+------------
+
+- Install the latest stable release from CRAN: ::
+
+    install.packages('ggfortify')
+
+- Install the development version from Github: ::
+
+    library(devtools)
+    install_github('sinhrks/ggfortify')
+
+Reference/Citation
+------------
+If you use this package, please cite our paper to appear in R Journal soon.
+
+`Yuan Tang, Massaki Horikoshi, and Wenxuan Li. ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages. The R Journal, 2016. <https://journal.r-project.org/archive/accepted/tang-horikoshi-li.pdf>`_
+
+
+Coverage
+-----------
 
 This covers following classes:
 
@@ -78,25 +99,6 @@ This covers following classes:
 - ``vars::varprd``
 - ``xts::xts``
 - ``zoo::zooreg``
-
-Installation
-------------
-
-- Install the latest stable release from CRAN: ::
-
-    install.packages('ggfortify')
-
-- Install the development version from Github: ::
-
-    library(devtools)
-    install_github('sinhrks/ggfortify')
-
-Reference/Citation
-------------
-If you use this package, please cite our paper to appear in R Journal soon.
-
-`Yuan Tang, Massaki Horikoshi, and Wenxuan Li. "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages" <https://journal.r-project.org/archive/accepted/tang-horikoshi-li.pdf>`_
-
 
 Helper Functions
 ----------------
