@@ -31,6 +31,7 @@ fortify.RasterCommon <- function(model, data = NULL, maxpixels = 100000,
     dat <- as.data.frame(raster::getValues(model))
     dat <- cbind(coords, dat)
     names(dat)[3:(nl + 2)] <- names(model)
+
     df <- as.data.frame(dat)
 
   } else {
