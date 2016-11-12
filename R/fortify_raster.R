@@ -43,3 +43,12 @@ fortify.RasterCommon <- function(model, data = NULL, maxpixels = 100000,
 
   post_fortify(df, klass = model)
 }
+
+#' @export
+fortify.RasterLayer <- fortify.RasterCommon
+
+#' @export
+fortify.RasterBrick <- fortify.RasterCommon
+
+#' @export
+fortify.RasterStack <- fortify.RasterCommon
