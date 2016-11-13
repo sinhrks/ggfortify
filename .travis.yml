@@ -25,6 +25,7 @@ r_binary_packages:
   - timeSeries
   - vars
   - xts
+  - raster
 
 r_github_packages:
   - jimhester/covr
