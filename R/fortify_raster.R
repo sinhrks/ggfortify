@@ -52,3 +52,37 @@ fortify.RasterBrick <- fortify.RasterCommon
 
 #' @export
 fortify.RasterStack <- fortify.RasterCommon
+
+#' Autoplot \code{raster::raster}
+#'
+#' @param object \code{raster::raster} instance
+#' @param p \code{ggplot2::ggplot} instance
+#' @param raster.layer name of the layer to plot
+#' @param alpha alpha
+#' @inheritParams post_autoplot
+#' @param ... other arguments passed to methods
+#' @return ggplot
+#' @export
+autoplot.RasterCommon <- function(object, raster.layer = NULL, p = NULL,
+                                  alpha = NULL, xlim = c(NA, NA),
+                                  ylim = c(NA, NA), log = "", main = NULL,
+                                  xlab = '', ylab = '', asp = NULL, ...) {
+  plot.data <- ggplot2::fortify(object)
+  layer_names <- names(object)
+
+  if (is.null(p)) {
+    mapping <- ggplot2::aes_string(x = 'long', y = 'lat')
+    p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+    p <- p + geom_factory(geomfunc, data = plot.data, colour = colour,
+                          size = size, linetype = linetype, alpha = alpha,
+                          fill = fill, shape = shape)
+  } else {
+    p <- p + geom_factory(geomfunc, data = plot.data,
+                          x = 'long', y = 'lat', group = group,
+                          colour = colour, size = size, linetype = linetype,
+                          alpha = alpha, fill = fill, shape = shape)
+  }
+  p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
+                     main = main, xlab = xlab, ylab = ylab, asp = asp)
+  p
+}
