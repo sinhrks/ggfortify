@@ -92,7 +92,7 @@ test_that('fortify.bats works for austres', {
   result <- forecast::bats(austres, use.parallel = FALSE)
   fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
-  expected_names <- c('Index', 'Data', 'Fitted', 'Residuals', 'Level', 'Slope')
+  expected_names <- c('Index', 'Data', 'Fitted', 'Residuals', 'Level', 'Slope', 'Season')
   expect_equal(names(fortified), expected_names)
   expect_equal(fortified$Index[1], as.Date('1971-04-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1993-04-01'))

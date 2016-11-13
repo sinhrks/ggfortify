@@ -192,6 +192,10 @@ test_that('autoplot.aareg works for lung', {
   fit <- aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1)
   p <- autoplot(fit)
 
+  # fail on travis
+  skip_on_cran()
+  skip_on_travis()
+
   expect_equal(length(p$layers), 2)
   expect_true(is(p$layers[[1]]$geom, 'GeomStep'))
   expect_true(is(p$layers[[2]]$geom, 'GeomConfint'))
@@ -203,9 +207,6 @@ test_that('autoplot.aareg works for lung', {
   expect_equal(ld2$fill, rep("#F8766D", 6))
   expect_equal(ld2$alpha, rep(0.3, 6))
 
-  # fail on travis
-  skip_on_cran()
-  skip_on_travis()
   expect_equal(ld1$y, c(0.0000000000, 0.0003486387, 0.0008055660, 0.0019374715, 0.0021379850, 0.0026158663), tolerance=1e-3)
   expect_equal(ld2$y, c(0.0000000000, 0.0003486387, 0.0008055660, 0.0019374715, 0.0021379850, 0.0026158663), tolerance=1e-3)
   expect_equal(ld2$ymin, c(0.000000e+00, -3.346932e-04, -3.209336e-04, -5.506800e-04, -3.810132e-04, -7.163447e-05), tolerance=1e-3)
