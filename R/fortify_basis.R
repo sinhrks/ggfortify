@@ -16,6 +16,7 @@
 #'     copying the class attribute.
 #' @examples
 #' library(splines)
+#' library(tibble)
 #' x <- seq(0, 1, by=0.001)
 #' spl <- bs(x, df=6)
 #' as_tibble(spl)
@@ -45,6 +46,7 @@ as_tibble.basis <- function(x, ...) {
 #' spl <- bs(x, df=6)
 #' fortify(spl)
 #' @importFrom tibble as_tibble
+#' @importFrom stats predict
 #' @export
 fortify.basis <- function(model, data, n=256, ...) {
     attrs <- attributes(model)
@@ -56,13 +58,13 @@ fortify.basis <- function(model, data, n=256, ...) {
     predict(model, data) %>%
         as_tibble %>%
         mutate(x=data) %>%
-        gather_(key="Spline", value="y", colnames(model)) %>%
-        select(Spline, x, y)
+        gather_(key_col="Spline", value_col="y", gather_cols=colnames(model)) %>%
+        select_("Spline", "x", "y")
 }
 
 #' Autoplot spline basis instances
 #'
-#' @param model spline basis object
+#' @param object spline basis object
 #' @param data x-values at which to evaluate the splines. Optional. By
 #'     default, an evenly spaced sequence of 256 values covering the
 #'     range of the splines will be used.
@@ -87,7 +89,7 @@ autoplot.basis <- function(object, data, n=256, ...) {
     knot.df <- ggplot2::fortify(object,
                                 data=all.knots)
     ggplot(fortified) +
-        aes(x=x, y=y, group=Spline, color=Spline) +
+        aes_string(x="x", y="y", group="Spline", color="Spline") +
         geom_line() +
         geom_point(data=knot.df) +
         scale_color_discrete(guide=FALSE)
