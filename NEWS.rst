@@ -4,27 +4,27 @@ NEWS
 ggfortify dev version
 ---------------------
 
-- To be added
+- Support `splines` 
 
 ggfortify v0.2.0
 ---------------------
 
-- Components of prcomp and princomp are now scaled. Scaling can be disabled by 
+- Components of `prcomp` and `princomp` are now scaled. Scaling can be disabled by 
   specifying scale = 0
-- autoplot.ts now supports stacked option
-- Support maps and sp packages
-- Support ggrepel
-- Support ggbiplot
-- More compatible with recent version of forecast, dplyr, tidyr, etc.
+- `autoplot.ts` now supports stacked option
+- Support `maps` and `sp` packages
+- Support `ggrepel`
+- Support `ggbiplot`
+- More compatible with recent version of `forecast`, `dplyr`, `tidyr`, etc.
 
 ggfortify v0.1.0
 ----------------
 
 - Compatible with ggplot2 v2.0.0
-- Support glmnet
-- Support multiplots from a list of classes supported by autoplot
-- Support ggmultiplot extraction getter / setter
-- Support ggmultiplot arithmetics
+- Support `glmnet`
+- Support `multiplots` from a list of classes supported by autoplot
+- Support `ggmultiplot` extraction getter / setter
+- Support `ggmultiplot` arithmetics
 
 ggfortify v0.0.4
 ----------------
