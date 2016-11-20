@@ -7,6 +7,8 @@
 \method{autoplot}{basis}(object, data, n = 256, ...)
 }
 \arguments{
+\item{object}{spline basis object}
+
 \item{data}{x-values at which to evaluate the splines. Optional. By
 default, an evenly spaced sequence of 256 values covering the
 range of the splines will be used.}
@@ -17,8 +19,6 @@ endpoints are included). If data is provided, this argument is
 ignored.}
 
 \item{...}{Ignored.}
-
-\item{model}{spline basis object}
 }
 \value{
 ggplot

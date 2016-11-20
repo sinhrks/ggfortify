@@ -32,6 +32,7 @@ This function is needed because the default method for
 }
 \examples{
 library(splines)
+library(tibble)
 x <- seq(0, 1, by=0.001)
 spl <- bs(x, df=6)
 as_tibble(spl)
