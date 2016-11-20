@@ -26,7 +26,8 @@ Imports:
     dplyr (>= 0.3),
     tidyr,
     gridExtra,
-    scales
+    scales,
+    tibble
 Suggests:
     testthat,
     cluster,
