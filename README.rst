@@ -73,6 +73,7 @@ This covers following classes:
 - ``sp::SpatialPointsDataFrame``
 - ``sp::SpatialPolygons``
 - ``sp::SpatialPolygonsDataFrame``
+- ``splines::basis``
 - ``stats::acf``
 - ``stats::ar``
 - ``stats::Arima``
