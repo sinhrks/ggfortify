@@ -54,5 +54,6 @@ Suggests:
     vars,
     xts,
     zoo,
-    lfda
+    lfda,
+    raster
 RoxygenNote: 5.0.1

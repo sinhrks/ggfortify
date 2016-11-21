@@ -24,6 +24,7 @@ fortify.RasterCommon <- function(model, data = NULL, maxpixels = 100000,
 
   } else if (is(model, 'RasterBrick') || is(model, 'RasterStack')) {
 
+
     nl <- raster::nlayers(model)
     model <- raster::sampleRegular(model, maxpixels, asRaster = TRUE)
     coords <- raster::xyFromCell(model, seq_len(raster::ncell(model)))
@@ -98,3 +99,4 @@ autoplot.RasterBrick <- autoplot.RasterCommon
 
 #' @export
 autoplot.RasterStack <- autoplot.RasterCommon
+
