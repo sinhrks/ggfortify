@@ -98,3 +98,47 @@ test_that('test fortify.RasterCommon', {
   expect_equal(res$second_layer, exp$layer.2)
   expect_equal(attr(res, 'base_class')[[1]], 'RasterBrick')
 })
+
+test_that('test autoplot.RasterCommon', {
+
+  library(raster)
+
+  # RasterLayer object
+  r <- raster(nrows = 10, ncols = 10, xmn = 0, xmx = 10, ymn = 0, ymx = 10)
+  r[] <- 0
+
+  p <- autoplot(r)
+  expect_equal(length(p$layers), 1)
+  expect_true(is(p$layers[[1]]$geom, 'GeomTile'))
+  ld <- head(ggplot2:::layer_data(p, 1))
+  expect_equal(ld$x, seq(0.5, 5.5, by = 1))
+  expect_equal(ld$y, rep(9.5, 6))
+  expect_equal(ld$colour, rep(NA, 6))
+  expect_equal(ld$alpha, rep(NA, 6))
+
+
+  # RasterStack
+  rs <- stack(r, r)
+
+  p <- autoplot(rs)
+  expect_equal(length(p$layers), 1)
+  expect_true(is(p$layers[[1]]$geom, 'GeomTile'))
+  ld <- head(ggplot2:::layer_data(p, 1))
+  expect_equal(ld$x, seq(0.5, 5.5, by = 1))
+  expect_equal(ld$y, rep(9.5, 6))
+  expect_equal(ld$colour, rep(NA, 6))
+  expect_equal(ld$alpha, rep(NA, 6))
+
+
+  # Raster Brick
+  rb <- brick(r, r)
+
+  p <- autoplot(rb)
+  expect_equal(length(p$layers), 1)
+  expect_true(is(p$layers[[1]]$geom, 'GeomTile'))
+  ld <- head(ggplot2:::layer_data(p, 1))
+  expect_equal(ld$x, seq(0.5, 5.5, by = 1))
+  expect_equal(ld$y, rep(9.5, 6))
+  expect_equal(ld$colour, rep(NA, 6))
+  expect_equal(ld$alpha, rep(NA, 6))
+})
