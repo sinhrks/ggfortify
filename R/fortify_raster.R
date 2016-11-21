@@ -11,12 +11,12 @@ fortify.RasterCommon <- function(model, data = NULL, maxpixels = 100000,
   if (is(model, 'RasterLayer')) {
 
     # Resample if necessary (raster too big)
-    model <- sampleRegular(model, maxpixels, asRaster=TRUE)
+    model <- raster::sampleRegular(model, maxpixels, asRaster = TRUE)
     # Get coordinates
-    coords <- xyFromCell(model, seq_len(ncell(model)))
+    coords <- raster::xyFromCell(model, seq_len(raster::ncell(model)))
 
     ## Extract values
-    dat <- as.data.frame(getValues(model))
+    dat <- as.data.frame(raster::getValues(model))
 
     dat <- cbind(coords, dat)
     names(dat)[3] <- names(model)
@@ -24,13 +24,13 @@ fortify.RasterCommon <- function(model, data = NULL, maxpixels = 100000,
 
   } else if (is(model, 'RasterBrick') || is(model, 'RasterStack')) {
 
-    nl <- nlayers(model)
-    model <- sampleRegular(model, maxpixels, asRaster=TRUE)
-    coords <- xyFromCell(model, seq_len(ncell(model)))
+    nl <- raster::nlayers(model)
+    model <- raster::sampleRegular(model, maxpixels, asRaster = TRUE)
+    coords <- raster::xyFromCell(model, seq_len(raster::ncell(model)))
     ## Extract values
-    dat <- as.data.frame(getValues(model))
+    dat <- as.data.frame(raster::getValues(model))
     dat <- cbind(coords, dat)
-    names(dat)[3:(nl+2)] <- names(model)
+    names(dat)[3:(nl + 2)] <- names(model)
     df <- as.data.frame(dat)
 
   } else {
@@ -73,14 +73,10 @@ autoplot.RasterCommon <- function(object, raster.layer = NULL, p = NULL,
   if (is.null(p)) {
     mapping <- ggplot2::aes_string(x = 'long', y = 'lat')
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
-    p <- p + geom_factory(geomfunc, data = plot.data, colour = colour,
-                          size = size, linetype = linetype, alpha = alpha,
-                          fill = fill, shape = shape)
+    p <- p + geom_factory(geomfunc, data = plot.data, alpha = alpha)
   } else {
     p <- p + geom_factory(geomfunc, data = plot.data,
-                          x = 'long', y = 'lat', group = group,
-                          colour = colour, size = size, linetype = linetype,
-                          alpha = alpha, fill = fill, shape = shape)
+                          x = 'long', y = 'lat', alpha = alpha)
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)
