@@ -11,18 +11,18 @@ test_that('test fortify.RasterCommon', {
   coords <- expand.grid(coords, coords)
   colnames(coords) <- c('long', 'lat')
   exp <- data.frame(coords, layer = 0)
-  exp <- exp[with(exp, order(-lat, long)),]  # Reorder df to get expected df
+  exp <- exp[with(exp, order(-lat, long)), ]  # Reorder df to get expected df
 
   res <- fortify(r)
   expect_true(is.data.frame(res))
-  expect_equal(colnames(res), c('long', 'lat'))
+  expect_equal(colnames(res), c('long', 'lat', 'layer'))
   expect_equal(res$long, exp$long)
   expect_equal(res$lat, exp$lat)
   expect_equal(attr(res, 'base_class')[[1]], 'RasterLayer')
 
-  res <- fortify(res, rename = FALSE)
+  res <- fortify(r, rename = FALSE)
   expect_true(is.data.frame(res))
-  expect_equal(colnames(res), c('x', 'y'))
+  expect_equal(colnames(res), c('x', 'y', 'layer'))
   expect_equal(res$x, exp$long)
   expect_equal(res$y, exp$lat)
   expect_equal(attr(res, 'base_class')[[1]], 'RasterLayer')
@@ -94,7 +94,7 @@ test_that('test fortify.RasterCommon', {
   expect_equal(colnames(res), c('long', 'lat', 'first_layer', 'second_layer'))
   expect_equal(res$long, exp$long)
   expect_equal(res$lat, exp$lat)
-  expect_equal(res$firbt_layer, exp$layer.1)
+  expect_equal(res$first_layer, exp$layer.1)
   expect_equal(res$second_layer, exp$layer.2)
   expect_equal(attr(res, 'base_class')[[1]], 'RasterBrick')
 })
