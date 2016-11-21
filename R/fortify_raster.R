@@ -55,6 +55,7 @@ fortify.RasterStack <- fortify.RasterCommon
 
 #' Autoplot \code{raster::raster}
 #'
+#' Only plot the first layer of the given raster
 #' @param object \code{raster::raster} instance
 #' @param p \code{ggplot2::ggplot} instance
 #' @param raster.layer name of the layer to plot
@@ -70,15 +71,30 @@ autoplot.RasterCommon <- function(object, raster.layer = NULL, p = NULL,
   plot.data <- ggplot2::fortify(object)
   layer_names <- names(object)
 
+  if (length(layer_names) > 1) {
+    message(paste0("More than one layer, plotting the first one only: ",
+                   layer_names[1]))
+  }
+
   if (is.null(p)) {
-    mapping <- ggplot2::aes_string(x = 'long', y = 'lat')
+    mapping <- ggplot2::aes_string(x = 'long', y = 'lat', fill = layer_names[1])
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
-    p <- p + geom_factory(geomfunc, data = plot.data, alpha = alpha)
+    p <- p + geom_factory(ggplot2::geom_tile, data = plot.data, alpha = alpha)
   } else {
-    p <- p + geom_factory(geomfunc, data = plot.data,
-                          x = 'long', y = 'lat', alpha = alpha)
+    p <- p + geom_factory(ggplot2::geom_tile, data = plot.data,
+                          x = 'long', y = 'lat', fill = layer_names[1],
+                          alpha = alpha)
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
 }
+
+#' @export
+autoplot.RasterLayer <- autoplot.RasterCommon
+
+#' @export
+autoplot.RasterBrick <- autoplot.RasterCommon
+
+#' @export
+autoplot.RasterStack <- autoplot.RasterCommon
