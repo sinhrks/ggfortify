@@ -44,6 +44,7 @@ Suggests:
     MASS,
     MSwM,
     nlme,
+    raster,
     sp,
     stats,
     strucchange,
@@ -54,5 +55,6 @@ Suggests:
     vars,
     xts,
     zoo,
-    lfda
+    lfda,
+    raster
 RoxygenNote: 5.0.1
