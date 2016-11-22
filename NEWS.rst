@@ -4,7 +4,9 @@ NEWS
 ggfortify dev version
 ---------------------
 
-- Support ``splines``
+- Support ``splines::basis``
+- Support several ``raster`` ojects, such as ``RasterBrick``, ``RasterCommon``, ``RasterLayer``,
+  and ``RasterStack``
 
 ggfortify v0.2.0
 ---------------------
