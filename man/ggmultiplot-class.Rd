@@ -3,9 +3,13 @@
 \docType{class}
 \name{ggmultiplot-class}
 \alias{[,ggmultiplot,ANY,ANY-method}
+\alias{[,ggmultiplot,ANY,ANY,ANY-method}
 \alias{[,ggmultiplot-method}
+\alias{[<-,ggmultiplot,ANY,ANY,ANY-method}
 \alias{[<-,ggmultiplot-method}
+\alias{[[,ggmultiplot,ANY,ANY-method}
 \alias{[[,ggmultiplot-method}
+\alias{[[<-,ggmultiplot,ANY,ANY-method}
 \alias{[[<-,ggmultiplot-method}
 \alias{ggmultiplot-class}
 \alias{length,ggmultiplot-method}
@@ -13,13 +17,17 @@
 \usage{
 \S4method{length}{ggmultiplot}(x)
 
+<<<<<<< HEAD
 \S4method{[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop = TRUE)
+=======
+\S4method{[}{ggmultiplot,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
+>>>>>>> 431761f338c01c5a461175f9441158c9553efc0d
 
-\S4method{[[}{ggmultiplot}(x, i, j, ..., drop)
+\S4method{[[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop)
 
-\S4method{[}{ggmultiplot}(x, i, j, ...) <- value
+\S4method{[}{ggmultiplot,ANY,ANY,ANY}(x, i, j, ...) <- value
 
-\S4method{[[}{ggmultiplot}(x, i, j, ...) <- value
+\S4method{[[}{ggmultiplot,ANY,ANY}(x, i, j, ...) <- value
 }
 \arguments{
 \item{x}{\code{ggmultiplot}}
