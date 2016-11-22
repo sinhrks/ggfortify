@@ -17,11 +17,7 @@
 \usage{
 \S4method{length}{ggmultiplot}(x)
 
-<<<<<<< HEAD
-\S4method{[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop = TRUE)
-=======
 \S4method{[}{ggmultiplot,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
->>>>>>> 431761f338c01c5a461175f9441158c9553efc0d
 
 \S4method{[[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop)
 
