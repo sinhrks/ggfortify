@@ -63,6 +63,10 @@ This covers following classes:
 - ``maps::map``
 - ``MASS::isoMDS`` (inference)
 - ``MASS::sammon`` (inference)
+- ``raster::RasterBrick``
+- ``raster::RasterCommon``
+- ``raster::RasterLayer``
+- ``raster::RasterStack``
 - ``sp::Line``
 - ``sp::Lines``
 - ``sp::Polygon``
