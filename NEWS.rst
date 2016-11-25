@@ -7,6 +7,7 @@ ggfortify dev version
 - Support ``splines::basis``
 - Support several ``raster`` ojects, such as ``RasterBrick``, ``RasterCommon``, ``RasterLayer``,
   and ``RasterStack``
+- ``ggmultiplot`` objects can now be saved correctly via `ggplot2::ggsave()`
 
 ggfortify v0.2.0
 ---------------------
