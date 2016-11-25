@@ -26,6 +26,7 @@ Imports:
     dplyr (>= 0.3),
     tidyr,
     gridExtra,
+    grid,
     scales,
     tibble
 Suggests:

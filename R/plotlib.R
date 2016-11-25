@@ -363,6 +363,16 @@ setMethod('print', 'ggmultiplot',
 #' @return NULL
 setMethod('show', 'ggmultiplot', function(object) { print(object) })
 
+#' The implemented grid.draw method for ggmultiplot, in order to work
+#' with ggsave() properly
+#'
+#' @export
+#' @method grid.draw ggmultiplot
+#' @importFrom grid grid.draw
+#' @importFrom gridExtra arrangeGrob
+grid.draw.ggmultiplot <- function(plot) {
+  grid::grid.draw(gridExtra::arrangeGrob(grobs = plot@plots))
+}
 
 #' Post process for fortify. Based on \code{ggplot2::qplot}
 #'

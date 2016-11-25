@@ -18,7 +18,7 @@ test_that('fortify.lm works for USArrests', {
   expect_equal(rownames(fortified), rownames(USArrests))
 })
 
-test_that('autplot.lm can accept + operator', {
+test_that('autoplot.lm can accept + operator', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5) + theme_bw()
   expect_true(is(p, 'ggmultiplot'))
   expect_equal(length(p@plots), 4)
@@ -26,4 +26,11 @@ test_that('autplot.lm can accept + operator', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), which = 1:6) + scale_colour_brewer()
   expect_true(is(p, 'ggmultiplot'))
   expect_equal(length(p@plots), 6)
+})
+
+test_that('autoplot.lm can be used in ggsave()', {
+  p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)
+  ggsave(p, file='temp.png', h = 6, w = 6, units = "in", dpi = 300)
+  expect_true(file.exists('temp.png'))
+  unlink('temp.png')
 })
