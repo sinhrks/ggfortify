@@ -13,7 +13,6 @@ citEntry(entry = "manual",
   author = "Masaaki Horikoshi and Yuan Tang",
   title = "ggfortify: Data Visualization Tools for Statistical Analysis Results",
   year = "2016",
-  note = "R package version 0.2.0",
   url = "https://CRAN.R-project.org/package=ggfortify",
-  textVersion = "Masaaki Horikoshi and Yuan Tang (2016). ggfortify: Data Visualization Tools for Statistical Analysis Results. R package version 0.2.0. https://CRAN.R-project.org/package=ggfortify"
+  textVersion = "Masaaki Horikoshi and Yuan Tang (2016). ggfortify: Data Visualization Tools for Statistical Analysis Results. https://CRAN.R-project.org/package=ggfortify"
 )
