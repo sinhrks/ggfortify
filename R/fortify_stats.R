@@ -195,20 +195,13 @@ fortify.lfda <- function(model, data = NULL, ...) {
 
   if(!is(model, 'lfda')){stop('model is not a lfda object')}
 
-  pcaModel <- stats::prcomp(model$Z)
+  model <- stats::prcomp(model$Z)
 
-  if (is(pcaModel, 'prcomp')) {
-    d <- as.data.frame(pcaModel$x)
-    values <- pcaModel$x %*% t(pcaModel$rotation)
-  } else if (is(pcaModel, 'princomp')) {
-    d <- as.data.frame(pcaModel$scores)
-    values <- pcaModel$scores %*% t(pcaModel$loadings[,])
-  } else {
-    stop(paste0('Unsupported class for fortify.pca_common: ', class(pcaModel)))
-  }
+  d <- as.data.frame(model$x)
+  values <- model$x %*% t(model$rotation)
 
-  values <- ggfortify::unscale(values, center = pcaModel$center,
-                               scale = pcaModel$scale)
+  values <- ggfortify::unscale(values, center = model$center,
+                               scale = model$scale)
   values <- cbind_wraps(data, values)
   d <- cbind_wraps(values, d)
   post_fortify(d)
