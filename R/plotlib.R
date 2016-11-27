@@ -596,7 +596,7 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
       p <- p + ggplot2::geom_polygon(data = hulls, mapping = mapping,
                                      alpha = frame.alpha)
     } else if (frame.type %in% c('t', 'norm', 'euclid')) {
-      mapping <- aes_string(colur = frame.colour, fill = frame.colour)
+      mapping <- aes_string(colour = frame.colour, fill = frame.colour)
       p <- p + ggplot2::stat_ellipse(mapping = mapping,
                                      level = frame.level, type = frame.type,
                                      geom = 'polygon', alpha = frame.alpha)
