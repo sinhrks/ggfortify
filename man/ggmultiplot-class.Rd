@@ -2,7 +2,6 @@
 % Please edit documentation in R/plotlib.R
 \docType{class}
 \name{ggmultiplot-class}
-\alias{[,ggmultiplot,ANY,ANY-method}
 \alias{[,ggmultiplot-method}
 \alias{[<-,ggmultiplot-method}
 \alias{[[,ggmultiplot-method}
@@ -13,7 +12,7 @@
 \usage{
 \S4method{length}{ggmultiplot}(x)
 
-\S4method{[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{ggmultiplot}(x, i, j, ..., drop = TRUE)
 
 \S4method{[[}{ggmultiplot}(x, i, j, ..., drop)
 
