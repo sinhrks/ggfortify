@@ -198,7 +198,9 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
   if (is(ts.column, 'yearmon') || is(ts.column, 'yearqtr')) {
     plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
   }
-  plot.data <- tidyr::gather_(plot.data, 'variable', 'value', columns)
+
+  group_key = 'plot_group'
+  plot.data <- tidyr::gather_(plot.data, group_key, 'value', columns)
 
   # create ggplot instance if not passed
   if (is.null(p)) {
@@ -230,18 +232,18 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
   }
 
   if (facets) {
-    args['group'] <- 'variable'
+    args['group'] <- group_key
     p <- p + do.call(geom_factory, args)
-    p <- apply_facets(p, ~ variable, nrow = nrow, ncol = ncol, scales = scales)
+    p <- apply_facets(p, ~ plot_group, nrow = nrow, ncol = ncol, scales = scales)
   } else {
     if (!.is.univariate) {
       # ts.colour cannot be used
       if (!is.null(colour)) {
         warning('multivariate timeseries with facets=FALSE are colorized by variable, colour is ignored')
       }
-      args['colour'] <- 'variable'
+      args['colour'] <- group_key
       if (geom %in% c('bar', 'ribbon')) {
-        args['fill'] <- 'variable'
+        args['fill'] <- group_key
       }
       if (geom == 'ribbon' && !stacked && is.null(alpha)) {
         args['alpha'] <- 0.5

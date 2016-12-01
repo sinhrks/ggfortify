@@ -71,6 +71,7 @@ autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
                             conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                             conf.int.fill = '#000000', conf.int.alpha = 0.3,
                             ...) {
+
   plot.data <- ggplot2::fortify(object, is.date = is.date,
                                 ts.connect = ts.connect, melt = TRUE)
 
@@ -79,6 +80,7 @@ autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
   predict.data <- dplyr::filter_(plot.data, '!is.na(fcst)')
 
   p <- autoplot.ts(original.data, columns = 'Data', ...)
+
   p <- autoplot.ts(predict.data, columns = 'fcst', p = p,
                    geom = predict.geom,
                    colour = predict.colour, size = predict.size,
