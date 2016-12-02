@@ -370,6 +370,7 @@ setMethod('show', 'ggmultiplot', function(object) { print(object) })
 #' @method grid.draw ggmultiplot
 #' @importFrom grid grid.draw
 #' @importFrom gridExtra arrangeGrob
+#' @param plot \code{ggmultiplot}
 grid.draw.ggmultiplot <- function(plot) {
   grid::grid.draw(gridExtra::arrangeGrob(grobs = plot@plots))
 }

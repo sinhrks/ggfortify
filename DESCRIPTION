@@ -1,7 +1,7 @@
 Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
-Version: 0.2.0.9000
+Version: 0.3.0.0
 Date: 2016-06-02
 Authors@R: c(
   person("Masaaki", "Horikoshi", role = c("aut", "cre"),
@@ -56,6 +56,5 @@ Suggests:
     vars,
     xts,
     zoo,
-    lfda,
-    raster
+    lfda
 RoxygenNote: 5.0.1
