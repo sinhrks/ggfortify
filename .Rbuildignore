@@ -4,4 +4,3 @@
 ^README\.rst$
 ^vignettes/rsconnect/.*$
 ^\.httr-oauth$
-^NEWS\.rst$
