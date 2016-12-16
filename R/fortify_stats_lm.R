@@ -66,25 +66,40 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   plot.data$.index <- 1:n
   plot.data$.label <- rownames(plot.data)
-  if (show[2L]) {
-    ylim <- range(plot.data$.stdresid, na.rm = TRUE)
-    ylim[2L] <- ylim[2L] + diff(ylim) * 0.075
-    qn <- stats::qqnorm(plot.data$.stdresid, ylim = ylim, plot.it = FALSE)
-    plot.data$.qqx <- qn$x
-    plot.data$.qqy <- qn$y
-  }
 
   is_glm <- inherits(object, "glm")
-  s <- if (inherits(object, "rlm")) {
-    object$s
-  } else if (is_glm) {
-    sqrt(summary(object)$dispersion)
-  } else {
-    sqrt(stats::deviance(object) / stats::df.residual(object))
+  r <- residuals(object)
+  w <- weights(object)
+  if (any(show[2L:6L])) {
+    s <- if (inherits(object, "rlm")) {
+      object$s
+    } else if (is_glm) {
+      sqrt(summary(object)$dispersion)
+    } else {
+      sqrt(stats::deviance(object) / stats::df.residual(object))
+    }
+    hii <- stats::lm.influence(object, do.coef = FALSE)$hat
+    if (any(show[2L:3L])) {
+      r.w <- if (is.null(w)) {
+        r
+      } else {
+        sqrt(w) * r
+      }
+      plot.data[[".resid"]] <- r.w
+      rs <- r.w / (s * sqrt(1 - hii))
+      plot.data[[".stdresid"]] <- rs
+    }
+    if (show[2L]) {
+      ylim <- range(rs, na.rm = TRUE)
+      ylim[2L] <- ylim[2L] + diff(ylim) * 0.075
+      qn <- stats::qqnorm(rs, ylim = ylim, plot.it = FALSE)
+      plot.data$.qqx <- qn$x
+      plot.data$.qqy <- qn$y
+    }
   }
+
   label.fitted <- ifelse(is_glm, 'Predicted values', 'Fitted values')
   label.y23 <- ifelse(is_glm, 'Std. deviance resid.', 'Standardized residuals')
-  hii <- stats::lm.influence(object, do.coef = FALSE)$hat
 
   if (is.logical(shape) && !shape) {
     if (missing(label)) {
@@ -94,6 +109,12 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     if (missing(label.n)) {
       label.n <- nrow(plot.data)
     }
+  }
+
+  if (is.matrix(plot.data[[1]])) {
+    # target variable may be nested in binomial
+    # because target is unnecessary for plots, just remove.
+    plot.data[[1]] <- plot.data[[1]][, 1]
   }
 
   if (label.n > 0L) {

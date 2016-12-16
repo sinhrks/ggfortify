@@ -28,9 +28,20 @@ test_that('autoplot.lm can accept + operator', {
   expect_equal(length(p@plots), 6)
 })
 
+test_that('fortify.lm works for binomial', {
+  library(MASS)
+  data(menarche)
+  glm.out <- glm(cbind(Menarche, Total-Menarche) ~ Age, family=binomial(logit), data=menarche)
+  p <- autoplot(glm.out)
+  expect_true(is(p, 'ggmultiplot'))
+  # Todo: add geom and label coordinates checks
+})
+
 test_that('autoplot.lm can be used in ggsave()', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)
   ggsave(p, file='temp.png', h = 6, w = 6, units = "in", dpi = 300)
   expect_true(file.exists('temp.png'))
   unlink('temp.png')
 })
+
+
