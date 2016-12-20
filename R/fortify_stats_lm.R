@@ -85,9 +85,9 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       } else {
         sqrt(w) * r
       }
-      plot.data[[".resid"]] <- r.w
+      plot.data[[".wresid"]] <- r.w
       rs <- r.w / (s * sqrt(1 - hii))
-      plot.data[[".stdresid"]] <- rs
+      plot.data[[".wstdresid"]] <- rs
     }
     if (show[2L]) {
       ylim <- range(rs, na.rm = TRUE)
@@ -120,6 +120,10 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   if (label.n > 0L) {
     r.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.resid))')
     r.data <- utils::head(r.data, label.n)
+    if (".wresid" %in% colnames(plot.data)) {
+      wr.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.wresid))')
+      wr.data <- utils::head(wr.data, label.n)
+    }
     cd.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.cooksd))')
     cd.data <- utils::head(cd.data, label.n)
   }
@@ -179,7 +183,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   if (show[2L]) {
     t2 <- 'Normal Q-Q'
     qprobs <- c(0.25, 0.75)
-    qy <- stats::quantile(plot.data$.stdresid, probs = qprobs, names = FALSE,
+    qy <- stats::quantile(plot.data$.wstdresid, probs = qprobs, names = FALSE,
                           type = 7, na.rm = TRUE)
     qx <- stats::qnorm(qprobs)
     slope <- diff(qy) / diff(qx)
@@ -196,15 +200,15 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     p2 <- p2 + ggplot2::geom_abline(intercept=int, slope=slope,
                                     linetype = ad.linetype, size = ad.size,
                                     colour = ad.colour)
-    p2 <- .decorate.label(p2, r.data)
+    p2 <- .decorate.label(p2, wr.data)
     p2 <- .decorate.plot(p2, xlab = 'Theoretical Quantiles',
                          ylab = label.y23, title = t2)
   }
 
   if (show[3L]) {
     t3 <- 'Scale-Location'
-    mapping <- ggplot2::aes_string(x = '.fitted', y = 'sqrt(abs(.stdresid))')
-    smoother <- .smooth(plot.data$.fitted, sqrt(abs(plot.data$.stdresid)))
+    mapping <- ggplot2::aes_string(x = '.fitted', y = 'sqrt(abs(.wstdresid))')
+    smoother <- .smooth(plot.data$.fitted, sqrt(abs(plot.data$.wstdresid)))
     smoother <- as.data.frame(smoother)
     p3 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
     if (!is.logical(shape) || shape) {
@@ -214,7 +218,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     }
     p3 <- p3 + ggplot2::geom_line(data = smoother, mapping = smoother_m,
                                   colour = smooth.colour, linetype = smooth.linetype)
-    p3 <- .decorate.label(p3, r.data)
+    p3 <- .decorate.label(p3, wr.data)
     label.y3 <- ifelse(is_glm, expression(sqrt(abs(`Std. deviance resid.`))),
                        expression(sqrt(abs(`Standardized residuals`))))
     p3 <- .decorate.plot(p3, xlab = label.fitted, ylab = label.y3,
