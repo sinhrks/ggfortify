@@ -80,19 +80,17 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     }
     hii <- stats::lm.influence(object, do.coef = FALSE)$hat
     if (any(show[2L:3L])) {
-      r.w <- if (is.null(w)) {
+      plot.data$.wresid <- if (is.null(w)) {
         r
       } else {
         sqrt(w) * r
       }
-      plot.data[[".wresid"]] <- r.w
-      rs <- r.w / (s * sqrt(1 - hii))
-      plot.data[[".wstdresid"]] <- rs
+      plot.data$.wstdresid <- plot.data$.wresid / (s * sqrt(1 - hii))
     }
     if (show[2L]) {
-      ylim <- range(rs, na.rm = TRUE)
+      ylim <- range(plot.data$.wstdresid, na.rm = TRUE)
       ylim[2L] <- ylim[2L] + diff(ylim) * 0.075
-      qn <- stats::qqnorm(rs, ylim = ylim, plot.it = FALSE)
+      qn <- stats::qqnorm(plot.data$.wstdresid, ylim = ylim, plot.it = FALSE)
       plot.data$.qqx <- qn$x
       plot.data$.qqy <- qn$y
     }
@@ -118,14 +116,18 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   }
 
   if (label.n > 0L) {
-    r.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.resid))')
-    r.data <- utils::head(r.data, label.n)
+    if (show[1L]) {
+      r.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.resid))')
+      r.data <- utils::head(r.data, label.n)
+    }
     if (".wresid" %in% colnames(plot.data)) {
       wr.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.wresid))')
       wr.data <- utils::head(wr.data, label.n)
     }
-    cd.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.cooksd))')
-    cd.data <- utils::head(cd.data, label.n)
+    if (any(show[4L:6L])) {
+      cd.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.cooksd))')
+      cd.data <- utils::head(cd.data, label.n)
+    }
   }
 
   .smooth <- function(x, y) {
@@ -183,6 +185,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   if (show[2L]) {
     t2 <- 'Normal Q-Q'
     qprobs <- c(0.25, 0.75)
+
     qy <- stats::quantile(plot.data$.wstdresid, probs = qprobs, names = FALSE,
                           type = 7, na.rm = TRUE)
     qx <- stats::qnorm(qprobs)
