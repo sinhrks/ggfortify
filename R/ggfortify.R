@@ -8,5 +8,5 @@
 #' @importFrom tidyr gather_
 #' @importFrom gridExtra grid.arrange
 #' @importFrom utils installed.packages
-#' @importFrom stats complete.cases
+#' @importFrom stats complete.cases residuals weights
 NULL
