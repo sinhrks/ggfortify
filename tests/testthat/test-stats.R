@@ -544,7 +544,8 @@ test_that('autoplot.acf works', {
 
 test_that('autoplot.stepfun works', {
 
-  expect_that(autoplot(stepfun(c(1, 2, 3), c(4, 5, 6, 7))), not(throws_error()))
+  p <- autoplot(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))
+  expect_true(is(p, 'ggplot'))
 
   fortified <- fortify(stepfun(c(1, 2, 3), c(4, 5, 6, 7)))
   expected <- data.frame(x = c(0, 1, 1, 2, 2, 3, 3, 4),
@@ -571,7 +572,9 @@ test_that('autoplot.stepfun works', {
 
 test_that('autoplot.spec works', {
   result <- stats::spec.ar(AirPassengers)
-  expect_that(autoplot(result), not(throws_error()))
+  p <- autoplot(result)
+  expect_true(is(p, 'ggplot'))
+
   expect_equal(sum(fortify(result)[1]), 1500, tolerance = 0.01)
   expect_equal(sum(fortify(result)[2]), 684799.7, tolerance = 0.01)
 })
