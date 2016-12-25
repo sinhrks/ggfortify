@@ -7,7 +7,10 @@ test_that('fortify.cpt works for AirPassengers', {
 
   # mean
   result <- changepoint::cpt.mean(AirPassengers)
-  expect_that(ggplot2::autoplot(result), not(throws_error()))
+
+  p <- ggplot2::autoplot(result)
+  expect_true(is(p, 'ggplot'))
+
   fortified <- ggplot2::fortify(result)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), c('Index', 'Data', 'mean'))
@@ -45,7 +48,9 @@ test_that('fortify.cpt works for AirPassengers', {
 test_that('fortify.breakpoints works for Nile', {
 
   bp.nile <- strucchange::breakpoints(Nile ~ 1)
-  expect_that(ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile), not(throws_error()))
+  p <- ggplot2::autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
+  expect_true(is(p, 'ggplot'))
+
   fortified <- ggplot2::fortify(bp.nile, is.date = TRUE)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(names(fortified), c('Index', 'Data', 'Breaks'))
