@@ -94,7 +94,8 @@ deprecate.warning <- function(old.kw, new.kw) {
 flatten <- function(df) {
   ismatrix <- vapply(df, is.matrix, logical(1))
   if (any(ismatrix)) {
-    return(data.frame(c(df[!ismatrix], do.call(data.frame, df[ismatrix]))))
+    return(data.frame(c(df[!ismatrix], do.call(data.frame, df[ismatrix])),
+                      stringsAsFactors = FALSE))
   } else {
     return(df)
   }

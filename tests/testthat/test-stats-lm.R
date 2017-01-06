@@ -213,7 +213,7 @@ test_that('autoplot.lm works for binomial', {
 
     expect_equal(ld4$x, c(-4.56399806976, -3.96016978091, -1.10422517152))
     expect_equal(ld4$y, c(-2.03631011029, -1.87397321615, 1.36753877427))
-    expect_equal(as.character(ld4$label), c("2", "3", "10"))
+    expect_equal(ld4$label, c("2", "3", "10"))
   }
   p <- autoplot(glm.out, which = 1)
   expect_true(is(p, 'ggmultiplot'))
@@ -234,7 +234,7 @@ test_that('autoplot.lm works for binomial', {
 
     expect_equal(ld3$x, c(2.05374891063, -2.05374891063, -1.55477359460))
     expect_equal(ld3$y, c(36.3641401028, -29.7740174068, -24.5074007712))
-    expect_equal(as.character(ld3$label), c("25", "2", "1"))
+    expect_equal(ld3$label, c("25", "2", "1"))
   }
   p <- autoplot(glm.out, which = 2)
   expect_true(is(p, 'ggmultiplot'))
@@ -255,7 +255,7 @@ test_that('autoplot.lm works for binomial', {
 
     expect_equal(ld3$x, c(7.46360865666, -4.56399806976, -6.19596641798))
     expect_equal(ld3$y, c(6.03026865926, 5.45655728521, 4.95049500264))
-    expect_equal(as.character(ld3$label), c("25", "2", "1"))
+    expect_equal(ld3$label, c("25", "2", "1"))
   }
   p <- autoplot(glm.out, which = 3)
   expect_true(is(p, 'ggmultiplot'))
@@ -274,7 +274,7 @@ test_that('autoplot.lm works for binomial', {
     ld2 <- head(ggplot2:::layer_data(p, 2))
     expect_equal(ld2$x, c(10, 15, 17))
     expect_equal(ld2$y, c(0.1195191318650, 0.0984796718074, 0.0975367745871))
-    expect_equal(as.character(ld2$label), c("10", "15", "17"))
+    expect_equal(ld2$label, c("10", "15", "17"))
   }
   p <- autoplot(glm.out, which = 4)
   expect_true(is(p, 'ggmultiplot'))
@@ -299,7 +299,7 @@ test_that('autoplot.lm works for binomial', {
 
     expect_equal(ld5$x, c(0.0987328446734, 0.1069957513737, 0.0965342062351))
     expect_equal(ld5$y, c(1.44049871978, 1.30959756960, -1.30015928340))
-    expect_equal(as.character(ld5$label), c("10", "15", "17"))
+    expect_equal(ld5$label, c("10", "15", "17"))
   }
   p <- autoplot(glm.out, which = 5)
   expect_true(is(p, 'ggmultiplot'))
@@ -326,7 +326,7 @@ test_that('autoplot.lm works for binomial', {
 
     expect_equal(ld4$x, c(0.0987328446734, 0.1069957513737, 0.0965342062351))
     expect_equal(ld4$y, c(0.1195191318650, 0.0984796718074, 0.0975367745871))
-    expect_equal(as.character(ld4$label), c("10", "15", "17"))
+    expect_equal(ld4$label, c("10", "15", "17"))
 
     ld5 <- head(ggplot2:::layer_data(p, 5))
     ld6 <- head(ggplot2:::layer_data(p, 6))
@@ -370,7 +370,7 @@ test_that('autoplot.lm works for polynomial fit', {
 
     expect_equal(ld4$x, c(21.6786786013, 28.3220263408, 22.6512422231))
     expect_equal(ld4$y, c(8.72132139874, 5.57797365923, -4.55124222310))
-    expect_equal(as.character(ld4$label), c("Lotus Europa", "Toyota Corolla", "Valiant"))
+    expect_equal(ld4$label, c("Lotus Europa", "Toyota Corolla", "Valiant"))
   }
   p <- autoplot(lm.out, which = 1)
   expect_true(is(p, 'ggmultiplot'))
@@ -391,7 +391,7 @@ test_that('autoplot.lm works for polynomial fit', {
 
     expect_equal(ld3$x, c(2.15387469406, 1.67593972277, -1.67593972277))
     expect_equal(ld3$y, c(2.89542798400, 1.92989370759, -1.51231764607))
-    expect_equal(as.character(ld3$label), c("Lotus Europa", "Toyota Corolla", "Valiant"))
+    expect_equal(ld3$label, c("Lotus Europa", "Toyota Corolla", "Valiant"))
   }
   p <- autoplot(lm.out, which = 2)
   expect_true(is(p, 'ggmultiplot'))
@@ -412,7 +412,7 @@ test_that('autoplot.lm works for polynomial fit', {
 
     expect_equal(ld3$x, c(21.6786786013, 28.3220263408, 22.6512422231))
     expect_equal(ld3$y, c(1.70159571697, 1.38920614294, 1.22976324798))
-    expect_equal(as.character(ld3$label), c("Lotus Europa", "Toyota Corolla", "Valiant"))
+    expect_equal(ld3$label, c("Lotus Europa", "Toyota Corolla", "Valiant"))
   }
   p <- autoplot(lm.out, which = 3)
   expect_true(is(p, 'ggmultiplot'))
@@ -431,7 +431,7 @@ test_that('autoplot.lm works for polynomial fit', {
     ld2 <- head(ggplot2:::layer_data(p, 2))
     expect_equal(ld2$x, c(31, 20, 28))
     expect_equal(ld2$y, c(0.514354642953, 0.165885431468, 0.122374068009))
-    expect_equal(as.character(ld2$label), c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
+    expect_equal(ld2$label, c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
   }
   p <- autoplot(lm.out, which = 4)
   expect_true(is(p, 'ggmultiplot'))
@@ -456,7 +456,7 @@ test_that('autoplot.lm works for polynomial fit', {
 
     expect_equal(ld5$x, c(0.735896676687, 0.117868091819, 0.041953824628))
     expect_equal(ld5$y, c(-0.744167110444, 1.929893707586, 2.895427983998))
-    expect_equal(as.character(ld5$label), c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
+    expect_equal(ld5$label, c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
   }
   p <- autoplot(lm.out, which = 5)
   expect_true(is(p, 'ggmultiplot'))
@@ -486,7 +486,7 @@ test_that('autoplot.lm works for polynomial fit', {
 
     expect_equal(ld4$x, c(0.735896676687, 0.117868091819, 0.041953824628))
     expect_equal(ld4$y, c(0.514354642953, 0.165885431468, 0.122374068009))
-    expect_equal(as.character(ld4$label), c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
+    expect_equal(ld4$label, c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
 
     ld5 <- head(ggplot2:::layer_data(p, 5))
     ld6 <- head(ggplot2:::layer_data(p, 6))
