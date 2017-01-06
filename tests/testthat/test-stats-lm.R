@@ -108,8 +108,8 @@ test_that('autoplot.lm works for USArrests', {
     ld1 <- head(ggplot2:::layer_data(p, 1))
     expect_equal(ld1$x, c(1, 2, 3, 4, 5, 6))
     expect_equal(ld1$y, c(0.011780302261585, 0.039384807123982, 0.084368193847733, 0.000749502795764, 0.031007744531649, 0.001212457891192))
-    ld2 <- head(ggplot2:::layer_data(p, 2))
 
+    ld2 <- head(ggplot2:::layer_data(p, 2))
     expect_equal(ld2$x, c(33, 11, 10))
     expect_equal(ld2$y, c(0.1238456342775, 0.1116513094557, 0.0934772277625))
     expect_equal(ld2$label, c("North Carolina", "Hawaii", "Georgia"))
@@ -167,7 +167,7 @@ test_that('autoplot.lm works for USArrests', {
 
     expect_equal(ld4$x, c(0.1831430655646, 0.1213004188902, 0.0303971016107))
     expect_equal(ld4$y, c(0.1238456342775, 0.1116513094557, 0.0934772277625))
-    expect_equal(ld4$label, c("North Carolina", "Hawaii", "Georgia" ))
+    expect_equal(ld4$label, c("North Carolina", "Hawaii", "Georgia"))
 
     ld5 <- head(ggplot2:::layer_data(p, 5))
     ld6 <- head(ggplot2:::layer_data(p, 6))
@@ -270,8 +270,8 @@ test_that('autoplot.lm works for binomial', {
     ld1 <- head(ggplot2:::layer_data(p, 1))
     expect_equal(ld1$x, c(1, 2, 3, 4, 5, 6))
     expect_equal(ld1$y, c(0.01740112703384, 0.07680098087888, 0.04095037805283, 0.02157996281830, 0.02880296835881, 0.00103150878141))
-    ld2 <- head(ggplot2:::layer_data(p, 2))
 
+    ld2 <- head(ggplot2:::layer_data(p, 2))
     expect_equal(ld2$x, c(10, 15, 17))
     expect_equal(ld2$y, c(0.1195191318650, 0.0984796718074, 0.0975367745871))
     expect_equal(ld2$label, c("10", "15", "17"))
@@ -347,6 +347,167 @@ test_that('autoplot.lm works for binomial', {
   assert_glm5(p[[5]])
   assert_glm6(p[[6]])
 })
+
+test_that('autoplot.lm works for polynomial fit', {
+  lm.out <- lm(mpg ~ poly(hp, 2, raw = TRUE),data = mtcars)
+  p <- autoplot(lm.out)
+  expect_true(is(p, 'ggmultiplot'))
+
+  # Residuals vs Fitted
+  assert_lm1 <- function(p) {
+    expect_equal(length(p$layers), 4)
+    expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
+    expect_true(is(p$layers[[2]]$geom, 'GeomLine'))
+    expect_true(is(p$layers[[3]]$geom, 'GeomHline'))
+    expect_true(is(p$layers[[4]]$geom, 'GeomText'))
+
+    ld1 <- head(ggplot2:::layer_data(p, 1))
+    expect_equal(ld1$x, c(22.0370777250, 22.0370777250, 24.2110834069, 22.0370777250, 15.9676503638, 22.6512422231))
+    expect_equal(ld1$y, c(-1.037077725009, -1.037077725009, -1.411083406907, -0.637077725009, 2.732349636196, -4.551242223095))
+    ld2 <- head(ggplot2:::layer_data(p, 2))
+    ld3 <- head(ggplot2:::layer_data(p, 3))
+    ld4 <- head(ggplot2:::layer_data(p, 4))
+
+    expect_equal(ld4$x, c(21.6786786013, 28.3220263408, 22.6512422231))
+    expect_equal(ld4$y, c(8.72132139874, 5.57797365923, -4.55124222310))
+    expect_equal(ld4$label, c("Lotus Europa", "Toyota Corolla", "Valiant"))
+  }
+  p <- autoplot(lm.out, which = 1)
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm1(p[[1]])
+
+  # Q-Q
+  assert_lm2 <- function(p) {
+    expect_equal(length(p$layers), 3)
+    expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
+    expect_true(is(p$layers[[2]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[3]]$geom, 'GeomText'))
+
+    ld1 <- head(ggplot2:::layer_data(p, 1))
+    expect_equal(ld1$x, c(-0.2776904398216, -0.1970990842943, -0.5334097062413, 0.0391760855031, 0.9467817563010, -1.6759397227734))
+    expect_equal(ld1$y, c(-0.344361871272, -0.344361871272, -0.471006426443, -0.211541789241, 0.917989725233, -1.512317646071))
+    ld2 <- head(ggplot2:::layer_data(p, 2))
+    ld3 <- head(ggplot2:::layer_data(p, 3))
+
+    expect_equal(ld3$x, c(2.15387469406, 1.67593972277, -1.67593972277))
+    expect_equal(ld3$y, c(2.89542798400, 1.92989370759, -1.51231764607))
+    expect_equal(ld3$label, c("Lotus Europa", "Toyota Corolla", "Valiant"))
+  }
+  p <- autoplot(lm.out, which = 2)
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm2(p[[1]])
+
+  # Scale Location
+  assert_lm3 <- function(p) {
+    expect_equal(length(p$layers), 3)
+    expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
+    expect_true(is(p$layers[[2]]$geom, 'GeomLine'))
+    expect_true(is(p$layers[[3]]$geom, 'GeomText'))
+
+    ld1 <- head(ggplot2:::layer_data(p, 1))
+    expect_equal(ld1$x, c(22.0370777250, 22.0370777250, 24.2110834069, 22.0370777250, 15.9676503638, 22.6512422231))
+    expect_equal(ld1$y, c(0.586823543557, 0.586823543557, 0.686299079442, 0.459936723083, 0.958117803422, 1.229763247975))
+    ld2 <- head(ggplot2:::layer_data(p, 2))
+    ld3 <- head(ggplot2:::layer_data(p, 3))
+
+    expect_equal(ld3$x, c(21.6786786013, 28.3220263408, 22.6512422231))
+    expect_equal(ld3$y, c(1.70159571697, 1.38920614294, 1.22976324798))
+    expect_equal(ld3$label, c("Lotus Europa", "Toyota Corolla", "Valiant"))
+  }
+  p <- autoplot(lm.out, which = 3)
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm3(p[[1]])
+
+  # Cook's distance
+  assert_lm4 <- function(p) {
+    expect_equal(length(p$layers), 2)
+    expect_true(is(p$layers[[1]]$geom, 'GeomLinerange'))
+    expect_true(is(p$layers[[2]]$geom, 'GeomText'))
+
+    ld1 <- head(ggplot2:::layer_data(p, 1))
+    expect_equal(ld1$x, c(1, 2, 3, 4, 5, 6))
+    expect_equal(ld1$y, c(0.001744913090237, 0.001744913090237, 0.004075898589070, 0.000658470054463, 0.019367006055189, 0.034788166928193))
+
+    ld2 <- head(ggplot2:::layer_data(p, 2))
+    expect_equal(ld2$x, c(31, 20, 28))
+    expect_equal(ld2$y, c(0.514354642953, 0.165885431468, 0.122374068009))
+    expect_equal(ld2$label, c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
+  }
+  p <- autoplot(lm.out, which = 4)
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm4(p[[1]])
+
+  # Residuals vs Leverage
+  assert_lm5 <- function(p) {
+    expect_equal(length(p$layers), 5)
+    expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
+    expect_true(is(p$layers[[2]]$geom, 'GeomLine'))
+    expect_true(is(p$layers[[3]]$geom, 'GeomHline'))
+    expect_true(is(p$layers[[4]]$geom, 'GeomBlank'))
+    expect_true(is(p$layers[[5]]$geom, 'GeomText'))
+
+    ld1 <- head(ggplot2:::layer_data(p, 1))
+    expect_equal(ld1$x, c(0.0422770645623, 0.0422770645623, 0.0522384229500, 0.0422770645623, 0.0644989134682, 0.0436403288747))
+    expect_equal(ld1$y, c(-0.344361871272, -0.344361871272, -0.471006426443, -0.211541789241, 0.917989725233, -1.512317646071))
+    ld2 <- head(ggplot2:::layer_data(p, 2))
+    ld3 <- head(ggplot2:::layer_data(p, 3))
+    ld4 <- head(ggplot2:::layer_data(p, 4))
+    ld5 <- head(ggplot2:::layer_data(p, 5))
+
+    expect_equal(ld5$x, c(0.735896676687, 0.117868091819, 0.041953824628))
+    expect_equal(ld5$y, c(-0.744167110444, 1.929893707586, 2.895427983998))
+    expect_equal(ld5$label, c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
+  }
+  p <- autoplot(lm.out, which = 5)
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm5(p[[1]])
+
+  # Cook's dist vs Leverage
+  assert_lm6 <- function(p) {
+    expect_equal(length(p$layers), 11)
+    expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
+    expect_true(is(p$layers[[2]]$geom, 'GeomLine'))
+    expect_true(is(p$layers[[3]]$geom, 'GeomBlank'))
+    expect_true(is(p$layers[[4]]$geom, 'GeomText'))
+    expect_true(is(p$layers[[5]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[6]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[7]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[8]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[9]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[10]]$geom, 'GeomAbline'))
+    expect_true(is(p$layers[[11]]$geom, 'GeomAbline'))
+
+    ld1 <- head(ggplot2:::layer_data(p, 1))
+    expect_equal(ld1$x, c(0.0422770645623, 0.0422770645623, 0.0522384229500, 0.0422770645623, 0.0644989134682, 0.0436403288747))
+    expect_equal(ld1$y, c(0.001744913090237, 0.001744913090237, 0.004075898589070, 0.000658470054463, 0.019367006055189, 0.034788166928193))
+    ld2 <- head(ggplot2:::layer_data(p, 2))
+    ld3 <- head(ggplot2:::layer_data(p, 3))
+    ld4 <- head(ggplot2:::layer_data(p, 4))
+
+    expect_equal(ld4$x, c(0.735896676687, 0.117868091819, 0.041953824628))
+    expect_equal(ld4$y, c(0.514354642953, 0.165885431468, 0.122374068009))
+    expect_equal(ld4$label, c("Maserati Bora", "Toyota Corolla", "Lotus Europa"))
+
+    ld5 <- head(ggplot2:::layer_data(p, 5))
+    ld6 <- head(ggplot2:::layer_data(p, 6))
+    ld7 <- head(ggplot2:::layer_data(p, 7))
+    ld8 <- head(ggplot2:::layer_data(p, 8))
+  }
+  p <- autoplot(lm.out, which = 6)
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm6(p[[1]])
+
+  # All
+  p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
+  expect_true(is(p, 'ggmultiplot'))
+  assert_lm1(p[[1]])
+  assert_lm2(p[[2]])
+  assert_lm3(p[[3]])
+  assert_lm4(p[[4]])
+  assert_lm5(p[[5]])
+  assert_lm6(p[[6]])
+})
+
 
 test_that('autoplot.lm can be used in ggsave()', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)

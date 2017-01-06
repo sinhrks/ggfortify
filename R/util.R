@@ -86,6 +86,21 @@ deprecate.warning <- function(old.kw, new.kw) {
   warning(message, call. = FALSE)
 }
 
+#' Flatten dataframe contains matrix
+#'
+#' tains list or matrix as column
+#'
+#' @param df \code{data.frame} to be flatten
+flatten <- function(df) {
+  ismatrix <- vapply(df, is.matrix, logical(1))
+  if (any(ismatrix)) {
+    return(data.frame(c(df[!ismatrix], do.call(data.frame, df[ismatrix])),
+                      stringsAsFactors = FALSE))
+  } else {
+    return(df)
+  }
+}
+
 #' Post process for fortify.
 #'
 #' @param data data.frame
