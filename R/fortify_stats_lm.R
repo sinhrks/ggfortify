@@ -109,11 +109,8 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     }
   }
 
-  if (is.matrix(plot.data[[1]])) {
-    # target variable may be nested in binomial
-    # because target is unnecessary for plots, just remove.
-    plot.data[[1]] <- plot.data[[1]][, 1]
-  }
+  # target or explanatory variables may be nested, e.g. binomial
+  plot.data <- flatten(plot.data)
 
   if (label.n > 0L) {
     if (show[1L]) {
