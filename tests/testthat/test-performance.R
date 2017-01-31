@@ -80,4 +80,88 @@ test_that('fortify.performance works for ROCR demo objects', {
 })
 
 
+test_that('autoplot.performance works for ROCR demo objects', {
 
+  # Autoplot our 8 test objects
+  p1.1 <- ggplot2::autoplot(perf1.1)
+  p1.2 <- ggplot2::autoplot(perf1.2)
+  p1.3 <- ggplot2::autoplot(perf1.3)
+  p1.4 <- ggplot2::autoplot(perf1.4)
+  p2.1 <- ggplot2::autoplot(perf2.1)
+  p2.2 <- ggplot2::autoplot(perf2.2)
+  p2.3 <- ggplot2::autoplot(perf2.3)
+  expect_warning({
+    p2.4 <- ggplot2::autoplot(perf2.4)
+  }, regexp = paste('This histogram is more useful with multiple runs.',
+                    'See ?ROCR::prediction'),
+  fixed = TRUE)
+
+  # Ensure ggplot
+  expect_true(is(p1.1, 'ggplot'))
+  expect_true(is(p1.2, 'ggplot'))
+  expect_true(is(p1.3, 'ggplot'))
+  expect_true(is(p1.4, 'ggplot'))
+  expect_true(is(p2.1, 'ggplot'))
+  expect_true(is(p2.2, 'ggplot'))
+  expect_true(is(p2.3, 'ggplot'))
+  expect_true(is(p2.4, 'ggplot'))
+
+  # Check titles
+  expect_equal(p1.1$labels$title, 'Accuracy vs Cutoff')
+  expect_equal(p1.2$labels$title, 'True.positive.rate vs False.positive.rate')
+  expect_equal(p1.3$labels$title, 'Expected.cost vs None')
+  expect_equal(p1.4$labels$title, 'Histogram of Area.under.the.ROC.curve')
+  expect_equal(p2.1$labels$title, 'Accuracy vs Cutoff')
+  expect_equal(p2.2$labels$title, 'True.positive.rate vs False.positive.rate')
+  expect_equal(p2.3$labels$title, 'Expected.cost vs None')
+  expect_equal(p2.4$labels$title, 'Histogram of Area.under.the.ROC.curve')
+
+
+
+
+  # Custom plots
+  p1.1 <- ggplot2::autoplot(perf1.1, main = "test title", xlim = c(-1, 1))
+  p1.2 <- ggplot2::autoplot(perf1.2, main = "test title", xlim = c(-1, 1))
+  p1.3 <- ggplot2::autoplot(perf1.3, main = "test title", xlim = c(-1, 1))
+  p1.4 <- ggplot2::autoplot(perf1.4, main = "test title", xlim = c(-1, 1))
+  p2.1 <- ggplot2::autoplot(perf2.1, main = "test title", xlim = c(-1, 1))
+  p2.2 <- ggplot2::autoplot(perf2.2, main = "test title", xlim = c(-1, 1))
+  p2.3 <- ggplot2::autoplot(perf2.3, main = "test title", xlim = c(-1, 1))
+  expect_warning({
+    p2.4 <- ggplot2::autoplot(perf2.4, main = "test title", xlim = c(-1, 1))
+  }, regexp = paste('This histogram is more useful with multiple runs.',
+                    'See ?ROCR::prediction'),
+  fixed = TRUE)
+
+  # Ensure ggplot
+  expect_true(is(p1.1, 'ggplot'))
+  expect_true(is(p1.2, 'ggplot'))
+  expect_true(is(p1.3, 'ggplot'))
+  expect_true(is(p1.4, 'ggplot'))
+  expect_true(is(p2.1, 'ggplot'))
+  expect_true(is(p2.2, 'ggplot'))
+  expect_true(is(p2.3, 'ggplot'))
+  expect_true(is(p2.4, 'ggplot'))
+
+  # Check titles
+  expect_equal(p1.1$labels$title, 'test title')
+  expect_equal(p1.2$labels$title, 'test title')
+  expect_equal(p1.3$labels$title, 'test title')
+  expect_equal(p1.4$labels$title, 'test title')
+  expect_equal(p2.1$labels$title, 'test title')
+  expect_equal(p2.2$labels$title, 'test title')
+  expect_equal(p2.3$labels$title, 'test title')
+  expect_equal(p2.4$labels$title, 'test title')
+
+  # Check axis limits
+  expect_equal(p1.1$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p1.2$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p1.3$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p1.4$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p2.1$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p2.2$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p2.3$scales$scales[[1]]$limits, c(-1, 1))
+  expect_equal(p2.4$scales$scales[[1]]$limits, c(-1, 1))
+
+
+})
