@@ -67,6 +67,7 @@ This covers following classes:
 - ``raster::RasterCommon``
 - ``raster::RasterLayer``
 - ``raster::RasterStack``
+- ``ROCR::performance``
 - ``sp::Line``
 - ``sp::Lines``
 - ``sp::Polygon``
