@@ -4,12 +4,17 @@
 \alias{autoplot.performance}
 \title{Autoplot \code{ROCR::performance}}
 \usage{
-\method{autoplot}{performance}(object, p = NULL, ...)
+\method{autoplot}{performance}(object, p = NULL, bins = 5, ...)
 }
 \arguments{
 \item{object}{\code{ROCR::performance} instance}
 
 \item{p}{\code{ggplot2::ggplot} instances}
+
+\item{bins}{If \code{object} represents a measure whose value is just a
+scalar (e.g. \code{performance(predObj, 'auc')}), a histogram will be
+plotted of this scalar's values for different runs. \code{bins}
+is the number of bins for this histogram.}
 
 \item{...}{other arguments passed to methods}
 }
