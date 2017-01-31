@@ -46,6 +46,7 @@ Suggests:
     MSwM,
     nlme,
     raster,
+    ROCR,
     sp,
     stats,
     strucchange,
