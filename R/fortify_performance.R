@@ -40,7 +40,7 @@ fortify.performance <- function(model, data = NULL, ...) {
     stop(paste0('Unsupported class for fortify.performance: ', class(model)))
   }
 
-  ggfortify:::post_fortify(df, klass = model)
+  post_fortify(df, klass = model)
 }
 
 
@@ -71,48 +71,43 @@ autoplot.performance <- function(object, p = NULL, ...) {
     }
 
     if (is.null(p)) {
-      p <- ggfortify:::geom_factory(ggplot2::ggplot, data = plot.data,
+      p <- geom_factory(ggplot2::ggplot, data = plot.data,
                                     x = plot.names[2])
     }
 
-    p <- p + ggfortify:::geom_factory(ggplot2::geom_histogram, data = plot.data,
+    p <- p + geom_factory(ggplot2::geom_histogram, data = plot.data,
                                       x = plot.names[2], bins = 5)
     p <- p + ggplot2::ggtitle(paste('Histogram of', plot.names[2]))
-
-    p <- ggfortify:::post_autoplot(p = p, ...)
 
   } else if (length(plot.names) == 3) {
 
     if (is.null(p)) {
-      p <- ggfortify:::geom_factory(ggplot2::ggplot, data = plot.data,
+      p <- geom_factory(ggplot2::ggplot, data = plot.data,
                                     x = plot.names[2], y = plot.names[3],
                                     group = plot.names[1])
     }
 
-    p <- p + ggfortify:::geom_factory(ggplot2::geom_line, data = plot.data,
+    p <- p + geom_factory(ggplot2::geom_line, data = plot.data,
                                       x = plot.names[2], y = plot.names[3],
                                       group = plot.names[1])
     p <- p + ggplot2::ggtitle(paste(plot.names[3], 'vs', plot.names[2]))
 
-    p <- ggfortify:::post_autoplot(p = p, ...)
-
   } else if (length(plot.names) == 4) {
 
     if (is.null(p)) {
-      p <- ggfortify:::geom_factory(ggplot2::ggplot, data = plot.data,
+      p <- geom_factory(ggplot2::ggplot, data = plot.data,
                                     x = plot.names[2], y = plot.names[3],
                                     group = plot.names[1], col = plot.names[4])
     }
 
-    p <- p + ggfortify:::geom_factory(ggplot2::geom_line, data = plot.data,
+    p <- p + geom_factory(ggplot2::geom_line, data = plot.data,
                                       x = plot.names[2], y = plot.names[3],
                                       group = plot.names[1], col = plot.names[4])
     p <- p + ggplot2::ggtitle(paste(plot.names[3], 'vs', plot.names[2]))
 
-    p <- ggfortify:::post_autoplot(p = p, ...)
-
   }
 
+  p <- post_autoplot(p = p, ...)
   return(p)
 }
 
