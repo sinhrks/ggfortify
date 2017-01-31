@@ -46,3 +46,73 @@ fortify.performance <- function(model, data = NULL, ...) {
 
 
 
+#' Autoplot \code{ROCR::performance}
+#'
+#' @param object \code{ROCR::performance} instance
+#' @param p \code{ggplot2::ggplot} instances
+#' @param ... other arguments passed to methods
+#' @return ggplot
+#' @export
+autoplot.performance <- function(object, p = NULL, ...) {
+
+  plot.data <- ggplot2::fortify(object)
+  plot.names <- names(plot.data)
+
+  # Three different plots depending on how many columns there are
+
+  if (!(length(plot.names) %in% c(2, 3, 4))) {
+    stop("'object' is malformed")
+
+  } else if (length(plot.names) == 2) {
+
+    if (nrow(plot.data) == 1) {
+      warning(paste('This histogram is more useful with multiple runs.',
+              'See ?ROCR::prediction'))
+    }
+
+    if (is.null(p)) {
+      p <- ggfortify:::geom_factory(ggplot2::ggplot, data = plot.data,
+                                    x = plot.names[2])
+    }
+
+    p <- p + ggfortify:::geom_factory(ggplot2::geom_histogram, data = plot.data,
+                                      x = plot.names[2], bins = 5)
+    p <- p + ggplot2::ggtitle(paste('Histogram of', plot.names[2]))
+
+    p <- ggfortify:::post_autoplot(p = p, ...)
+
+  } else if (length(plot.names) == 3) {
+
+    if (is.null(p)) {
+      p <- ggfortify:::geom_factory(ggplot2::ggplot, data = plot.data,
+                                    x = plot.names[2], y = plot.names[3],
+                                    group = plot.names[1])
+    }
+
+    p <- p + ggfortify:::geom_factory(ggplot2::geom_line, data = plot.data,
+                                      x = plot.names[2], y = plot.names[3],
+                                      group = plot.names[1])
+    p <- p + ggplot2::ggtitle(paste(plot.names[3], 'vs', plot.names[2]))
+
+    p <- ggfortify:::post_autoplot(p = p, ...)
+
+  } else if (length(plot.names) == 4) {
+
+    if (is.null(p)) {
+      p <- ggfortify:::geom_factory(ggplot2::ggplot, data = plot.data,
+                                    x = plot.names[2], y = plot.names[3],
+                                    group = plot.names[1], col = plot.names[4])
+    }
+
+    p <- p + ggfortify:::geom_factory(ggplot2::geom_line, data = plot.data,
+                                      x = plot.names[2], y = plot.names[3],
+                                      group = plot.names[1], col = plot.names[4])
+    p <- p + ggplot2::ggtitle(paste(plot.names[3], 'vs', plot.names[2]))
+
+    p <- ggfortify:::post_autoplot(p = p, ...)
+
+  }
+
+  return(p)
+}
+
