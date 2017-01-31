@@ -50,10 +50,15 @@ fortify.performance <- function(model, data = NULL, ...) {
 #'
 #' @param object \code{ROCR::performance} instance
 #' @param p \code{ggplot2::ggplot} instances
+#' @param bins If \code{object} represents a measure whose value is just a
+#'        scalar (e.g. \code{performance(predObj, 'auc')}), a histogram will be
+#'        plotted of this scalar's values for different runs. \code{bins}
+#'        is the number of bins for this histogram.
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @export
-autoplot.performance <- function(object, p = NULL, ...) {
+autoplot.performance <- function(object, p = NULL,
+                                 bins = 5, ...) {
 
   plot.data <- ggplot2::fortify(object)
   plot.names <- names(plot.data)
@@ -67,42 +72,42 @@ autoplot.performance <- function(object, p = NULL, ...) {
 
     if (nrow(plot.data) == 1) {
       warning(paste('This histogram is more useful with multiple runs.',
-              'See ?ROCR::prediction'))
+                    'See ?ROCR::prediction'))
     }
 
     if (is.null(p)) {
       p <- geom_factory(ggplot2::ggplot, data = plot.data,
-                                    x = plot.names[2])
+                        x = plot.names[2])
     }
 
     p <- p + geom_factory(ggplot2::geom_histogram, data = plot.data,
-                                      x = plot.names[2], bins = 5)
+                          x = plot.names[2], bins = bins)
     p <- p + ggplot2::ggtitle(paste('Histogram of', plot.names[2]))
 
   } else if (length(plot.names) == 3) {
 
     if (is.null(p)) {
       p <- geom_factory(ggplot2::ggplot, data = plot.data,
-                                    x = plot.names[2], y = plot.names[3],
-                                    group = plot.names[1])
+                        x = plot.names[2], y = plot.names[3],
+                        group = plot.names[1])
     }
 
     p <- p + geom_factory(ggplot2::geom_line, data = plot.data,
-                                      x = plot.names[2], y = plot.names[3],
-                                      group = plot.names[1])
+                          x = plot.names[2], y = plot.names[3],
+                          group = plot.names[1])
     p <- p + ggplot2::ggtitle(paste(plot.names[3], 'vs', plot.names[2]))
 
   } else if (length(plot.names) == 4) {
 
     if (is.null(p)) {
       p <- geom_factory(ggplot2::ggplot, data = plot.data,
-                                    x = plot.names[2], y = plot.names[3],
-                                    group = plot.names[1], col = plot.names[4])
+                        x = plot.names[2], y = plot.names[3],
+                        group = plot.names[1], col = plot.names[4])
     }
 
     p <- p + geom_factory(ggplot2::geom_line, data = plot.data,
-                                      x = plot.names[2], y = plot.names[3],
-                                      group = plot.names[1], col = plot.names[4])
+                          x = plot.names[2], y = plot.names[3],
+                          group = plot.names[1], col = plot.names[4])
     p <- p + ggplot2::ggtitle(paste(plot.names[3], 'vs', plot.names[2]))
 
   }
