@@ -63,12 +63,9 @@ autoplot.performance <- function(object, p = NULL,
   plot.data <- ggplot2::fortify(object)
   plot.names <- names(plot.data)
 
-  # Three different plots depending on how many columns there are
+  # Three different plots depending on how many columns there are (2, 3, or 4)
 
-  if (!(length(plot.names) %in% c(2, 3, 4))) {
-    stop("'object' is malformed")
-
-  } else if (length(plot.names) == 2) {
+  if (length(plot.names) == 2) {
 
     if (nrow(plot.data) == 1) {
       warning(paste('This histogram is more useful with multiple runs.',
@@ -115,4 +112,3 @@ autoplot.performance <- function(object, p = NULL,
   p <- post_autoplot(p = p, ...)
   return(p)
 }
-
