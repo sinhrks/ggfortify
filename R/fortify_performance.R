@@ -40,7 +40,7 @@ fortify.performance <- function(model, data = NULL, ...) {
     stop(paste0('Unsupported class for fortify.performance: ', class(model)))
   }
 
-  post_fortify(df, klass = model)
+  post_fortify(df, klass = model, ...)
 }
 
 
