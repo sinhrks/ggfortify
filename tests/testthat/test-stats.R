@@ -476,6 +476,52 @@ test_that('autoplot.princomp works for iris', {
 
 })
 
+test_that('autoplot.prcomp plots the desired components', {
+
+  obj <- stats::prcomp(iris[-5])
+
+  exp_x <- c(-0.0126825223275179, 0.00702830726589863, 0.00575560482235143,
+             0.0126389126842801, -0.0129746622747112, -0.0294365091522609)
+  exp_y <- c(0.00462679871185076, 0.0348838201207289, -0.00296691364551725,
+             -0.00523087125212831, -0.0149303631846485, -0.0279578145062899
+  )
+
+  p <- ggplot2::autoplot(obj, x = 2, y = 3)
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
+  ld <- head(ggplot2:::layer_data(p, 1))
+  expect_equal(ld$x, exp_x, tolerance = 1e-4)
+  expect_equal(ld$y, exp_y, tolerance = 1e-4)
+  expect_equal(ld$colour, rep('black', 6))
+  expect_equal(p$labels$x, "PC2")
+  expect_equal(p$labels$y, "PC3")
+
+})
+
+test_that('autoplot.princomp plots the desired components', {
+
+  obj <- stats::princomp(iris[-5])
+
+  exp_x <- c(-0.0126825223275179, 0.00702830726589863, 0.00575560482235143,
+             0.0126389126842801, -0.0129746622747112, -0.0294365091522609)
+  exp_y <- c(-0.00464229891845705, -0.0350006841670721, 0.00297685308255621,
+             0.00524839515800552, 0.014980381291871, 0.0280514757887639)
+
+
+  p <- ggplot2::autoplot(obj, x = 2, y = 3)
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
+  ld <- head(ggplot2:::layer_data(p, 1))
+  expect_equal(ld$x, exp_x, tolerance = 1e-4)
+  expect_equal(ld$y, exp_y, tolerance = 1e-4)
+  expect_equal(ld$colour, rep('black', 6))
+  expect_equal(p$labels$x, "Comp.2")
+  expect_equal(p$labels$y, "Comp.3")
+
+})
+
 test_that('autoplot.factanal works for state.x77', {
 
   obj <- stats::factanal(state.x77, factors = 3, scores = 'regression')
@@ -491,6 +537,19 @@ test_that('autoplot.factanal works for state.x77', {
   expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
   expect_true('GeomText' %in% class(p$layers[[2]]$geom))
 
+})
+
+
+test_that('autoplot.factanal plots the desired components', {
+
+  obj <- stats::factanal(state.x77, factors = 3, scores = 'regression')
+
+  p <- ggplot2::autoplot(obj, x = 2, y = 3)
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 1)
+  expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
+  expect_equal(p$labels$x, "Factor2")
+  expect_equal(p$labels$y, "Factor3")
 })
 
 test_that('fortify.dist works for eurodist', {
