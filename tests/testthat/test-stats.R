@@ -216,7 +216,7 @@ test_that('autoplot.prcomp works for iris with scale (default)', {
 
   # fails on CRAN i386 because components are inversed.
   skip_on_cran()
-  
+
   obj <- stats::prcomp(iris[-5])
 
   exp_x <- c(-0.10658039, -0.10777226, -0.11471510, -0.10901118, -0.10835099, -0.09056763)
@@ -313,7 +313,7 @@ test_that('autoplot.prcomp works for iris without scale', {
 
   # fails on CRAN i386 because components are inversed.
   skip_on_cran()
-  
+
   obj <- stats::prcomp(iris[-5])
 
   exp_x <- c(-2.684126, -2.714142, -2.888991, -2.745343, -2.728717, -2.280860)
