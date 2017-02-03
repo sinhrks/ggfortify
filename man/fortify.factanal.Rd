@@ -24,4 +24,3 @@ d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 fortify(d.factanal)
 fortify(d.factanal, data = state.x77)
 }
-

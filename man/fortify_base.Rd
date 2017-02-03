@@ -19,4 +19,3 @@ data.frame
 \description{
 Convert \code{base::table} to \code{data.frame}
 }
-

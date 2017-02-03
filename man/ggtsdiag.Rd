@@ -45,4 +45,3 @@ Plots time-series diagnostics
 \examples{
 ggtsdiag(arima(AirPassengers))
 }
-

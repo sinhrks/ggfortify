@@ -25,4 +25,3 @@ model <- lfda::lfda(iris[, -5], iris[, 5], 3, metric = "plain")
 fortify(model)
 }
 }
-

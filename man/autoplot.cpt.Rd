@@ -30,4 +30,3 @@ library(changepoint)
 autoplot(cpt.mean(AirPassengers))
 autoplot(cpt.meanvar(AirPassengers))
 }
-

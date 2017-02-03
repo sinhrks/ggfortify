@@ -19,4 +19,3 @@ proto
 \description{
 Factory function to control \code{ggplot2::geom_xxx} functions
 }
-

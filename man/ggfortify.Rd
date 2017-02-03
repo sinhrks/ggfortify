@@ -8,4 +8,3 @@
 \description{
 Define Fortify and Autoplot to Allow 'ggplot2' to Draw Some Popular Packages
 }
-

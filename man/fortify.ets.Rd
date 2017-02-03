@@ -25,4 +25,3 @@ fortify(forecast::bats(UKgas))
 fortify(forecast::ets(UKgas))
 }
 }
-

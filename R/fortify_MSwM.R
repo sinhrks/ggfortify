@@ -30,7 +30,7 @@ fortify.MSM.lm <- function(model, data = NULL, melt = FALSE, ...) {
       md$ProbableModel <- probable
       md
     }
-    d <- dplyr::rbind_all(lapply(models, .model))
+    d <- dplyr::bind_rows(lapply(models, .model))
     d$Model <- as.factor(d$Model)
   } else {
     d <- cbind(data.frame(Index = idx),

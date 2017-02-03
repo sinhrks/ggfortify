@@ -20,4 +20,3 @@ Check object is target class, or object is \code{data.frame} fortified from targ
 \examples{
 ggfortify:::is_derived_from(prcomp(iris[-5]), 'prcomp')
 }
-

@@ -20,4 +20,3 @@ Calcurate fitted values for \code{stats::ar}
 \examples{
 fitted(ar(WWWusage))
 }
-

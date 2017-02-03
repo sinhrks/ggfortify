@@ -45,4 +45,3 @@ ggfreqplot(AirPassengers)
 ggfreqplot(AirPassengers, freq = 4)
 ggfreqplot(AirPassengers, conf.int = TRUE)
 }
-

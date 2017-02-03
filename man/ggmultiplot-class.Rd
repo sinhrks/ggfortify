@@ -2,12 +2,12 @@
 % Please edit documentation in R/plotlib.R
 \docType{class}
 \name{ggmultiplot-class}
-\alias{[,ggmultiplot-method}
-\alias{[<-,ggmultiplot-method}
-\alias{[[,ggmultiplot-method}
-\alias{[[<-,ggmultiplot-method}
 \alias{ggmultiplot-class}
 \alias{length,ggmultiplot-method}
+\alias{[,ggmultiplot-method}
+\alias{[[,ggmultiplot-method}
+\alias{[<-,ggmultiplot-method}
+\alias{[[<-,ggmultiplot-method}
 \title{An S4 class to hold multiple \code{ggplot2::ggplot} instances}
 \usage{
 \S4method{length}{ggmultiplot}(x)

@@ -19,4 +19,3 @@ ggplot
 Autoplot \code{ggplot} instances.
 It returns the passed instance as it is.
 }
-

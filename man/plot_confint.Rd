@@ -41,4 +41,3 @@ d <- fortify(stats::acf(AirPassengers, plot = FALSE))
 p <- ggplot(data = d, mapping = aes(x = Lag))
 ggfortify:::plot_confint(p, data = d)
 }
-

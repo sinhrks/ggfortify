@@ -1,8 +1,8 @@
 Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
-Version: 0.3.0.9000
-Date: 2016-06-02
+Version: 0.4.0
+Date: 2017-02-03
 Authors@R: c(
   person("Masaaki", "Horikoshi", role = c("aut", "cre"),
          email = "sinhrks@gmail.com"),
@@ -41,6 +41,7 @@ Suggests:
     grDevices,
     KFAS,
     knitr,
+    lintr,
     mapdata,
     MASS,
     MSwM,
@@ -58,4 +59,4 @@ Suggests:
     xts,
     zoo,
     lfda
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0

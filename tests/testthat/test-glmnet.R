@@ -56,6 +56,3 @@ test_that('fortify.glmnet works for QuickStartExample', {
   p <- ggplot2::autoplot(res)
   expect_true(is(p, 'ggplot'))
 })
-
-
-

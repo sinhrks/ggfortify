@@ -31,4 +31,3 @@ library(survival)
 fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
 fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1), melt = TRUE)
 }
-

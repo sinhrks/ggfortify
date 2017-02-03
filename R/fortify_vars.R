@@ -32,7 +32,7 @@ fortify.varprd <- function(model, data = NULL, is.date = NULL,
       binded$variable <- col
       fcst[[col]] <- binded
     }
-    return(dplyr::rbind_all(fcst))
+    return(dplyr::bind_rows(fcst))
   } else {
     for (col in cols){
       colnames(fcst[[col]]) <- paste0(col, '.', colnames(fcst[[col]]))

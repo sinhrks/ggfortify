@@ -68,4 +68,3 @@ Autoplot \code{glmnet::cv.glmnet}
 \examples{
 autoplot(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
 }
-

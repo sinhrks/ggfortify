@@ -1,7 +1,15 @@
-ggfortify 0.3.0.9000
+ggfortify 0.4.0
 ---------------------
 
-* Support `ROCR::performance`. 
+* Enhancement
+
+  * Support `ROCR::performance`, thanks to @austin3dickey
+  * PCA allows to choose the components to plot, thanks to @lselzer.
+
+* Bug fix
+
+  * LM autoplot fails when a formula contains polynomial regression.
+  * GLM autoplot fails when a family function is binomial.
 
 ggfortify 0.3.0
 ---------------------
@@ -15,7 +23,7 @@ ggfortify 0.3.0
 ggfortify 0.2.0
 ---------------------
 
-* Components of `prcomp` and `princomp` are now scaled. Scaling can be disabled by 
+* Components of `prcomp` and `princomp` are now scaled. Scaling can be disabled by
   specifying `scale = 0`.
 * `autoplot.t` now supports stacked option.
 * Support `maps` and `sp` packages.
@@ -36,4 +44,3 @@ ggfortify 0.0.4
 ----------------
 
 * First release on CRAN.
-

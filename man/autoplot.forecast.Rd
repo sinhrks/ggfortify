@@ -61,4 +61,3 @@ autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
 autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 }
 }
-

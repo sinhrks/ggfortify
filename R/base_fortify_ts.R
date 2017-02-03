@@ -199,7 +199,7 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
     plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
   }
 
-  group_key = 'plot_group'
+  group_key <- 'plot_group'
   plot.data <- tidyr::gather_(plot.data, group_key, 'value', columns)
 
   # create ggplot instance if not passed

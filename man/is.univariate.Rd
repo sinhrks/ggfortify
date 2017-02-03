@@ -20,4 +20,3 @@ Check if Validates number of \code{ts} variates
 \examples{
 ggfortify:::is.univariate(AirPassengers)
 }
-

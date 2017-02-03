@@ -33,5 +33,3 @@ GeomConfint <- ggplot2::ggproto('GeomConfint', ggplot2::GeomRibbon,
                data[xs, setdiff(names(data), c("x", "ymin", "ymax"))])
   }
 )
-
-

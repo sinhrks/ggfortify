@@ -128,7 +128,7 @@ fortify.ets <- function(model, data = NULL, ...) {
     nonseas <- 2 + (!is.null(model$beta))
     nseas <- length(model$gamma.values)
     if (!is.null(model$gamma)) {
-      seas.states <- model$x[-(1:(1 + (!is.null(model$beta)))), ]
+      seas.states <- model$x[- (1:(1 + (!is.null(model$beta)))), ]
       j <- cumsum(c(1, model$seasonal.periods))
       for (i in 1:nseas) d <- cbind(d, Season = seas.states[j[i], ])
       if (nseas > 1)

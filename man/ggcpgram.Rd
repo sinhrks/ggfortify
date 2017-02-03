@@ -37,4 +37,3 @@ Plots a cumulative periodogram
 \examples{
 ggcpgram(AirPassengers)
 }
-

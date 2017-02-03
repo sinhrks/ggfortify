@@ -88,4 +88,3 @@ autoplot(glm(Petal.Width ~ Petal.Length, data = iris), which = 1:6)
 autoplot(lm(Petal.Width~Petal.Length, data = iris), data = iris, colour = 'Species')
 }
 }
-

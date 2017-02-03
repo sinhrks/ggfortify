@@ -45,13 +45,8 @@ fortify.SpatialPointsDataFrame <- fortify.SpatialCommon
 fortify.SpatialLines <- fortify.SpatialCommon
 
 # followings are defined in ggplot2
-# - fortify.Line
-# - fortify.Lines
-# - SpatialLinesDataFrame
-# - fortify.Polygon
-# - fortify.Polygons
-# - fortify.SpatialPolygons
-# - fortify.SpatialPolygonsDataFrame
+# fortify.Line, fortify.Lines, SpatialLinesDataFrame, fortify.Polygon
+# fortify.Polygons, fortify.SpatialPolygons, fortify.SpatialPolygonsDataFrame
 
 #' Autoplot \code{maps::map}
 #'

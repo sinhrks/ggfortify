@@ -19,4 +19,3 @@ data.frame
 \description{
 Convert list to data.frame
 }
-

@@ -22,4 +22,3 @@ Calcurate layout matrix for \code{ggmultiplot}
 \examples{
 ggfortify:::get.layout(3, 2, 2)
 }
-

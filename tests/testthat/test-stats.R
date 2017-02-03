@@ -214,6 +214,9 @@ test_that('fortify.princomp works for USArrests', {
 
 test_that('autoplot.prcomp works for iris with scale (default)', {
 
+  # fails on CRAN i386 because components are inversed.
+  skip_on_cran()
+
   obj <- stats::prcomp(iris[-5])
 
   exp_x <- c(-0.10658039, -0.10777226, -0.11471510, -0.10901118, -0.10835099, -0.09056763)
@@ -307,6 +310,9 @@ test_that('autoplot.prcomp works for iris with scale (default)', {
 })
 
 test_that('autoplot.prcomp works for iris without scale', {
+
+  # fails on CRAN i386 because components are inversed.
+  skip_on_cran()
 
   obj <- stats::prcomp(iris[-5])
 
@@ -581,7 +587,7 @@ test_that('autoplot.lfda works for iris', {
     k <- iris[, -5]
     y <- iris[, 5]
     r <- 4
-    model <- lfda::lfda(k,y,r,metric="plain")
+    model <- lfda::lfda(k, y, r, metric = "plain")
     p <- autoplot(model, data=iris, frame = TRUE, frame.colour='Species')
     expect_true(is(p, 'ggplot'))
 })

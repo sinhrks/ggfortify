@@ -40,19 +40,16 @@ autoplot.glmnet <- function (object,
                              ylab = 'Coefficients', asp = NULL,
                              ...) {
   beta <- as.matrix(object$beta)
-  xvar = 'norm'
+  xvar <- 'norm'
   switch(xvar, norm = {
-    index = apply(abs(beta), 2, sum)
-    iname = "L1 Norm"
-    approx.f = 1
+    index <- apply(abs(beta), 2, sum)
+    iname <- "L1 Norm"
   }, lambda = {
-    index = log(object$lambda)
-    iname = "Log Lambda"
-    approx.f = 0
+    index <- log(object$lambda)
+    iname <- "Log Lambda"
   }, dev = {
-    index = object$dev.ratio
-    iname = "Fraction Deviance Explained"
-    approx.f = 1
+    index <- object$dev.ratio
+    iname <- "Fraction Deviance Explained"
   })
   if (is.null(xlab)) {
     xlab <- iname
@@ -95,9 +92,9 @@ autoplot.glmnet <- function (object,
 #' fortify(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
 #' @export
 fortify.cv.glmnet <- function(model, data = NULL, ...) {
-  d = data.frame('lambda' = log(model$lambda), 'cvm' = model$cvm,
-                 'cvup' = model$cvup, 'cvlo' = model$cvlo,
-                 'nz' = model$nz)
+  d <- data.frame('lambda' = log(model$lambda), 'cvm' = model$cvm,
+                  'cvup' = model$cvup, 'cvlo' = model$cvlo,
+                  'nz' = model$nz)
   post_fortify(d)
 }
 
@@ -136,10 +133,10 @@ autoplot.cv.glmnet <- function (object,
   if (is.null(xlab)) {
     xlab <- 'log(Lambda)'
     if (sign.lambda < 0) {
-      xlab = paste("-", xlab, sep = "")
+      xlab <- paste("-", xlab, sep = "")
     }
   }
-  plot.data = ggplot2::fortify(object)
+  plot.data <- ggplot2::fortify(object)
   plot.data$lambda <- sign.lambda * plot.data$lambda
   plot.data$label <- rep(max(object$cvup), nrow(plot.data))
 

@@ -157,7 +157,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       ggplot2::ggtitle(title)
   }
 
-  smoother_m = ggplot2::aes_string(x = 'x', y = 'y')
+  smoother_m <- ggplot2::aes_string(x = 'x', y = 'y')
 
   if (show[1L]) {
     t1 <- 'Residuals vs Fitted'

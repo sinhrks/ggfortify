@@ -12,4 +12,3 @@ flatten(df)
 \description{
 tains list or matrix as column
 }
-

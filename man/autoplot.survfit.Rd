@@ -95,4 +95,3 @@ autoplot(survfit(Surv(time, status) ~ 1, data = lung))
 autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
 autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 }
-

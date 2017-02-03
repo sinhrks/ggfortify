@@ -29,7 +29,8 @@ fortify.list <- function(model, data = NULL, ...) {
 #' @return ggplot
 #' @export
 autoplot.list <- function(object, data = NULL,
-                          nrow = NULL, ncol = NULL, scales = 'free_y',...) {
+                          nrow = NULL, ncol = NULL, scales = 'free_y',
+                          ...) {
   if (length(object) ==0) {
     stop('list length = 0, contains nothing')
   }
@@ -50,11 +51,6 @@ autoplot.list <- function(object, data = NULL,
   # if model is a list of a single class instances, try to plot them with facets
   if (all(sapply(object, support_autoplot))) {
 
-    if (is.null(names(object))) {
-      list_names <- seq_along(object)
-    } else {
-      list_names <- names(object)
-    }
     p <- lapply(object, function(x) autoplot(x, data = data, nrow = nrow,
                                              ncol = ncol, scales = scales, ...))
     if (is(p[[1]], 'ggmultiplot')) {

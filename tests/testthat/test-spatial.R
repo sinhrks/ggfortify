@@ -41,7 +41,7 @@ test_that('test fortify.SpatialPoints', {
   expect_equal(res$lat, exp$lat)
   expect_equal(attr(res, 'base_class')[[1]], 'SpatialPointsDataFrame')
 
-  coordinates(data) = cbind(x, y)
+  coordinates(data) <- cbind(x, y)
   expect_true(is(data, 'SpatialPointsDataFrame'))
   res <- fortify(data, rename = FALSE)
   expect_true(is.data.frame(res))
@@ -62,7 +62,7 @@ test_that('test fortify.SpatialPoints', {
   # coordinates with custom names
   data <- data.frame(city = c('a', 'b', 'c', 'd'),
                      mylon = c(1, 2, 3, 4), mylat = c(5, 6, 7, 8))
-  coordinates(data) = ~ mylon + mylat
+  coordinates(data) <- ~ mylon + mylat
   res <- fortify(data, rename = FALSE)
   expect_true(is.data.frame(res))
   expect_equal(colnames(res), c('city', 'mylon', 'mylat'))
@@ -93,9 +93,9 @@ test_that('test fortify.Line, Lines', {
   x3 <- c(9, 8, 7)
   y3 <- c(6, 5, 4)
 
-  l1 = Line(cbind(x1, y1))
-  l2 = Line(cbind(x2, y2))
-  l3 = Line(cbind(x3, y3))
+  l1 <- Line(cbind(x1, y1))
+  l2 <- Line(cbind(x2, y2))
+  l3 <- Line(cbind(x3, y3))
 
   # defined in ggplot2::fortify.Line
   exp <- data.frame(long = c(1, 2, 3, 4), lat = c(5, 6, 7, 8),
@@ -105,8 +105,8 @@ test_that('test fortify.Line, Lines', {
   expect_equal(res, exp)
 
   # Lines
-  ls1 = Lines(list(l1), ID = "ls1")
-  ls23 = Lines(list(l2, l3), ID = "ls23")
+  ls1 <- Lines(list(l1), ID = "ls1")
+  ls23 <- Lines(list(l2, l3), ID = "ls23")
 
   # defined in ggplot2::fortify.Lines
   exp <- data.frame(long = c(1, 2, 3, 4), lat = c(5, 6, 7, 8),
@@ -154,8 +154,9 @@ test_that('test fortify.Line, Lines', {
   expect_equal(attr(res, 'base_class')[[1]], 'SpatialLines')
 
   # defined in ggplot2::fortify.SpatialLinesDataFrame
-  sldf = SpatialLinesDataFrame(sl12, data.frame(Z = c("Road", "River"),
-                                                row.names = c("ls1", "ls23")))
+  sldf <- SpatialLinesDataFrame(sl12,
+                                data.frame(Z = c("Road", "River"),
+                                           row.names = c("ls1", "ls23")))
   res <- fortify(sl12)
   expect_true(is.data.frame(res))
   expect_equal(res$long, c(1, 2, 3, 4, 11, 12, 13, 9, 8, 7))
@@ -174,14 +175,14 @@ test_that('test fortify.Polygon, Polygons', {
   x1 <- c(1, 1, 2, 2, 1)
   y1 <- c(1, 2, 2, 1, 1)
   r1 <- cbind(x1, y1)
-  p1 = Polygon(r1)
-  ps1 = Polygons(list(p1), ID = "a")
+  p1 <- Polygon(r1)
+  ps1 <- Polygons(list(p1), ID = "a")
 
   x2 <- c(3, 3, 4, 4, 3)
   y2 <- c(3, 4, 4, 3, 3)
   r2 <- cbind(x2, y2)
-  p2 = Polygon(r2)
-  ps2 = Polygons(list(p2), ID = "b")
+  p2 <- Polygon(r2)
+  ps2 <- Polygons(list(p2), ID = "b")
 
   # defined in ggplot2
   exp <- data.frame(long = c(1, 1, 2, 2, 1),
@@ -205,7 +206,7 @@ test_that('test fortify.Polygon, Polygons', {
   expect_equal(res, exp)
 
   # SpatialPolygons
-  sps = SpatialPolygons(list(ps1, ps2))
+  sps <- SpatialPolygons(list(ps1, ps2))
   # defined in ggplot2
   exp <- data.frame(long = c(1, 1, 2, 2, 1, 3, 3, 4, 4, 3),
                     lat = c(1, 2, 2, 1, 1, 3, 4, 4, 3, 3),
@@ -282,12 +283,12 @@ test_that('test autoplot.Line, Lines', {
   x3 <- c(9, 8, 7)
   y3 <- c(6, 5, 4)
 
-  l1 = Line(cbind(x1, y1))
-  l2 = Line(cbind(x2, y2))
-  l3 = Line(cbind(x3, y3))
+  l1 <- Line(cbind(x1, y1))
+  l2 <- Line(cbind(x2, y2))
+  l3 <- Line(cbind(x3, y3))
 
-  ls1 = Lines(list(l1), ID = "ls1")
-  ls23 = Lines(list(l2, l3), ID = "ls23")
+  ls1 <- Lines(list(l1), ID = "ls1")
+  ls23 <- Lines(list(l2, l3), ID = "ls23")
 
   p <- autoplot(l1)
   expect_equal(length(p$layers), 1)
@@ -358,8 +359,9 @@ test_that('test autoplot.Line, Lines', {
   expect_equal(ld$alpha, rep(NA, 10))
 
   # defined in ggplot2::fortify.SpatialLinesDataFrame
-  sldf = SpatialLinesDataFrame(sl12, data.frame(Z = c("Road", "River"),
-                                                row.names = c("ls1", "ls23")))
+  sldf <- SpatialLinesDataFrame(sl12,
+                                data.frame(Z = c("Road", "River"),
+                                           row.names = c("ls1", "ls23")))
   p <- autoplot(sldf, colour = 'group')
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomLine'))
@@ -388,14 +390,14 @@ test_that('test autoplot.Polygon, Polygons', {
   x1 <- c(1, 1, 2, 2, 1)
   y1 <- c(1, 2, 2, 1, 1)
   r1 <- cbind(x1, y1)
-  p1 = Polygon(r1)
-  ps1 = Polygons(list(p1), ID = "a")
+  p1 <- Polygon(r1)
+  ps1 <- Polygons(list(p1), ID = "a")
 
   x2 <- c(3, 3, 4, 4, 3)
   y2 <- c(3, 4, 4, 3, 3)
   r2 <- cbind(x2, y2)
-  p2 = Polygon(r2)
-  ps2 = Polygons(list(p2), ID = "b")
+  p2 <- Polygon(r2)
+  ps2 <- Polygons(list(p2), ID = "b")
 
   p <- autoplot(p1)
   expect_equal(length(p$layers), 1)
@@ -418,7 +420,7 @@ test_that('test autoplot.Polygon, Polygons', {
   expect_equal(ld$alpha, rep(NA, 5))
 
   # SpatialPolygons
-  sps = SpatialPolygons(list(ps1, ps2))
+  sps <- SpatialPolygons(list(ps1, ps2))
 
   p <- autoplot(sps)
   expect_equal(length(p$layers), 1)

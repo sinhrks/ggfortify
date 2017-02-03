@@ -23,4 +23,3 @@ geom_confint(mapping = NULL, data = NULL, stat = "identity",
 \description{
 Connect observations by stairs.
 }
-

@@ -26,4 +26,3 @@ Get \code{Date} \code{vector} continue to \code{ts} index
 ggfortify:::get.dtindex.continuous(AirPassengers, length = 10)
 ggfortify:::get.dtindex.continuous(UKgas, length = 10)
 }
-

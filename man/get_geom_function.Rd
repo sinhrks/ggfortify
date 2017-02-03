@@ -21,4 +21,3 @@ Factory function to control \code{ggplot2::geom_xxx} functions
 ggfortify:::get_geom_function('point')
 ggfortify:::get_geom_function('line', allowed = c('line'))
 }
-

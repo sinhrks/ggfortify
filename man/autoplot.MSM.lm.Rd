@@ -32,4 +32,3 @@ d.mswm <- MSwM::msmFit(lm(Data ~.-1, data = d), k=2, sw=rep(TRUE, 2),
 autoplot(d.mswm)
 }
 }
-

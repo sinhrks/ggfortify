@@ -49,4 +49,3 @@ ggplot
 \description{
 Attach label to \code{ggplot2::ggplot}
 }
-
