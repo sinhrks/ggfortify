@@ -24,4 +24,3 @@ ggplot
 \description{
 Autoplot \code{ROCR::performance}
 }
-

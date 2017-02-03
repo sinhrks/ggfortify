@@ -36,4 +36,3 @@ Autoplot \code{stats::spec}
 autoplot(stats::spec.ar(AirPassengers))
 autoplot(stats::spec.pgram(AirPassengers))
 }
-

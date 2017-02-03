@@ -13,4 +13,3 @@
 \description{
 Generic print function for \code{ggmultiplot}
 }
-

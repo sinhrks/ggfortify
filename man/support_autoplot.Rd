@@ -15,4 +15,3 @@ logical
 \description{
 Check if passed object is supported by \code{ggplot2::autoplot}
 }
-

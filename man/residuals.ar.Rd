@@ -20,4 +20,3 @@ Calcurate residuals for \code{stats::ar}
 \examples{
 residuals(ar(WWWusage))
 }
-

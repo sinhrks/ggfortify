@@ -31,4 +31,3 @@ d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 fortify(d.forecast)
 fortify(d.forecast, ts.connect = TRUE)
 }
-

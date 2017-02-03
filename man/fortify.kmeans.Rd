@@ -26,4 +26,3 @@ fortify(cluster::clara(iris[-5], 3))
 fortify(cluster::fanny(iris[-5], 3))
 fortify(cluster::pam(iris[-5], 3), data = iris)
 }
-

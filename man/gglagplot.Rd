@@ -24,4 +24,3 @@ Plot time series against lagged versions of themselves
 \examples{
 gglagplot(AirPassengers)
 }
-

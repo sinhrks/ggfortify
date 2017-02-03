@@ -26,4 +26,3 @@ Different from \code{as.data.frame}
 \examples{
 fortify(matrix(1:6, nrow=2, ncol=3))
 }
-

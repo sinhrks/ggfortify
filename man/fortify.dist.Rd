@@ -22,4 +22,3 @@ Convert \code{stats::dist} to \code{data.frame}
 \examples{
 fortify(eurodist)
 }
-

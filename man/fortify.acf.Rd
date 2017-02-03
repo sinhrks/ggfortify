@@ -33,4 +33,3 @@ fortify(stats::ccf(AirPassengers, AirPassengers))
 
 fortify(stats::acf(AirPassengers), conf.int = TRUE)
 }
-

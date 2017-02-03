@@ -15,4 +15,3 @@ character
 \description{
 Infer class name
 }
-

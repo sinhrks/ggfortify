@@ -22,4 +22,3 @@ Convert \code{base::table} to \code{data.frame}
 \examples{
 fortify(Titanic)
 }
-

@@ -19,4 +19,3 @@ data.frame
 \description{
 Convert \code{ROCR::performance} objects to \code{data.frame}
 }
-
