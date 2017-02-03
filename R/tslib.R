@@ -20,8 +20,8 @@ get.dtindex <- function(data, is.tsp = FALSE, is.date = NULL) {
     stop('Failed to convert ts object index to date')
   }
   dtindex <- seq(from = tsp[1], to = tsp[2], by= 1 / tsp[3])
-  if ((is.null(is.date) && any(tsp[3] == c(4, 12))) ||
-      (!is.null(is.date) && is.date)) {
+  if ( (is.null(is.date) && any(tsp[3] == c(4, 12))) ||
+       (!is.null(is.date) && is.date)) {
     dtindex <- zoo::as.Date.yearmon(dtindex)
   }
   dtindex
@@ -49,8 +49,8 @@ get.dtindex.continuous <- function(data, length, is.tsp = FALSE, is.date = NULL)
   }
   dt.by <- 1 / tsp[3]
   dtindex <- seq(from = tsp[2] + dt.by, length = length, by = dt.by)
-  if ((is.null(is.date) && any(tsp[3] == c(4, 12))) ||
-        (!is.null(is.date) && is.date)) {
+  if ( (is.null(is.date) && any(tsp[3] == c(4, 12))) ||
+       (!is.null(is.date) && is.date)) {
     dtindex <- zoo::as.Date.yearmon(dtindex)
   }
   dtindex
@@ -104,7 +104,7 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
   rownames(data) <- NULL
   rownames(original) <- NULL
 
-  d <- dplyr::rbind_list(original, data)
+  d <- dplyr::bind_rows(original, data)
   if (ts.connect) {
     # Use fnames not to overwrite Index
     d[n, dnames] <- d[n, data.name]
@@ -124,7 +124,7 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
 #' ggfortify:::confint.acf(air.acf)
 #' ggfortify:::confint.acf(air.acf, ci.type = 'ma')
 confint.acf <- function (x, ci = 0.95, ci.type = "white") {
-  if ((nser <- ncol(x$lag)) < 1L)
+  if ( (nser <- ncol(x$lag)) < 1L)
     stop("x$lag must have at least 1 column")
   with.ci <- ci > 0 && x$type != "covariance"
   with.ci.ma <- with.ci && ci.type == "ma" && x$type == "correlation"
@@ -339,7 +339,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
                          Lag_dist = rep(k, length(result)))
     result
   }
-  lag.df <- dplyr::rbind_all(lapply(seq(1:lags), .lag))
+  lag.df <- dplyr::bind_rows(lapply(seq(1:lags), .lag))
   lag.df <- dplyr::filter_(lag.df, '!is.na(Lag)')
   lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
 

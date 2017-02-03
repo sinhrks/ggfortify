@@ -250,7 +250,8 @@ fortify.aareg <- function(model, data = NULL,
 autoplot.aareg <- function (object, maxtime = NULL,
                             surv.connect = TRUE,
                             facets = TRUE, ncol = NULL,
-                            xlab = '', ylab = '',...) {
+                            xlab = '', ylab = '',
+                            ...) {
 
   plot.data <- fortify(object, maxtime = maxtime,
                        surv.connect = surv.connect, melt = TRUE)

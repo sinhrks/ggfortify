@@ -144,7 +144,7 @@ fortify.prcomp <- function(model, data = NULL, ...) {
     values <- model$x %*% t(model$rotation)
   } else if (is(model, 'princomp')) {
     d <- as.data.frame(model$scores)
-    values <- model$scores %*% t(model$loadings[,])
+    values <- model$scores %*% t(model$loadings[, ])
   } else {
     stop(paste0('Unsupported class for fortify.pca_common: ', class(model)))
   }
@@ -193,7 +193,9 @@ fortify.factanal <- function(model, data = NULL, ...) {
 #' @export
 fortify.lfda <- function(model, data = NULL, ...) {
 
-  if(!is(model, 'lfda')){stop('model is not a lfda object')}
+  if (!is(model, 'lfda')) {
+    stop('model is not a lfda object')
+  }
 
   model <- stats::prcomp(model$Z)
 

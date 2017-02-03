@@ -331,7 +331,7 @@ get.layout <- function(nplots, ncol, nrow) {
   }
 
   if (nrow * ncol < nplots) {
-    message <- paste('nrow * ncol (', nrow, '*', ncol ,
+    message <- paste('nrow * ncol (', nrow, '*', ncol,
                      ')must be larger than number of plots', nplots)
     stop(message)
   }

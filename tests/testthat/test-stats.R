@@ -581,7 +581,7 @@ test_that('autoplot.lfda works for iris', {
     k <- iris[, -5]
     y <- iris[, 5]
     r <- 4
-    model <- lfda::lfda(k,y,r,metric="plain")
+    model <- lfda::lfda(k, y, r, metric = "plain")
     p <- autoplot(model, data=iris, frame = TRUE, frame.colour='Species')
     expect_true(is(p, 'ggplot'))
 })
