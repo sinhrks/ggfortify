@@ -52,7 +52,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 
   if (!is.null(fun)) {
     if (is.character(fun)) {
-      fun <- switch(fun, log = function(x) x,
+      fun <- switch(fun, log = function(x) log(x),
                      event = function(x) 1 - x,
                      cumhaz = function(x) -log(x),
                      cloglog = function(x) log(-log(x)),
