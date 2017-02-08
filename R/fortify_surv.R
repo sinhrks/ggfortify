@@ -28,7 +28,9 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     d <- cbind_wraps(d, data.frame(cumhaz = model$cumhaz))
   } else if (is(model, 'survfit')) {
     if ('strata' %in% names(model)) {
-      d <- cbind_wraps(d, data.frame(strata = rep(names(model$strata), model$strata)))
+      groupIDs <- gsub(".*=", '', names(model$strata))
+      groupIDs <- factor(rep(groupIDs, model$strata), levels = groupIDs)
+      d <- cbind_wraps(d, data.frame(strata = groupIDs))
     }
 
   } else {
@@ -45,7 +47,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
       strata <- levels(d$strata)
       base <- as.data.frame(sapply(base, rep.int, times = length(strata)))
       base$strata <- strata
-      base$strata <- as.factor(base$strata)
+      base$strata <- factor(base$strata, levels = base$strata)
     }
     d <- rbind(base, d)
   }
