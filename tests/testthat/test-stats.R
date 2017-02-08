@@ -412,6 +412,9 @@ test_that('autoplot.prcomp works for iris without scale', {
 
 test_that('autoplot.prcomp works for USArrests', {
 
+  # fails on CRAN SPARC because components are inversed.
+  skip_on_cran()
+  
   obj <- stats::prcomp(USArrests)
 
   # scale
@@ -484,6 +487,9 @@ test_that('autoplot.princomp works for iris', {
 
 test_that('autoplot.prcomp plots the desired components', {
 
+  # fails on CRAN SPARC because components are inversed.
+  skip_on_cran()
+  
   obj <- stats::prcomp(iris[-5])
 
   exp_x <- c(-0.0126825223275179, 0.00702830726589863, 0.00575560482235143,
@@ -507,6 +513,9 @@ test_that('autoplot.prcomp plots the desired components', {
 
 test_that('autoplot.princomp plots the desired components', {
 
+  # fails on CRAN SPARC because components are inversed.
+  skip_on_cran()
+  
   obj <- stats::princomp(iris[-5])
 
   exp_x <- c(-0.0126825223275179, 0.00702830726589863, 0.00575560482235143,
