@@ -81,7 +81,7 @@ test_that('autoplot retains order of alphabetically unordered factor levels', {
   survivalData <- Surv(followupTime, livingStatus)
   survivalFit <- survfit(survivalData ~ samplesGroups)
   plotElements <- ggplot2::autoplot(survivalFit, conf.int = FALSE, ylim = c(0, 1))
-  expect_equal(levels(plotElements[["data"]])[, strata], c("Low", "High"))
+  expect_equal(levels(plotElements[["data"]][, "strata"]), c("Low", "High"))
 })
 
 test_that('fortify.survfit works for simple data', {
