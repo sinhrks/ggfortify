@@ -38,7 +38,7 @@ test_that('fortify.survfit works for lung', {
   expect_equal(dim(fortified), c(208, 9))
   expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(3, 3), n.censor = c(0, 0),
                          surv = c(1, 1), std.err = c(0, 0), upper = c(1, 1), lower = c(1, 1),
-                         strata = as.factor(c('sex=1', 'sex=2')))
+                         strata = factor(c('1', '2')))
   expect_equal(fortified[1:2, ], expected)
 
   p <- ggplot2::autoplot(d.survfit, surv.connect = TRUE)
