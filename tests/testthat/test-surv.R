@@ -77,7 +77,6 @@ test_that('autoplot retains order of alphabetically unordered factor levels', {
   livingStatus <- sample(0:1, 20, replace = TRUE)
   followupTime <- rpois(20, 300)
   samplesGroups <- factor(sample(c("Low", "High"), 20, replace = TRUE), levels = c("Low", "High"))
-  
   survivalData <- Surv(followupTime, livingStatus)
   survivalFit <- survfit(survivalData ~ samplesGroups)
   plotElements <- ggplot2::autoplot(survivalFit, conf.int = FALSE, ylim = c(0, 1))
