@@ -32,7 +32,6 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
       groupIDs <- factor(rep(groupIDs, model$strata), levels = groupIDs)
       d <- cbind_wraps(d, data.frame(strata = groupIDs))
     }
-
   } else {
     stop(paste0('Unsupported class for fortify.survfit: ', class(model)))
   }
