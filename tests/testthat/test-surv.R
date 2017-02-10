@@ -38,7 +38,7 @@ test_that('fortify.survfit works for lung', {
   expect_equal(dim(fortified), c(208, 9))
   expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(3, 3), n.censor = c(0, 0),
                          surv = c(1, 1), std.err = c(0, 0), upper = c(1, 1), lower = c(1, 1),
-                         strata = as.factor(c('sex=1', 'sex=2')))
+                         strata = factor(c('1', '2')))
   expect_equal(fortified[1:2, ], expected)
 
   p <- ggplot2::autoplot(d.survfit, surv.connect = TRUE)
@@ -71,6 +71,16 @@ test_that('fortify.survfit works for lung', {
 
   p <- ggplot2::autoplot(d.survfit)
   expect_true(is(p, 'ggplot'))
+})
+
+test_that('autoplot retains order of alphabetically unordered factor levels', {
+  livingStatus <- sample(0:1, 20, replace = TRUE)
+  followupTime <- rpois(20, 300)
+  samplesGroups <- factor(sample(c("Low", "High"), 20, replace = TRUE), levels = c("Low", "High"))
+  survivalData <- Surv(followupTime, livingStatus)
+  survivalFit <- survfit(survivalData ~ samplesGroups)
+  plotElements <- ggplot2::autoplot(survivalFit, conf.int = FALSE, ylim = c(0, 1))
+  expect_equal(levels(plotElements[["data"]][, "strata"]), c("Low", "High"))
 })
 
 test_that('fortify.survfit works for simple data', {
