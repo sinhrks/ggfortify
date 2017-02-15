@@ -20,7 +20,14 @@ test_that('fortify.forecast works for AirPassengers', {
   fortified <- ggplot2::fortify(d.forecast)
 
   expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(names(fortified), c(expected_names, 'Lo 80', 'Hi 80'))
+  if (packageVersion('forecast') > '7.3') {
+    # forecast 8.0 sorts columns in alphabetical order
+    expect_equal(names(fortified),
+                 c('Index', 'Data', 'Fitted', 'Point Forecast',
+                   'Lo 80', 'Hi 80', 'Lo 95', 'Hi 95'))
+  } else {
+    expect_equal(names(fortified), c(expected_names, 'Lo 80', 'Hi 80'))
+  }
   expect_equal(fortified$Index[1], as.Date('1949-01-01'))
   expect_equal(fortified$Index[nrow(fortified)], as.Date('1965-02-01'))
 
