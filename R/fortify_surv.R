@@ -76,7 +76,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #'
 #' @param object \code{survival::survfit} instance
 #' @param fun an arbitrary function defining a transformation of the survival curve
-#' @param surv.geom geometric string for survival curve. 'step' or line'
+#' @param surv.geom geometric string for survival curve. 'step', 'line' or 'point'
 #' @param surv.colour line colour for survival curve
 #' @param surv.size point size for survival curve
 #' @param surv.linetype line type for survival curve
