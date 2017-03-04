@@ -79,6 +79,15 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       sqrt(stats::deviance(object) / stats::df.residual(object))
     }
     hii <- stats::lm.influence(object, do.coef = FALSE)$hat
+    isConstLev <- all(hii == 0) ||
+      diff(hii) < 1e-10 * mean(hii, na.rm = TRUE)
+    if(isConstLev){
+      fs <- sapply(plot.data, is.factor)
+      fs <- names(plot.data)[fs]
+      plot.data$.nf <- stringr::str_wrap(interaction(plot.data[, fs],
+                                                     sep = ":"), width = 10)
+    }
+
     if (any(show[2L:3L])) {
       plot.data$.wresid <- if (is.null(w)) {
         r
@@ -241,24 +250,44 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   }
 
   if (show[5L]) {
-    t5 <- 'Residuals vs Leverage'
-    mapping <- ggplot2::aes_string(x = '.hat', y = '.stdresid')
-    smoother <- .smooth(plot.data$.hat, plot.data$.stdresid)
-    smoother <- as.data.frame(smoother)
-    p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
-    if (!is.logical(shape) || shape) {
-      p5 <- p5 + geom_factory(geom_point, plot.data,
-                              colour = colour, size = size, linetype = linetype,
-                              alpha = alpha, fill = fill, shape = shape)
+    if(isConstLev){
+      t5 <- 'Contanst Leverage:\nResiduals vs Factor Levels'
+      mapping <- ggplot2::aes_string(x = '.nf', y = '.stdresid')
+
+      p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+      if (!is.logical(shape) || shape) {
+        p5 <- p5 + geom_factory(geom_point, plot.data,
+                                colour = colour, size = size, linetype = linetype,
+                                alpha = alpha, fill = fill, shape = shape)
+      }
+      p5 <- p5 +
+        ggplot2::geom_hline(yintercept = 0L, linetype = ad.linetype,
+                            size = ad.size, colour = ad.colour) +
+        ggplot2::expand_limits(x = 0)
+      p5 <- .decorate.label(p5, cd.data)
+      label.y5 <- ifelse(is_glm, 'Std. Pearson resid.', 'Standardized Residuals')
+      p5 <- .decorate.plot(p5, xlab = 'Factor Level Combination',
+                           ylab = label.y5, title = t5)
+    } else {
+      t5 <- 'Residuals vs Leverage'
+      mapping <- ggplot2::aes_string(x = '.hat', y = '.stdresid')
+      smoother <- .smooth(plot.data$.hat, plot.data$.stdresid)
+      smoother <- as.data.frame(smoother)
+      p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
+      if (!is.logical(shape) || shape) {
+        p5 <- p5 + geom_factory(geom_point, plot.data,
+                                colour = colour, size = size, linetype = linetype,
+                                alpha = alpha, fill = fill, shape = shape)
+      }
+      p5 <- p5 + ggplot2::geom_line(data = smoother, mapping = smoother_m,
+                                    colour = smooth.colour, linetype = smooth.linetype) +
+        ggplot2::geom_hline(yintercept = 0L, linetype = ad.linetype,
+                            size = ad.size, colour = ad.colour) +
+        ggplot2::expand_limits(x = 0)
+      p5 <- .decorate.label(p5, cd.data)
+      label.y5 <- ifelse(is_glm, 'Std. Pearson resid.', 'Standardized Residuals')
+      p5 <- .decorate.plot(p5, xlab = 'Leverage', ylab = label.y5, title = t5)
     }
-    p5 <- p5 + ggplot2::geom_line(data = smoother, mapping = smoother_m,
-                                 colour = smooth.colour, linetype = smooth.linetype) +
-      ggplot2::geom_hline(yintercept = 0L, linetype = ad.linetype,
-                          size = ad.size, colour = ad.colour) +
-      ggplot2::expand_limits(x = 0)
-    p5 <- .decorate.label(p5, cd.data)
-    label.y5 <- ifelse(is_glm, 'Std. Pearson resid.', 'Standardized Residuals')
-    p5 <- .decorate.plot(p5, xlab = 'Leverage', ylab = label.y5, title = t5)
   }
 
   if (show[6L]) {
