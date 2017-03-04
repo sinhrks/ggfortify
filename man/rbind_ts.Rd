@@ -28,4 +28,3 @@ Rbind original and predicted time-series-like instances as fortified \code{data.
 predicted <- predict(stats::HoltWinters(UKgas), n.ahead = 5, prediction.interval = TRUE)
 rbind_ts(predicted, UKgas, ts.connect = TRUE)
 }
-

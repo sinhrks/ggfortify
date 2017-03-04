@@ -40,4 +40,3 @@ test_that('post_fortify', {
   expect_equal(res$y, df$y)
   expect_true('mts' %in% attr(res, 'base_class'))
 })
-

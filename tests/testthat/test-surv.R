@@ -38,7 +38,7 @@ test_that('fortify.survfit works for lung', {
   expect_equal(dim(fortified), c(208, 9))
   expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(3, 3), n.censor = c(0, 0),
                          surv = c(1, 1), std.err = c(0, 0), upper = c(1, 1), lower = c(1, 1),
-                         strata = as.factor(c('sex=1', 'sex=2')))
+                         strata = factor(c('1', '2')))
   expect_equal(fortified[1:2, ], expected)
 
   p <- ggplot2::autoplot(d.survfit, surv.connect = TRUE)
@@ -71,6 +71,16 @@ test_that('fortify.survfit works for lung', {
 
   p <- ggplot2::autoplot(d.survfit)
   expect_true(is(p, 'ggplot'))
+})
+
+test_that('autoplot retains order of alphabetically unordered factor levels', {
+  livingStatus <- sample(0:1, 20, replace = TRUE)
+  followupTime <- rpois(20, 300)
+  samplesGroups <- factor(sample(c("Low", "High"), 20, replace = TRUE), levels = c("Low", "High"))
+  survivalData <- Surv(followupTime, livingStatus)
+  survivalFit <- survfit(survivalData ~ samplesGroups)
+  plotElements <- ggplot2::autoplot(survivalFit, conf.int = FALSE, ylim = c(0, 1))
+  expect_equal(levels(plotElements[["data"]][, "strata"]), c("Low", "High"))
 })
 
 test_that('fortify.survfit works for simple data', {
@@ -110,26 +120,26 @@ test_that('fortify.survfit works for simple data', {
   fit <- survfit(coxph(Surv(time, status) ~ 1, data = tdata))
   fortified <- fortify(fit)
   expected <- data.frame(time = c(1, 2, 3, 4),
-                        n.risk = c(8, 6, 4, 2),
-                        n.event = c(1, 1, 1, 1),
-                        n.censor = c(1, 1, 1, 1),
-                        surv = c(0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
-                        std.err = c(0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
-                        upper = c(1, 1, 1, 1),
-                        lower = c(0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
-                        cumhaz = c(0.1250000000, 0.2916666667, 0.5416666667,1.0416666667))
+                         n.risk = c(8, 6, 4, 2),
+                         n.event = c(1, 1, 1, 1),
+                         n.censor = c(1, 1, 1, 1),
+                         surv = c(0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
+                         std.err = c(0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
+                         upper = c(1, 1, 1, 1),
+                         lower = c(0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
+                         cumhaz = c(0.1250000000, 0.2916666667, 0.5416666667, 1.0416666667))
   expect_equal(fortified, expected)
 
   fortified <- fortify(fit, surv.connect = TRUE)
   expected <- data.frame(time = c(0, 1, 2, 3, 4),
-                        n.risk = c(8, 8, 6, 4, 2),
-                        n.event = c(1, 1, 1, 1, 1),
-                        n.censor = c(0, 1, 1, 1, 1),
-                        surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
-                        std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
-                        upper = c(1, 1, 1, 1, 1),
-                        lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
-                        cumhaz = c(0, 0.1250000000, 0.2916666667, 0.5416666667,1.0416666667))
+                         n.risk = c(8, 8, 6, 4, 2),
+                         n.event = c(1, 1, 1, 1, 1),
+                         n.censor = c(0, 1, 1, 1, 1),
+                         surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
+                         std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
+                         upper = c(1, 1, 1, 1, 1),
+                         lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
+                         cumhaz = c(0, 0.1250000000, 0.2916666667, 0.5416666667, 1.0416666667))
   expect_equal(fortified, expected)
 
   p <- ggplot2::autoplot(fit)

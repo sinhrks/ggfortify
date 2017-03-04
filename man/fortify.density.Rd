@@ -22,4 +22,3 @@ Convert \code{stats::density} to \code{data.frame}
 \examples{
 fortify(stats::density(stats::rnorm(1:50)))
 }
-

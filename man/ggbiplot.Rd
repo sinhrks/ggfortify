@@ -123,4 +123,3 @@ ggplot
 \description{
 Draw \code{biplot} using \code{ggplot2}.
 }
-

@@ -32,4 +32,3 @@ autoplot(bp.nile)
 autoplot(bp.nile, is.date = TRUE)
 autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
 }
-

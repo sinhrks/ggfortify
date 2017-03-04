@@ -26,4 +26,3 @@ ggplot
 \description{
 Autoplot list
 }
-

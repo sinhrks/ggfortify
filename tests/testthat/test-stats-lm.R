@@ -57,7 +57,7 @@ test_that('autoplot.lm works for USArrests', {
   expect_true(is(p, 'ggmultiplot'))
   assert_lm1(p[[1]])
 
-  # Q-Q
+  # Q-Q plot
   assert_lm2 <- function(p) {
     expect_equal(length(p$layers), 3)
     expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
@@ -219,7 +219,7 @@ test_that('autoplot.lm works for binomial', {
   expect_true(is(p, 'ggmultiplot'))
   assert_glm1(p[[1]])
 
-  # Q-Q
+  # Q-Q plot
   assert_glm2 <- function(p) {
     expect_equal(length(p$layers), 3)
     expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
@@ -349,7 +349,7 @@ test_that('autoplot.lm works for binomial', {
 })
 
 test_that('autoplot.lm works for polynomial fit', {
-  lm.out <- lm(mpg ~ poly(hp, 2, raw = TRUE),data = mtcars)
+  lm.out <- lm(mpg ~ poly(hp, 2, raw = TRUE), data = mtcars)
   p <- autoplot(lm.out)
   expect_true(is(p, 'ggmultiplot'))
 
@@ -376,7 +376,7 @@ test_that('autoplot.lm works for polynomial fit', {
   expect_true(is(p, 'ggmultiplot'))
   assert_lm1(p[[1]])
 
-  # Q-Q
+  # Q-Q plot
   assert_lm2 <- function(p) {
     expect_equal(length(p$layers), 3)
     expect_true(is(p$layers[[1]]$geom, 'GeomPoint'))
@@ -515,5 +515,3 @@ test_that('autoplot.lm can be used in ggsave()', {
   expect_true(file.exists('temp.png'))
   unlink('temp.png')
 })
-
-

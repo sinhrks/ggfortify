@@ -18,4 +18,3 @@
 \description{
 Generic add operator for \code{ggmultiplot}
 }
-

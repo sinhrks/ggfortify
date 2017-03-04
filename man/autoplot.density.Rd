@@ -48,4 +48,3 @@ Autoplot \code{stats::density}
 autoplot(stats::density(stats::rnorm(1:50)))
 autoplot(stats::density(stats::rnorm(1:50)), fill = 'blue')
 }
-

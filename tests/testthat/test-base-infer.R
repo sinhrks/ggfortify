@@ -96,7 +96,7 @@ test_that('infer, fortify and autoplot works for KFAS::signal', {
   model <- SSModel(
     Nile ~ SSMtrend(degree=1, Q=matrix(NA)), H=matrix(NA)
   )
-  fit <- fitSSM(model=model, inits=c(log(var(Nile)),log(var(Nile))), method="BFGS")
+  fit <- fitSSM(model=model, inits=c(log(var(Nile)), log(var(Nile))), method="BFGS")
 
   smoothed <- KFS(fit$model)
   fortified <- fortify(smoothed)

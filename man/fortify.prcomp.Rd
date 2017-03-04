@@ -27,4 +27,3 @@ fortify(stats::prcomp(iris[-5]), data = iris)
 fortify(stats::princomp(iris[-5]))
 fortify(stats::princomp(iris[-5]), data = iris)
 }
-

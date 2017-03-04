@@ -24,4 +24,3 @@ fortify(spectrum(AirPassengers))
 fortify(stats::spec.ar(AirPassengers))
 fortify(stats::spec.pgram(AirPassengers))
 }
-

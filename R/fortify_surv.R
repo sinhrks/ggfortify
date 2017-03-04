@@ -28,9 +28,10 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     d <- cbind_wraps(d, data.frame(cumhaz = model$cumhaz))
   } else if (is(model, 'survfit')) {
     if ('strata' %in% names(model)) {
-      d <- cbind_wraps(d, data.frame(strata = rep(names(model$strata), model$strata)))
+      groupIDs <- gsub(".*=", '', names(model$strata))
+      groupIDs <- factor(rep(groupIDs, model$strata), levels = groupIDs)
+      d <- cbind_wraps(d, data.frame(strata = groupIDs))
     }
-
   } else {
     stop(paste0('Unsupported class for fortify.survfit: ', class(model)))
   }
@@ -45,14 +46,14 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
       strata <- levels(d$strata)
       base <- as.data.frame(sapply(base, rep.int, times = length(strata)))
       base$strata <- strata
-      base$strata <- as.factor(base$strata)
+      base$strata <- factor(base$strata, levels = base$strata)
     }
     d <- rbind(base, d)
   }
 
   if (!is.null(fun)) {
     if (is.character(fun)) {
-      fun <- switch(fun, log = function(x) x,
+      fun <- switch(fun, log = function(x) log(x),
                      event = function(x) 1 - x,
                      cumhaz = function(x) -log(x),
                      cloglog = function(x) log(-log(x)),
@@ -75,7 +76,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #'
 #' @param object \code{survival::survfit} instance
 #' @param fun an arbitrary function defining a transformation of the survival curve
-#' @param surv.geom geometric string for survival curve. 'step' or line'
+#' @param surv.geom geometric string for survival curve. 'step', 'line' or 'point'
 #' @param surv.colour line colour for survival curve
 #' @param surv.size point size for survival curve
 #' @param surv.linetype line type for survival curve
@@ -250,7 +251,8 @@ fortify.aareg <- function(model, data = NULL,
 autoplot.aareg <- function (object, maxtime = NULL,
                             surv.connect = TRUE,
                             facets = TRUE, ncol = NULL,
-                            xlab = '', ylab = '',...) {
+                            xlab = '', ylab = '',
+                            ...) {
 
   plot.data <- fortify(object, maxtime = maxtime,
                        surv.connect = surv.connect, melt = TRUE)

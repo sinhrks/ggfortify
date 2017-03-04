@@ -50,4 +50,3 @@ ggplot
 \description{
 Autoplot \code{maps::map}
 }
-

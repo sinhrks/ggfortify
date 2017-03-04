@@ -28,4 +28,3 @@ ggplot
 \description{
 Apply facets to to \code{ggplot2::ggplot}
 }
-

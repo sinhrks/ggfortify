@@ -17,4 +17,3 @@ Show deprecate warning
 \examples{
 ggfortify:::deprecate.warning('old', 'new')
 }
-

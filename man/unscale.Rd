@@ -23,4 +23,3 @@ Backtransform \code{scale}-ed object
 df <- iris[-5]
 ggfortify::unscale(base::scale(df))
 }
-

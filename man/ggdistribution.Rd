@@ -37,4 +37,3 @@ ggdistribution(ppois, seq(0, 30), lambda = 20)
 p <- ggdistribution(pchisq, 0:20, df = 7, fill = 'blue')
 ggdistribution(pchisq, 0:20, p = p, df = 9, fill = 'red')
 }
-

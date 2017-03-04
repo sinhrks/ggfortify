@@ -17,4 +17,3 @@ data.frame
 \description{
 Post process for fortify.
 }
-

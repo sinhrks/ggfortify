@@ -22,4 +22,3 @@ Convert \code{glmnet::cv.glmnet} to \code{data.frame}
 \examples{
 fortify(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
 }
-

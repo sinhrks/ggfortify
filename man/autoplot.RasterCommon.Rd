@@ -39,4 +39,3 @@ ggplot
 \description{
 Only plot the first layer of the given raster
 }
-

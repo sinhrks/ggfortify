@@ -19,6 +19,7 @@ r_binary_packages:
   - knitr
   - MASS
   - MSwM
+  - ROCR
   - sp
   - strucchange
   - survival
@@ -39,6 +40,7 @@ before_install:
       Rscript -e 'devtools::install_github("hadley/tidyr")';
       Rscript -e 'devtools::install_github("hadley/dtplyr")';
       Rscript -e 'devtools::install_github("hadley/dplyr")';
+      Rscript -e 'devtools::install_github("robjhyndman/forecast")';
     fi
   # install latest
   - Rscript -e 'install.packages("roxygen2")';

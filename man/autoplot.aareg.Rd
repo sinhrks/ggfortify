@@ -34,4 +34,3 @@ Autoplot \code{survival::aareg}
 library(survival)
 autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
 }
-

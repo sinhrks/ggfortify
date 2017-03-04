@@ -29,4 +29,3 @@ autoplot(cluster::fanny(iris[-5], 3), frame = TRUE)
 autoplot(cluster::pam(iris[-5], 3), data = iris, colour = 'Species')
 autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
 }
-

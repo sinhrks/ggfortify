@@ -17,4 +17,3 @@ logical
 \description{
 Check data names are equal with expected
 }
-

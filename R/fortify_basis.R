@@ -83,7 +83,7 @@ fortify.basis <- function(model, data, n=256, ...) {
 #' @export
 autoplot.basis <- function(object, data, n=256, ...) {
     fortified <- ggplot2::fortify(object, data, n)
-    all.knots <- c(attr(object,"Boundary.knots") ,
+    all.knots <- c(attr(object, "Boundary.knots"),
                    attr(object, "knots")) %>%
         unname %>% sort
     knot.df <- ggplot2::fortify(object,

@@ -21,4 +21,3 @@ data.frame
 \description{
 Convert \code{sp} instances to \code{data.frame}.
 }
-

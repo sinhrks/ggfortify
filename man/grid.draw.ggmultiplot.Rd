@@ -14,4 +14,3 @@ with ggsave() properly}
 The implemented grid.draw method for ggmultiplot, in order to work
 with ggsave() properly
 }
-

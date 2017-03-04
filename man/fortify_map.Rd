@@ -19,4 +19,3 @@ data.frame
 \description{
 Convert \code{maps::map} to \code{data.frame}.
 }
-

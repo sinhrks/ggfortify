@@ -31,7 +31,7 @@ Reference/Citation
 ------------
 If you use this package, please cite our paper to appear in R Journal soon.
 
-`Yuan Tang, Masaaki Horikoshi, and Wenxuan Li. ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages. The R Journal, 2016. <https://journal.r-project.org/archive/accepted/tang-horikoshi-li.pdf>`_
+`Yuan Tang, Masaaki Horikoshi, and Wenxuan Li. "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages." The R Journal 8.2 (2016): 478-489. <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_
 
 
 Coverage
@@ -67,6 +67,7 @@ This covers following classes:
 - ``raster::RasterCommon``
 - ``raster::RasterLayer``
 - ``raster::RasterStack``
+- ``ROCR::performance``
 - ``sp::Line``
 - ``sp::Lines``
 - ``sp::Polygon``

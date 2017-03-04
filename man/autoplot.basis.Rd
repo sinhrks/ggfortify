@@ -33,4 +33,3 @@ spl <- bs(x, df=6)
 autoplot(spl)
 autoplot(spl, n=5)
 }
-

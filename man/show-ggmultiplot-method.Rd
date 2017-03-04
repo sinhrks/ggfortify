@@ -13,4 +13,3 @@
 \description{
 Generic show function for \code{ggmultiplot}
 }
-

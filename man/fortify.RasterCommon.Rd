@@ -24,4 +24,3 @@ data.frame
 \description{
 Convert \code{raster} to \code{data.frame}
 }
-
