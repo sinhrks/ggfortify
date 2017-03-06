@@ -574,31 +574,31 @@ test_that('fortify.dist works for eurodist', {
 })
 
 test_that('fortify.lfda works for iris', {
-    skip_on_cran()
-    library(lfda)
-    k <- iris[, -5]
-    y <- iris[, 5]
-    r <- 3
-    model <- lfda(k, y, r, metric = "plain")
-    fortified <- ggplot2::fortify(model)
-    expect_true(is.data.frame(fortified))
-    model <- klfda(kmatrixGauss(k), y, r, metric = "plain")
-    fortified <- ggplot2::fortify(model)
-    expect_true(is.data.frame(fortified))
-    model <- self(k, y, beta=0.1, r, metric = "plain")
-    fortified <- ggplot2::fortify(model)
-    expect_true(is.data.frame(fortified))
+  skip_on_cran()
+  library(lfda)
+  k <- iris[, -5]
+  y <- iris[, 5]
+  r <- 3
+  model <- lfda(k, y, r, metric = "plain")
+  fortified <- ggplot2::fortify(model)
+  expect_true(is.data.frame(fortified))
+  model <- klfda(kmatrixGauss(k), y, r, metric = "plain")
+  fortified <- ggplot2::fortify(model)
+  expect_true(is.data.frame(fortified))
+  model <- self(k, y, beta=0.1, r, metric = "plain")
+  fortified <- ggplot2::fortify(model)
+  expect_true(is.data.frame(fortified))
 })
 
 test_that('autoplot.lfda works for iris', {
-    skip_on_cran()
+  skip_on_cran()
 
-    k <- iris[, -5]
-    y <- iris[, 5]
-    r <- 4
-    model <- lfda::lfda(k, y, r, metric = "plain")
-    p <- autoplot(model, data=iris, frame = TRUE, frame.colour='Species')
-    expect_true(is(p, 'ggplot'))
+  k <- iris[, -5]
+  y <- iris[, 5]
+  r <- 4
+  model <- lfda::lfda(k, y, r, metric = "plain")
+  p <- autoplot(model, data=iris, frame = TRUE, frame.colour='Species')
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('autoplot.acf works', {
