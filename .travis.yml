@@ -6,6 +6,10 @@ env:
   - PKG=DEV
   - PKG=STD
 
+matrix:
+  allow_failures:
+    - env: PKG=DEV
+
 r_binary_packages:
   - dplyr
   - tidyr

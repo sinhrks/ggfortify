@@ -21,7 +21,7 @@
 
 \item{fun}{an arbitrary function defining a transformation of the survival curve}
 
-\item{surv.geom}{geometric string for survival curve. 'step' or line'}
+\item{surv.geom}{geometric string for survival curve. 'step', 'line' or 'point'}
 
 \item{surv.colour}{line colour for survival curve}
 
