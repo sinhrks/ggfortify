@@ -508,6 +508,24 @@ test_that('autoplot.lm works for polynomial fit', {
   assert_lm6(p[[6]])
 })
 
+test_that('autoplot.lm works with factors', {
+  lm.out <- aov(Petal.Length ~ Species, data = iris)
+  p <- autoplot(lm.out, which = 5)
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(p[[1]]$mapping$x, as.name('.nf'))
+
+  lm.out <- aov(Petal.Length ~ Species, data = iris)
+  p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(p[[5]]$mapping$x, as.name('.nf'))
+})
+
+test_that('autoplot.lm works with factors', {
+  lm.out <- lm(Volume ~ Girth, data = trees)
+  p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(p[[5]]$mapping$x, as.name('.hat'))
+})
 
 test_that('autoplot.lm can be used in ggsave()', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)

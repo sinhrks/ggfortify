@@ -9,4 +9,5 @@
 #' @importFrom gridExtra grid.arrange
 #' @importFrom utils installed.packages
 #' @importFrom stats complete.cases residuals weights
+#' @importFrom strigr str_wrap
 NULL
