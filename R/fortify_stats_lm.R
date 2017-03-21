@@ -79,13 +79,13 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       sqrt(stats::deviance(object) / stats::df.residual(object))
     }
     hii <- stats::lm.influence(object, do.coef = FALSE)$hat
+
     is_const_lev <- all(hii == 0) ||
       diff(hii) < 1e-10 * mean(hii, na.rm = TRUE)
-    if(is_const_lev){
-      fs <- sapply(plot.data, is.factor)
-      fs <- names(plot.data)[fs]
-      plot.data$.nf <- stringr::str_wrap(interaction(plot.data[, fs],
-                                                     sep = ":"), width = 10)
+
+    fs <- dplyr::select_if(plot.data, is.factor)
+    if (is_const_lev & ncol(fs) > 0){
+      plot.data$.nf <- stringr::str_wrap(interaction(fs, sep = ":"), width = 10)
     }
 
     if (any(show[2L:3L])) {
@@ -250,7 +250,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   }
 
   if (show[5L]) {
-    if(is_const_lev){
+    if (is_const_lev & ncol(fs) > 0){
       t5 <- 'Contanst Leverage:\nResiduals vs Factor Levels'
       mapping <- ggplot2::aes_string(x = '.nf', y = '.stdresid')
 

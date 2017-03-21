@@ -28,6 +28,7 @@ Imports:
     gridExtra,
     grid,
     scales,
+    stringr,
     tibble
 Suggests:
     testthat,
@@ -59,4 +60,4 @@ Suggests:
     xts,
     zoo,
     lfda
-RoxygenNote: 6.0.0
+RoxygenNote: 6.0.1
