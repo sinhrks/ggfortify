@@ -132,6 +132,6 @@ ggplot2 Families
 There are some useful plotting packages using ggplot2. ``ggfortify`` will not focus on area already covered by these packages.
 
 * `GGally <http://cran.r-project.org/web/packages/GGally/index.html>`_
-* `ggdendro <http://cran.r-project.org/web/packages/ggdendro/index.html>`_
+* `dendextend:ggdend <http://cran.r-project.org/web/packages/dendextend/index.html>`_
 * `ggRandomForests <http://cran.r-project.org/web/packages/ggRandomForests/>`_
 * `ggmcmc <http://cran.r-project.org/web/packages/ggmcmc/index.html>`_
