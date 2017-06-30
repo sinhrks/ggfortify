@@ -255,7 +255,7 @@ autoplot.pca_common <- function(object, data = NULL,
     y.column <- PC[2]
     loadings.column <- 'rotation'
 
-    lam <- object$sdev[1L:2L]
+    lam <- object$sdev[c(x, y)]
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'princomp')) {
@@ -264,7 +264,7 @@ autoplot.pca_common <- function(object, data = NULL,
     y.column <- PC[2]
     loadings.column <- 'loadings'
 
-    lam <- object$sdev[1L:2L]
+    lam <- object$sdev[c(x, y)]
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'factanal')) {
@@ -273,12 +273,14 @@ autoplot.pca_common <- function(object, data = NULL,
     y.column <- PC[2]
     scale <- 0
     loadings.column <- 'loadings'
+
   } else if (is_derived_from(object, 'lfda')) {
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
     scale <- 0
     loadings.column <- NULL
+
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(object)))
   }
