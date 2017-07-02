@@ -98,12 +98,3 @@ test_that('ggtsdiag', {
   p <- ggtsdiag(arima(AirPassengers))
   expect_true(inherits(p, 'ggmultiplot'))
 })
-
-test_that('gglagplot', {
-  p <- gglagplot(AirPassengers)
-  expect_true(inherits(p, 'ggplot'))
-
-  p <- gglagplot(AirPassengers, 4)
-  expect_true(inherits(p, 'ggplot'))
-
-})
