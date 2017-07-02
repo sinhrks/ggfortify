@@ -1,3 +1,8 @@
+ggfortify master
+---------------------
+
+* Removed `gglagplot` in favor of `forecast::gglagplot`.
+
 ggfortify 0.4.1
 ---------------------
 
