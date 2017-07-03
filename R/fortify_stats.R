@@ -326,9 +326,9 @@ autoplot.pca_common <- function(object, data = NULL,
   }
 
   #Make labels
-  if(is.null(ve)  | !variance_percentage){
+  if (is.null(ve) | !variance_percentage) {
     labs <- PC
-  } else{
+  } else {
     labs <- paste0(PC, " (", round(ve * 100, 2), "%)")
   }
   xlab <- labs[x]
