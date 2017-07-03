@@ -246,7 +246,8 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #' @export
 autoplot.pca_common <- function(object, data = NULL,
-                                scale = 1.0, x = 1, y = 2, ...) {
+                                scale = 1.0, x = 1, y = 2,
+                                variance_percentage = TRUE, ...) {
 
   plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)
@@ -320,7 +321,7 @@ autoplot.pca_common <- function(object, data = NULL,
   }
 
   #Make labels
-  if(is.null(ve)){
+  if(is.null(ve)  | !variance_percentage){
     labs <- PC
   } else{
     labs <- paste0(PC, " (", round(ve * 100, 2), "%)")
