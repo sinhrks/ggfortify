@@ -237,6 +237,9 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' autoplot(stats::princomp(iris[-5]), data = iris, colour = 'Species')
 #' autoplot(stats::princomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #'
+#' #Plot PC 2 and 3
+#' autoplot(stats::princomp(iris[-5]), x = 2, y = 3)
+#'
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' autoplot(d.factanal)
 #' autoplot(d.factanal, data = state.x77, colour = 'Income')
@@ -255,7 +258,7 @@ autoplot.pca_common <- function(object, data = NULL,
     y.column <- PC[2]
     loadings.column <- 'rotation'
 
-    lam <- object$sdev[1L:2L]
+    lam <- object$sdev[c(x, y)]
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'princomp')) {
@@ -264,7 +267,7 @@ autoplot.pca_common <- function(object, data = NULL,
     y.column <- PC[2]
     loadings.column <- 'loadings'
 
-    lam <- object$sdev[1L:2L]
+    lam <- object$sdev[c(x, y)]
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'factanal')) {
@@ -273,12 +276,14 @@ autoplot.pca_common <- function(object, data = NULL,
     y.column <- PC[2]
     scale <- 0
     loadings.column <- 'loadings'
+
   } else if (is_derived_from(object, 'lfda')) {
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
     scale <- 0
     loadings.column <- NULL
+
   } else {
     stop(paste0('Unsupported class for autoplot.pca_common: ', class(object)))
   }
