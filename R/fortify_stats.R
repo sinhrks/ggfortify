@@ -253,6 +253,7 @@ autoplot.pca_common <- function(object, data = NULL,
 
   if (is_derived_from(object, 'prcomp')) {
 
+    ve <- object$sdev^2/sum(object$sdev^2)
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -262,6 +263,8 @@ autoplot.pca_common <- function(object, data = NULL,
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'princomp')) {
+
+    ve <- object$sdev^2/sum(object$sdev^2)
     PC <- paste0("Comp.", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -271,6 +274,12 @@ autoplot.pca_common <- function(object, data = NULL,
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'factanal')) {
+
+    if (is.null(attr(object, "covariance"))) {
+      p <- nrow(object$loading)
+      ve <- colSums(object$loading^2)/p
+    } else ve <- NULL
+
     PC <- paste0("Factor", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -278,6 +287,8 @@ autoplot.pca_common <- function(object, data = NULL,
     loadings.column <- 'loadings'
 
   } else if (is_derived_from(object, 'lfda')) {
+
+    ve <- NULL
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -308,8 +319,19 @@ autoplot.pca_common <- function(object, data = NULL,
     loadings.data <- NULL
   }
 
+  #Make labels
+  if(is.null(ve)){
+    labs <- PC
+  } else{
+    labs <- paste0(PC, " (", round(ve * 100, 2), "%)")
+  }
+  xlab <- labs[x]
+  ylab <- labs[y]
+
   p <- ggbiplot(plot.data = plot.data,
-                loadings.data = loadings.data, ...)
+                loadings.data = loadings.data,
+                xlab = xlab,
+                ylab = ylab, ...)
   return(p)
 }
 
