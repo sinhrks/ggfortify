@@ -237,6 +237,9 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' autoplot(stats::princomp(iris[-5]), data = iris, colour = 'Species')
 #' autoplot(stats::princomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #'
+#' #Plot PC 2 and 3
+#' autoplot(stats::princomp(iris[-5]), x = 2, y = 3)
+#'
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' autoplot(d.factanal)
 #' autoplot(d.factanal, data = state.x77, colour = 'Income')
