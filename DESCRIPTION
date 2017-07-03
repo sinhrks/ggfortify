@@ -11,7 +11,8 @@ Authors@R: c(
   person("Austin", "Dickey", role = c("ctb")),
   person("Matthias", "Grenié", role = c("ctb")),
   person("Ryan", "Thompson", "C.", role = c("ctb")),
-  person("Luciano", "Selzer", role = c("ctb"))
+  person("Luciano", "Selzer", role = c("ctb")),
+  person("Dario", "Strbenac", role = c("ctb"))
   )
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
 URL: https://github.com/sinhrks/ggfortify
