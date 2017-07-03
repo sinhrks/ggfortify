@@ -216,6 +216,8 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' @param scale scaling parameter, disabled by 0
 #' @param x principal component number used in x axis
 #' @param y principal component number used in y axis
+#' @param variance_percentage show the variance explained by the
+#' principal component?
 #' @param ... other arguments passed to \code{ggbiplot}
 #' @inheritParams ggbiplot
 #' @inheritParams plot_label
@@ -239,6 +241,9 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #'
 #' #Plot PC 2 and 3
 #' autoplot(stats::princomp(iris[-5]), x = 2, y = 3)
+#'
+#' #Don't show the variance explained
+#' autoplot(stats::princomp(iris[-5]), variance_percentage = FALSE)
 #'
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' autoplot(d.factanal)
