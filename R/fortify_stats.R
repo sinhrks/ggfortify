@@ -259,7 +259,7 @@ autoplot.pca_common <- function(object, data = NULL,
 
   if (is_derived_from(object, 'prcomp')) {
 
-    ve <- object$sdev^2/sum(object$sdev^2)
+    ve <- object$sdev^2 / sum(object$sdev^2)
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -270,7 +270,7 @@ autoplot.pca_common <- function(object, data = NULL,
 
   } else if (is_derived_from(object, 'princomp')) {
 
-    ve <- object$sdev^2/sum(object$sdev^2)
+    ve <- object$sdev^2 / sum(object$sdev^2)
     PC <- paste0("Comp.", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -283,7 +283,7 @@ autoplot.pca_common <- function(object, data = NULL,
 
     if (is.null(attr(object, "covariance"))) {
       p <- nrow(object$loading)
-      ve <- colSums(object$loading^2)/p
+      ve <- colSums(object$loading^2) / p
     } else ve <- NULL
 
     PC <- paste0("Factor", c(x, y))
@@ -329,10 +329,11 @@ autoplot.pca_common <- function(object, data = NULL,
   if (is.null(ve) | !variance_percentage) {
     labs <- PC
   } else {
+    ve <- ve[c(x, y)]
     labs <- paste0(PC, " (", round(ve * 100, 2), "%)")
   }
-  xlab <- labs[x]
-  ylab <- labs[y]
+  xlab <- labs[1]
+  ylab <- labs[2]
 
   p <- ggbiplot(plot.data = plot.data,
                 loadings.data = loadings.data,
