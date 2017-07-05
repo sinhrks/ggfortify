@@ -216,6 +216,8 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' @param scale scaling parameter, disabled by 0
 #' @param x principal component number used in x axis
 #' @param y principal component number used in y axis
+#' @param variance_percentage show the variance explained by the
+#' principal component?
 #' @param ... other arguments passed to \code{ggbiplot}
 #' @inheritParams ggbiplot
 #' @inheritParams plot_label
@@ -240,19 +242,24 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' #Plot PC 2 and 3
 #' autoplot(stats::princomp(iris[-5]), x = 2, y = 3)
 #'
+#' #Don't show the variance explained
+#' autoplot(stats::princomp(iris[-5]), variance_percentage = FALSE)
+#'
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' autoplot(d.factanal)
 #' autoplot(d.factanal, data = state.x77, colour = 'Income')
 #' autoplot(d.factanal, label = TRUE, loadings = TRUE, loadings.label = TRUE)
 #' @export
 autoplot.pca_common <- function(object, data = NULL,
-                                scale = 1.0, x = 1, y = 2, ...) {
+                                scale = 1.0, x = 1, y = 2,
+                                variance_percentage = TRUE, ...) {
 
   plot.data <- ggplot2::fortify(object, data = data)
   plot.data$rownames <- rownames(plot.data)
 
   if (is_derived_from(object, 'prcomp')) {
 
+    ve <- object$sdev^2 / sum(object$sdev^2)
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -262,6 +269,8 @@ autoplot.pca_common <- function(object, data = NULL,
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'princomp')) {
+
+    ve <- object$sdev^2 / sum(object$sdev^2)
     PC <- paste0("Comp.", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -271,6 +280,12 @@ autoplot.pca_common <- function(object, data = NULL,
     lam <- lam * sqrt(nrow(plot.data))
 
   } else if (is_derived_from(object, 'factanal')) {
+
+    if (is.null(attr(object, "covariance"))) {
+      p <- nrow(object$loading)
+      ve <- colSums(object$loading^2) / p
+    } else ve <- NULL
+
     PC <- paste0("Factor", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -278,6 +293,8 @@ autoplot.pca_common <- function(object, data = NULL,
     loadings.column <- 'loadings'
 
   } else if (is_derived_from(object, 'lfda')) {
+
+    ve <- NULL
     PC <- paste0("PC", c(x, y))
     x.column <- PC[1]
     y.column <- PC[2]
@@ -308,8 +325,20 @@ autoplot.pca_common <- function(object, data = NULL,
     loadings.data <- NULL
   }
 
+  #Make labels
+  if (is.null(ve) | !variance_percentage) {
+    labs <- PC
+  } else {
+    ve <- ve[c(x, y)]
+    labs <- paste0(PC, " (", round(ve * 100, 2), "%)")
+  }
+  xlab <- labs[1]
+  ylab <- labs[2]
+
   p <- ggbiplot(plot.data = plot.data,
-                loadings.data = loadings.data, ...)
+                loadings.data = loadings.data,
+                xlab = xlab,
+                ylab = ylab, ...)
   return(p)
 }
 
