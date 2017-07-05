@@ -506,8 +506,8 @@ test_that('autoplot.prcomp plots the desired components', {
   expect_equal(ld$x, exp_x, tolerance = 1e-4)
   expect_equal(ld$y, exp_y, tolerance = 1e-4)
   expect_equal(ld$colour, rep('black', 6))
-  expect_equal(p$labels$x, "PC2")
-  expect_equal(p$labels$y, "PC3")
+  expect_equal(p$labels$x, "PC2 (5.31%)")
+  expect_equal(p$labels$y, "PC3 (1.71%)")
 
 })
 
@@ -532,8 +532,8 @@ test_that('autoplot.princomp plots the desired components', {
   expect_equal(ld$x, exp_x, tolerance = 1e-4)
   expect_equal(ld$y, exp_y, tolerance = 1e-4)
   expect_equal(ld$colour, rep('black', 6))
-  expect_equal(p$labels$x, "Comp.2")
-  expect_equal(p$labels$y, "Comp.3")
+  expect_equal(p$labels$x, "Comp.2 (5.31%)")
+  expect_equal(p$labels$y, "Comp.3 (1.71%)")
 
 })
 
@@ -563,8 +563,8 @@ test_that('autoplot.factanal plots the desired components', {
   expect_true(is(p, 'ggplot'))
   expect_equal(length(p$layers), 1)
   expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
-  expect_equal(p$labels$x, "Factor2")
-  expect_equal(p$labels$y, "Factor3")
+  expect_equal(p$labels$x, "Factor2 (20.15%)")
+  expect_equal(p$labels$y, "Factor3 (18.24%)")
 })
 
 test_that('fortify.dist works for eurodist', {
