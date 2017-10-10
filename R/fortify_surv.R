@@ -19,17 +19,38 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
                   n.risk = model$n.risk,
                   n.event = model$n.event,
                   n.censor = model$n.censor,
-                  surv = model$surv,
                   std.err = model$std.err,
                   upper = model$upper,
                   lower = model$lower)
 
   if (is(model, 'survfit.cox')) {
-    d <- cbind_wraps(d, data.frame(cumhaz = model$cumhaz))
+    d <- cbind_wraps(d, data.frame(surv = model$surv, cumhaz = model$cumhaz))
   } else if (is(model, 'survfit')) {
+    if (is(model, 'survfitms')) {
+      d <- cbind_wraps(d, data.frame(pstate = model$pstate))
+
+      varying.names <- c('n.risk', 'n.event', 'pstate', 'std.err', 'upper', 'lower')
+      varying.i <- lapply(varying.names, function(x) which(startsWith(colnames(d), x)))
+      d <- reshape(d, varying = varying.i, v.names = varying.names, timevar = NULL, direction = 'long')
+      d <- subset(d, select = -c(id))
+      rownames(d) <- NULL
+
+      if (length(model$states) > 1) {
+        ev.names <- model$states
+        ev.names[ev.names == ''] <- 'any'
+        ev <- factor(rep(ev.names, each = length(model$time)), levels = ev.names)
+        d <- cbind_wraps(d, data.frame(event = ev))
+      }
+    } else {
+      d <- cbind_wraps(d, data.frame(surv = model$surv))
+    }
+
     if ('strata' %in% names(model)) {
       groupIDs <- gsub(".*=", '', names(model$strata))
       groupIDs <- factor(rep(groupIDs, model$strata), levels = groupIDs)
+      if ('states' %in% names(model)) {
+        groupIDs <- rep(groupIDs, length(model$states))
+      }
       d <- cbind_wraps(d, data.frame(strata = groupIDs))
     }
   } else {
@@ -41,12 +62,25 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     base <- d[1, ]
     # cumhaz is for survfit.cox cases
     base[intersect(c('time', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
-    base[c('surv', 'upper', 'lower')] <- 1.0
+    if ('pstate' %in% colnames(d)) {
+      base[c('pstate', 'upper', 'lower')] <- 0
+    } else {
+      base[c('surv', 'upper', 'lower')] <- 1.0
+    }
     if ('strata' %in% colnames(d)) {
       strata <- levels(d$strata)
-      base <- as.data.frame(sapply(base, rep.int, times = length(strata)))
+      base <- base[rep(seq_len(nrow(base)), length(strata)),]
+      rownames(base) <- NULL
       base$strata <- strata
       base$strata <- factor(base$strata, levels = base$strata)
+    }
+    if ('event' %in% colnames(d)) {
+      events <- levels(d$event)
+      base <- base[rep(seq_len(nrow(base)), length(events)),]
+      rownames(base) <- NULL
+      base$event <- events
+      base$event <- factor(base$event, levels = events)
+      base[base$event == 'any',c('pstate','upper','lower')] <- 1.0
     }
     d <- rbind(base, d)
   }
@@ -69,6 +103,15 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     d$upper <- fun(d$upper)
     d$lower <- fun(d$lower)
   }
+
+  d <- d[,intersect(c(
+    'time', 'n.risk', 'n.event', 'n.censor',
+    'surv', 'pstate',
+    'std.err', 'upper', 'lower',
+    'strata', 'event',
+    'cumhaz'
+  ), colnames(d))]
+
   post_fortify(d)
 }
 
