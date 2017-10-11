@@ -134,6 +134,8 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #' @param censor.alpha alpha for censors
 #' @param censor.shape shape for censors
 #' @inheritParams apply_facets
+#' @inheritParams apply_grid
+#' @param strip_swap swap facet or grid strips
 #' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
@@ -157,7 +159,9 @@ autoplot.survfit <- function(object, fun = NULL,
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              censor = TRUE, censor.colour = NULL, censor.size = 3,
                              censor.alpha = NULL, censor.shape = '+',
-                             facets = FALSE, nrow = NULL, ncol = 1, scales = 'free_y',
+                             facets = FALSE, nrow = NULL, ncol = 1,
+                             grid = FALSE, strip_swap = FALSE,
+                             scales = 'free_y',
                              xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
@@ -166,7 +170,7 @@ autoplot.survfit <- function(object, fun = NULL,
     # for autoplot.aareg, object must be a data.frame
     plot.data <- object
     mapping <- aes_string(x = 'time', y = 'value')
-    facets_formula <- ~ variable
+    strips_formula <- ~ variable
     if (is.null(surv.colour)) {
       surv.colour <- 'variable'
     }
@@ -174,15 +178,50 @@ autoplot.survfit <- function(object, fun = NULL,
     scale_labels <- ggplot2::waiver()
   } else {
     plot.data <- fortify(object, surv.connect = surv.connect, fun = fun)
-    mapping <- aes_string(x = 'time', y = 'surv')
+
+    if (is_derived_from(object, 'survfitms')) {
+      mapping <- aes_string(x = 'time', y = 'pstate')
+    } else {
+      mapping <- aes_string(x = 'time', y = 'surv')
+    }
+
+    group <- c()
+
     if ('strata' %in% colnames(plot.data)) {
-      facets_formula <- ~ strata
+      group <- c(group, 'strata')
       if (is.null(surv.colour)) {
         surv.colour <- 'strata'
       }
-    } else {
-      facets_formula <- NULL
     }
+
+    if ('event' %in% colnames(plot.data)) {
+      group <- c(group, 'event')
+      if (is.null(surv.linetype)) {
+        surv.linetype <- 'event'
+      }
+    }
+
+    if (length(group) == 1) {
+      plot.data[,'group'] <- plot.data[,group]
+    } else {
+      group.levels <- lapply(plot.data[,group], levels)
+      group.levels <- apply(expand.grid(group.levels), 1, function(x) paste(x, collapse = ' '))
+      group.data <- factor(apply(plot.data[,group], 1, function(x) paste(x, collapse = ' ')), levels = group.levels)
+      plot.data[,'group'] <- group.data
+    }
+
+    strips_formula <- c(
+      if ('event' %in% colnames(plot.data)) 'event' else if(grid) '.',
+      if ('strata' %in% colnames(plot.data)) 'strata' else if(grid) '.')
+    if (strip_swap) strips_formula <- rev(strips_formula)
+    if (!is.null(strips_formula)) {
+      if (grid) {
+        strips_formula <- as.formula(paste(strips_formula, collapse = ' ~ '))
+      } else if (facets) {
+        strips_formula <- as.formula(c('~', paste(strips_formula, collapse = ' + ')))
+      }
+    }
+
     if (is.null(fun) || fun %in% c('identity', 'event')) {
       scale_labels <- scales::percent
     } else {
@@ -208,6 +247,7 @@ autoplot.survfit <- function(object, fun = NULL,
   }
   p <- plot_confint(p, data = plot.data,
                     conf.int = conf.int, conf.int.geom = conf.int.geom,
+                    conf.int.group = 'group',
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
                     conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
@@ -217,7 +257,9 @@ autoplot.survfit <- function(object, fun = NULL,
                           alpha = censor.alpha, shape = censor.shape)
   }
   if (facets) {
-    p <- apply_facets(p, facets_formula, nrow = nrow, ncol = ncol, scales = scales)
+    p <- apply_facets(p, strips_formula, nrow = nrow, ncol = ncol, scales = scales)
+  } else if (grid) {
+    p <- apply_grid(p, strips_formula, scales = scales)
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)

@@ -193,6 +193,9 @@ test_that('fortify.survfit works for simple multistate data', {
                                    0.4093951852, 0.1414622252, 0.0701582989, 0),
                          event = c(1, 2, 'any', 1, 1, 1, 1, 2, 2, 2, 2, 'any', 'any' , 'any', 'any'))
   expect_equal(fortified, expected)
+
+  p <- ggplot2::autoplot(fit)
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.survfit.cox works for lung', {
