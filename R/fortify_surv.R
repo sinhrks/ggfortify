@@ -40,7 +40,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
   if (surv.connect) {
     base <- d[1, ]
     # cumhaz is for survfit.cox cases
-    base[intersect(c('time', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
+    base[intersect(c('time', 'n.event', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
     base[c('surv', 'upper', 'lower')] <- 1.0
     if ('strata' %in% colnames(d)) {
       strata <- levels(d$strata)

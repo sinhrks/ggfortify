@@ -36,7 +36,7 @@ test_that('fortify.survfit works for lung', {
                       'std.err', 'upper', 'lower', 'strata')
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(208, 9))
-  expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(3, 3), n.censor = c(0, 0),
+  expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(0, 0), n.censor = c(0, 0),
                          surv = c(1, 1), std.err = c(0, 0), upper = c(1, 1), lower = c(1, 1),
                          strata = factor(c('1', '2')))
   expect_equal(fortified[1:2, ], expected)
@@ -65,7 +65,7 @@ test_that('fortify.survfit works for lung', {
                       'std.err', 'upper', 'lower')
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(187, 8))
-  expected <- data.frame(time = 0, n.risk = 228, n.event = 1, n.censor = 0,
+  expected <- data.frame(time = 0, n.risk = 228, n.event = 0, n.censor = 0,
                          surv = 1, std.err = 0, upper = 1, lower = 1)
   expect_equal(fortified[1, ], expected)
 
@@ -102,7 +102,7 @@ test_that('fortify.survfit works for simple data', {
   fortified <- fortify(fit, surv.connect = TRUE)
   expected <- data.frame(time = c(0, 1, 2, 3, 4),
                         n.risk = c(44.000000000, 44.000000000, 20.652979445, 9.318098786, 6.634779353),
-                        n.event = c(20.347020555, 20.347020555, 9.334880659, 2.683319433, 3.634779353),
+                        n.event = c(0, 20.347020555, 9.334880659, 2.683319433, 3.634779353),
                         n.censor = c(0, 3, 2, 0, 3),
                         surv = c(1.0, 0.53756771467, 0.29459403255, 0.20976021500, 0.09484575319),
                         std.err = c(0, 0.1398238147, 0.2438966932, 0.3207623423, 0.5343228432),
@@ -133,7 +133,7 @@ test_that('fortify.survfit works for simple data', {
   fortified <- fortify(fit, surv.connect = TRUE)
   expected <- data.frame(time = c(0, 1, 2, 3, 4),
                          n.risk = c(8, 8, 6, 4, 2),
-                         n.event = c(1, 1, 1, 1, 1),
+                         n.event = c(0, 1, 1, 1, 1),
                          n.censor = c(0, 1, 1, 1, 1),
                          surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
                          std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
