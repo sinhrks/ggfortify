@@ -312,7 +312,6 @@ ggtsdiag <- function(object, gof.lag = 10,
   new('ggmultiplot', plots = list(p.std, p.acf, p.lb), nrow = nrow, ncol = ncol)
 }
 
-
 #' Plot seasonal subseries of time series, generalization of \code{stats::monthplot}
 #'
 #' @param data \code{stats::ts} instance
