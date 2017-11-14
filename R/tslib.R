@@ -333,7 +333,7 @@ gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
   }
 
   .lag <- function(k) {
-    result <- as.vector(lag(ts, k))
+    result <- as.vector(stats::lag(ts, k))
     result <- data.frame(Data = as.vector(ts),
                          Lag = result,
                          Lag_dist = rep(k, length(result)))
