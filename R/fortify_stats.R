@@ -216,8 +216,7 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' @param scale scaling parameter, disabled by 0
 #' @param x principal component number used in x axis
 #' @param y principal component number used in y axis
-#' @param variance_percentage show the variance explained by the
-#' principal component?
+#' @param variance_percentage show the variance explained by the principal component?
 #' @param ... other arguments passed to \code{ggbiplot}
 #' @inheritParams ggbiplot
 #' @inheritParams plot_label
