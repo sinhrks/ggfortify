@@ -69,18 +69,18 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     }
     if ('strata' %in% colnames(d)) {
       strata <- levels(d$strata)
-      base <- base[rep(seq_len(nrow(base)), length(strata)),]
+      base <- base[rep(seq_len(nrow(base)), length(strata)), ]
       rownames(base) <- NULL
       base$strata <- strata
       base$strata <- factor(base$strata, levels = base$strata)
     }
     if ('event' %in% colnames(d)) {
       events <- levels(d$event)
-      base <- base[rep(seq_len(nrow(base)), length(events)),]
+      base <- base[rep(seq_len(nrow(base)), length(events)), ]
       rownames(base) <- NULL
       base$event <- events
       base$event <- factor(base$event, levels = events)
-      base[base$event == 'any',c('pstate','upper','lower')] <- 1.0
+      base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
     }
     d <- rbind(base, d)
   }
@@ -104,7 +104,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     d$lower <- fun(d$lower)
   }
 
-  d <- d[,intersect(c(
+  d <- d[, intersect(c(
     'time', 'n.risk', 'n.event', 'n.censor',
     'surv', 'pstate',
     'std.err', 'upper', 'lower',
@@ -202,17 +202,17 @@ autoplot.survfit <- function(object, fun = NULL,
     }
 
     if (length(group) == 1) {
-      plot.data[,'group'] <- plot.data[,group]
+      plot.data[, 'group'] <- plot.data[, group]
     } else {
-      group.levels <- lapply(plot.data[,group], levels)
+      group.levels <- lapply(plot.data[, group], levels)
       group.levels <- apply(expand.grid(group.levels), 1, function(x) paste(x, collapse = ' '))
-      group.data <- factor(apply(plot.data[,group], 1, function(x) paste(x, collapse = ' ')), levels = group.levels)
-      plot.data[,'group'] <- group.data
+      group.data <- factor(apply(plot.data[, group], 1, function(x) paste(x, collapse = ' ')), levels = group.levels)
+      plot.data[, 'group'] <- group.data
     }
 
     strips_formula <- c(
-      if ('event' %in% colnames(plot.data)) 'event' else if(grid) '.',
-      if ('strata' %in% colnames(plot.data)) 'strata' else if(grid) '.')
+      if ('event' %in% colnames(plot.data)) 'event' else if (grid) '.',
+      if ('strata' %in% colnames(plot.data)) 'strata' else if (grid) '.')
     if (strip_swap) strips_formula <- rev(strips_formula)
     if (!is.null(strips_formula)) {
       if (grid) {
