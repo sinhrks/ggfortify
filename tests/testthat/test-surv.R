@@ -173,7 +173,7 @@ test_that('fortify.survfit works for simple multistate data', {
   fortified <- fortify(fit, surv.connect = T)
   expected <- data.frame(time = c(0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
                          n.risk = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 9, 6, 3),
-                         n.event = c(1, 1, 1, 1, 2, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0),
+                         n.event = c(0, 0, 0, 1, 2, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0),
                          n.censor = c(0, 0, 0, 1, 0, 2, 0, 1, 0, 2, 0, 1, 0, 2, 0),
                          pstate = c(0, 0, 1,
                                     0.0833333333, 0.2685185185, 0.2685185185, 0.4228395062,

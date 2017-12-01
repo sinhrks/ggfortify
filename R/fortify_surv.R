@@ -61,7 +61,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
   if (surv.connect) {
     base <- d[1, ]
     # cumhaz is for survfit.cox cases
-    base[intersect(c('time', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
+    base[intersect(c('time', 'n.event', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
     if ('pstate' %in% colnames(d)) {
       base[c('pstate', 'upper', 'lower')] <- 0
     } else {
