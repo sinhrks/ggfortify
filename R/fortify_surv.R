@@ -134,6 +134,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #' @param censor.alpha alpha for censors
 #' @param censor.shape shape for censors
 #' @inheritParams apply_facets
+#' @param grid Logical flag indicating whether to draw grid
 #' @inheritParams apply_grid
 #' @param strip_swap swap facet or grid strips
 #' @inheritParams post_autoplot

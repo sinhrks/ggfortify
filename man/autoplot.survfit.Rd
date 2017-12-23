@@ -12,9 +12,10 @@
   conf.int.linetype = "none", conf.int.fill = "#000000",
   conf.int.alpha = 0.3, censor = TRUE, censor.colour = NULL,
   censor.size = 3, censor.alpha = NULL, censor.shape = "+",
-  facets = FALSE, nrow = NULL, ncol = 1, scales = "free_y",
-  xlim = c(NA, NA), ylim = c(NA, NA), log = "", main = NULL,
-  xlab = NULL, ylab = NULL, asp = NULL, ...)
+  facets = FALSE, nrow = NULL, ncol = 1, grid = FALSE,
+  strip_swap = FALSE, scales = "free_y", xlim = c(NA, NA), ylim = c(NA,
+  NA), log = "", main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+  ...)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}
@@ -62,6 +63,10 @@
 \item{nrow}{Number of facet/subplot rows}
 
 \item{ncol}{Number of facet/subplot columns}
+
+\item{grid}{Logical flag indicating whether to draw grid}
+
+\item{strip_swap}{swap facet or grid strips}
 
 \item{scales}{Scale value passed to \code{ggplot2}}
 
