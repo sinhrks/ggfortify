@@ -6,6 +6,7 @@
 #' @param upper column name for upper confidence interval
 #' @param conf.int Logical flag indicating whether to plot confidence intervals
 #' @param conf.int.geom geometric string for confidence interval. 'line' or 'step'
+#' @param conf.int.group name of grouping variable for confidence intervals
 #' @param conf.int.colour line colour for confidence intervals
 #' @param conf.int.linetype line type for confidence intervals
 #' @param conf.int.fill fill colour for confidence intervals
@@ -17,6 +18,7 @@
 #' ggfortify:::plot_confint(p, data = d)
 plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
                           conf.int = TRUE, conf.int.geom = 'line',
+                          conf.int.group = NULL,
                           conf.int.colour = '#0000FF', conf.int.linetype = 'none',
                           conf.int.fill = '#000000', conf.int.alpha = 0.3) {
 
@@ -43,13 +45,16 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
   if (conf.int) {
     if (!is.null(conf.int.fill)) {
       p <- p + geom_factory(ribbon_func, data, ymin = lower, ymax = upper,
+                           group = conf.int.group,
                            fill = conf.int.fill, alpha = conf.int.alpha, na.rm = TRUE)
     }
     if (conf.int.linetype != 'none') {
       p <- p + geom_factory(line_func, data, y = lower,
+                            group = conf.int.group,
                             colour = conf.int.colour, linetype = conf.int.linetype,
                             na.rm = TRUE)
       p <- p + geom_factory(line_func, data, y = upper,
+                     group = conf.int.group,
                      colour = conf.int.colour, linetype = conf.int.linetype,
                      na.rm = TRUE)
     }
@@ -134,6 +139,20 @@ apply_facets <- function(p, formula, facets = TRUE, nrow = NULL, ncol = 1,
     }
     p <- p + ggplot2::facet_wrap(formula, scales = scales,
                                  nrow = nrow, ncol = ncol)
+  }
+  return(p)
+}
+
+
+#' Apply grid to to \code{ggplot2::ggplot}
+#'
+#' @param p \code{ggplot2::ggplot} instance
+#' @param formula \code{stats::formula} instance
+#' @param scales Scale value passed to \code{ggplot2}
+#' @param ... other arguments passed to methods
+apply_grid <- function(p, formula, scales = 'free_y', ...) {
+  if (!is.null(formula) & deparse(formula) != '. ~ .') {
+    p <- p + ggplot2::facet_grid(formula, scales = scales)
   }
   return(p)
 }
