@@ -100,6 +100,7 @@ This covers following classes:
 - ``stats::ts``
 - ``survival::survfit``
 - ``survival::survfit.cox``
+- ``survival::survfitms``
 - ``strucchange::breakpoints``
 - ``strucchange::breakpointsfull``
 - ``timeSeries::timeSeries``
