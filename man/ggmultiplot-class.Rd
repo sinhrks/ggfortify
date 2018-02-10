@@ -4,6 +4,7 @@
 \name{ggmultiplot-class}
 \alias{ggmultiplot-class}
 \alias{length,ggmultiplot-method}
+\alias{[,ggmultiplot,ANY,ANY-method}
 \alias{[,ggmultiplot-method}
 \alias{[[,ggmultiplot-method}
 \alias{[<-,ggmultiplot-method}
@@ -12,7 +13,7 @@
 \usage{
 \S4method{length}{ggmultiplot}(x)
 
-\S4method{[}{ggmultiplot}(x, i, j, ..., drop = TRUE)
+\S4method{[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \S4method{[[}{ggmultiplot}(x, i, j, ..., drop)
 

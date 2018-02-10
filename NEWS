@@ -1,8 +1,14 @@
 ggfortify master
 ---------------------
 
+* TBA
+
+ggfortify 0.4.2
+---------------------
+
 * Removed `gglagplot` in favor of `forecast::gglagplot`.
 * Added support of `survival::survfitms`, thanks to @yoursdearboy.
+* Temporarily dropped support for `xts` and `timeSeries` objects. We will try fix them in the next release.
 
 ggfortify 0.4.1
 ---------------------
