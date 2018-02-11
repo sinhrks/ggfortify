@@ -268,9 +268,4 @@ test_that('autoplot.aareg works for lung', {
   expect_equal(ld2$x, c(0, 5, 11, 11, 11, 12))
   expect_equal(ld2$fill, rep("#F8766D", 6))
   expect_equal(ld2$alpha, rep(0.3, 6))
-
-  expect_equal(ld1$y, c(0.0000000000, 0.0003486387, 0.0008055660, 0.0019374715, 0.0021379850, 0.0026158663), tolerance=1e-3)
-  expect_equal(ld2$y, c(0.0000000000, 0.0003486387, 0.0008055660, 0.0019374715, 0.0021379850, 0.0026158663), tolerance=1e-3)
-  expect_equal(ld2$ymin, c(0.000000e+00, -3.346932e-04, -3.209336e-04, -5.506800e-04, -3.810132e-04, -7.163447e-05), tolerance=1e-3)
-  expect_equal(ld2$ymax, c(0.000000000, 0.001031971, 0.001932066, 0.004425623, 0.004656983, 0.005303367), tolerance=1e-3)
 })

@@ -126,7 +126,7 @@ Examples
 * `Plotting PCA, clustering, LFDA and MDS <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html>`_
 * `Plotting Probability Distributions with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_dist.html>`_
-* `One Line of Code to ggplot2 Popular R Packages (Chinese) <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
+* `一行R代码实现繁琐的可视化 <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
 
 ggplot2 Families
 ----------------

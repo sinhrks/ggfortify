@@ -2,11 +2,11 @@ Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
 Version: 0.4.2
-Date: 2017-02-15
+Date: 2018-02-10
 Authors@R: c(
-  person("Masaaki", "Horikoshi", role = c("aut", "cre"),
+  person("Masaaki", "Horikoshi", role = c("aut"),
          email = "sinhrks@gmail.com"),
-  person("Yuan", "Tang", role = c("aut", "cph"),
+  person("Yuan", "Tang", role = c("aut", "cre"),
          email = "terrytangyuan@gmail.com"),
   person("Austin", "Dickey", role = c("ctb")),
   person("Matthias", "Grenié", role = c("ctb")),
@@ -14,7 +14,7 @@ Authors@R: c(
   person("Luciano", "Selzer", role = c("ctb")),
   person("Dario", "Strbenac", role = c("ctb"))
   )
-Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
+Maintainer: Yuan Tang <terrytangyuan@gmail.com>
 URL: https://github.com/sinhrks/ggfortify
 BugReports: https://github.com/sinhrks/ggfortify/issues
 Encoding: UTF-8

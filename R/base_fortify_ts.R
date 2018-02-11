@@ -121,6 +121,7 @@ fortify.irts <- fortify.ts
 #' @return ggplot
 #' @aliases autoplot.xts autoplot.timeSeries autoplot.irts autoplot.stl autoplot.decomposed.ts
 #' @examples
+#' \dontrun{
 #' data(Canada, package = 'vars')
 #' autoplot(AirPassengers)
 #' autoplot(UKgas, ts.geom = 'bar')
@@ -135,6 +136,7 @@ fortify.irts <- fortify.ts
 #'
 #' autoplot(stats::stl(UKgas, s.window = 'periodic'))
 #' autoplot(stats::decompose(UKgas))
+#' }
 #' @export
 autoplot.ts <- function(object, columns = NULL, group = NULL,
                         is.date = NULL, index.name = 'Index',
