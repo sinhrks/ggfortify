@@ -10,9 +10,10 @@ Authors@R: c(
          email = "terrytangyuan@gmail.com"),
   person("Austin", "Dickey", role = c("ctb")),
   person("Matthias", "Grenié", role = c("ctb")),
-  person("Ryan", "Thompson", "C.", role = c("ctb")),
+  person("Ryan", "Thompson", role = c("ctb")),
   person("Luciano", "Selzer", role = c("ctb")),
-  person("Dario", "Strbenac", role = c("ctb"))
+  person("Dario", "Strbenac", role = c("ctb")),
+  person("Kirill", "Voronin", role = c("ctb"))
   )
 Maintainer: Yuan Tang <terrytangyuan@gmail.com>
 URL: https://github.com/sinhrks/ggfortify
