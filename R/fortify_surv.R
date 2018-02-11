@@ -223,7 +223,7 @@ autoplot.survfit <- function(object, fun = NULL,
       }
     }
 
-    if (is.null(fun) || fun %in% c('identity', 'event')) {
+    if (is.null(fun) || identical(fun, 'identity') || identical(fun, 'event')) {
       scale_labels <- scales::percent
     } else {
       scale_labels <- ggplot2::waiver()
