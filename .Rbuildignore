@@ -4,3 +4,4 @@
 ^README\.rst$
 ^vignettes/rsconnect/.*$
 ^\.httr-oauth$
+^cran-comments\.md$

@@ -6,7 +6,7 @@ Date: 2018-02-10
 Authors@R: c(
   person("Masaaki", "Horikoshi", role = c("aut"),
          email = "sinhrks@gmail.com"),
-  person("Yuan", "Tang", role = c("aut", "cre", "cph"),
+  person("Yuan", "Tang", role = c("aut", "cre"),
          email = "terrytangyuan@gmail.com"),
   person("Austin", "Dickey", role = c("ctb")),
   person("Matthias", "Grenié", role = c("ctb")),
