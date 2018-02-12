@@ -1,6 +1,7 @@
 context("Code is high quality and lint free")
 test_that("Code Lint", {
   skip_on_cran()
+  skip_on_travis()
 
   skip_if_not_installed("lintr")
 

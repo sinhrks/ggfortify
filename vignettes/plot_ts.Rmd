@@ -46,7 +46,7 @@ Also, `autoplot` can handle other time-series-likes. Supported packages are:
 * `timeSeries::timSeries`
 * `tseries::irts`
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval = FALSE}
 library(xts)
 autoplot(as.xts(AirPassengers), ts.colour = 'green')
 
@@ -265,12 +265,6 @@ ggcpgram(arima.sim(list(ar = c(0.7, -0.5)), n = 50))
 ```{r, message = FALSE, fig.width = 5, fig.height = 5}
 library(forecast)
 ggtsdiag(auto.arima(AirPassengers))
-```
-
-`gglagplot` is for `lag.plot`.
-
-```{r, message = FALSE, fig.width = 4, fig.height = 4}
-gglagplot(AirPassengers, lags = 4)
 ```
 
 `ggfreqplot` is a genelarized `month.plot`. You can pass `freq` if you want, otherwise time-series's frequency will be used.

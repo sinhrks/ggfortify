@@ -5,13 +5,11 @@
     :target: https://coveralls.io/github/sinhrks/ggfortify?branch=master
 .. image:: http://www.r-pkg.org/badges/version/ggfortify
     :target: https://cran.r-project.org/web/packages/ggfortify/index.html
-.. image:: http://cranlogs.r-pkg.org/badges/ggfortify
-    :target: http://cran.rstudio.com/package=ggfortify
 
 ggfortify
 =========
 
-Define ``fortify`` and ``autoplot`` functions to allow ``ggplot2`` to handle some popular R packages.
+This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our R Journal paper for more details on the architecture: `Yuan Tang, Masaaki Horikoshi, and Wenxuan Li (2016). ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages. The R Journal, 8.2, 478-489. <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_
 
 **Note**: For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attribute names. Such functions are marked as "(inference)".
 
@@ -29,10 +27,14 @@ Installation
 
 Reference/Citation
 ------------
-If you use this package, please cite our paper to appear in R Journal soon.
 
-`Yuan Tang, Masaaki Horikoshi, and Wenxuan Li. "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages." The R Journal 8.2 (2016): 478-489. <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_
+To cite ggfortify in publications, please use (available via ``citation("ggfortify")``):
 
+  Yuan Tang, Masaaki Horikoshi, and Wenxuan Li (2016). ggfortify: Unified Interface to Visualize
+  Statistical Result of Popular R Packages. The R Journal, 8.2, 478-489.
+
+  Masaaki Horikoshi and Yuan Tang (2016). ggfortify: Data Visualization Tools for Statistical
+  Analysis Results. https://CRAN.R-project.org/package=ggfortify
 
 Coverage
 -----------
@@ -98,6 +100,7 @@ This covers following classes:
 - ``stats::ts``
 - ``survival::survfit``
 - ``survival::survfit.cox``
+- ``survival::survfitms``
 - ``strucchange::breakpoints``
 - ``strucchange::breakpointsfull``
 - ``timeSeries::timeSeries``
@@ -111,7 +114,6 @@ Helper Functions
 
 - ``ggdistribution`` to plot PDF/CDF
 - ``ggcpgram`` to plot ``cpgram``
-- ``gglagplot`` to plot ``lag.plot``
 - ``ggtsdiag`` to plot ``tsdiag``
 - ``ggfreqplot`` to generalize ``monthplot``
 
@@ -124,7 +126,7 @@ Examples
 * `Plotting PCA, clustering, LFDA and MDS <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html>`_
 * `Plotting Survival Curves using ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html>`_
 * `Plotting Probability Distributions with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_dist.html>`_
-* `One Line of Code to ggplot2 Popular R Packages (Chinese) <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
+* `一行R代码实现繁琐的可视化 <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
 
 ggplot2 Families
 ----------------

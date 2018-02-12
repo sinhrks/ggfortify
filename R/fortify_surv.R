@@ -19,17 +19,38 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
                   n.risk = model$n.risk,
                   n.event = model$n.event,
                   n.censor = model$n.censor,
-                  surv = model$surv,
                   std.err = model$std.err,
                   upper = model$upper,
                   lower = model$lower)
 
   if (is(model, 'survfit.cox')) {
-    d <- cbind_wraps(d, data.frame(cumhaz = model$cumhaz))
+    d <- cbind_wraps(d, data.frame(surv = model$surv, cumhaz = model$cumhaz))
   } else if (is(model, 'survfit')) {
+    if (is(model, 'survfitms')) {
+      d <- cbind_wraps(d, data.frame(pstate = model$pstate))
+
+      varying.names <- c('n.risk', 'n.event', 'pstate', 'std.err', 'upper', 'lower')
+      varying.i <- lapply(varying.names, function(x) which(startsWith(colnames(d), x)))
+      d <- reshape(d, varying = varying.i, v.names = varying.names, timevar = NULL, direction = 'long')
+      d <- subset(d, select = -c(id))
+      rownames(d) <- NULL
+
+      if (length(model$states) > 1) {
+        ev.names <- model$states
+        ev.names[ev.names == ''] <- 'any'
+        ev <- factor(rep(ev.names, each = length(model$time)), levels = ev.names)
+        d <- cbind_wraps(d, data.frame(event = ev))
+      }
+    } else {
+      d <- cbind_wraps(d, data.frame(surv = model$surv))
+    }
+
     if ('strata' %in% names(model)) {
       groupIDs <- gsub(".*=", '', names(model$strata))
       groupIDs <- factor(rep(groupIDs, model$strata), levels = groupIDs)
+      if ('states' %in% names(model)) {
+        groupIDs <- rep(groupIDs, length(model$states))
+      }
       d <- cbind_wraps(d, data.frame(strata = groupIDs))
     }
   } else {
@@ -40,13 +61,26 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
   if (surv.connect) {
     base <- d[1, ]
     # cumhaz is for survfit.cox cases
-    base[intersect(c('time', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
-    base[c('surv', 'upper', 'lower')] <- 1.0
+    base[intersect(c('time', 'n.event', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
+    if ('pstate' %in% colnames(d)) {
+      base[c('pstate', 'upper', 'lower')] <- 0
+    } else {
+      base[c('surv', 'upper', 'lower')] <- 1.0
+    }
     if ('strata' %in% colnames(d)) {
       strata <- levels(d$strata)
-      base <- as.data.frame(sapply(base, rep.int, times = length(strata)))
+      base <- base[rep(seq_len(nrow(base)), length(strata)), ]
+      rownames(base) <- NULL
       base$strata <- strata
       base$strata <- factor(base$strata, levels = base$strata)
+    }
+    if ('event' %in% colnames(d)) {
+      events <- levels(d$event)
+      base <- base[rep(seq_len(nrow(base)), length(events)), ]
+      rownames(base) <- NULL
+      base$event <- events
+      base$event <- factor(base$event, levels = events)
+      base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
     }
     d <- rbind(base, d)
   }
@@ -69,6 +103,15 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     d$upper <- fun(d$upper)
     d$lower <- fun(d$lower)
   }
+
+  d <- d[, intersect(c(
+    'time', 'n.risk', 'n.event', 'n.censor',
+    'surv', 'pstate',
+    'std.err', 'upper', 'lower',
+    'strata', 'event',
+    'cumhaz'
+  ), colnames(d))]
+
   post_fortify(d)
 }
 
@@ -91,6 +134,9 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #' @param censor.alpha alpha for censors
 #' @param censor.shape shape for censors
 #' @inheritParams apply_facets
+#' @param grid Logical flag indicating whether to draw grid
+#' @inheritParams apply_grid
+#' @param strip_swap swap facet or grid strips
 #' @inheritParams post_autoplot
 #' @param ... other arguments passed to methods
 #' @return ggplot
@@ -114,7 +160,9 @@ autoplot.survfit <- function(object, fun = NULL,
                              conf.int.fill = '#000000', conf.int.alpha = 0.3,
                              censor = TRUE, censor.colour = NULL, censor.size = 3,
                              censor.alpha = NULL, censor.shape = '+',
-                             facets = FALSE, nrow = NULL, ncol = 1, scales = 'free_y',
+                             facets = FALSE, nrow = NULL, ncol = 1,
+                             grid = FALSE, strip_swap = FALSE,
+                             scales = 'free_y',
                              xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
@@ -123,7 +171,7 @@ autoplot.survfit <- function(object, fun = NULL,
     # for autoplot.aareg, object must be a data.frame
     plot.data <- object
     mapping <- aes_string(x = 'time', y = 'value')
-    facets_formula <- ~ variable
+    strips_formula <- ~ variable
     if (is.null(surv.colour)) {
       surv.colour <- 'variable'
     }
@@ -131,16 +179,51 @@ autoplot.survfit <- function(object, fun = NULL,
     scale_labels <- ggplot2::waiver()
   } else {
     plot.data <- fortify(object, surv.connect = surv.connect, fun = fun)
-    mapping <- aes_string(x = 'time', y = 'surv')
+
+    if (is_derived_from(object, 'survfitms')) {
+      mapping <- aes_string(x = 'time', y = 'pstate')
+    } else {
+      mapping <- aes_string(x = 'time', y = 'surv')
+    }
+
+    group <- c()
+
     if ('strata' %in% colnames(plot.data)) {
-      facets_formula <- ~ strata
+      group <- c(group, 'strata')
       if (is.null(surv.colour)) {
         surv.colour <- 'strata'
       }
-    } else {
-      facets_formula <- NULL
     }
-    if (is.null(fun) || fun %in% c('identity', 'event')) {
+
+    if ('event' %in% colnames(plot.data)) {
+      group <- c(group, 'event')
+      if (is.null(surv.linetype)) {
+        surv.linetype <- 'event'
+      }
+    }
+
+    if (length(group) == 1) {
+      plot.data[, 'group'] <- plot.data[, group]
+    } else {
+      group.levels <- lapply(plot.data[, group], levels)
+      group.levels <- apply(expand.grid(group.levels), 1, function(x) paste(x, collapse = ' '))
+      group.data <- factor(apply(plot.data[, group], 1, function(x) paste(x, collapse = ' ')), levels = group.levels)
+      plot.data[, 'group'] <- group.data
+    }
+
+    strips_formula <- c(
+      if ('event' %in% colnames(plot.data)) 'event' else if (grid) '.',
+      if ('strata' %in% colnames(plot.data)) 'strata' else if (grid) '.')
+    if (strip_swap) strips_formula <- rev(strips_formula)
+    if (!is.null(strips_formula)) {
+      if (grid) {
+        strips_formula <- as.formula(paste(strips_formula, collapse = ' ~ '))
+      } else if (facets) {
+        strips_formula <- as.formula(c('~', paste(strips_formula, collapse = ' + ')))
+      }
+    }
+
+    if (is.null(fun) || identical(fun, 'identity') || identical(fun, 'event')) {
       scale_labels <- scales::percent
     } else {
       scale_labels <- ggplot2::waiver()
@@ -165,6 +248,7 @@ autoplot.survfit <- function(object, fun = NULL,
   }
   p <- plot_confint(p, data = plot.data,
                     conf.int = conf.int, conf.int.geom = conf.int.geom,
+                    conf.int.group = 'group',
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
                     conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
@@ -174,7 +258,9 @@ autoplot.survfit <- function(object, fun = NULL,
                           alpha = censor.alpha, shape = censor.shape)
   }
   if (facets) {
-    p <- apply_facets(p, facets_formula, nrow = nrow, ncol = ncol, scales = scales)
+    p <- apply_facets(p, strips_formula, nrow = nrow, ncol = ncol, scales = scales)
+  } else if (grid) {
+    p <- apply_grid(p, strips_formula, scales = scales)
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)

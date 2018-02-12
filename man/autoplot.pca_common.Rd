@@ -8,7 +8,7 @@
 \title{Autoplot PCA-likes}
 \usage{
 \method{autoplot}{pca_common}(object, data = NULL, scale = 1, x = 1,
-  y = 2, ...)
+  y = 2, variance_percentage = TRUE, ...)
 }
 \arguments{
 \item{object}{PCA-like instance}
@@ -20,6 +20,8 @@
 \item{x}{principal component number used in x axis}
 
 \item{y}{principal component number used in y axis}
+
+\item{variance_percentage}{show the variance explained by the principal component?}
 
 \item{...}{other arguments passed to \code{ggbiplot}}
 }
@@ -41,6 +43,12 @@ autoplot(stats::princomp(iris[-5]))
 autoplot(stats::princomp(iris[-5]), data = iris)
 autoplot(stats::princomp(iris[-5]), data = iris, colour = 'Species')
 autoplot(stats::princomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+
+#Plot PC 2 and 3
+autoplot(stats::princomp(iris[-5]), x = 2, y = 3)
+
+#Don't show the variance explained
+autoplot(stats::princomp(iris[-5]), variance_percentage = FALSE)
 
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 autoplot(d.factanal)

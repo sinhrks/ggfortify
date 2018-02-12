@@ -312,44 +312,6 @@ ggtsdiag <- function(object, gof.lag = 10,
   new('ggmultiplot', plots = list(p.std, p.acf, p.lb), nrow = nrow, ncol = ncol)
 }
 
-#' Plot time series against lagged versions of themselves
-#'
-#' @param ts \code{stats::ts} instance
-#' @param lags Number of lag plots desired
-#' @param nrow Number of plot rows
-#' @param ncol Number of plot columns
-#' @return ggplot
-#' @examples
-#' gglagplot(AirPassengers)
-#' @export
-gglagplot <- function(ts, lags = 1, nrow = NULL, ncol = NULL) {
-  is.univariate(ts)
-
-  nser <- 1
-  tot.lags <- nser * lags
-
-  if (is.null(nrow) && is.null(ncol)) {
-    nrow <- ceiling(sqrt(tot.lags))
-  }
-
-  .lag <- function(k) {
-    result <- as.vector(lag(ts, k))
-    result <- data.frame(Data = as.vector(ts),
-                         Lag = result,
-                         Lag_dist = rep(k, length(result)))
-    result
-  }
-  lag.df <- dplyr::bind_rows(lapply(seq(1:lags), .lag))
-  lag.df <- dplyr::filter_(lag.df, '!is.na(Lag)')
-  lag.df$Lag_dist <- as.factor(lag.df$Lag_dist)
-
-  mapping <- ggplot2::aes_string(x = 'Lag', y = 'Data')
-  p <- ggplot2::ggplot(data = lag.df, mapping = mapping) +
-    ggplot2::geom_point() +
-    ggplot2::facet_wrap(~ Lag_dist, nrow = nrow, ncol = ncol)
-  p
-}
-
 #' Plot seasonal subseries of time series, generalization of \code{stats::monthplot}
 #'
 #' @param data \code{stats::ts} instance

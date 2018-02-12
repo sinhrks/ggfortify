@@ -96,6 +96,7 @@ ggplot
 Autoplot time-series-like
 }
 \examples{
+\dontrun{
 data(Canada, package = 'vars')
 autoplot(AirPassengers)
 autoplot(UKgas, ts.geom = 'bar')
@@ -110,4 +111,5 @@ autoplot(its)
 
 autoplot(stats::stl(UKgas, s.window = 'periodic'))
 autoplot(stats::decompose(UKgas))
+}
 }

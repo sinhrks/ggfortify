@@ -30,13 +30,16 @@ test_that('fortify.survfit works for lung', {
   p <- ggplot2::autoplot(d.survfit, fun = 'event')
   expect_true(is(p, 'ggplot'))
 
+  p <- ggplot2::autoplot(d.survfit, fun = function(x) { 1-x })
+  expect_true(is(p, 'ggplot'))
+
   fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
   expect_true(is.data.frame(fortified))
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'strata')
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(208, 9))
-  expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(3, 3), n.censor = c(0, 0),
+  expected <- data.frame(time = c(0, 0), n.risk = c(138, 138), n.event = c(0, 0), n.censor = c(0, 0),
                          surv = c(1, 1), std.err = c(0, 0), upper = c(1, 1), lower = c(1, 1),
                          strata = factor(c('1', '2')))
   expect_equal(fortified[1:2, ], expected)
@@ -65,7 +68,7 @@ test_that('fortify.survfit works for lung', {
                       'std.err', 'upper', 'lower')
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(187, 8))
-  expected <- data.frame(time = 0, n.risk = 228, n.event = 1, n.censor = 0,
+  expected <- data.frame(time = 0, n.risk = 228, n.event = 0, n.censor = 0,
                          surv = 1, std.err = 0, upper = 1, lower = 1)
   expect_equal(fortified[1, ], expected)
 
@@ -102,7 +105,7 @@ test_that('fortify.survfit works for simple data', {
   fortified <- fortify(fit, surv.connect = TRUE)
   expected <- data.frame(time = c(0, 1, 2, 3, 4),
                         n.risk = c(44.000000000, 44.000000000, 20.652979445, 9.318098786, 6.634779353),
-                        n.event = c(20.347020555, 20.347020555, 9.334880659, 2.683319433, 3.634779353),
+                        n.event = c(0, 20.347020555, 9.334880659, 2.683319433, 3.634779353),
                         n.censor = c(0, 3, 2, 0, 3),
                         surv = c(1.0, 0.53756771467, 0.29459403255, 0.20976021500, 0.09484575319),
                         std.err = c(0, 0.1398238147, 0.2438966932, 0.3207623423, 0.5343228432),
@@ -133,13 +136,65 @@ test_that('fortify.survfit works for simple data', {
   fortified <- fortify(fit, surv.connect = TRUE)
   expected <- data.frame(time = c(0, 1, 2, 3, 4),
                          n.risk = c(8, 8, 6, 4, 2),
-                         n.event = c(1, 1, 1, 1, 1),
+                         n.event = c(0, 1, 1, 1, 1),
                          n.censor = c(0, 1, 1, 1, 1),
                          surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
                          std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
                          upper = c(1, 1, 1, 1, 1),
                          lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
                          cumhaz = c(0, 0.1250000000, 0.2916666667, 0.5416666667, 1.0416666667))
+  expect_equal(fortified, expected)
+
+  p <- ggplot2::autoplot(fit)
+  expect_true(is(p, 'ggplot'))
+})
+
+test_that('fortify.survfit works for simple multistate data', {
+  tdata <- data.frame(time = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+                      status = c(1, 0, 2, 1, 1, 2, 0, 0, 2, 1, 2, 2))
+  fit <- survfit(Surv(time, status, type='mstate') ~1, data = tdata)
+  fortified <- fortify(fit)
+  expected <- data.frame(time = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+                         n.risk = c(0, 0, 0, 0, 0, 0, 0, 0, 12, 9, 6, 3),
+                         n.event = c(1, 2, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0),
+                         n.censor = c(1, 0, 2, 0, 1, 0, 2, 0, 1, 0, 2, 0),
+                         pstate = c(0.0833333333, 0.2685185185, 0.2685185185, 0.4228395062,
+                                    0.0833333333, 0.1759259259, 0.2685185185, 0.5771604938,
+                                    0.8333333333, 0.5555555556, 0.462962963, 0),
+                         std.err = c(0.0797855923, 0.1330476048, 0.1330476048, 0.168969541,
+                                     0.0797855923, 0.1133287776, 0.1330476048, 0.168969541,
+                                     0.1075828707, 0.1493010694, 0.150413493, 0),
+                         upper = c(0.2270990263, 0.4878701326, 0.4878701326, 0.6748387524,
+                                   0.2270990263, 0.3706288452, 0.4878701326, 0.806789985,
+                                   0.9529672345, 0.7699217553, 0.689830238, 0),
+                         lower = c(0, 0, 0, 0,
+                                   0, 0, 0, 0.0746170792,
+                                   0.4093951852, 0.1414622252, 0.0701582989, 0),
+                         event = c(1, 1, 1, 1, 2, 2, 2, 2, 'any', 'any', 'any', 'any'))
+  expect_equal(fortified, expected)
+
+  fortified <- fortify(fit, surv.connect = T)
+  expected <- data.frame(time = c(0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+                         n.risk = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 9, 6, 3),
+                         n.event = c(0, 0, 0, 1, 2, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0),
+                         n.censor = c(0, 0, 0, 1, 0, 2, 0, 1, 0, 2, 0, 1, 0, 2, 0),
+                         pstate = c(0, 0, 1,
+                                    0.0833333333, 0.2685185185, 0.2685185185, 0.4228395062,
+                                    0.0833333333, 0.1759259259, 0.2685185185, 0.5771604938,
+                                    0.8333333333, 0.5555555556, 0.462962963, 0),
+                         std.err = c(0, 0, 0,
+                                     0.0797855923, 0.1330476048, 0.1330476048, 0.168969541,
+                                     0.0797855923, 0.1133287776, 0.1330476048, 0.168969541,
+                                     0.1075828707, 0.1493010694, 0.150413493, 0),
+                         upper = c(0, 0, 1,
+                                   0.2270990263, 0.4878701326, 0.4878701326, 0.6748387524,
+                                   0.2270990263, 0.3706288452, 0.4878701326, 0.806789985,
+                                   0.9529672345, 0.7699217553, 0.689830238, 0),
+                         lower = c(0, 0, 1,
+                                   0, 0, 0, 0,
+                                   0, 0, 0, 0.0746170792,
+                                   0.4093951852, 0.1414622252, 0.0701582989, 0),
+                         event = c(1, 2, 'any', 1, 1, 1, 1, 2, 2, 2, 2, 'any', 'any', 'any', 'any'))
   expect_equal(fortified, expected)
 
   p <- ggplot2::autoplot(fit)
@@ -216,9 +271,4 @@ test_that('autoplot.aareg works for lung', {
   expect_equal(ld2$x, c(0, 5, 11, 11, 11, 12))
   expect_equal(ld2$fill, rep("#F8766D", 6))
   expect_equal(ld2$alpha, rep(0.3, 6))
-
-  expect_equal(ld1$y, c(0.0000000000, 0.0003486387, 0.0008055660, 0.0019374715, 0.0021379850, 0.0026158663), tolerance=1e-3)
-  expect_equal(ld2$y, c(0.0000000000, 0.0003486387, 0.0008055660, 0.0019374715, 0.0021379850, 0.0026158663), tolerance=1e-3)
-  expect_equal(ld2$ymin, c(0.000000e+00, -3.346932e-04, -3.209336e-04, -5.506800e-04, -3.810132e-04, -7.163447e-05), tolerance=1e-3)
-  expect_equal(ld2$ymax, c(0.000000000, 0.001031971, 0.001932066, 0.004425623, 0.004656983, 0.005303367), tolerance=1e-3)
 })
