@@ -2,6 +2,7 @@ ggfortify master
 ---------------------
 
 * Fixed incorrect y-axis label for plotting `cv.glmnet` objects.
+* Removed incorrect y-axis label with `scales::percent` for `ggdistribution`.
 
 ggfortify 0.4.2
 ---------------------
