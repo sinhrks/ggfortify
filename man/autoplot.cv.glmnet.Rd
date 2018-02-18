@@ -10,7 +10,7 @@
   label.family = NULL, label.fontface = NULL, label.lineheight = NULL,
   label.hjust = NULL, label.vjust = NULL, label.repel = FALSE,
   xlim = c(NA, NA), ylim = c(NA, NA), log = "", main = NULL,
-  xlab = NULL, ylab = "Mean-Squared Error", asp = NULL, ...)
+  xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{glmnet::cv.glmnet} instance}

@@ -128,7 +128,7 @@ autoplot.cv.glmnet <- function (object,
                                 label.repel = FALSE,
                                 xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                                 main = NULL, xlab = NULL,
-                                ylab = 'Mean-Squared Error', asp = NULL,
+                                ylab = NULL, asp = NULL,
                                 ...) {
 
   if (is.null(xlab)) {
@@ -136,6 +136,10 @@ autoplot.cv.glmnet <- function (object,
     if (sign.lambda < 0) {
       xlab <- paste("-", xlab, sep = "")
     }
+  }
+  if (is.null(ylab)) {
+    type_measure <- object$name
+    ylab <- type_measure[[names(type_measure)[[1]]]]
   }
   plot.data <- ggplot2::fortify(object)
   plot.data$lambda <- sign.lambda * plot.data$lambda

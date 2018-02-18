@@ -1,7 +1,7 @@
 ggfortify master
 ---------------------
 
-* TBA
+* Fixed incorrect y-axis label for plotting `cv.glmnet` objects.
 
 ggfortify 0.4.2
 ---------------------

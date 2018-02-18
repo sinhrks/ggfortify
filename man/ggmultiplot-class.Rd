@@ -4,20 +4,21 @@
 \name{ggmultiplot-class}
 \alias{ggmultiplot-class}
 \alias{length,ggmultiplot-method}
-\alias{[,ggmultiplot,ANY,ANY-method}
+\alias{[,ggmultiplot,ANY,ANY,ANY-method}
 \alias{[,ggmultiplot-method}
 \alias{[[,ggmultiplot-method}
+\alias{[<-,ggmultiplot,ANY,ANY,ANY-method}
 \alias{[<-,ggmultiplot-method}
 \alias{[[<-,ggmultiplot-method}
 \title{An S4 class to hold multiple \code{ggplot2::ggplot} instances}
 \usage{
 \S4method{length}{ggmultiplot}(x)
 
-\S4method{[}{ggmultiplot,ANY,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{ggmultiplot,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \S4method{[[}{ggmultiplot}(x, i, j, ..., drop)
 
-\S4method{[}{ggmultiplot}(x, i, j, ...) <- value
+\S4method{[}{ggmultiplot,ANY,ANY,ANY}(x, i, j, ...) <- value
 
 \S4method{[[}{ggmultiplot}(x, i, j, ...) <- value
 }
