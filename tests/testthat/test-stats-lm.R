@@ -527,6 +527,19 @@ test_that('autoplot.lm works with factors', {
   expect_equal(p[[5]]$mapping$x, as.name('.hat'))
 })
 
+test_that('autoplot.lm works with characters', {
+  iris <- transform(iris, Species_chr = as.character(Species), stringsAsFactors = FALSE)
+  lm.out <- aov(Petal.Length ~ Species_chr, data = iris)
+  p <- autoplot(lm.out, which = 5)
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(p[[1]]$mapping$x, as.name('.nf'))
+
+  lm.out <- aov(Petal.Length ~ Species_chr, data = iris)
+  p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
+  expect_true(is(p, 'ggmultiplot'))
+  expect_equal(p[[5]]$mapping$x, as.name('.nf'))
+})
+
 test_that('autoplot.lm can be used in ggsave()', {
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)
   ggsave(p, file='temp.png', h = 6, w = 6, units = "in", dpi = 300)
