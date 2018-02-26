@@ -85,7 +85,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
     fs <- dplyr::select_if(plot.data,
                     function(x) is.character(x) | is.factor(x))
-    fs <- dplyr::select(fs, -.label)
+    fs[[".label"]] <- NULL
     if (is_const_lev & ncol(fs) > 0){
       plot.data$.nf <- stringr::str_wrap(interaction(fs, sep = ":"), width = 10)
     }
