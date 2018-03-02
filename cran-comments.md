@@ -5,15 +5,8 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 note
 
-```
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: ‘Yuan Tang <terrytangyuan@gmail.com>’
+## Notes
 
-New submission
-
-Package was archived on CRAN
-```
-
-The package was archived after R team's email reminders to the original maintainer of this package and a couple of packages that depend on ggfortify were archived because of that. The original maintainer is not availabe during this time so note that this release also changes the maintainer. 
+This is a minor release of the package with a couple of bug fixes.

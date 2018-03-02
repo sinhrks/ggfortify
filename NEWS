@@ -1,8 +1,11 @@
-ggfortify master
+ggfortify 0.4.3
 ---------------------
 
 * Fixed incorrect y-axis label for plotting `cv.glmnet` objects.
 * Removed incorrect y-axis label with `scales::percent` for `ggdistribution`.
+* Added support of `autoplot.lm()` for character variables, thanks to @lselzer.
+* Fixed tests for `forecast::ets()` to be compatible with newer version of `forecast` package, thanks to @robjhyndman.
+* Added support for arbitrary functions in `autoplot.survfit()`, thanks to @jonathon-love.
 
 ggfortify 0.4.2
 ---------------------
