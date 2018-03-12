@@ -9,7 +9,7 @@
 ggfortify
 =========
 
-This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our R Journal paper for more details on the architecture: `Yuan Tang, Masaaki Horikoshi, and Wenxuan Li (2016). ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages. The R Journal, 8.2, 478-489. <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_
+This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our `R Journal paper <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_ for more details on the architecture. There's also `autoplotly package <https://github.com/terrytangyuan/autoplotly>`_ that could automatically generate interactive visualizations with `plotly.js <https://plot.ly/>`_ style.
 
 **Note**: For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attribute names. Such functions are marked as "(inference)".
 
