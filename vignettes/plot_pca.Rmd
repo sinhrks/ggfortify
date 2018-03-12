@@ -107,8 +107,6 @@ autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 
 ``{lfda}`` package supports a set of Local Fisher Discriminant Analysis methods. You can use ``autoplot`` to plot the analysis result as the same manner as PCA.
 
-Thanks to the kind contribution of [Yuan Tang](https://github.com/terrytangyuan), the author of ``{lfda}`` package. 
-
 ```{r, message = FALSE}
 library(lfda)
 
