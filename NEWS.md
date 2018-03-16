@@ -1,5 +1,8 @@
-ggfortify 0.4.3
----------------------
+## ggfortify 0.4.4 (Development)
+
+* TBA
+
+## ggfortify 0.4.3 (CRAN)
 
 * Fixed incorrect y-axis label for plotting `cv.glmnet` objects.
 * Removed incorrect y-axis label with `scales::percent` for `ggdistribution`.
@@ -7,35 +10,24 @@ ggfortify 0.4.3
 * Fixed tests for `forecast::ets()` to be compatible with newer version of `forecast` package, thanks to @robjhyndman.
 * Added support for arbitrary functions in `autoplot.survfit()`, thanks to @jonathon-love.
 
-ggfortify 0.4.2
----------------------
+## ggfortify 0.4.2
 
 * Removed `gglagplot` in favor of `forecast::gglagplot`.
 * Added support of `survival::survfitms`, thanks to @yoursdearboy.
 * Temporarily dropped support for `xts` and `timeSeries` objects. We will try fix them in the next release.
 
-ggfortify 0.4.1
----------------------
+## ggfortify 0.4.1
 
-* Enhancement
+* Survival plot now displays legend as it is (without prefix / reordering), thanks to @DarioS.
 
-  * Survival plot now displays legend as it is (without prefix / reordering), thanks to @DarioS.
+## ggfortify 0.4.0
 
-ggfortify 0.4.0
----------------------
+* Support `ROCR::performance`, thanks to @austin3dickey
+* PCA allows to choose the components to plot, thanks to @lselzer.
+* LM autoplot fails when a formula contains polynomial regression.
+* GLM autoplot fails when a family function is binomial.
 
-* Enhancement
-
-  * Support `ROCR::performance`, thanks to @austin3dickey
-  * PCA allows to choose the components to plot, thanks to @lselzer.
-
-* Bug fix
-
-  * LM autoplot fails when a formula contains polynomial regression.
-  * GLM autoplot fails when a family function is binomial.
-
-ggfortify 0.3.0
----------------------
+## ggfortify 0.3.0
 
 * Our white paper is on R Journal. Type `citation("ggfortify")` for more info.
 * Support `splines::basis`.
@@ -43,8 +35,7 @@ ggfortify 0.3.0
   and `RasterStack`.
 * `ggmultiplot` objects can now be saved correctly via `ggplot2::ggsave()`.
 
-ggfortify 0.2.0
----------------------
+## ggfortify 0.2.0
 
 * Components of `prcomp` and `princomp` are now scaled. Scaling can be disabled by
   specifying `scale = 0`.
@@ -54,8 +45,7 @@ ggfortify 0.2.0
 * Support `ggbiplot`.
 * More compatible with recent version of `forecast`, `dplyr`, `tidyr`, etc.
 
-ggfortify 0.1.0
-----------------
+# ggfortify 0.1.0
 
 * Compatible with ggplot2 v2.0.0.
 * Support `glmnet`.
@@ -63,7 +53,6 @@ ggfortify 0.1.0
 * Support `ggmultiplot` extraction getter / setter.
 * Support `ggmultiplot` arithmetics.
 
-ggfortify 0.0.4
-----------------
+# ggfortify 0.0.4
 
 * First release on CRAN.
