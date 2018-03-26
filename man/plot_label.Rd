@@ -8,7 +8,7 @@ plot_label(p, data, x = NULL, y = NULL, label = TRUE,
   label.label = "rownames", label.colour = NULL, label.alpha = NULL,
   label.size = NULL, label.angle = NULL, label.family = NULL,
   label.fontface = NULL, label.lineheight = NULL, label.hjust = NULL,
-  label.vjust = NULL, label.repel = FALSE)
+  label.vjust = NULL, label.repel = FALSE, label.show.legend = NA)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instance}
@@ -42,6 +42,8 @@ plot_label(p, data, x = NULL, y = NULL, label = TRUE,
 \item{label.vjust}{Vertical adjustment for text labels}
 
 \item{label.repel}{Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting}
+
+\item{label.show.legend}{Logical value indicating whether to show the legend of the text labels}
 }
 \value{
 ggplot

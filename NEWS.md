@@ -1,6 +1,7 @@
 ## ggfortify 0.4.4 (Development)
 
-* TBA
+* Added `label.show.legend` argument to hide/show the legend of text labels.
+* Fixed CRAN MKL build.
 
 ## ggfortify 0.4.3 (CRAN)
 

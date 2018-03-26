@@ -16,10 +16,10 @@ ggbiplot(plot.data, loadings.data = NULL, colour = NULL, size = NULL,
   loadings.label.angle = NULL, loadings.label.family = NULL,
   loadings.label.fontface = NULL, loadings.label.lineheight = NULL,
   loadings.label.hjust = NULL, loadings.label.vjust = NULL,
-  loadings.label.repel = FALSE, frame = FALSE, frame.type = NULL,
-  frame.colour = colour, frame.level = 0.95, frame.alpha = 0.2,
-  xlim = c(NA, NA), ylim = c(NA, NA), log = "", main = NULL,
-  xlab = NULL, ylab = NULL, asp = NULL, ...)
+  loadings.label.repel = FALSE, label.show.legend = NA, frame = FALSE,
+  frame.type = NULL, frame.colour = colour, frame.level = 0.95,
+  frame.alpha = 0.2, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+  main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
 }
 \arguments{
 \item{plot.data}{data.frame}
@@ -89,6 +89,8 @@ ggbiplot(plot.data, loadings.data = NULL, colour = NULL, size = NULL,
 \item{loadings.label.vjust}{Vertical adjustment for loadings text labels}
 
 \item{loadings.label.repel}{Logical flag indicating whether to use \code{ggrepel} automatically}
+
+\item{label.show.legend}{Logical value indicating whether to show the legend of text labels}
 
 \item{frame}{Logical value whether to draw outliner convex / ellipse}
 
