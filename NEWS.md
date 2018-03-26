@@ -1,6 +1,7 @@
 ## ggfortify 0.4.4 (Development)
 
 * Added `label.show.legend` argument to hide/show the legend of text labels.
+* Added `ggfortify::coverage()` utility function to obtain the list of supported classes.
 * Fixed CRAN MKL build.
 
 ## ggfortify 0.4.3 (CRAN)

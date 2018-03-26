@@ -22,7 +22,7 @@ Installation
 
 - Install the development version from Github: ::
 
-    library(devtools)
+    if (!require("devtools")) install.packages("devtools")
     install_github('sinhrks/ggfortify')
 
 Reference/Citation
@@ -39,7 +39,7 @@ To cite ggfortify in publications, please use (available via ``citation("ggforti
 Coverage
 -----------
 
-This covers following classes:
+The following classes are supported (you can obtain this list via ``ggfortify::coverage()``):
 
 - ``base::matrix``
 - ``base::table`` (supports ``fortify`` only)

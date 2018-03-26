@@ -118,3 +118,10 @@ post_fortify <- function(data, klass = NULL) {
   }
   as.data.frame(data)
 }
+
+#' Utility function to get the supported classes for `autoplot()`.
+#'
+#' @export
+coverage <- function() {
+  gsub("autoplot.", "", grep("autoplot.", ls(getNamespace("ggfortify")), value = TRUE))
+}
