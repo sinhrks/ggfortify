@@ -23,7 +23,7 @@
 
 \item{variance_percentage}{show the variance explained by the principal component?}
 
-\item{...}{other arguments passed to \code{ggbiplot}}
+\item{...}{other arguments passed to [ggbiplot()]}
 }
 \description{
 Autoplot PCA-likes
