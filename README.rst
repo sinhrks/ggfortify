@@ -22,7 +22,7 @@ Installation
 
 - Install the development version from Github: ::
 
-    library(devtools)
+    if (!require("devtools")) install.packages("devtools")
     install_github('sinhrks/ggfortify')
 
 Reference/Citation
