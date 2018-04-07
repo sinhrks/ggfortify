@@ -352,8 +352,8 @@ get.layout <- function(nplots, ncol, nrow) {
   }
 
   if (nrow * ncol < nplots) {
-    message <- paste('nrow * ncol (', nrow, '*', ncol,
-                     ')must be larger than number of plots', nplots)
+    message <- paste('nrow * ncol (', nrow, ' * ', ncol,
+                     ') must be larger than number of plots', nplots)
     stop(message)
   }
 
@@ -368,14 +368,15 @@ get.layout <- function(nplots, ncol, nrow) {
 #' @importFrom gridExtra grid.arrange
 setMethod('print', 'ggmultiplot',
   function(x) {
-    nplots <- length(x@plots)
-    if (nplots == 1) {
-      print(x@plots[[1]])
-    } else {
-      layout <- get.layout(nplots, x@ncol, x@nrow)
-      args <- c(x@plots, list(ncol = ncol(layout), nrow = nrow(layout)))
-      do.call(gridExtra::grid.arrange, args)
+    ncols <- x@ncol
+    nrows <- x@nrow
+    if (ncols == 0 && nrows == 0) {
+      layout <- get.layout(length(x@plots), x@ncol, x@nrow)
+      ncols <- ncol(layout)
+      nrows <- nrow(layout)
     }
+    args <- c(x@plots, list(ncol = ncols, nrow = nrows))
+    do.call(gridExtra::grid.arrange, args)
 })
 
 #' Generic show function for \code{ggmultiplot}

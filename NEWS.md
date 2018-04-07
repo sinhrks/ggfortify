@@ -2,6 +2,7 @@
 
 * Added `label.show.legend` argument to hide/show the legend of text labels.
 * Fixed CRAN MKL build.
+* `ggmultiplot` arranges a single `ggplot` instance with layout that can now be specified by the user.
 
 ## ggfortify 0.4.3 (CRAN)
 
