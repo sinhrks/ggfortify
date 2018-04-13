@@ -14,7 +14,7 @@ If you open a GitHub issue, here is our policy:
 ### System information
 - **OS Platform and Distribution (e.g., Linux Ubuntu 16.04)**:
 - **ggfortify installed from (e.g. CRAN or Github)**:
-- **ggfortify version **:
+- **ggfortify version**:
 - **Exact command to reproduce**:
 
 ### Describe the problem

@@ -12,7 +12,7 @@ Make sure you understand how the code base is organized before you contribute an
 For example, if you want to implement visualizations for `some_r_class` objects, you need to implement the following:
 
 * `fortify.some_r_class()` to extract neccessary information into a `data.frame` object
-* `autoplot.some_r_class()` that takes what the `data.frame` `fortify.some_r_class()` returns and plot those information using `ggplot2` syntax
+* `autoplot.some_r_class()` that takes what `fortify.some_r_class()` returns and create suitable visualization using `ggplot2` syntax
 
 
 ### Contribution guidelines and standards
@@ -33,7 +33,7 @@ coding style described in this document.
 #### Unit tests and Continuous integration
 
 * Run `devtools::test("pathToPackage")` to execute all the unit tests locally.
-* Unit tests are triggered automatically on [Travis CI](https://travis-ci.org) so you should be able to locate your test result [here](https://travis-ci.org/sinhrks/ggfortify/pull_requests).
+* Unit tests are triggered automatically on [Travis CI](https://travis-ci.org) so you should be able to locate your test result [here](https://travis-ci.org/sinhrks/ggfortify/pull_requests). 
 
 #### Coding style
 
