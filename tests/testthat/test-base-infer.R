@@ -44,6 +44,7 @@ test_that('fortify works for MDS-likes', {
 })
 
 test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
+  skip_if_not_installed("dlm")
   nile_fortified <- fortify(Nile)
 
   library(dlm)
@@ -90,6 +91,7 @@ test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
 })
 
 test_that('infer, fortify and autoplot works for KFAS::signal', {
+  skip_if_not_installed("KFAS")
   nile_fortified <- fortify(Nile)
 
   library(KFAS)

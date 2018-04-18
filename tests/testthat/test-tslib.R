@@ -59,6 +59,7 @@ test_that('confint.acf works for AirPassengers', {
 })
 
 test_that('fitted/residuals works for Arima/ar', {
+  skip_if_not_installed("forecast")
   m <- stats::ar(UKgas)
   resid <- residuals(m)
   testthat::expect_false(is.null(resid))

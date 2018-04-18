@@ -1,5 +1,5 @@
 test_that('test fortify_map', {
-
+  skip_if_not_installed("mapdata")
   library(mapdata)
 
   jp <- map('japan', plot = FALSE)
@@ -24,7 +24,7 @@ test_that('test fortify_map', {
 })
 
 test_that('test autoplot.map', {
-
+  skip_if_not_installed("mapdata")
   library(mapdata)
 
   jp <- map('japan', plot = FALSE)

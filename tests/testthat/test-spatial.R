@@ -2,7 +2,7 @@
 # http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html
 
 test_that('test fortify.SpatialPoints', {
-
+  skip_if_not_installed("sp")
   library(sp)
 
   x <- c(1, 2, 3, 4)
@@ -81,7 +81,7 @@ test_that('test fortify.SpatialPoints', {
 })
 
 test_that('test fortify.Line, Lines', {
-
+  skip_if_not_installed("sp")
   library(sp)
 
   x1 <- c(1, 2, 3, 4)
@@ -169,7 +169,7 @@ test_that('test fortify.Line, Lines', {
 })
 
 test_that('test fortify.Polygon, Polygons', {
-
+  skip_if_not_installed("sp")
   library(sp)
 
   x1 <- c(1, 1, 2, 2, 1)
@@ -238,7 +238,7 @@ test_that('test fortify.Polygon, Polygons', {
 })
 
 test_that('test autoplot.SpatialPoints', {
-
+  skip_if_not_installed("sp")
   library(sp)
 
   x <- c(1, 2, 3, 4)
@@ -271,7 +271,7 @@ test_that('test autoplot.SpatialPoints', {
 })
 
 test_that('test autoplot.Line, Lines', {
-
+  skip_if_not_installed("sp")
   library(sp)
 
   x1 <- c(1, 2, 3, 4)
@@ -384,7 +384,7 @@ test_that('test autoplot.Line, Lines', {
 })
 
 test_that('test autoplot.Polygon, Polygons', {
-
+  skip_if_not_installed("sp")
   library(sp)
 
   x1 <- c(1, 1, 2, 2, 1)

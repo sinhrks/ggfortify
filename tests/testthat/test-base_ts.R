@@ -1,6 +1,8 @@
 context('test base_ts')
 
 test_that('fortify.ts works for timeserieses', {
+  skip_if_not_installed("zoo")
+  skip_if_not_installed("vars")
   data(Canada, package = 'vars')
   library(zoo)
 
@@ -9,15 +11,4 @@ test_that('fortify.ts works for timeserieses', {
 
   p <- autoplot(UKgas)
   expect_true(is(p, 'ggplot'))
-
-  ## TODO: CRAN temporary fix
-  # p <- autoplot(xts::as.xts(UKgas))
-  # expect_true(is(p, 'ggplot'))
-  #
-  # p <- autoplot(xts::as.xts(Canada))
-  # expect_true(is(p, 'ggplot'))
-  #
-  # p <- autoplot(timeSeries::as.timeSeries(Canada))
-  # expect_true(is(p, 'ggplot'))
-
 })

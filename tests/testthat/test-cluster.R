@@ -22,6 +22,7 @@ test_that('fortify.kmeans works for iris', {
 })
 
 test_that('fortify.partition works for iris', {
+  skip_if_not_installed("cluster")
   df <- iris[-5]
   # clara
   fortified <- ggplot2::fortify(cluster::clara(df, 3))
@@ -73,6 +74,7 @@ test_that('fortify.partition works for iris', {
 })
 
 test_that('fortify.partition works for USArrests', {
+  skip_if_not_installed("cluster")
   df <- USArrests
 
   # clara

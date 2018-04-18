@@ -1,9 +1,10 @@
-library(timeSeries)
-library(vars)
-
 context('test timeseries')
 
 test_that('fortify.ts works for AirPassengers', {
+  skip_if_not_installed("timeSeries")
+  skip_if_not_installed("vars")
+  library(timeSeries)
+  library(vars)
   fortified <- ggplot2::fortify(AirPassengers)
   expect_equal(is.data.frame(fortified), TRUE)
 
@@ -19,6 +20,10 @@ test_that('fortify.ts works for AirPassengers', {
 })
 
 test_that('fortify.ts works for Canada', {
+  skip_if_not_installed("timeSeries")
+  skip_if_not_installed("vars")
+  library(timeSeries)
+  library(vars)
   data(Canada, package = 'vars')
   fortified <- ggplot2::fortify(Canada)
   expect_equal(is.data.frame(fortified), TRUE)
@@ -36,6 +41,10 @@ test_that('fortify.ts works for Canada', {
 })
 
 test_that('fortify.timeSeries works for AirPassengers', {
+  skip_if_not_installed("timeSeries")
+  skip_if_not_installed("vars")
+  library(timeSeries)
+  library(vars)
   fortified <- ggplot2::fortify(timeSeries::as.timeSeries(AirPassengers))
   expect_equal(is.data.frame(fortified), TRUE)
 
@@ -51,6 +60,10 @@ test_that('fortify.timeSeries works for AirPassengers', {
 })
 
 test_that('fortify.timeSeries works for Canada', {
+  skip_if_not_installed("timeSeries")
+  skip_if_not_installed("vars")
+  library(timeSeries)
+  library(vars)
   data(Canada, package = 'vars')
   fortified <- ggplot2::fortify(timeSeries::as.timeSeries(Canada))
   expect_equal(is.data.frame(fortified), TRUE)
@@ -66,70 +79,11 @@ test_that('fortify.timeSeries works for Canada', {
   expect_equal(names(fortified), expected_names)
 })
 
-
-test_that('fortify.forecast works for AirPassengers', {
-  d.arima <- forecast::auto.arima(AirPassengers)
-  d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
-
-  fortified <- fortify(d.forecast)
-  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
-                      'Lo 95', 'Hi 95')
-  expect_equal(names(fortified), expected_names)
-  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
-  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
-  p <- autoplot(d.forecast)
-  expect_true(inherits(p, 'ggplot'))
-
-  fortified <- fortify(d.forecast, ts.connect = TRUE)
-  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
-                      'Lo 95', 'Hi 95')
-  expect_equal(names(fortified), expected_names)
-  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
-  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
-  p <- autoplot(d.forecast, ts.connect = TRUE)
-  expect_true(inherits(p, 'ggplot'))
-})
-
-
-test_that('fortify.ets works for AirPassengers', {
-  d.arima <- forecast::auto.arima(AirPassengers)
-  d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
-
-  fortified <- fortify(d.forecast)
-  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
-                      'Lo 95', 'Hi 95')
-  expect_equal(names(fortified), expected_names)
-  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
-  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
-  p <- autoplot(d.forecast)
-  expect_true(inherits(p, 'ggplot'))
-
-  fortified <- fortify(d.forecast, ts.connect = TRUE)
-  expected_names <- c('Index', 'Data', 'Fitted', 'Point Forecast',
-                      'Lo 95', 'Hi 95')
-  expect_equal(names(fortified), expected_names)
-  expect_equal(fortified$Index[1], as.Date('1949-01-01'))
-  expect_equal(fortified$Index[194], as.Date('1965-02-01'))
-  p <- autoplot(d.forecast, ts.connect = TRUE)
-  expect_true(inherits(p, 'ggplot'))
-})
-
-## TODO: CRAN temporary fix
-# test_that('autoplot works for xts', {
-#   library(vars)
-#   data(Canada)
-#
-#   library(xts)
-#   p <- autoplot(as.xts(AirPassengers), ts.colour = 'green')
-#   expect_equal(length(p$layers), 1)
-#   expect_true(is(p$layers[[1]]$geom, 'GeomLine'))
-#
-#   p <- autoplot(as.xts(Canada), ts.colour = 'green')
-#   expect_equal(length(p$layers), 1)
-#   expect_true(is(p$layers[[1]]$geom, 'GeomLine'))
-# })
-
 test_that('autoplot ts works for univariate timeseries', {
+  skip_if_not_installed("timeSeries")
+  skip_if_not_installed("vars")
+  library(timeSeries)
+  library(vars)
   sts <- as.ts(c(1, 2, 3, 4))
 
   p <- autoplot(sts)
@@ -171,6 +125,10 @@ test_that('autoplot ts works for univariate timeseries', {
 })
 
 test_that('autoplot ts works for multivariate timeseries', {
+  skip_if_not_installed("timeSeries")
+  skip_if_not_installed("vars")
+  library(timeSeries)
+  library(vars)
   df <- data.frame(A=c(1, 2, 3, 4), B=c(5, 6, 7, 8))
   mts <- as.ts(df)
 

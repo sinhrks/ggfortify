@@ -1,6 +1,7 @@
 context('test glmnet')
 
 test_that('fortify.glmnet works for Orange', {
+  skip_if_not_installed("glmnet")
   library(glmnet)
   set.seed(1)
   res <- glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3]))
@@ -37,6 +38,7 @@ test_that('fortify.glmnet works for Orange', {
 
 
 test_that('fortify.glmnet works for QuickStartExample', {
+  skip_if_not_installed("glmnet")
   library(glmnet)
   set.seed(1)
   data(QuickStartExample)

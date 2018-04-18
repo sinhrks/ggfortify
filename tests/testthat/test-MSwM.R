@@ -1,6 +1,7 @@
 context('test MSwM')
 
 test_that('fortify.MSwM works for sample data', {
+  skip_if_not_installed("MSwM")
   library(MSwM)
   d <- data.frame(Data = c(rnorm(50, mean = -10), rnorm(50, mean = 10)),
                   exog = cos(seq(-pi / 2, pi / 2, length.out = 100)))

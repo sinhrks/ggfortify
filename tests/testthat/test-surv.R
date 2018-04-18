@@ -1,8 +1,8 @@
-library(survival)
-
 context('test survival')
 
 test_that('fortify.survfit works for lung', {
+  skip_if_not_installed("survival")
+  library(survival)
   d.survfit <- survival::survfit(Surv(time, status) ~ sex, data = lung)
   fortified <- ggplot2::fortify(d.survfit)
   expect_equal(is.data.frame(fortified), TRUE)
@@ -77,6 +77,8 @@ test_that('fortify.survfit works for lung', {
 })
 
 test_that('autoplot retains order of alphabetically unordered factor levels', {
+  skip_if_not_installed("survival")
+  library(survival)
   livingStatus <- sample(0:1, 20, replace = TRUE)
   followupTime <- rpois(20, 300)
   samplesGroups <- factor(sample(c("Low", "High"), 20, replace = TRUE), levels = c("Low", "High"))
@@ -87,6 +89,8 @@ test_that('autoplot retains order of alphabetically unordered factor levels', {
 })
 
 test_that('fortify.survfit works for simple data', {
+  skip_if_not_installed("survival")
+  library(survival)
   tdata <- data.frame(time = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
                       status = rep(c(1, 0, 2), 4),
                       n = c(12, 3, 2, 6, 2, 4, 2, 0, 2, 3, 3, 5))
@@ -150,6 +154,8 @@ test_that('fortify.survfit works for simple data', {
 })
 
 test_that('fortify.survfit works for simple multistate data', {
+  skip_if_not_installed("survival")
+  library(survival)
   tdata <- data.frame(time = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
                       status = c(1, 0, 2, 1, 1, 2, 0, 0, 2, 1, 2, 2))
   fit <- survfit(Surv(time, status, type='mstate') ~1, data = tdata)
@@ -170,6 +176,8 @@ test_that('fortify.survfit works for simple multistate data', {
 })
 
 test_that('fortify.survfit.cox works for lung', {
+  skip_if_not_installed("survival")
+  library(survival)
   d.coxph <- coxph(Surv(time, status) ~ sex, data = lung)
   fortified <- ggplot2::fortify(survfit(d.coxph))
 
@@ -183,6 +191,8 @@ test_that('fortify.survfit.cox works for lung', {
 })
 
 test_that('fortify.aareg works for lung', {
+  skip_if_not_installed("survival")
+  library(survival)
   fit <- aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1)
   fortified <- fortify(fit)
   expected <- apply(fit$coefficient, 2, cumsum)
@@ -221,6 +231,7 @@ test_that('fortify.aareg works for lung', {
 })
 
 test_that('autoplot.aareg works for lung', {
+  skip_if_not_installed("survival")
   library(survival)
   fit <- aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1)
   p <- autoplot(fit)

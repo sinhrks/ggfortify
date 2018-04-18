@@ -1,8 +1,8 @@
-library(vars)
-
 context('test vars')
 
 test_that('vars.varpred works for Canada', {
+  skip_if_not_installed("vars")
+  library(vars)
   data(Canada, package = 'vars')
   d.vselect <- vars::VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
   d.var <- vars::VAR(Canada, p = d.vselect, type = 'const')
@@ -39,6 +39,8 @@ test_that('vars.varpred works for Canada', {
 })
 
 test_that('autoplot works for Canada', {
+  skip_if_not_installed("vars")
+  library(vars)
   data(Canada, package = 'vars')
   d.vselect <- VARselect(Canada, lag.max = 5, type = 'const')$selection[1]
   d.var <- VAR(Canada, p = d.vselect, type = 'const')

@@ -1,5 +1,5 @@
 test_that('test fortify.RasterCommon', {
-
+  skip_if_not_installed("raster")
   library(raster)
 
   # RasterLayer object
@@ -100,7 +100,7 @@ test_that('test fortify.RasterCommon', {
 })
 
 test_that('test autoplot.RasterCommon', {
-
+  skip_if_not_installed("raster")
   library(raster)
 
   # RasterLayer object

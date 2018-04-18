@@ -1,7 +1,6 @@
 context('test ROCR performance')
 
 test_that('fortify.performance works for ROCR demo objects', {
-
   # Load demo objects for two different scenarios
   skip_if_not_installed("ROCR")
   library(ROCR)
