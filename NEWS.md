@@ -1,10 +1,10 @@
-## ggfortify 0.4.4 (Development)
+## ggfortify 0.4.4
 
 * Added `label.show.legend` argument to hide/show the legend of text labels.
-* Fixed CRAN MKL build.
 * `ggmultiplot` arranges a single `ggplot` instance with layout that can now be specified by the user.
+* Enhanced unit tests: 1) CRAN MKL build can pass; tests are skipped if the required packages are not installed; several test checks are more robust to upstream package changes.
 
-## ggfortify 0.4.3 (CRAN)
+## ggfortify 0.4.3
 
 * Fixed incorrect y-axis label for plotting `cv.glmnet` objects.
 * Removed incorrect y-axis label with `scales::percent` for `ggdistribution`.

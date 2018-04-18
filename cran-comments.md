@@ -9,4 +9,4 @@
 
 ## Notes
 
-This is a minor release of the package with a couple of bug fixes.
+This is a minor release of the package with a couple of fixes for CRAN check results.
