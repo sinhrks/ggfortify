@@ -1,4 +1,4 @@
-Please go to Stack Overflow for help and support:
+Please go to Stack Overflow for help and support with a [minimal reproducible example](https://stackoverflow.com/help/mcve):
 
 https://stackoverflow.com/questions/tagged/ggfortify
 
