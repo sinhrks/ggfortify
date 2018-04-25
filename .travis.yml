@@ -1,9 +1,9 @@
 language: r
 warnings_are_errors: true
 sudo: required
+r: devel
 
 r_binary_packages:
-  - devtools
   - dplyr
   - tidyr
   - ggplot2
