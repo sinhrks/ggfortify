@@ -1,7 +1,16 @@
 language: r
 warnings_are_errors: true
 sudo: required
-r: devel
+cache: packages
+r:
+  - 3.4
+  - release
+  - devel
+
+matrix:
+  allow_failures:
+    - r: release
+    - r: devel
 
 r_binary_packages:
   - dplyr
@@ -30,4 +39,4 @@ before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
 
 after_success:
-  - Rscript -e 'covr::coveralls()'
+  - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'covr::codecov()'
