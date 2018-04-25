@@ -2,14 +2,6 @@ language: r
 warnings_are_errors: true
 sudo: required
 
-env:
-  - PKG=DEV
-  - PKG=STD
-
-matrix:
-  allow_failures:
-    - env: PKG=DEV
-
 r_binary_packages:
   - dplyr
   - tidyr
@@ -17,7 +9,6 @@ r_binary_packages:
   - testthat
   - changepoint
   - dlm
-  # - fGarch
   - forecast
   - KFAS
   - knitr
@@ -31,23 +22,11 @@ r_binary_packages:
   - vars
   - xts
   - raster
-
-r_github_packages:
-  - jimhester/covr
+  - roxygen2
+  - covr
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
-  - if [[ "$PKG" == "DEV" ]]; then
-      Rscript -e 'install.packages("devtools")';
-      Rscript -e 'library(devtools);install_github("hadley/devtools")';
-      Rscript -e 'devtools::install_github("hadley/ggplot2")';
-      Rscript -e 'devtools::install_github("hadley/tidyr")';
-      Rscript -e 'devtools::install_github("hadley/dtplyr")';
-      Rscript -e 'devtools::install_github("hadley/dplyr")';
-      Rscript -e 'devtools::install_github("robjhyndman/forecast")';
-    fi
-  # install latest
-  - Rscript -e 'install.packages("roxygen2")';
 
 after_success:
   - Rscript -e 'covr::coveralls()'
