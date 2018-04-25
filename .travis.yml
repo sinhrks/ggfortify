@@ -1,6 +1,7 @@
 language: r
 warnings_are_errors: true
 sudo: required
+cache: packages
 r:
   - 3.4
   - release
