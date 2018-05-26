@@ -145,37 +145,37 @@ test_that('Check geom_factory works', {
   # Thus, capture the printed result and check equalities
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 'Species')
-  expected <- c("mapping: shape = Species ",
+  expected <- c("mapping: shape = ~Species ",
                 "geom_point: na.rm = FALSE",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 'Species', size = 10)
-  expected <- c("mapping: shape = Species ",
+  expected <- c("mapping: shape = ~Species ",
                 "geom_point: na.rm = FALSE",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 'Species',
                                      size = 'Sepal.Width')
-  expected <- c("mapping: shape = Species, size = Sepal.Width ",
+  expected <- c("mapping: shape = ~Species, size = ~Sepal.Width ",
                 "geom_point: na.rm = FALSE",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_point, iris, shape = 2,
                                      colour = 'Species', size = 'Sepal.Width')
-  expected <- c("mapping: colour = Species, size = Sepal.Width ",
+  expected <- c("mapping: colour = ~Species, size = ~Sepal.Width ",
                 "geom_point: na.rm = FALSE",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_line, iris)
   expected <- c("mapping:  ",
@@ -183,7 +183,7 @@ test_that('Check geom_factory works', {
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_line, iris, linetype = 'dashed')
   expected <- c("mapping:  ",
@@ -191,16 +191,16 @@ test_that('Check geom_factory works', {
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 
   result <- ggfortify:::geom_factory(geom_line, iris, linetype = 'dashed',
                                      colour = 'Species')
-  expected <- c("mapping: colour = Species ",
+  expected <- c("mapping: colour = ~Species ",
                 "geom_line: na.rm = FALSE",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
-  expect_equal(capture.output(print(result)), expected)
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(capture.output(print(result)), expected)
 })
 
 test_that('Check autoplot works for list of ggplot', {

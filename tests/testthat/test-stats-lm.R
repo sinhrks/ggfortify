@@ -516,32 +516,31 @@ test_that('autoplot.lm works with factors', {
   lm.out <- aov(Petal.Length ~ Species, data = iris)
   p <- autoplot(lm.out, which = 5)
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(p[[1]]$mapping$x, as.name('.nf'))
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(p[[1]]$mapping$x, rlang::quo(.nf))
 
   lm.out <- aov(Petal.Length ~ Species, data = iris)
   p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(p[[5]]$mapping$x, as.name('.nf'))
-})
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(p[[5]]$mapping$x, rlang::quo(.nf))
 
-test_that('autoplot.lm works with factors', {
   lm.out <- lm(Volume ~ Girth, data = trees)
   p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(p[[5]]$mapping$x, as.name('.hat'))
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(p[[5]]$mapping$x, rlang::quo(.hat))
 })
+
 
 test_that('autoplot.lm works with characters', {
   iris <- transform(iris, Species_chr = as.character(Species), stringsAsFactors = FALSE)
   lm.out <- aov(Petal.Length ~ Species_chr, data = iris)
   p <- autoplot(lm.out, which = 5)
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(p[[1]]$mapping$x, as.name('.nf'))
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(p[[1]]$mapping$x, rlang::quo(.nf))
 
   lm.out <- aov(Petal.Length ~ Species_chr, data = iris)
   p <- autoplot(lm.out, which = c(1, 2, 3, 4, 5, 6))
   expect_true(is(p, 'ggmultiplot'))
-  expect_equal(p[[5]]$mapping$x, as.name('.nf'))
+  if (utils::packageVersion("ggplot2") >= "2.3.0") expect_equal(p[[5]]$mapping$x, rlang::quo(.nf))
 })
 
 test_that('autoplot.lm can be used in ggsave()', {

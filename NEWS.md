@@ -1,3 +1,7 @@
+## ggfortify 0.4.5
+
+* Updated tests to work with ggplot2 v2.3.0.
+
 ## ggfortify 0.4.4
 
 * Added `label.show.legend` argument to hide/show the legend of text labels.
