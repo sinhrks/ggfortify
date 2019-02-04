@@ -253,7 +253,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   if (show[5L]) {
     if (is_const_lev & ncol(fs) > 0){
-      t5 <- 'Contanst Leverage:\nResiduals vs Factor Levels'
+      t5 <- 'Constant Leverage:\nResiduals vs Factor Levels'
       mapping <- ggplot2::aes_string(x = '.nf', y = '.stdresid')
 
       p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
