@@ -515,7 +515,8 @@ test_that('autoplot.prcomp plots the desired components', {
 
 test_that('autoplot.princomp plots the desired components', {
 
-  # fails on CRAN SPARC because components are inversed.
+  # fails on CRAN and Travis because components are inversed.
+  skip_on_travis()
   skip_on_cran()
 
   obj <- stats::princomp(iris[-5])
