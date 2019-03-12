@@ -2,7 +2,7 @@ Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
 Version: 0.4.6
-Date: 2018-05-26
+Date: 2019-03-12
 Authors@R: c(
   person("Masaaki", "Horikoshi", role = c("aut"),
          email = "sinhrks@gmail.com"),
@@ -67,4 +67,4 @@ Suggests:
     xts,
     zoo,
     lfda
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

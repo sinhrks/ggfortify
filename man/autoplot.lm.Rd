@@ -12,7 +12,8 @@
   label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
   label.repel = FALSE, label.n = 3, smooth.colour = "#0000FF",
   smooth.linetype = "solid", ad.colour = "#888888",
-  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = NULL, ...)
+  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = NULL,
+  ...)
 }
 \arguments{
 \item{object}{\code{stats::lm} instance}

@@ -4,8 +4,8 @@
 \alias{autoplot.list}
 \title{Autoplot list}
 \usage{
-\method{autoplot}{list}(object, data = NULL, nrow = NULL, ncol = NULL,
-  scales = "free_y", ...)
+\method{autoplot}{list}(object, data = NULL, nrow = NULL,
+  ncol = NULL, scales = "free_y", ...)
 }
 \arguments{
 \item{object}{\code{list} instance}

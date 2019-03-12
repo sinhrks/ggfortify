@@ -5,7 +5,8 @@
 \title{Autoplot \code{stats::spec}}
 \usage{
 \method{autoplot}{spec}(object, xlim = c(NA, NA), ylim = c(NA, NA),
-  log = "y", main = NULL, xlab = NULL, ylab = NULL, asp = NULL, ...)
+  log = "y", main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
+  ...)
 }
 \arguments{
 \item{object}{\code{stats::spec} instance}

@@ -5,11 +5,11 @@
 \title{Autoplot \code{forecast::forecast}}
 \usage{
 \method{autoplot}{forecast}(object, is.date = NULL, ts.connect = TRUE,
-  predict.geom = "line", predict.colour = "#0000FF", predict.size = NULL,
-  predict.linetype = NULL, predict.alpha = NULL, predict.fill = NULL,
-  predict.shape = NULL, conf.int = TRUE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "none", conf.int.fill = "#000000",
-  conf.int.alpha = 0.3, ...)
+  predict.geom = "line", predict.colour = "#0000FF",
+  predict.size = NULL, predict.linetype = NULL, predict.alpha = NULL,
+  predict.fill = NULL, predict.shape = NULL, conf.int = TRUE,
+  conf.int.colour = "#0000FF", conf.int.linetype = "none",
+  conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{object}{\code{forecast::forecast} instance}

@@ -12,12 +12,13 @@
 \method{autoplot}{ts}(object, columns = NULL, group = NULL,
   is.date = NULL, index.name = "Index", p = NULL, ts.scale = FALSE,
   stacked = FALSE, facets = TRUE, nrow = NULL, ncol = 1,
-  scales = "free_y", ts.geom = "line", ts.colour = NULL, ts.size = NULL,
-  ts.linetype = NULL, ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL,
-  geom = ts.geom, colour = ts.colour, size = ts.size,
-  linetype = ts.linetype, alpha = ts.alpha, fill = ts.fill,
-  shape = ts.shape, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = "", ylab = "", asp = NULL, ...)
+  scales = "free_y", ts.geom = "line", ts.colour = NULL,
+  ts.size = NULL, ts.linetype = NULL, ts.alpha = NULL,
+  ts.fill = NULL, ts.shape = NULL, geom = ts.geom,
+  colour = ts.colour, size = ts.size, linetype = ts.linetype,
+  alpha = ts.alpha, fill = ts.fill, shape = ts.shape, xlim = c(NA,
+  NA), ylim = c(NA, NA), log = "", main = NULL, xlab = "",
+  ylab = "", asp = NULL, ...)
 }
 \arguments{
 \item{object}{time-series-like instance}

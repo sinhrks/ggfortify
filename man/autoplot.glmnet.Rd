@@ -5,12 +5,12 @@
 \title{Autoplot \code{glmnet::glmnet}}
 \usage{
 \method{autoplot}{glmnet}(object, xvar = c("norm", "lambda", "dev"),
-  label.n = 7, label = TRUE, label.label = "Df", label.colour = NULL,
-  label.alpha = NULL, label.size = NULL, label.angle = NULL,
-  label.family = NULL, label.fontface = NULL, label.lineheight = NULL,
-  label.hjust = NULL, label.vjust = NULL, xlim = c(NA, NA), ylim = c(NA,
-  NA), log = "", main = NULL, xlab = NULL, ylab = "Coefficients",
-  asp = NULL, ...)
+  label.n = 7, label = TRUE, label.label = "Df",
+  label.colour = NULL, label.alpha = NULL, label.size = NULL,
+  label.angle = NULL, label.family = NULL, label.fontface = NULL,
+  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
+  xlim = c(NA, NA), ylim = c(NA, NA), log = "", main = NULL,
+  xlab = NULL, ylab = "Coefficients", asp = NULL, ...)
 }
 \arguments{
 \item{object}{\code{glmnet::glmnet} instance}

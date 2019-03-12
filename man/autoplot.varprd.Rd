@@ -5,11 +5,12 @@
 \title{Autoplot \code{vars::varprd}}
 \usage{
 \method{autoplot}{varprd}(object, is.date = NULL, ts.connect = TRUE,
-  scales = "free_y", predict.geom = "line", predict.colour = "#0000FF",
-  predict.size = NULL, predict.linetype = NULL, predict.alpha = NULL,
-  predict.fill = NULL, predict.shape = NULL, conf.int = TRUE,
-  conf.int.colour = "#0000FF", conf.int.linetype = "none",
-  conf.int.fill = "#000000", conf.int.alpha = 0.3, ...)
+  scales = "free_y", predict.geom = "line",
+  predict.colour = "#0000FF", predict.size = NULL,
+  predict.linetype = NULL, predict.alpha = NULL, predict.fill = NULL,
+  predict.shape = NULL, conf.int = TRUE, conf.int.colour = "#0000FF",
+  conf.int.linetype = "none", conf.int.fill = "#000000",
+  conf.int.alpha = 0.3, ...)
 }
 \arguments{
 \item{object}{\code{vars::varpred} instance}
