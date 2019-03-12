@@ -1,3 +1,7 @@
+## ggfortify 0.4.6
+
+* Fixed CRAN check results for `R-devel` regarding changes in the default method for generating from a discrete uniform distribution used in `sample()`.
+
 ## ggfortify 0.4.5
 
 * Updated tests to work with ggplot2 v2.3.0.
