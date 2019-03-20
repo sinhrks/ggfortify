@@ -1,6 +1,8 @@
 context('test base-infer')
 
 test_that('infer works for MDS-likes', {
+  skip_on_cran()
+  skip_on_travis()
   # MDS
   data(eurodist)
   expect_equal(infer(cmdscale(eurodist, eig = TRUE)), 'mds-like')
@@ -12,6 +14,8 @@ test_that('infer works for MDS-likes', {
 })
 
 test_that('fortify works for MDS-likes', {
+  skip_on_cran()
+  skip_on_travis()
   # MDS
   data(eurodist)
   fortified <- fortify(cmdscale(eurodist, eig = TRUE))
@@ -44,6 +48,8 @@ test_that('fortify works for MDS-likes', {
 })
 
 test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("dlm")
   nile_fortified <- fortify(Nile)
 
@@ -91,6 +97,8 @@ test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
 })
 
 test_that('infer, fortify and autoplot works for KFAS::signal', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("KFAS")
   nile_fortified <- fortify(Nile)
 

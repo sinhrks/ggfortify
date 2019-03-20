@@ -3,6 +3,8 @@ library(splines)
 context('test basis')
 
 test_that('fortify.basis and autoplot.basis work for ns and bs', {
+    skip_on_cran()
+    skip_on_travis()
     n <- 256
     df <- 6
     expected_num_rows <- (n+1) * df

@@ -4,6 +4,8 @@ context('test stats lm')
 expect_sorted_equal <- function(a, b) expect_equal(sort(a), sort(b))
 
 test_that('fortify.lm works for USArrests', {
+  skip_on_cran()
+  skip_on_travis()
   fortified <- ggplot2::fortify(lm(Murder ~ Assault + UrbanPop, data = USArrests))
   expect_equal(is.data.frame(fortified), TRUE)
 
@@ -22,6 +24,8 @@ test_that('fortify.lm works for USArrests', {
 })
 
 test_that('autoplot.lm can accept + operator', {
+  skip_on_cran()
+  skip_on_travis()
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5) + theme_bw()
   expect_true(is(p, 'ggmultiplot'))
   expect_equal(length(p@plots), 4)
@@ -33,6 +37,8 @@ test_that('autoplot.lm can accept + operator', {
 
 
 test_that('autoplot.lm works for USArrests', {
+  skip_on_cran()
+  skip_on_travis()
   lm.out <- lm(Murder ~ Assault + UrbanPop, data = USArrests)
   p <- autoplot(lm.out)
   expect_true(is(p, 'ggmultiplot'))
@@ -193,6 +199,8 @@ test_that('autoplot.lm works for USArrests', {
 })
 
 test_that('autoplot.lm works for binomial', {
+  skip_on_cran()
+  skip_on_travis()
   library(MASS)
   data(menarche)
   glm.out <- glm(cbind(Menarche, Total-Menarche) ~ Age, family=binomial(logit), data=menarche)
@@ -352,6 +360,8 @@ test_that('autoplot.lm works for binomial', {
 })
 
 test_that('autoplot.lm works for polynomial fit', {
+  skip_on_cran()
+  skip_on_travis()
   lm.out <- lm(mpg ~ poly(hp, 2, raw = TRUE), data = mtcars)
   p <- autoplot(lm.out)
   expect_true(is(p, 'ggmultiplot'))
@@ -513,6 +523,8 @@ test_that('autoplot.lm works for polynomial fit', {
 })
 
 test_that('autoplot.lm works with factors', {
+  skip_on_cran()
+  skip_on_travis()
   lm.out <- aov(Petal.Length ~ Species, data = iris)
   p <- autoplot(lm.out, which = 5)
   expect_true(is(p, 'ggmultiplot'))
@@ -531,6 +543,8 @@ test_that('autoplot.lm works with factors', {
 
 
 test_that('autoplot.lm works with characters', {
+  skip_on_cran()
+  skip_on_travis()
   iris <- transform(iris, Species_chr = as.character(Species), stringsAsFactors = FALSE)
   lm.out <- aov(Petal.Length ~ Species_chr, data = iris)
   p <- autoplot(lm.out, which = 5)
@@ -544,6 +558,8 @@ test_that('autoplot.lm works with characters', {
 })
 
 test_that('autoplot.lm can be used in ggsave()', {
+  skip_on_cran()
+  skip_on_travis()
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)
   ggsave(p, file='temp.png', h = 6, w = 6, units = "in", dpi = 300)
   expect_true(file.exists('temp.png'))

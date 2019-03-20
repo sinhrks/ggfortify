@@ -78,7 +78,7 @@ ggplot(df, aes(x= cluster, fill = cluster)) + geom_bar()
 
 ``autoplot`` may draw subplots in some classes. For exmple, ``autoplot.lm`` draws diagnostics plots as below.
 
-```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5, eval=FALSE}
 res <- lm(Volume ~ Girth, data = trees) 
 mp <- autoplot(res, ncol = 4)
 mp

@@ -1,6 +1,8 @@
 context('test cluster')
 
 test_that('fortify.kmeans works for iris', {
+  skip_on_cran()
+  skip_on_travis()
   df <- iris[-5]
 
   fortified <- ggplot2::fortify(stats::kmeans(df, 3))
@@ -22,6 +24,8 @@ test_that('fortify.kmeans works for iris', {
 })
 
 test_that('fortify.partition works for iris', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("cluster")
   df <- iris[-5]
   # clara
@@ -74,6 +78,8 @@ test_that('fortify.partition works for iris', {
 })
 
 test_that('fortify.partition works for USArrests', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("cluster")
   df <- USArrests
 
@@ -118,6 +124,8 @@ test_that('fortify.partition works for USArrests', {
 })
 
 test_that('autoplot.kmeans works for iris', {
+  skip_on_cran()
+  skip_on_travis()
 
   obj <- stats::kmeans(iris[-5], 3)
 

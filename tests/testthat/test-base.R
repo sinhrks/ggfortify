@@ -1,14 +1,16 @@
 context('test base')
 
 test_that('fortify.table works for Titanic', {
-
+  skip_on_cran()
+  skip_on_travis()
   fortified <- ggplot2::fortify(Titanic)
   expect_equal(is.data.frame(fortified), TRUE)
 
 })
 
 test_that('fortify.matrix works', {
-
+  skip_on_cran()
+  skip_on_travis()
   m <- matrix(1:6, nrow=2, ncol=3)
   fortified <- fortify(m)
   expect_equal(is.data.frame(fortified), TRUE)

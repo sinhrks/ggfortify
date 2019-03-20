@@ -1,6 +1,8 @@
 context('test changepoint')
 
 test_that('fortify.cpt works for AirPassengers', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("changepoint")
   library(changepoint)
   # mean
@@ -44,6 +46,8 @@ test_that('fortify.cpt works for AirPassengers', {
 
 
 test_that('fortify.breakpoints works for Nile', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("strucchange")
   library(strucchange)
   bp.nile <- strucchange::breakpoints(Nile ~ 1)

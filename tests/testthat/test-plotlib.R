@@ -1,6 +1,8 @@
 context('test plotlib')
 
 test_that('Check ggmultiplot arithmetics', {
+  skip_on_cran()
+  skip_on_travis()
   p1 <- autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
   p2 <- autoplot(lm(Sepal.Width ~ Sepal.Length, data = iris))
   expect_true(is(p1, 'ggmultiplot'))
@@ -21,6 +23,8 @@ test_that('Check ggmultiplot arithmetics', {
 
 
 test_that('Check ggmultiplot extraction', {
+  skip_on_cran()
+  skip_on_travis()
   p <- autoplot(lm(Petal.Width ~ Petal.Length, data = iris))
   expect_equal(length(p), 4)
 
@@ -91,6 +95,8 @@ test_that('Check ggmultiplot extraction', {
 })
 
 test_that('Check ggmultiplot multiple instances', {
+  skip_on_cran()
+  skip_on_travis()
   res <- lapply(c(3, 4, 5), function(x) kmeans(iris[-5], x))
   p <- autoplot(res, data = iris[-5])
   expect_true(is(p, 'ggmultiplot'))
@@ -119,7 +125,8 @@ test_that('Check ggmultiplot multiple instances', {
 })
 
 test_that('Check get.layout works', {
-
+  skip_on_cran()
+  skip_on_travis()
   expect_equal(ggfortify:::get.layout(5, 2, 0), t(matrix(1:6, 2, 3)))
   expect_equal(ggfortify:::get.layout(1, 2, 0), t(matrix(1:2, 2, 1)))
   expect_equal(ggfortify:::get.layout(2, 2, 0), t(matrix(1:2, 2, 1)))
@@ -140,7 +147,8 @@ test_that('Check get.layout works', {
 })
 
 test_that('Check geom_factory works', {
-
+  skip_on_cran()
+  skip_on_travis()
   # Unable to compare geom_xxx each other, because it is an environment variable
   # Thus, capture the printed result and check equalities
 
@@ -204,6 +212,8 @@ test_that('Check geom_factory works', {
 })
 
 test_that('Check autoplot works for list of ggplot', {
+  skip_on_cran()
+  skip_on_travis()
   library(dplyr)
   p <- iris %>% ggplot(aes(Sepal.Length, Petal.Length)) + geom_point()
   plots <- iris %>% group_by(Species) %>%
@@ -213,6 +223,8 @@ test_that('Check autoplot works for list of ggplot', {
 })
 
 test_that('Check autoplot works for list of ggpmultilot', {
+  skip_on_cran()
+  skip_on_travis()
   library(dplyr)
   plots <- iris %>% group_by(Species) %>%
     do(plots = autoplot(lm(Petal.Width ~ Petal.Length, data = .)))

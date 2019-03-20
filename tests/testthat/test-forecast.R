@@ -1,6 +1,8 @@
 context('test forecast')
 
 test_that('fortify.forecast works for AirPassengers', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   d.arima <- forecast::auto.arima(AirPassengers)
   d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
@@ -40,6 +42,8 @@ test_that('fortify.forecast works for AirPassengers', {
 })
 
 test_that('fortify.arfima works for austres', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   fortified <- ggplot2::fortify(forecast::arfima(austres))
   expect_equal(is.data.frame(fortified), TRUE)
@@ -59,6 +63,8 @@ test_that('fortify.arfima works for austres', {
 })
 
 test_that('fortify.ets works for UKgas', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   result <- forecast::ets(UKgas)
   fortified <- ggplot2::fortify(result)
@@ -73,6 +79,8 @@ test_that('fortify.ets works for UKgas', {
 })
 
 test_that('fortify.bats works for UKgas', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   result <- forecast::bats(UKgas, use.parallel = FALSE)
   fortified <- ggplot2::fortify(result)
@@ -87,6 +95,8 @@ test_that('fortify.bats works for UKgas', {
 })
 
 test_that('fortify.ets works for austres', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   result <- forecast::ets(austres)
   fortified <- ggplot2::fortify(result)
@@ -104,6 +114,8 @@ test_that('fortify.ets works for austres', {
 })
 
 test_that('fortify.bats works for austres', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   result <- forecast::bats(austres, use.parallel = FALSE)
   fortified <- ggplot2::fortify(result)
@@ -118,6 +130,8 @@ test_that('fortify.bats works for austres', {
 })
 
 test_that('fortify.forecast works for AirPassengers', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   d.arima <- forecast::auto.arima(AirPassengers)
   d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
@@ -143,6 +157,8 @@ test_that('fortify.forecast works for AirPassengers', {
 
 
 test_that('fortify.ets works for AirPassengers', {
+  skip_on_cran()
+  skip_on_travis()
   skip_if_not_installed("forecast")
   d.arima <- forecast::auto.arima(AirPassengers)
   d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
