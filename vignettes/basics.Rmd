@@ -86,14 +86,14 @@ mp
 
 Because `{ggplot2}` itself cannot handle different kinds of plots in a single instance, `{ggfortify}` handle them using its original class named `ggmultiplot`. You can use `+` operator to decorate `ggmultiplot`.
 
-```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5, eval=FALSE}
 class(mp)
 mp + theme_bw()
 ```
 
 Also, ``+`` operator appends plots if ``ggplot`` or ``ggmultiplot`` instance is given as right-hand-side. Following example attaches 2 scatter plots after diagnostics.
 
-```{r, message = FALSE, fig.width = 9, fig.height = 5}
+```{r, message = FALSE, fig.width = 9, fig.height = 5, eval=FALSE}
 mp +
   (ggplot(trees, aes(Girth, Volume)) + geom_point()) +
   (ggplot(trees, aes(Girth, Height)) + geom_point())
@@ -101,17 +101,17 @@ mp +
 
 You can extract subset using ``[`` and ``[[`` operators.
 
-```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5, eval=FALSE}
 mp[2:3]
 ```
 
-```{r, message = FALSE, fig.width = 2.25, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 2.25, fig.height = 2.5, eval=FALSE}
 mp[[1]]
 ```
 
 You can extract arbitrary subset, modify, and draw.
 
-```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5, eval=FALSE}
 mp[2:3] <- mp[2:3] + theme_bw()
 mp
 ```
