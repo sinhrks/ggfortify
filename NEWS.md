@@ -1,3 +1,7 @@
+## ggfortify 0.4.7
+
+* This is a minor release of the package with a couple of fixes for CRAN check results.
+
 ## ggfortify 0.4.6
 
 * Fixed CRAN check results for `R-devel` regarding changes in the default method for generating from a discrete uniform distribution used in `sample()`.

@@ -9,4 +9,4 @@
 
 ## Notes
 
-This is a minor release of the package with a couple of fixes for CRAN check results for `R-devel` regarding changes in the default method for generating from a discrete uniform distribution used in `sample()`.
+This is a minor release of the package with a couple of fixes for CRAN check results.
