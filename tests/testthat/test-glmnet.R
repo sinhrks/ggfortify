@@ -54,8 +54,8 @@ test_that('fortify.glmnet works for QuickStartExample', {
   res <- cv.glmnet(x, y)
   fortified <- ggplot2::fortify(res)
   expect_equal(is.data.frame(fortified), TRUE)
-  expect_equal(nrow(fortified)) >= 65
-  expect_equal(ncol(fortified)) == 5
+  expect_true(nrow(fortified) >= 65)
+  expect_true(ncol(fortified) == 5)
 
   p <- ggplot2::autoplot(res)
   expect_true(is(p, 'ggplot'))
