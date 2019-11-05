@@ -133,8 +133,7 @@ test_that('fortify.survfit works for simple data', {
                          surv = c(0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
                          std.err = c(0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
                          upper = c(1, 1, 1, 1),
-                         lower = c(0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
-                         cumhaz = c(0.1250000000, 0.2916666667, 0.5416666667, 1.0416666667))
+                         lower = c(0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468))
   expect_equal(fortified, expected)
 
   fortified <- fortify(fit, surv.connect = TRUE)
@@ -145,8 +144,7 @@ test_that('fortify.survfit works for simple data', {
                          surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
                          std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
                          upper = c(1, 1, 1, 1, 1),
-                         lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468),
-                         cumhaz = c(0, 0.1250000000, 0.2916666667, 0.5416666667, 1.0416666667))
+                         lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468))
   expect_equal(fortified, expected)
 
   p <- ggplot2::autoplot(fit)
@@ -183,7 +181,7 @@ test_that('fortify.survfit.cox works for lung', {
 
   expect_true(is.data.frame(fortified))
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
-                      'std.err', 'upper', 'lower', 'cumhaz')
+                      'std.err', 'upper', 'lower')
   expect_equal(names(fortified), expected_names)
 
   p <- ggplot2::autoplot(survfit(d.coxph))
