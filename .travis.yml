@@ -34,7 +34,6 @@ r_binary_packages:
   - vars
   - xts
   - raster
-  - lfda
   - roxygen2
   - covr
 
