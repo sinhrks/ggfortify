@@ -11,9 +11,6 @@ matrix:
   allow_failures:
     - r: release
     - r: devel
-    
-r_github_packages:
-  - therneau/survival
 
 r_binary_packages:
   - dplyr
@@ -33,6 +30,7 @@ r_binary_packages:
   - timeSeries
   - vars
   - xts
+  - survival
   - raster
   - roxygen2
   - covr
