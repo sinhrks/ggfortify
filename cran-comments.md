@@ -9,4 +9,4 @@
 
 ## Notes
 
-This is a minor release of the package with a couple of fixes for CRAN check results.
+This is a minor release of the package with fixes to support new major release of `survival` (>=3.1-7).
