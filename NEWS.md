@@ -63,7 +63,7 @@
 * Support `ggbiplot`.
 * More compatible with recent version of `forecast`, `dplyr`, `tidyr`, etc.
 
-# ggfortify 0.1.0
+## ggfortify 0.1.0
 
 * Compatible with ggplot2 v2.0.0.
 * Support `glmnet`.
@@ -71,6 +71,6 @@
 * Support `ggmultiplot` extraction getter / setter.
 * Support `ggmultiplot` arithmetics.
 
-# ggfortify 0.0.4
+## ggfortify 0.0.4
 
 * First release on CRAN.
