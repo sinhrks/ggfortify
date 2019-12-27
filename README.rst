@@ -25,6 +25,18 @@ Installation
     if (!require("devtools")) install.packages("devtools")
     install_github('sinhrks/ggfortify')
 
+Examples
+--------
+
+* `Concepts and Basics of ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/basics.html>`_
+* `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_lm.html>`_
+* `Plotting Time Series with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_ts.html>`_
+* `Plotting PCA, clustering, LFDA and MDS <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html>`_
+* `Plotting Survival Curves using ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html>`_
+* `Plotting Probability Distributions with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_dist.html>`_
+* `Automatic Generation of Interactive Visualizations in ggplot2 and plotly Styles <https://terrytangyuan.github.io/2018/02/12/autoplotly-intro/>`_
+* `一行R代码实现繁琐的可视化 <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
+
 Reference/Citation
 ------------
 
@@ -116,17 +128,6 @@ Helper Functions
 - ``ggcpgram`` to plot ``cpgram``
 - ``ggtsdiag`` to plot ``tsdiag``
 - ``ggfreqplot`` to generalize ``monthplot``
-
-Examples
---------
-
-* `Concepts and Basics of ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/basics.html>`_
-* `Plotting Diagnostics for LM and GLM with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_lm.html>`_
-* `Plotting Time Series with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_ts.html>`_
-* `Plotting PCA, clustering, LFDA and MDS <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html>`_
-* `Plotting Survival Curves using ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html>`_
-* `Plotting Probability Distributions with ggplot2 and ggfortify <https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_dist.html>`_
-* `一行R代码实现繁琐的可视化 <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
 
 ggplot2 Families
 ----------------
