@@ -4,11 +4,26 @@
 \alias{autoplot.map}
 \title{Autoplot \code{maps::map}}
 \usage{
-\method{autoplot}{map}(object, p = NULL, geom = "path",
-  group = "group", colour = "black", size = NULL, linetype = NULL,
-  alpha = NULL, fill = NULL, shape = NULL, xlim = c(NA, NA),
-  ylim = c(NA, NA), log = "", main = NULL, xlab = "", ylab = "",
-  asp = NULL, ...)
+\method{autoplot}{map}(
+  object,
+  p = NULL,
+  geom = "path",
+  group = "group",
+  colour = "black",
+  size = NULL,
+  linetype = NULL,
+  alpha = NULL,
+  fill = NULL,
+  shape = NULL,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = "",
+  ylab = "",
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{maps::map} instance}

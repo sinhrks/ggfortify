@@ -4,8 +4,13 @@
 \alias{autoplot.cpt}
 \title{Autoplot \code{changepoint::cpt}}
 \usage{
-\method{autoplot}{cpt}(object, is.date = NULL, cpt.colour = "#FF0000",
-  cpt.linetype = "dashed", ...)
+\method{autoplot}{cpt}(
+  object,
+  is.date = NULL,
+  cpt.colour = "#FF0000",
+  cpt.linetype = "dashed",
+  ...
+)
 }
 \arguments{
 \item{object}{\code{changepoint::cpt} instance}

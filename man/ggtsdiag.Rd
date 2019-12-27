@@ -4,11 +4,21 @@
 \alias{ggtsdiag}
 \title{Plots time-series diagnostics}
 \usage{
-ggtsdiag(object, gof.lag = 10, conf.int = TRUE,
-  conf.int.colour = "#0000FF", conf.int.linetype = "dashed",
-  conf.int.fill = NULL, conf.int.alpha = 0.3, ad.colour = "#888888",
-  ad.linetype = "dashed", ad.size = 0.2, nrow = NULL, ncol = 1,
-  ...)
+ggtsdiag(
+  object,
+  gof.lag = 10,
+  conf.int = TRUE,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "dashed",
+  conf.int.fill = NULL,
+  conf.int.alpha = 0.3,
+  ad.colour = "#888888",
+  ad.linetype = "dashed",
+  ad.size = 0.2,
+  nrow = NULL,
+  ncol = 1,
+  ...
+)
 }
 \arguments{
 \item{object}{A fitted time-series model}

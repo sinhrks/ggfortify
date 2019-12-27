@@ -4,10 +4,17 @@
 \alias{ggcpgram}
 \title{Plots a cumulative periodogram}
 \usage{
-ggcpgram(ts, taper = 0.1, colour = "#000000", linetype = "solid",
-  conf.int = TRUE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "dashed", conf.int.fill = NULL,
-  conf.int.alpha = 0.3)
+ggcpgram(
+  ts,
+  taper = 0.1,
+  colour = "#000000",
+  linetype = "solid",
+  conf.int = TRUE,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "dashed",
+  conf.int.fill = NULL,
+  conf.int.alpha = 0.3
+)
 }
 \arguments{
 \item{ts}{\code{stats::ts} instance}

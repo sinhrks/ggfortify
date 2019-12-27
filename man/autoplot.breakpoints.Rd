@@ -5,8 +5,13 @@
 \alias{autoplot.breakpointsfull}
 \title{Autoplot \code{strucchange::breakpoints}}
 \usage{
-\method{autoplot}{breakpoints}(object, data = NULL,
-  cpt.colour = "#FF0000", cpt.linetype = "dashed", ...)
+\method{autoplot}{breakpoints}(
+  object,
+  data = NULL,
+  cpt.colour = "#FF0000",
+  cpt.linetype = "dashed",
+  ...
+)
 }
 \arguments{
 \item{object}{\code{strucchange::breakpoints} or \code{strucchange::breakpointsfull} instance.}

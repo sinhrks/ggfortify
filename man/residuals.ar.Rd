@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{residuals.ar}
 \alias{residuals.ar}
-\title{Calcurate residuals for \code{stats::ar}}
+\title{Calculate residuals for \code{stats::ar}}
 \usage{
 \method{residuals}{ar}(object, ...)
 }
@@ -15,7 +15,7 @@
 ts Residuals extracted from the object object.
 }
 \description{
-Calcurate residuals for \code{stats::ar}
+Calculate residuals for \code{stats::ar}
 }
 \examples{
 residuals(ar(WWWusage))

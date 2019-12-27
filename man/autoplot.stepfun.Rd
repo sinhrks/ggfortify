@@ -4,10 +4,22 @@
 \alias{autoplot.stepfun}
 \title{Plot \code{stats::stepfun}}
 \usage{
-\method{autoplot}{stepfun}(object, colour = NULL, size = NULL,
-  linetype = NULL, alpha = NULL, shape = 1, xlim = c(NA, NA),
-  ylim = c(NA, NA), log = "", main = NULL, xlab = NULL,
-  ylab = NULL, asp = NULL, ...)
+\method{autoplot}{stepfun}(
+  object,
+  colour = NULL,
+  size = NULL,
+  linetype = NULL,
+  alpha = NULL,
+  shape = 1,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{stats::stepfun} instance}

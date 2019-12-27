@@ -4,10 +4,19 @@
 \alias{plot_confint}
 \title{Attach confidence interval to \code{ggplot2::ggplot}}
 \usage{
-plot_confint(p, data = NULL, lower = "lower", upper = "upper",
-  conf.int = TRUE, conf.int.geom = "line", conf.int.group = NULL,
-  conf.int.colour = "#0000FF", conf.int.linetype = "none",
-  conf.int.fill = "#000000", conf.int.alpha = 0.3)
+plot_confint(
+  p,
+  data = NULL,
+  lower = "lower",
+  upper = "upper",
+  conf.int = TRUE,
+  conf.int.geom = "line",
+  conf.int.group = NULL,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "none",
+  conf.int.fill = "#000000",
+  conf.int.alpha = 0.3
+)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instance}

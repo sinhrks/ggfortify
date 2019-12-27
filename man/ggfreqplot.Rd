@@ -4,11 +4,20 @@
 \alias{ggfreqplot}
 \title{Plot seasonal subseries of time series, generalization of \code{stats::monthplot}}
 \usage{
-ggfreqplot(data, freq = NULL, nrow = NULL, ncol = NULL,
-  conf.int = FALSE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "dashed", conf.int.fill = NULL,
-  conf.int.alpha = 0.3, conf.int.value = 0.95, facet.labeller = NULL,
-  ...)
+ggfreqplot(
+  data,
+  freq = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  conf.int = FALSE,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "dashed",
+  conf.int.fill = NULL,
+  conf.int.alpha = 0.3,
+  conf.int.value = 0.95,
+  facet.labeller = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{\code{stats::ts} instance}

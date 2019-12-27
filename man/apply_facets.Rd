@@ -4,8 +4,15 @@
 \alias{apply_facets}
 \title{Apply facets to to \code{ggplot2::ggplot}}
 \usage{
-apply_facets(p, formula, facets = TRUE, nrow = NULL, ncol = 1,
-  scales = "free_y", ...)
+apply_facets(
+  p,
+  formula,
+  facets = TRUE,
+  nrow = NULL,
+  ncol = 1,
+  scales = "free_y",
+  ...
+)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instance}

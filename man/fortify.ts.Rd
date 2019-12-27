@@ -4,9 +4,17 @@
 \alias{fortify.ts}
 \title{Convert time-series-like to data.frame}
 \usage{
-\method{fortify}{ts}(model, data = NULL, columns = NULL,
-  is.date = NULL, index.name = "Index", data.name = "Data",
-  scale = FALSE, melt = FALSE, ...)
+\method{fortify}{ts}(
+  model,
+  data = NULL,
+  columns = NULL,
+  is.date = NULL,
+  index.name = "Index",
+  data.name = "Data",
+  scale = FALSE,
+  melt = FALSE,
+  ...
+)
 }
 \arguments{
 \item{model}{time-series-like instance}

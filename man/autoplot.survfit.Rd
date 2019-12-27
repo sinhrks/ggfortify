@@ -5,17 +5,42 @@
 \alias{autoplot.survfit.cox}
 \title{Autoplot \code{survival::survfit}}
 \usage{
-\method{autoplot}{survfit}(object, fun = NULL, surv.geom = "step",
-  surv.colour = NULL, surv.size = NULL, surv.linetype = NULL,
-  surv.alpha = NULL, surv.fill = NULL, surv.shape = NULL,
-  surv.connect = TRUE, conf.int = TRUE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "none", conf.int.fill = "#000000",
-  conf.int.alpha = 0.3, censor = TRUE, censor.colour = NULL,
-  censor.size = 3, censor.alpha = NULL, censor.shape = "+",
-  facets = FALSE, nrow = NULL, ncol = 1, grid = FALSE,
-  strip_swap = FALSE, scales = "free_y", xlim = c(NA, NA),
-  ylim = c(NA, NA), log = "", main = NULL, xlab = NULL,
-  ylab = NULL, asp = NULL, ...)
+\method{autoplot}{survfit}(
+  object,
+  fun = NULL,
+  surv.geom = "step",
+  surv.colour = NULL,
+  surv.size = NULL,
+  surv.linetype = NULL,
+  surv.alpha = NULL,
+  surv.fill = NULL,
+  surv.shape = NULL,
+  surv.connect = TRUE,
+  conf.int = TRUE,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "none",
+  conf.int.fill = "#000000",
+  conf.int.alpha = 0.3,
+  censor = TRUE,
+  censor.colour = NULL,
+  censor.size = 3,
+  censor.alpha = NULL,
+  censor.shape = "+",
+  facets = FALSE,
+  nrow = NULL,
+  ncol = 1,
+  grid = FALSE,
+  strip_swap = FALSE,
+  scales = "free_y",
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{survival::survfit} instance}

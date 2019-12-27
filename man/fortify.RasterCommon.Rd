@@ -4,8 +4,7 @@
 \alias{fortify.RasterCommon}
 \title{Convert \code{raster} to \code{data.frame}}
 \usage{
-\method{fortify}{RasterCommon}(model, data = NULL, maxpixels = 1e+05,
-  rename = TRUE, ...)
+\method{fortify}{RasterCommon}(model, data = NULL, maxpixels = 1e+05, rename = TRUE, ...)
 }
 \arguments{
 \item{model}{\code{raster} instances}

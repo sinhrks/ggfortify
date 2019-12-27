@@ -67,4 +67,4 @@ Suggests:
     xts,
     zoo,
     lfda
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2

@@ -4,8 +4,14 @@
 \alias{fortify.aareg}
 \title{Convert \code{survival::aareg} to \code{data.frame}}
 \usage{
-\method{fortify}{aareg}(model, data = NULL, maxtime = NULL,
-  surv.connect = TRUE, melt = FALSE, ...)
+\method{fortify}{aareg}(
+  model,
+  data = NULL,
+  maxtime = NULL,
+  surv.connect = TRUE,
+  melt = FALSE,
+  ...
+)
 }
 \arguments{
 \item{model}{\code{survival::aareg} instance}

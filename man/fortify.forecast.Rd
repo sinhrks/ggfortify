@@ -4,8 +4,7 @@
 \alias{fortify.forecast}
 \title{Convert \code{forecast::forecast} to \code{data.frame}}
 \usage{
-\method{fortify}{forecast}(model, data = NULL, is.date = NULL,
-  ts.connect = FALSE, ...)
+\method{fortify}{forecast}(model, data = NULL, is.date = NULL, ts.connect = FALSE, ...)
 }
 \arguments{
 \item{model}{\code{forecast::forecast} instance}

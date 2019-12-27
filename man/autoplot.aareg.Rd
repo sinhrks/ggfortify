@@ -4,8 +4,16 @@
 \alias{autoplot.aareg}
 \title{Autoplot \code{survival::aareg}}
 \usage{
-\method{autoplot}{aareg}(object, maxtime = NULL, surv.connect = TRUE,
-  facets = TRUE, ncol = NULL, xlab = "", ylab = "", ...)
+\method{autoplot}{aareg}(
+  object,
+  maxtime = NULL,
+  surv.connect = TRUE,
+  facets = TRUE,
+  ncol = NULL,
+  xlab = "",
+  ylab = "",
+  ...
+)
 }
 \arguments{
 \item{object}{\code{survival::aareg} instance}

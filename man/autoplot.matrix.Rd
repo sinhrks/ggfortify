@@ -4,15 +4,37 @@
 \alias{autoplot.matrix}
 \title{Plot \code{base::matrix}}
 \usage{
-\method{autoplot}{matrix}(object, original = NULL, geom = "tile",
-  colour = NULL, size = NULL, alpha = NULL, fill = "#0000FF",
-  shape = NULL, label = FALSE, label.label = "rownames",
-  label.colour = colour, label.alpha = NULL, label.size = NULL,
-  label.angle = NULL, label.family = NULL, label.fontface = NULL,
-  label.lineheight = NULL, label.hjust = NULL, label.vjust = NULL,
-  label.repel = FALSE, scale = NULL, xlim = c(NA, NA), ylim = c(NA,
-  NA), log = "", main = NULL, xlab = NULL, ylab = NULL,
-  asp = NULL, ...)
+\method{autoplot}{matrix}(
+  object,
+  original = NULL,
+  geom = "tile",
+  colour = NULL,
+  size = NULL,
+  alpha = NULL,
+  fill = "#0000FF",
+  shape = NULL,
+  label = FALSE,
+  label.label = "rownames",
+  label.colour = colour,
+  label.alpha = NULL,
+  label.size = NULL,
+  label.angle = NULL,
+  label.family = NULL,
+  label.fontface = NULL,
+  label.lineheight = NULL,
+  label.hjust = NULL,
+  label.vjust = NULL,
+  label.repel = FALSE,
+  scale = NULL,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{base::matrix} instance}

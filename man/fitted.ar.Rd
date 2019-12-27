@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{fitted.ar}
 \alias{fitted.ar}
-\title{Calcurate fitted values for \code{stats::ar}}
+\title{Calculate fitted values for \code{stats::ar}}
 \usage{
 \method{fitted}{ar}(object, ...)
 }
@@ -15,7 +15,7 @@
 ts An time series of the one-step forecasts
 }
 \description{
-Calcurate fitted values for \code{stats::ar}
+Calculate fitted values for \code{stats::ar}
 }
 \examples{
 fitted(ar(WWWusage))

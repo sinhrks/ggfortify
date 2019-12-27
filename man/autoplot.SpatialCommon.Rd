@@ -4,10 +4,25 @@
 \alias{autoplot.SpatialCommon}
 \title{Autoplot \code{maps::map}}
 \usage{
-\method{autoplot}{SpatialCommon}(object, p = NULL, group = NULL,
-  colour = "black", size = NULL, linetype = NULL, alpha = NULL,
-  fill = NULL, shape = NULL, xlim = c(NA, NA), ylim = c(NA, NA),
-  log = "", main = NULL, xlab = "", ylab = "", asp = NULL, ...)
+\method{autoplot}{SpatialCommon}(
+  object,
+  p = NULL,
+  group = NULL,
+  colour = "black",
+  size = NULL,
+  linetype = NULL,
+  alpha = NULL,
+  fill = NULL,
+  shape = NULL,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = "",
+  ylab = "",
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{maps::map} instance}

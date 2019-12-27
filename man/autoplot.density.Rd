@@ -4,10 +4,22 @@
 \alias{autoplot.density}
 \title{Autoplot \code{stats::density}}
 \usage{
-\method{autoplot}{density}(object, p = NULL, colour = "#000000",
-  linetype = NULL, fill = NULL, alpha = NULL, xlim = c(NA, NA),
-  ylim = c(NA, NA), log = "", main = NULL, xlab = NULL,
-  ylab = NULL, asp = NULL, ...)
+\method{autoplot}{density}(
+  object,
+  p = NULL,
+  colour = "#000000",
+  linetype = NULL,
+  fill = NULL,
+  alpha = NULL,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{stats::density} instance}

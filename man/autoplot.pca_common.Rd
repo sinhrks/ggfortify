@@ -7,8 +7,15 @@
 \alias{autoplot.factanal}
 \title{Autoplot PCA-likes}
 \usage{
-\method{autoplot}{pca_common}(object, data = NULL, scale = 1, x = 1,
-  y = 2, variance_percentage = TRUE, ...)
+\method{autoplot}{pca_common}(
+  object,
+  data = NULL,
+  scale = 1,
+  x = 1,
+  y = 2,
+  variance_percentage = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{PCA-like instance}

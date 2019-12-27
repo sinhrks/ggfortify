@@ -5,13 +5,26 @@
 \title{Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to suppress
 standard plot output}
 \usage{
-\method{autoplot}{acf}(object, colour = "#000000", linetype = "solid",
-  conf.int = TRUE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "dashed", conf.int.fill = NULL,
-  conf.int.alpha = 0.3, conf.int.value = 0.95,
-  conf.int.type = "white", xlim = c(NA, NA), ylim = c(NA, NA),
-  log = "", main = NULL, xlab = NULL, ylab = "ACF", asp = NULL,
-  ...)
+\method{autoplot}{acf}(
+  object,
+  colour = "#000000",
+  linetype = "solid",
+  conf.int = TRUE,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "dashed",
+  conf.int.fill = NULL,
+  conf.int.alpha = 0.3,
+  conf.int.value = 0.95,
+  conf.int.type = "white",
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = "ACF",
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{stats::acf} instance}

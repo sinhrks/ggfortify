@@ -2,7 +2,7 @@
 % Please edit documentation in R/tslib.R
 \name{confint.acf}
 \alias{confint.acf}
-\title{Calcurate confidence interval for \code{stats::acf}}
+\title{Calculate confidence interval for \code{stats::acf}}
 \usage{
 \method{confint}{acf}(x, ci = 0.95, ci.type = "white")
 }
@@ -17,7 +17,7 @@
 vector
 }
 \description{
-Calcurate confidence interval for \code{stats::acf}
+Calculate confidence interval for \code{stats::acf}
 }
 \examples{
 air.acf <- acf(AirPassengers, plot = FALSE)

@@ -4,8 +4,14 @@
 \alias{fortify.acf}
 \title{Convert \code{stats::acf} to \code{data.frame}}
 \usage{
-\method{fortify}{acf}(model, data = NULL, conf.int = TRUE,
-  conf.int.value = 0.95, conf.int.type = "white", ...)
+\method{fortify}{acf}(
+  model,
+  data = NULL,
+  conf.int = TRUE,
+  conf.int.value = 0.95,
+  conf.int.type = "white",
+  ...
+)
 }
 \arguments{
 \item{model}{\code{stats::acf} instance}

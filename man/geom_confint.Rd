@@ -4,8 +4,14 @@
 \alias{geom_confint}
 \title{Connect observations by stairs.}
 \usage{
-geom_confint(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", na.rm = FALSE, ...)
+geom_confint(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  na.rm = FALSE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{the aesthetic mapping}

@@ -9,16 +9,33 @@
 \alias{autoplot.fGARCH}
 \title{Autoplot time series models (like AR, ARIMA)}
 \usage{
-\method{autoplot}{tsmodel}(object, data = NULL, predict = NULL,
-  is.date = NULL, ts.connect = TRUE, fitted.geom = "line",
-  fitted.colour = "#FF0000", fitted.size = NULL,
-  fitted.linetype = NULL, fitted.alpha = NULL, fitted.fill = NULL,
-  fitted.shape = NULL, predict.geom = "line",
-  predict.colour = "#0000FF", predict.size = NULL,
-  predict.linetype = NULL, predict.alpha = NULL, predict.fill = NULL,
-  predict.shape = NULL, conf.int = TRUE, conf.int.colour = "#0000FF",
-  conf.int.linetype = "none", conf.int.fill = "#000000",
-  conf.int.alpha = 0.3, ...)
+\method{autoplot}{tsmodel}(
+  object,
+  data = NULL,
+  predict = NULL,
+  is.date = NULL,
+  ts.connect = TRUE,
+  fitted.geom = "line",
+  fitted.colour = "#FF0000",
+  fitted.size = NULL,
+  fitted.linetype = NULL,
+  fitted.alpha = NULL,
+  fitted.fill = NULL,
+  fitted.shape = NULL,
+  predict.geom = "line",
+  predict.colour = "#0000FF",
+  predict.size = NULL,
+  predict.linetype = NULL,
+  predict.alpha = NULL,
+  predict.fill = NULL,
+  predict.shape = NULL,
+  conf.int = TRUE,
+  conf.int.colour = "#0000FF",
+  conf.int.linetype = "none",
+  conf.int.fill = "#000000",
+  conf.int.alpha = 0.3,
+  ...
+)
 }
 \arguments{
 \item{object}{Time series model instance}

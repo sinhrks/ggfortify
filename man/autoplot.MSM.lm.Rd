@@ -4,8 +4,7 @@
 \alias{autoplot.MSM.lm}
 \title{Autoplot \code{MSwM::MSM.lm}}
 \usage{
-\method{autoplot}{MSM.lm}(object, prob.colour = "#FF0000",
-  prob.linetype = "dashed", ...)
+\method{autoplot}{MSM.lm}(object, prob.colour = "#FF0000", prob.linetype = "dashed", ...)
 }
 \arguments{
 \item{object}{\code{MSwM::MSM.lm} instance}

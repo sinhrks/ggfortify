@@ -4,8 +4,16 @@
 \alias{post_autoplot}
 \title{Post process for fortify. Based on \code{ggplot2::qplot}}
 \usage{
-post_autoplot(p, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = NULL, ylab = NULL, asp = NULL)
+post_autoplot(
+  p,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  asp = NULL
+)
 }
 \arguments{
 \item{p}{\code{ggplot2::ggplot} instances}

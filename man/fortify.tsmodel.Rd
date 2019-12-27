@@ -10,8 +10,14 @@
 \alias{fortify.fGARCH}
 \title{Convert time series models (like AR, ARIMA) to \code{data.frame}}
 \usage{
-\method{fortify}{tsmodel}(model, data = NULL, predict = NULL,
-  is.date = NULL, ts.connect = TRUE, ...)
+\method{fortify}{tsmodel}(
+  model,
+  data = NULL,
+  predict = NULL,
+  is.date = NULL,
+  ts.connect = TRUE,
+  ...
+)
 }
 \arguments{
 \item{model}{Time series model instance}

@@ -4,8 +4,13 @@
 \alias{rbind_ts}
 \title{Rbind original and predicted time-series-like instances as fortified \code{data.frame}}
 \usage{
-rbind_ts(data, original, ts.connect = TRUE, index.name = "Index",
-  data.name = "Data")
+rbind_ts(
+  data,
+  original,
+  ts.connect = TRUE,
+  index.name = "Index",
+  data.name = "Data"
+)
 }
 \arguments{
 \item{data}{Predicted/forecasted \code{ts} instance}

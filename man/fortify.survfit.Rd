@@ -5,8 +5,7 @@
 \alias{fortify.survfit.cox}
 \title{Convert \code{survival::survfit} to \code{data.frame}}
 \usage{
-\method{fortify}{survfit}(model, data = NULL, surv.connect = FALSE,
-  fun = NULL, ...)
+\method{fortify}{survfit}(model, data = NULL, surv.connect = FALSE, fun = NULL, ...)
 }
 \arguments{
 \item{model}{\code{survival::survfit} instance}

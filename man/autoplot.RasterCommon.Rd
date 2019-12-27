@@ -4,9 +4,20 @@
 \alias{autoplot.RasterCommon}
 \title{Autoplot \code{raster::raster}}
 \usage{
-\method{autoplot}{RasterCommon}(object, raster.layer = NULL, p = NULL,
-  alpha = NULL, xlim = c(NA, NA), ylim = c(NA, NA), log = "",
-  main = NULL, xlab = "", ylab = "", asp = NULL, ...)
+\method{autoplot}{RasterCommon}(
+  object,
+  raster.layer = NULL,
+  p = NULL,
+  alpha = NULL,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = "",
+  ylab = "",
+  asp = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{raster::raster} instance}

@@ -113,7 +113,7 @@ rbind_ts <- function(data, original, ts.connect = TRUE,
 }
 
 
-#' Calcurate confidence interval for \code{stats::acf}
+#' Calculate confidence interval for \code{stats::acf}
 #'
 #' @param x \code{stats::acf} instance
 #' @param ci Float value for confidence interval
@@ -171,7 +171,7 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
   return(clim)
 }
 
-#' Calcurate fitted values for \code{stats::ar}
+#' Calculate fitted values for \code{stats::ar}
 #'
 #' @param object \code{stats::ar} instance
 #' @param ... other keywords
@@ -184,7 +184,7 @@ fitted.ar <- function(object, ...) {
   return(x - stats::residuals(object))
 }
 
-#' Calcurate residuals for \code{stats::ar}
+#' Calculate residuals for \code{stats::ar}
 #'
 #' @param object \code{stats::ar} instance
 #' @param ... other keywords
