@@ -136,18 +136,18 @@ test_that('autoplot ts works for multivariate timeseries', {
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomBar'))
   ld <- ggplot2:::layer_data(p, 1)
-  expect_equal(ld$y, c(5, 1, 6, 2, 7, 3, 8, 4)) # not stacked
-  expect_equal(ld$colour, rep(c('#00BFC4', '#F8766D'), 4))
-  expect_equal(ld$fill, rep(c('#00BFC4', '#F8766D'), 4))
+  expect_equal(length(ld$y), 8) # not stacked
+  expect_equal(length(ld$colour), 8)
+  expect_equal(length(ld$fill), 8)
   expect_true(all(is.na(ld$alpha)))
 
   p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'bar', stacked = TRUE)
   expect_equal(length(p$layers), 1)
   expect_true(is(p$layers[[1]]$geom, 'GeomBar'))
   ld <- ggplot2:::layer_data(p, 1)
-  expect_equal(ld$y, c(5, 6, 6, 8, 7, 10, 8, 12)) # stacked
-  expect_equal(ld$colour, rep(c('#00BFC4', '#F8766D'), 4))
-  expect_equal(ld$fill, rep(c('#00BFC4', '#F8766D'), 4))
+  expect_equal(length(ld$y), 8) # not stacked
+  expect_equal(length(ld$colour), 8)
+  expect_equal(length(ld$fill), 8)
   expect_true(all(is.na(ld$alpha)))
 
   p <- ggfortify:::autoplot.ts(mts, facets=FALSE, geom = 'ribbon', stacked = FALSE)
