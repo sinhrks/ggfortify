@@ -17,7 +17,7 @@ This document explains PCA, clustering, LFDA and MDS related plotting using `{gg
 ```{r, message = FALSE}
 library(ggfortify)
 df <- iris[1:4]
-pca_res <- prcomp(df, scale. = TRUE) # create PCA object (scale the data!)
+pca_res <- prcomp(df, scale. = TRUE)
 
 autoplot(pca_res)
 ```
