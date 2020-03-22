@@ -16,38 +16,40 @@ This document explains PCA, clustering, LFDA and MDS related plotting using `{gg
 
 ```{r, message = FALSE}
 library(ggfortify)
-df <- iris[c(1, 2, 3, 4)]
-autoplot(prcomp(df))
+df <- iris[1:4]
+pca_res <- prcomp(df, scale. = TRUE)
+
+autoplot(pca_res)
 ```
 
 PCA result should only contains numeric values. If you want to colorize by non-numeric values which original data has, pass original data using `data` keyword and then specify column name by `colour` keyword. Use `help(autoplot.prcomp)` (or `help(autoplot.*)` for any other objects) to check available options.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species')
+autoplot(pca_res, data = iris, colour = 'Species')
 ```
 
 Passing `label = TRUE` draws each data label using `rownames`
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species', label = TRUE, label.size = 3)
+autoplot(pca_res, data = iris, colour = 'Species', label = TRUE, label.size = 3)
 ```
 
 Passing `shape = FALSE` makes plot without points. In this case, `label` is turned on unless otherwise specified.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species', shape = FALSE, label.size = 3)
+autoplot(pca_res, data = iris, colour = 'Species', shape = FALSE, label.size = 3)
 ```
 
 Passing `loadings = TRUE` draws eigenvectors.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species', loadings = TRUE)
+autoplot(pca_res, data = iris, colour = 'Species', loadings = TRUE)
 ```
 
 You can attach eigenvector labels and change some options.
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), data = iris, colour = 'Species',
+autoplot(pca_res, data = iris, colour = 'Species',
          loadings = TRUE, loadings.colour = 'blue',
          loadings.label = TRUE, loadings.label.size = 3)
 ```
@@ -55,7 +57,7 @@ autoplot(prcomp(df), data = iris, colour = 'Species',
 By default, each component are scaled as the same as standard ``biplot``. You can disable the scaling by specifying ``scale = 0``
 
 ```{r, message = FALSE}
-autoplot(prcomp(df), scale = 0)
+autoplot(pca_res, scale = 0)
 ```
 
 # Plotting Factor Analysis
