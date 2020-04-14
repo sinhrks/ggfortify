@@ -24,8 +24,8 @@ Installation
 
 - Install the development version from Github: ::
 
-    if (!require("devtools")) install.packages("devtools")
-    install_github('sinhrks/ggfortify')
+    if (!require("remotes")) install.packages("remotes")
+    remotes::install_github('sinhrks/ggfortify')
 
 Examples
 --------
