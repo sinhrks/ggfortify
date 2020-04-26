@@ -99,7 +99,7 @@ Specifying `frame = TRUE` in `autoplot` for `stats::kmeans` and `cluster::*` dra
 autoplot(fanny(iris[-5], 3), frame = TRUE)
 ```
 
-If you want probability ellipse, `{ggplot2}` 1.0.0 or later is required. Specify whatever supported in [`ggplot2::stat_ellipse`](http://docs.ggplot2.org/dev/stat_ellipse.html)'s `type` keyword via `frame.type` option. 
+If you want probability ellipse, `{ggplot2}` 1.0.0 or later is required. Specify whatever supported in [`ggplot2::stat_ellipse`](https://ggplot2.tidyverse.org/reference/stat_ellipse.html)'s `type` keyword via `frame.type` option.
 
 ```{r}
 autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
