@@ -572,7 +572,7 @@ test_that('fortify.lm works with AsIs response', {
   mdl_cars <- lm(I(dist ^ 2) ~ speed, data = cars)
   p <- autoplot(mdl_cars, which = 1:6)
   expect_true(is(p, 'ggmultiplot'))
-  # Previous problems occured when printing, so write to file
+  # Previous problems occurred when printing, so write to file
   ggsave(p, file='temp-test-AsIs.png', h = 6, w = 6, units = "in", dpi = 50)
   expect_true(file.exists('temp-test-AsIs.png'))
   unlink('temp-test-AsIs.png')
