@@ -56,6 +56,10 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   show <- rep(FALSE, 6)
   show[which] <- TRUE
 
+  # ggplot2 can't rescale residuals with type AsIs
+  # See https://github.com/sinhrks/ggfortify/issues/202
+  class(object$residuals) <- NULL
+
   if (is.null(data)) {
     # ggplot2::fortify can't handle NULL properly
     plot.data <- ggplot2::fortify(object)
