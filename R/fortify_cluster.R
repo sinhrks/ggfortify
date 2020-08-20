@@ -133,7 +133,7 @@ autoplot.silhouette <- function(object, ...) {
   min.y <- if(min(plot.data$sil_width) < 0) min(plot.data$sil_width) else 0
   yinter <- round(mean(plot.data$sil_width), 2)
   p <- ggplot(plot.data, aes(x = id, y = sil_width, fill = cluster)) +
-    geom_bar(stat = "identity") +
+    geom_bar(stat = "identity", width = 1) +
     ylim(min.y, 1) +
     labs(x = "Observations", y = "Silhouette Values") +
     theme(axis.text.y = element_blank(),
