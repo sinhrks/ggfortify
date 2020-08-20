@@ -60,6 +60,7 @@ This covers following classes:
 - ``cluster::clara``
 - ``cluster::fanny``
 - ``cluster::pam``
+- ``cluster::silhouette``
 - ``changepoint::cpt``
 - ``dlm::dlmFilter``
 - ``dlm::dlmSmooth`` (inference)
