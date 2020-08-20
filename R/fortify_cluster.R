@@ -87,3 +87,60 @@ autoplot.fanny <- autoplot.partition
 
 # @export
 autoplot.pam <- autoplot.partition
+
+#' Convert \code{cluster::silhouette} to \code{data.frame}
+#'
+#' @param model Silhouette instance
+#' @inheritParams fortify_base
+#' @return data.frame
+#' @examples
+#' fortify(cluster::silhouette(cluster::pam(iris[-5], 3)))
+#' fortify(cluster::silhouette(cluster::clara(iris[-5], 3)))
+#' @export
+fortify.silhouette <- function(model, ...) {
+
+  if (is(model, 'silhouette')) {
+    d <- as.data.frame(unclass(model))
+    d <- data.frame(cluster = as.factor(d$cluster),
+                    sil_width = d$sil_width)
+    d <- d[order(d$cluster), ]
+    d$id <- seq_len(nrow(d))
+  } else {
+    stop(paste0('Unsupported class for fortify.silhouette: ', class(model)))
+  }
+  post_fortify(d)
+}
+
+#' Autoplot silhouette instances
+#'
+#' @param object Silhouette instance
+#' @param ... other arguments passed to \code{ggplot2::ggplot}
+#' @return ggplot
+#' @examples
+#' model = cluster::pam(iris[-5], 3L)
+#' sil = cluster::silhouette(model)
+#' autoplot(sil)
+#' @export
+autoplot.silhouette <- function(object, ...) {
+
+  if (!is_derived_from(object, 'silhouette')) {
+    stop(paste0('Unsupported class for autoplot.silhouette: ', class(object)))
+  }
+
+  plot.data <- ggplot2::fortify(object)
+  plot.data$rownames <- rownames(plot.data)
+
+  min.y <- if(min(plot.data$sil_width) < 0) min(plot.data$sil_width) else 0
+  yinter <- round(mean(plot.data$sil_width), 2)
+  p <- ggplot(plot.data, aes(x = id, y = sil_width, fill = cluster)) +
+    geom_bar(stat = "identity") +
+    ylim(min.y, 1) +
+    labs(x = "Observations", y = "Silhouette Values") +
+    theme(axis.text.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          plot.title = element_text(hjust = 0.5),
+          axis.title.y = element_text(hjust = 0.5)) +
+    geom_hline(yintercept = yinter, color = "red", linetype = "dashed") +
+    coord_flip()
+  p
+}
