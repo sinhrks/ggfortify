@@ -9,7 +9,8 @@
   line.color = "red",
   line.type = "dashed",
   line.size = 0.5,
-  bar.width = 1
+  bar.width = 1,
+  ...
 )
 }
 \arguments{
