@@ -96,8 +96,12 @@ autoplot.pam <- autoplot.partition
 #' @examples
 #' fortify(cluster::silhouette(cluster::pam(iris[-5], 3)))
 #' fortify(cluster::silhouette(cluster::clara(iris[-5], 3)))
+#' fortify(cluster::silhouette(cluster::fanny(iris[-5], 3)))
+#'
+#' mod = stats::kmeans(iris[-5], 3)
+#' fortify(cluster::silhouette(mod$cluster, stats::dist(iris[-5])))
 #' @export
-fortify.silhouette <- function(model, ...) {
+fortify.silhouette <- function(model, data = NULL, ...) {
 
   if (is(model, 'silhouette')) {
     d <- as.data.frame(unclass(model))
@@ -114,33 +118,45 @@ fortify.silhouette <- function(model, ...) {
 #' Autoplot silhouette instances
 #'
 #' @param object Silhouette instance
-#' @param ... other arguments passed to \code{ggplot2::ggplot}
+#' @param line.color reference line color
+#' @param line.type reference line type
+#' @param line.size reference line size
+#' @param bar.width bar width
 #' @return ggplot
 #' @examples
 #' model = cluster::pam(iris[-5], 3L)
 #' sil = cluster::silhouette(model)
 #' autoplot(sil)
+#'
+#' autoplot(cluster::silhouette(cluster::clara(iris[-5], 3)))
+#' autoplot(cluster::silhouette(cluster::fanny(iris[-5], 3)))
+#'
+#' model = stats::kmeans(iris[-5], 3)
+#' sil = cluster::silhouette(model$cluster, stats::dist(iris[-5]))
+#' autoplot(sil)
 #' @export
-autoplot.silhouette <- function(object, ...) {
+autoplot.silhouette <- function(object, line.color = "red",
+                                line.type = "dashed", line.size = 0.5,
+                                bar.width = 1, ...) {
 
   if (!is_derived_from(object, 'silhouette')) {
     stop(paste0('Unsupported class for autoplot.silhouette: ', class(object)))
   }
 
   plot.data <- ggplot2::fortify(object)
-  plot.data$rownames <- rownames(plot.data)
 
   min.y <- if(min(plot.data$sil_width) < 0) min(plot.data$sil_width) else 0
   yinter <- round(mean(plot.data$sil_width), 2)
   p <- ggplot(plot.data, aes(x = id, y = sil_width, fill = cluster)) +
-    geom_bar(stat = "identity", width = 1) +
+    geom_bar(stat = "identity", width = bar.width) +
     ylim(min.y, 1) +
     labs(x = "Observations", y = "Silhouette Values") +
     theme(axis.text.y = element_blank(),
           axis.ticks.y = element_blank(),
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_text(hjust = 0.5)) +
-    geom_hline(yintercept = yinter, color = "red", linetype = "dashed") +
+    geom_hline(yintercept = yinter, color = line.color, linetype = line.type,
+               size = line.size) +
     coord_flip()
   p
 }

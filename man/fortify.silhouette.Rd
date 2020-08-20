@@ -4,10 +4,12 @@
 \alias{fortify.silhouette}
 \title{Convert \code{cluster::silhouette} to \code{data.frame}}
 \usage{
-\method{fortify}{silhouette}(model, ...)
+\method{fortify}{silhouette}(model, data = NULL, ...)
 }
 \arguments{
 \item{model}{Silhouette instance}
+
+\item{data}{original dataset, if needed}
 
 \item{...}{other arguments passed to methods}
 }
@@ -20,4 +22,8 @@ Convert \code{cluster::silhouette} to \code{data.frame}
 \examples{
 fortify(cluster::silhouette(cluster::pam(iris[-5], 3)))
 fortify(cluster::silhouette(cluster::clara(iris[-5], 3)))
+fortify(cluster::silhouette(cluster::fanny(iris[-5], 3)))
+
+mod = stats::kmeans(iris[-5], 3)
+fortify(cluster::silhouette(mod$cluster, stats::dist(iris[-5])))
 }

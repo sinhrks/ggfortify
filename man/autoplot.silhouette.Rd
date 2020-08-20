@@ -4,12 +4,24 @@
 \alias{autoplot.silhouette}
 \title{Autoplot silhouette instances}
 \usage{
-\method{autoplot}{silhouette}(object, ...)
+\method{autoplot}{silhouette}(
+  object,
+  line.color = "red",
+  line.type = "dashed",
+  line.size = 0.5,
+  bar.width = 1
+)
 }
 \arguments{
 \item{object}{Silhouette instance}
 
-\item{...}{other arguments passed to \code{ggplot2::ggplot}}
+\item{line.color}{reference line color}
+
+\item{line.type}{reference line type}
+
+\item{line.size}{reference line size}
+
+\item{bar.width}{bar width}
 }
 \value{
 ggplot
@@ -20,5 +32,12 @@ Autoplot silhouette instances
 \examples{
 model = cluster::pam(iris[-5], 3L)
 sil = cluster::silhouette(model)
+autoplot(sil)
+
+autoplot(cluster::silhouette(cluster::clara(iris[-5], 3)))
+autoplot(cluster::silhouette(cluster::fanny(iris[-5], 3)))
+
+model = stats::kmeans(iris[-5], 3)
+sil = cluster::silhouette(model$cluster, stats::dist(iris[-5]))
 autoplot(sil)
 }
