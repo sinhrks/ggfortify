@@ -118,10 +118,11 @@ fortify.silhouette <- function(model, data = NULL, ...) {
 #' Autoplot silhouette instances
 #'
 #' @param object Silhouette instance
-#' @param line.color reference line color
-#' @param line.type reference line type
-#' @param line.size reference line size
+#' @param colour reference line color
+#' @param linetype reference line type
+#' @param size reference line size
 #' @param bar.width bar width
+#' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
 #' model = cluster::pam(iris[-5], 3L)
@@ -135,8 +136,8 @@ fortify.silhouette <- function(model, data = NULL, ...) {
 #' sil = cluster::silhouette(model$cluster, stats::dist(iris[-5]))
 #' autoplot(sil)
 #' @export
-autoplot.silhouette <- function(object, line.color = "red",
-                                line.type = "dashed", line.size = 0.5,
+autoplot.silhouette <- function(object, colour = "red",
+                                linetype = "dashed", size = 0.5,
                                 bar.width = 1, ...) {
 
   if (!is_derived_from(object, 'silhouette')) {
@@ -144,19 +145,21 @@ autoplot.silhouette <- function(object, line.color = "red",
   }
 
   plot.data <- ggplot2::fortify(object)
+  mapping <- aes_string(x = 'id', y = 'sil_width', fill = 'cluster')
 
   min.y <- if(min(plot.data$sil_width) < 0) min(plot.data$sil_width) else 0
+  ylim <- c(min.y, 1)
   yinter <- round(mean(plot.data$sil_width), 2)
-  p <- ggplot(plot.data, aes(x = id, y = sil_width, fill = cluster)) +
-    geom_bar(stat = "identity", width = bar.width) +
-    ylim(min.y, 1) +
-    labs(x = "Observations", y = "Silhouette Values") +
-    theme(axis.text.y = element_blank(),
-          axis.ticks.y = element_blank(),
-          plot.title = element_text(hjust = 0.5),
-          axis.title.y = element_text(hjust = 0.5)) +
-    geom_hline(yintercept = yinter, color = line.color, linetype = line.type,
-               size = line.size) +
+
+  geomfunc <- get_geom_function("bar")
+
+  p <- ggplot(plot.data, mapping = mapping)
+  p <- p + geom_factory(geomfunc, plot.data, stat = "identity",
+                        width = bar.width) +
+    geom_hline(yintercept = yinter, colour = colour,
+                      linetype = linetype, size = size)
+
+  p <- post_autoplot(p = p, ylim = ylim, xlab = "Observations", ylab = "Silhouette Values") +
     coord_flip()
   p
 }

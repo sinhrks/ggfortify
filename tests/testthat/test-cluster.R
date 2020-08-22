@@ -176,7 +176,7 @@ test_that('autoplot.silhouette works', {
   expect_equal(length(p$layers), 2)
   expect_true('GeomBar' %in% class(p$layers[[1]]$geom))
 
-  p <- ggplot2::autoplot(obj, line.color = 'black')
+  p <- ggplot2::autoplot(obj, colour = 'black')
   expect_true(is(p, 'ggplot'))
   expect_equal(length(p$layers), 2)
   expect_true('GeomBar' %in% class(p$layers[[1]]$geom))

@@ -6,9 +6,9 @@
 \usage{
 \method{autoplot}{silhouette}(
   object,
-  line.color = "red",
-  line.type = "dashed",
-  line.size = 0.5,
+  colour = "red",
+  linetype = "dashed",
+  size = 0.5,
   bar.width = 1,
   ...
 )
@@ -16,13 +16,15 @@
 \arguments{
 \item{object}{Silhouette instance}
 
-\item{line.color}{reference line color}
+\item{colour}{reference line color}
 
-\item{line.type}{reference line type}
+\item{linetype}{reference line type}
 
-\item{line.size}{reference line size}
+\item{size}{reference line size}
 
 \item{bar.width}{bar width}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 ggplot
