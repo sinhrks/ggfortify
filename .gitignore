@@ -6,3 +6,5 @@
 *.pdf
 .httr-oauth
 CRAN-RELEASE
+doc
+Meta

@@ -10,3 +10,5 @@ CONDUCT.md
 CONTRIBUTING.md
 ISSUE_TEMPLATE.md
 NEWS.html
+^doc$
+^Meta$
