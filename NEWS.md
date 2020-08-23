@@ -1,3 +1,7 @@
+## ggfortify development version (master branch)
+
+* Support Silhouette plot for `cluster::silhouette` objects, thanks to @damirpolat.
+
 ## ggfortify 0.4.10
 
 * This is a minor release of the package with fixes in tests to be compatible with `survival` (>=3.1-12).
