@@ -107,7 +107,7 @@ fortify.silhouette <- function(model, data = NULL, ...) {
     d <- as.data.frame(unclass(model))
     d <- data.frame(cluster = as.factor(d$cluster),
                     sil_width = d$sil_width)
-    d <- d[order(d$cluster), ]
+    d <- d[order(d$cluster, d$sil_width), ]
     d$id <- seq_len(nrow(d))
   } else {
     stop(paste0('Unsupported class for fortify.silhouette: ', class(model)))
