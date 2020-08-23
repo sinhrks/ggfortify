@@ -106,11 +106,16 @@ If you want probability ellipse, `{ggplot2}` 1.0.0 or later is required. Specify
 autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 ```
 
-If you want a silhouette plot, pass a silhouette object to `autoplot` function. 
+If you want a Silhouette plot, pass a Silhouette object to `autoplot` function. 
 
 ```{r}
-autoplot(cluster::silhouette(cluster::pam(iris[-5], 3L)))
+autoplot(silhouette(pam(iris[-5], 3L)))
 ```
+
+For more information on Silhouette plots and how they can be used, see 
+[base R example](https://www.stat.berkeley.edu/~spector/s133/Clus.html), 
+[scikit-learn example](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html) and 
+[original paper](https://www.sciencedirect.com/science/article/pii/0377042787901257). 
 
 # Plotting Local Fisher Discriminant Analysis with ``{lfda}`` package
 
