@@ -123,6 +123,27 @@ test_that('fortify.partition works for USArrests', {
   expect_equal(rownames(fortified), rownames(df))
 })
 
+test_that('fortify.silhouette works', {
+  skip_on_cran()
+  skip_on_travis()
+  df <- iris[-5]
+  mod <- stats::kmeans(df, 3)
+  sil <- cluster::silhouette(mod$cluster, stats::dist(df))
+  sil.df <- as.data.frame(unclass(sil))
+
+  fortified <- ggplot2::fortify(sil)
+  expect_equal(is.data.frame(fortified), TRUE)
+  expect_equal(colnames(fortified), c('cluster', 'sil_width', 'id'))
+  expect_equal(is.factor(fortified$cluster), TRUE)
+  expect_equal(rownames(fortified), rownames(sil.df[order(sil.df$cluster), ]))
+
+  p <- ggplot2::autoplot(sil)
+  expect_true(is(p, 'ggplot'))
+
+  class(sil) <- 'sil'
+  expect_that(ggplot2::autoplot(sil), throws_error())
+})
+
 test_that('autoplot.kmeans works for iris', {
   skip_on_cran()
   skip_on_travis()
@@ -139,5 +160,26 @@ test_that('autoplot.kmeans works for iris', {
   expect_equal(length(p$layers), 2)
   expect_true('GeomPoint' %in% class(p$layers[[1]]$geom))
   expect_true('GeomPolygon' %in% class(p$layers[[2]]$geom))
+
+})
+
+test_that('autoplot.silhouette works', {
+  skip_on_cran()
+  skip_on_travis()
+
+  df <- iris[-5]
+  model <- stats::kmeans(df, 3)
+  obj <- cluster::silhouette(model$cluster, stats::dist(df))
+
+  p <- ggplot2::autoplot(obj)
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 2)
+  expect_true('GeomBar' %in% class(p$layers[[1]]$geom))
+
+  p <- ggplot2::autoplot(obj, colour = 'black')
+  expect_true(is(p, 'ggplot'))
+  expect_equal(length(p$layers), 2)
+  expect_true('GeomBar' %in% class(p$layers[[1]]$geom))
+  expect_true('black' == p$layers[[2]]$aes_params$colour)
 
 })

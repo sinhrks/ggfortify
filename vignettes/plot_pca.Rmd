@@ -86,7 +86,8 @@ autoplot(kmeans(USArrests, 3), data = USArrests, label = TRUE, label.size = 3)
 
 # Plotting cluster package
 
-`{ggfortify}` supports `cluster::clara`, `cluster::fanny`, `cluster::pam` classes. Because these instances should contains original data in its property, there is no need to pass original data explicitly.
+`{ggfortify}` supports `cluster::clara`, `cluster::fanny`, `cluster::pam` as well as `cluster::silhouette` classes. 
+Because these instances should contains original data in its property, there is no need to pass original data explicitly.
 
 ```{r, message = FALSE}
 library(cluster)
@@ -104,6 +105,17 @@ If you want probability ellipse, `{ggplot2}` 1.0.0 or later is required. Specify
 ```{r}
 autoplot(pam(iris[-5], 3), frame = TRUE, frame.type = 'norm')
 ```
+
+If you want a Silhouette plot, pass a Silhouette object to `autoplot` function. 
+
+```{r}
+autoplot(silhouette(pam(iris[-5], 3L)))
+```
+
+For more information on Silhouette plots and how they can be used, see 
+[base R example](https://www.stat.berkeley.edu/~spector/s133/Clus.html), 
+[scikit-learn example](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html) and 
+[original paper](https://www.sciencedirect.com/science/article/pii/0377042787901257). 
 
 # Plotting Local Fisher Discriminant Analysis with ``{lfda}`` package
 
