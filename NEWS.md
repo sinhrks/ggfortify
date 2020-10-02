@@ -1,3 +1,7 @@
+## ggfortify development version (master branch)
+
+TBA
+
 ## ggfortify 0.4.11
 
 * Added support of Silhouette plot for `cluster::silhouette` objects, thanks to @damirpolat.
