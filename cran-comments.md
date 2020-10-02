@@ -9,4 +9,7 @@
 
 ## Notes
 
-This is a minor release of the package with fixes in tests to be compatible with `survival` (>=3.1-12).
+Notable changes are:
+
+* Added support of Silhouette plot for `cluster::silhouette` objects, thanks to @damirpolat.
+* Fixed issue with `autoplot.lm(which = 2)` when residuals have `AsIs` type, thanks to @richierocks.
