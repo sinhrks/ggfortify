@@ -2,6 +2,7 @@
 
 * Added support of Silhouette plot for `cluster::silhouette` objects, thanks to @damirpolat.
 * Fixed issue with `autoplot.lm(which = 2)` when residuals have `AsIs` type, thanks to @richierocks.
+* Added `markdown` to `Suggests`. For context, please see [this issue](https://github.com/yihui/knitr/issues/1864).
 
 ## ggfortify 0.4.10
 
