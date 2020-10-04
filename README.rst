@@ -1,10 +1,10 @@
 
-.. image:: https://travis-ci.org/sinhrks/ggfortify.svg?branch=master
-    :target: https://travis-ci.org/sinhrks/ggfortify
+.. image:: http://www.r-pkg.org/badges/version/ggfortify
+    :target: https://CRAN.R-project.org/package=ggfortify 
+.. image:: https://cranlogs.r-pkg.org/badges/grand-total/ggfortify
+    :target: https://CRAN.R-project.org/package=ggfortify 
 .. image:: https://coveralls.io/repos/sinhrks/ggfortify/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/sinhrks/ggfortify?branch=master
-.. image:: http://www.r-pkg.org/badges/version/ggfortify
-    :target: https://cran.r-project.org/web/packages/ggfortify/index.html
 .. image:: https://img.shields.io/badge/stackoverflow-ggfortify-green.svg
     :target: https://stackoverflow.com/questions/tagged/ggfortify
 
