@@ -45,7 +45,7 @@ cbind_wraps <- function(df1, df2) {
   # prioritize df1 columns
   dots <- names(df2)[! colnames(df2) %in% colnames(df1)]
   if (length(dots) != length(colnames(df2))) {
-    df2 <- dplyr::select_(df2, .dots = dots)
+    df2 <- dplyr::select(df2, .dots = dots)
   }
   return(cbind(df1, df2))
 }
