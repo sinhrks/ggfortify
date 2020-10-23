@@ -356,8 +356,8 @@ ggfreqplot <- function(data, freq = NULL,
   freqd <- data.frame(Frequency = rep(freqs, length.out = length(data)))
   d <- cbind(d, freqd)
 
-  summarised <- dplyr::group_by_(d, 'Frequency') %>%
-    dplyr::summarise_(m = 'mean(Data)', s = 'sd(Data)')
+  summarised <- dplyr::group_by(d, Frequency) %>%
+    dplyr::summarise(m = mean(Data), s = sd(Data))
 
   p <- (1 - conf.int.value) / 2
   summarised$lower <- stats::qnorm(p, mean = summarised$m, sd = summarised$s)

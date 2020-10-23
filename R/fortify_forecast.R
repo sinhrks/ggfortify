@@ -65,8 +65,8 @@ autoplot.forecast <- function(object, is.date = NULL, ts.connect = TRUE,
   }
 
   # Filter existing values to avoid warnings
-  original.data <- dplyr::filter_(plot.data, '!is.na(Data)')
-  predict.data <- dplyr::filter_(plot.data, '!is.na(`Point_Forecast`)')
+  original.data <- dplyr::filter(plot.data, !is.na(Data))
+  predict.data <- dplyr::filter(plot.data, !is.na(`Point_Forecast`))
 
   p <- autoplot.ts(original.data, columns = 'Data', ...)
   p <- autoplot.ts(predict.data, columns = 'Point_Forecast', p = p,

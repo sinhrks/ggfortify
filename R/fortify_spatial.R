@@ -29,7 +29,7 @@ fortify.SpatialCommon <- function(model, data = NULL,
       # SpatialLines are renamed in lapply
       coords <- colnames(sp::coordinates(model))
       names(coords) <- c('long', 'lat')
-      df <- dplyr::rename_(df, .dots = coords)
+      df <- dplyr::rename(df, coords)
       }
   }
   post_fortify(df, klass = model)
