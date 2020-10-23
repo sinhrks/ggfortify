@@ -32,10 +32,6 @@ r_binary_packages:
   - survival
   - raster
   - roxygen2
-  - covr
 
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
-
-after_success:
-  - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'covr::codecov()'
