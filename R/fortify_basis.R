@@ -56,7 +56,7 @@ fortify.basis <- function(model, data, n=256, ...) {
         data <- seq(from=bounds[1], to=bounds[2], length.out=n + 1)
     }
     predict(model, data) %>%
-        dplyr::as_tibble %>%
+        dplyr::as_tibble() %>%
         dplyr::mutate(x=data) %>%
         tidyr::pivot_longer(colnames(model), names_to="Spline", values_to="y") %>%
         dplyr::arrange(Spline, x) %>%
