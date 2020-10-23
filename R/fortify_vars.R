@@ -76,8 +76,8 @@ autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
                                 ts.connect = ts.connect, melt = TRUE)
 
   # Filter existing values to avoid warnings
-  original.data <- dplyr::filter_(plot.data, '!is.na(Data)')
-  predict.data <- dplyr::filter_(plot.data, '!is.na(fcst)')
+  original.data <- dplyr::filter(plot.data, !is.na(Data))
+  predict.data <- dplyr::filter(plot.data, !is.na(fcst))
 
   p <- autoplot.ts(original.data, columns = 'Data', ...)
 

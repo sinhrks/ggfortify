@@ -55,11 +55,12 @@ fortify.basis <- function(model, data, n=256, ...) {
         ## Add 1 to length.out because both endpoints are included
         data <- seq(from=bounds[1], to=bounds[2], length.out=n + 1)
     }
-    predict(model, data) %>%
+    out <- predict(model, data) %>%
         as_tibble %>%
         mutate(x=data) %>%
-        gather_(key_col="Spline", value_col="y", gather_cols=colnames(model)) %>%
-        select_("Spline", "x", "y")
+        tidyr::pivot_longer(colnames(model), names_to="Spline", values_to="y") %>%
+        dplyr::arrange(Spline, x) %>%
+        dplyr::select(Spline, x, y)
 }
 
 #' Autoplot spline basis instances

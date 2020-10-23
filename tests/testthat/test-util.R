@@ -29,7 +29,7 @@ test_that('post_fortify', {
   res <- ggfortify:::post_fortify(df)
   expect_equal(res, df)
 
-  tbl <- dplyr::data_frame(x = c(1, 2, 3), y = c(4, 5, 6))
+  tbl <- dplyr::tibble(x = c(1, 2, 3), y = c(4, 5, 6))
   expect_true(is(tbl, 'tbl_df'))
   res <- ggfortify:::post_fortify(tbl)
   expect_equal(res, df)

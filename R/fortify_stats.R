@@ -68,9 +68,9 @@ autoplot.acf <- function(object,
                                 conf.int.type = conf.int.type)
 
   # Prepare ymax and ymin used for geom_linerange
-  plot.data <- dplyr::mutate_(plot.data,
-                              ymax = 'ifelse(ACF > 0, ACF, 0)',
-                              ymin = 'ifelse(ACF < 0, ACF, 0)')
+  plot.data <- dplyr::mutate(plot.data,
+                              ymax = ifelse(ACF > 0, ACF, 0),
+                              ymin = ifelse(ACF < 0, ACF, 0))
 
   p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'Lag')) +
     ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
