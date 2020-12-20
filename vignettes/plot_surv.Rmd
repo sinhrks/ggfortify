@@ -1,0 +1,43 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Plotting Survival Curves}
+-->
+
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/surv-', warning=FALSE)
+```
+
+This document explains Survival Curves related plotting using `{ggplot2}` and `{ggfortify}`. 
+
+# Plotting with survival package
+
+`{ggfortify}` let `{ggplot2}` know how to draw survival curves. After loading `{ggfortify}`, you can use `ggplot2::autoplot` function for `survfit` objects. 
+
+```{r, message = FALSE}
+library(ggfortify)
+library(survival)
+fit <- survfit(Surv(time, status) ~ sex, data = lung)
+autoplot(fit)
+```
+
+There are some options to change survival curve output. Use `help(autoplot.survfit)` (or `help(autoplot.*)` for any other objects) to check available options.
+
+```{r, message = FALSE}
+autoplot(fit, surv.linetype = 'dashed', conf.int = FALSE,
+         censor.shape = '*', censor.size = 5, facets = TRUE, ncol = 2)
+
+autoplot(survfit(Surv(time, status) ~ 1, data = lung), surv.colour = 'orange', censor.colour = 'red')
+
+autoplot(survfit(Surv(time, status) ~ sex, data = lung), fun = 'event')
+
+d.coxph <- survfit(coxph(Surv(time, status) ~ sex, data = lung))
+autoplot(d.coxph, surv.linetype = 'dashed', surv.colour = 'blue',
+         conf.int.fill = 'dodgerblue3', conf.int.alpha = 0.5, censor = FALSE)
+```
+
+Also, you can use ``autoplot`` for ``survival::aareg`` instance.
+
+```{r, fig.width = 8, fig.height = 4}
+autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung))
+```
