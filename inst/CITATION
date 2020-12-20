@@ -5,9 +5,11 @@ citEntry(entry = "article",
   title = "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages",
   journal = "The R Journal",
   year = "2016",
-  issue = 2,
+  number = 2,
   volume = 8,
-  url = "https://journal.r-project.org/",
+  pages = "474--485",
+  url = "https://doi.org/10.32614/RJ-2016-060",
+  doi = "10.32614/RJ-2016-060",
   textVersion = 'Yuan Tang, Masaaki Horikoshi, and Wenxuan Li. "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages." The R Journal 8.2 (2016): 478-489.'
 )
 

@@ -57,8 +57,7 @@ autoplot.kmeans <- function(object, data = NULL,
   plot.data <- ggplot2::fortify(object, data = data)
   dots <- colnames(object[[dots]])
   plot.data$rownames <- rownames(plot.data)
-
-  pca.data <- dplyr::select_(plot.data, .dots = dots)
+  pca.data <- dplyr::select(plot.data, all_of(dots))
   p <- ggplot2::autoplot(stats::prcomp(pca.data), data = plot.data,
                          colour = colour, ...)
   p

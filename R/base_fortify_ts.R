@@ -201,8 +201,9 @@ autoplot.ts <- function(object, columns = NULL, group = NULL,
     plot.data[[index.name]] <- zoo::as.Date(plot.data[[index.name]])
   }
 
-  group_key <- 'plot_group'
-  plot.data <- tidyr::gather_(plot.data, group_key, 'value', columns)
+  group_key <- 'plot_group'  # gets used later. Don't know why its defined here.
+  plot.data <- tidyr::pivot_longer(plot.data, names_to=group_key, values_to='value', columns) %>%
+    arrange(plot_group)      # somewhere later the sort order matters.
 
   # create ggplot instance if not passed
   if (is.null(p)) {

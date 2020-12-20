@@ -129,15 +129,15 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   if (label.n > 0L) {
     if (show[1L]) {
-      r.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.resid))')
+      r.data <- dplyr::arrange(plot.data, dplyr::desc(abs(.resid)))
       r.data <- utils::head(r.data, label.n)
     }
     if (".wresid" %in% colnames(plot.data)) {
-      wr.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.wresid))')
+      wr.data <- dplyr::arrange(plot.data, dplyr::desc(abs(.wresid)))
       wr.data <- utils::head(wr.data, label.n)
     }
     if (any(show[4L:6L])) {
-      cd.data <- dplyr::arrange_(plot.data, 'dplyr::desc(abs(.cooksd))')
+      cd.data <- dplyr::arrange(plot.data, dplyr::desc(abs(.cooksd)))
       cd.data <- utils::head(cd.data, label.n)
     }
   }

@@ -1,4 +1,5 @@
-
+.. image:: https://travis-ci.org/sinhrks/ggfortify.svg?branch=master
+    :target: https://travis-ci.org/sinhrks/ggfortify
 .. image:: http://www.r-pkg.org/badges/version/ggfortify
     :target: https://CRAN.R-project.org/package=ggfortify 
 .. image:: https://cranlogs.r-pkg.org/badges/grand-total/ggfortify
