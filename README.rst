@@ -1,5 +1,3 @@
-.. image:: https://travis-ci.org/sinhrks/ggfortify.svg?branch=master
-    :target: https://travis-ci.org/sinhrks/ggfortify
 .. image:: http://www.r-pkg.org/badges/version/ggfortify
     :target: https://CRAN.R-project.org/package=ggfortify 
 .. image:: https://cranlogs.r-pkg.org/badges/grand-total/ggfortify
@@ -12,7 +10,7 @@
 ggfortify
 =========
 
-This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our `R Journal paper <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_ for more details on the architecture. There's also `autoplotly package <https://github.com/terrytangyuan/autoplotly>`_ that could automatically generate interactive visualizations with `plotly.js <https://plot.ly/>`_ style.
+This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our `R Journal paper <https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf>`_ for more details on the overall architecture design and a gallery of visualizations created with this package. Also check out `autoplotly package <https://github.com/terrytangyuan/autoplotly>`_ that could automatically generate interactive visualizations with `plotly.js <https://plot.ly/>`_ style based on ``ggfortify``. The generated visualizations can also be easily extended using ``ggplot2`` syntax while staying interactive.
 
 **Note**: For functions which returns ``list``, ``ggfortify`` tries to infer a background class using its attribute names. Such functions are marked as "(inference)".
 
