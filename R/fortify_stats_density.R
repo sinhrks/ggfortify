@@ -39,9 +39,15 @@ autoplot.density <- function (object, p = NULL,
   }
   mapping <- ggplot2::aes_string(x = 'x', y = 'y', ymin = 'ymin', ymax = 'y')
   if (is.null(p)) {
+    if (is.null(xlab)) {
+      xlab = ''
+    }
+    if (is.null(ylab)) {
+      ylab = ''
+    }
     p <- ggplot2::ggplot(mapping = mapping) +
-      ggplot2::scale_x_continuous(name = '') +
-      ggplot2::scale_y_continuous(name = '')
+      ggplot2::scale_x_continuous(name = xlab) +
+      ggplot2::scale_y_continuous(name = ylab)
   }
   if (!is.null(fill)) {
 
