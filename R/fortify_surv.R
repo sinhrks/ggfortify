@@ -343,5 +343,5 @@ autoplot.aareg <- function (object, maxtime = NULL,
   plot.data <- fortify(object, maxtime = maxtime,
                        surv.connect = surv.connect, melt = TRUE)
   autoplot.survfit(plot.data, facets = facets, ncol = ncol,
-                   xlab = '', ylab = '', ...)
+                   xlab = xlab, ylab = ylab, ...)
 }
