@@ -4,12 +4,14 @@
 \alias{geom_factory}
 \title{Factory function to control \code{ggplot2::geom_xxx} functions}
 \usage{
-geom_factory(geomfunc, data = NULL, ...)
+geom_factory(geomfunc, data = NULL, position = NULL, ...)
 }
 \arguments{
 \item{geomfunc}{\code{ggplot2::geom_xxx} function}
 
 \item{data}{plotting data}
+
+\item{position}{A position function or character}
 
 \item{...}{other arguments passed to methods}
 }

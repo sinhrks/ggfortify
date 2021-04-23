@@ -58,6 +58,8 @@ plot_label(
 \item{label.repel}{Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting}
 
 \item{label.show.legend}{Logical value indicating whether to show the legend of the text labels}
+
+\item{label.position}{Character or a position function}
 }
 \value{
 ggplot
