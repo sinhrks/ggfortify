@@ -21,7 +21,8 @@ plot_label(
   label.hjust = NULL,
   label.vjust = NULL,
   label.repel = FALSE,
-  label.show.legend = NA
+  label.show.legend = NA,
+  label.position = "identity"
 )
 }
 \arguments{
