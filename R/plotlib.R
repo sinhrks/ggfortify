@@ -211,7 +211,8 @@ geom_factory <- function(geomfunc, data = NULL, position = NULL, ...) {
       value <- list(...)[[key]]
       if (is.null(value)) {
         # pass
-      } else if (length(value) == 1L && value %in% columns) {
+      } else if (!(is.vector(value) && length(value) > 1L) &&
+                 value %in% columns) {
         # check for length so that vectors of colours are supported
          mapping[[key]] <- value
       } else {
