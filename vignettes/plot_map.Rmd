@@ -99,12 +99,11 @@ autoplot(df, p = p, colour = 'red', size = 'population') +
 ```{r, message = FALSE, eval = FALSE}
 library(ggmap)
 bbox <- c(130.0, 30.0, 145.0, 45.0)
-## Error: 'get_openstreetmap' is defunct.
-# map <- get_openstreetmap(bbox = bbox, scale = 47500000)
-# p <- ggmap(map)
-# autoplot(df, p = p, colour = 'red', size = 'population') + 
-#  scale_size_area() +
-#  theme(legend.justification = c(1, 0), legend.position = c(1, 0))
+map <- get_openstreetmap(bbox = bbox, scale = 47500000)
+p <- ggmap(map)
+autoplot(df, p = p, colour = 'red', size = 'population') + 
+  scale_size_area() +
+  theme(legend.justification = c(1, 0), legend.position = c(1, 0))
 ```
 
 ![ggmap_output](figures/ggmap_output.png)
