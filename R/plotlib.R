@@ -81,6 +81,7 @@ plot_confint <- function (p, data = NULL, lower = 'lower', upper = 'upper',
 #' @param label.vjust Vertical adjustment for text labels
 #' @param label.repel Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting
 #' @param label.show.legend Logical value indicating whether to show the legend of the text labels
+#' @param label.position Character or a position function
 #' @return ggplot
 plot_label <- function(p, data, x = NULL, y = NULL, label = TRUE, label.label = 'rownames',
                        label.colour = NULL, label.alpha = NULL,
@@ -88,7 +89,8 @@ plot_label <- function(p, data, x = NULL, y = NULL, label = TRUE, label.label = 
                        label.family = NULL, label.fontface = NULL,
                        label.lineheight = NULL,
                        label.hjust = NULL, label.vjust = NULL,
-                       label.repel = FALSE, label.show.legend = NA) {
+                       label.repel = FALSE, label.show.legend = NA,
+                       label.position = "identity") {
 
   if (!is.data.frame(data)) {
     stop(paste0('Unsupported class: ', class(data)))
@@ -117,6 +119,7 @@ plot_label <- function(p, data, x = NULL, y = NULL, label = TRUE, label.label = 
                           family = label.family, fontface = label.fontface,
                           lineheight = label.lineheight,
                           hjust = label.hjust, vjust = label.vjust,
+                          position = label.position,
                           show.legend = label.show.legend)
   }
   p
@@ -196,9 +199,10 @@ get_geom_function <- function(geom, allowed = c('line', 'bar', 'point')) {
 #'
 #' @param geomfunc \code{ggplot2::geom_xxx} function
 #' @param data plotting data
+#' @param position A position function or character
 #' @param ... other arguments passed to methods
 #' @return proto
-geom_factory <- function(geomfunc, data = NULL, ...) {
+geom_factory <- function(geomfunc, data = NULL, position = NULL, ...) {
   mapping <- list()
   option <- list()
 
@@ -207,14 +211,19 @@ geom_factory <- function(geomfunc, data = NULL, ...) {
       value <- list(...)[[key]]
       if (is.null(value)) {
         # pass
-      } else if (value %in% columns) {
-        mapping[[key]] <- value
+      } else if (!(is.vector(value) && length(value) > 1L) &&
+                 value %in% columns) {
+        # check for length so that vectors of colours are supported
+         mapping[[key]] <- value
       } else {
         option[[key]] <- value
       }
   }
   if (!is.null(data)) {
     option[['data']] <- data
+  }
+  if (!is.null(position)) {
+    option[['position']] <- position
   }
   option[['mapping']] <- do.call(ggplot2::aes_string, mapping)
   return(do.call(geomfunc, option))
@@ -473,6 +482,7 @@ autoplot.ggmultiplot <- function(object, ...) {
 #' @param label Logical value whether to display data labels
 #' @inheritParams plot_label
 #' @param loadings Logical value whether to display loadings arrows
+#' @param loadings.arrow An arrow definition
 #' @param loadings.colour Point colour for data
 #' @param loadings.label Logical value whether to display loadings labels
 #' @param loadings.label.label Column name used for loadings text labels
@@ -512,7 +522,9 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                      label.hjust = NULL,
                      label.vjust = NULL,
                      label.repel = FALSE,
+                     label.position = "identity",
                      loadings = FALSE,
+                     loadings.arrow = grid::arrow(length = grid::unit(8, 'points')),
                      loadings.colour = '#FF0000',
                      loadings.label = FALSE,
                      loadings.label.label = 'rownames',
@@ -533,6 +545,7 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                      xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                      main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                      ...) {
+#  print(label.position)
 
   plot.columns <- colnames(plot.data)
   mapping <- ggplot2::aes_string(x = plot.columns[1L], y = plot.columns[2L])
@@ -560,7 +573,8 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                   label.hjust = label.hjust,
                   label.vjust = label.vjust,
                   label.repel = label.repel,
-                  label.show.legend = label.show.legend)
+                  label.show.legend = label.show.legend,
+                  label.position = label.position)
 
   if (loadings.label && !loadings) {
     # If loadings.label is TRUE, draw loadings
@@ -579,7 +593,7 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
 
     p <- p + geom_segment(data = loadings.data,
                           mapping = loadings.mapping,
-                          arrow = grid::arrow(length = grid::unit(8, 'points')),
+                          arrow = loadings.arrow,
                           colour = loadings.colour)
     p <- plot_label(p = p, data = loadings.data, label = loadings.label,
                     label.label = loadings.label.label,
@@ -593,7 +607,8 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                     label.hjust = loadings.label.hjust,
                     label.vjust = loadings.label.vjust,
                     label.repel = loadings.label.repel,
-                    label.show.legend = label.show.legend)
+                    label.show.legend = label.show.legend,
+                    label.position = label.position)
   }
 
   if (missing(frame) && !is.null(frame.type)) {

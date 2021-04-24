@@ -25,7 +25,9 @@ ggbiplot(
   label.hjust = NULL,
   label.vjust = NULL,
   label.repel = FALSE,
+  label.position = "identity",
   loadings = FALSE,
+  loadings.arrow = grid::arrow(length = grid::unit(8, "points")),
   loadings.colour = "#FF0000",
   loadings.label = FALSE,
   loadings.label.label = "rownames",
@@ -96,7 +98,11 @@ ggbiplot(
 
 \item{label.repel}{Logical flag indicating whether to use \code{ggrepel}, enabling this may take some time for plotting}
 
+\item{label.position}{Character or a position function}
+
 \item{loadings}{Logical value whether to display loadings arrows}
+
+\item{loadings.arrow}{An arrow definition}
 
 \item{loadings.colour}{Point colour for data}
 
