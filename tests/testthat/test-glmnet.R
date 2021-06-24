@@ -43,7 +43,7 @@ test_that('fortify.glmnet works for QuickStartExample', {
   library(glmnet)
   set.seed(1)
   data(QuickStartExample)
-  res <- glmnet(x, y)
+  res <- glmnet(QuickStartExample$x, QuickStartExample$y)
   fortified <- ggplot2::fortify(res)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_equal(dim(fortified), c(67, 23))
@@ -51,7 +51,7 @@ test_that('fortify.glmnet works for QuickStartExample', {
   p <- ggplot2::autoplot(res)
   expect_true(is(p, 'ggplot'))
 
-  res <- cv.glmnet(x, y)
+  res <- cv.glmnet(QuickStartExample$x, QuickStartExample$y)
   fortified <- ggplot2::fortify(res)
   expect_equal(is.data.frame(fortified), TRUE)
   expect_true(nrow(fortified) >= 65)
