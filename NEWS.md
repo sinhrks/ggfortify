@@ -1,6 +1,8 @@
 ## ggfortify 0.4.12
 
-* Use `QuickStartExample` to access `x` and `y` explicitly to fix CRAN error.
+* Used `QuickStartExample` to access `x` and `y` explicitly to fix CRAN error.
+* Fixed the warning related to the non-uniform sampler used in tests.
+* Added various missing visible bindings for global variables.
 
 ## ggfortify 0.4.11
 
