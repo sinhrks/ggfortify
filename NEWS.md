@@ -1,6 +1,6 @@
-## ggfortify development version (master branch)
+## ggfortify 0.4.12
 
-TBA
+* Use `QuickStartExample` to access `x` and `y` explicitly to fix CRAN error.
 
 ## ggfortify 0.4.11
 
