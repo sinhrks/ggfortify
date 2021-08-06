@@ -46,7 +46,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     }
 
     if ('strata' %in% names(model)) {
-      groupIDs <- gsub(".*=", '', names(model$strata))
+      groupIDs <- gsub("[^,]*=", '', names(model$strata))
       groupIDs <- factor(rep(groupIDs, model$strata), levels = groupIDs)
       if ('states' %in% names(model)) {
         groupIDs <- rep(groupIDs, length(model$states))

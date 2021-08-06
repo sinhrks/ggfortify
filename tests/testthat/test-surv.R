@@ -249,3 +249,15 @@ test_that('autoplot.aareg works for lung', {
   expect_equal(length(ld2$fill), 6)
   expect_equal(ld2$alpha, rep(0.3, 6))
 })
+
+test_that('fortify.survfit regular expression for renaming strata works with multiple stratification variables', {
+  skip_if_not_installed("survival")
+  library(survival)
+  d.survfit <- survival::survfit(Surv(time, status) ~ sex + ph.ecog, data = lung)
+  fortified <- ggplot2::fortify(d.survfit)
+  expect_equal(is.data.frame(fortified), TRUE)
+  expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
+                      'std.err', 'upper', 'lower', 'strata')
+  expect_equal(names(fortified), expected_names)
+  expect_equal(length(fortified$strata), 8)
+})
