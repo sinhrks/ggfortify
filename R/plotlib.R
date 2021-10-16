@@ -626,7 +626,6 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
       } else {
         hulls <- plot.data %>%
           dplyr::group_by(.data[[frame.colour]]) %>%
-          dplyr::select(1:2) %>%
           dplyr::do(.[grDevices::chull(.[, 1L:2L]), ])
       }
       mapping <- aes_string(colour = frame.colour, fill = frame.colour)
