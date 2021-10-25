@@ -1,3 +1,8 @@
+## ggfortify 0.4.13
+
+* Added support for `survfit` objects with multiple stratification variables.
+* Fixed bug in rendering frames for clustering.
+
 ## ggfortify 0.4.12
 
 * Used `QuickStartExample` to access `x` and `y` explicitly to fix CRAN error.
