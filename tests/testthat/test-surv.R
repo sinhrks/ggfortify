@@ -259,5 +259,4 @@ test_that('fortify.survfit regular expression for renaming strata works with mul
   expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
                       'std.err', 'upper', 'lower', 'strata')
   expect_equal(names(fortified), expected_names)
-  expect_equal(length(fortified$strata), 8)
 })
