@@ -83,9 +83,9 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       sqrt(stats::deviance(object) / stats::df.residual(object))
     }
     hii <- stats::lm.influence(object, do.coef = FALSE)$hat
-
-    is_const_lev <- all(hii == 0) ||
-      diff(hii) < 1e-10 * mean(hii, na.rm = TRUE)
+    r.hat <- range(hii, na.rm = TRUE)
+    is_const_lev <- all(r.hat == 0) ||
+      diff(r.hat) < 1e-10 * mean(hii, na.rm = TRUE)
 
     fs <- dplyr::select_if(plot.data,
                     function(x) is.character(x) | is.factor(x))
