@@ -38,3 +38,9 @@ coding style described in this document.
 #### Coding style
 
 We are following Google's R style guide that can be found [here](https://google.github.io/styleguide/Rguide.xml).
+
+### Releasing
+
+* Update version and date in `DESCRIPTION`.
+* Add release notes in `cran-comments.md` and `NEWS.md`.
+* Run `devtools::release(args = "--no-build-vignettes")`.
