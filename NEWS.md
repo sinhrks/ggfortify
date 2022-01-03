@@ -1,3 +1,8 @@
+## ggfortify 0.4.14
+
+* Switched to use range of leverages to check for constant leverage to be consistent with `plot.lm()`.
+* Switched to use MIT license.
+
 ## ggfortify 0.4.13
 
 * Added support for `survfit` objects with multiple stratification variables.
