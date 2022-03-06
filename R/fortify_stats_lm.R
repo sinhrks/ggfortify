@@ -85,7 +85,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     hii <- stats::lm.influence(object, do.coef = FALSE)$hat
     r.hat <- range(hii, na.rm = TRUE)
     is_const_lev <- all(r.hat == 0) ||
-      diff(r.hat) < 1e-10 * mean(hii, na.rm = TRUE)
+      all(diff(r.hat) < 1e-10 * mean(hii, na.rm = TRUE))
 
     fs <- dplyr::select_if(plot.data,
                     function(x) is.character(x) | is.factor(x))
