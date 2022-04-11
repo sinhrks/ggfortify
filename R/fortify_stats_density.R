@@ -88,10 +88,16 @@ autoplot.density <- function (object, p = NULL,
 #' @export
 ggdistribution <- function (func, x, p = NULL,
                             colour = '#000000', linetype = NULL,
-                            fill = NULL, alpha = NULL, ...)  {
+                            fill = NULL, alpha = NULL, 
+                            xlim = c(NA, NA), ylim = c(NA, NA), log = "",
+                            main = NULL, xlab = NULL, ylab = NULL, 
+                            asp = NULL, ...)  {
   data <- data.frame(x = x, y = func(x, ...),
                      ymin = rep(0, length(x)))
   p <- autoplot.density(data, p = p, colour = colour, linetype = linetype,
-                        fill = fill, alpha = alpha, ...)
+                        fill = fill, alpha = alpha, 
+                        xlim = xlim, ylim = ylim, log = log,
+                        main = main, xlab = xlab, ylab = ylab, asp = asp,
+                        ...)
   p
 }
