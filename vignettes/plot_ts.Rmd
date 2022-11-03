@@ -150,43 +150,6 @@ autoplot(breakpoints(Nile ~ 1), ts.colour = 'blue', ts.linetype = 'dashed',
          cpt.colour = 'dodgerblue3', cpt.linetype = 'solid')
 ```
 
-# Plotting with `{dlm}` package
-
-`autoplot` can draw both original and fitted time series, because `dlm::dlmFilter` contains them. 
-
-```{r, message=FALSE, warning=FALSE, eval=FALSE}
-library(dlm)
-form <- function(theta){
-  dlmModPoly(order = 1, dV = exp(theta[1]), dW = exp(theta[2]))
-}
-
-model <- form(dlmMLE(Nile, parm = c(1, 1), form)$par)
-filtered <- dlmFilter(Nile, model)
-
-autoplot(filtered)
-```
-
-You can specify some options to change how plot looks, such as `ts.linetype` and `fitted.colour`. Use `help(autoplot.tsmodel)` (or `help(autoplot.*)` for any other objects) to check available options.
-
-```{r, eval=FALSE}
-autoplot(filtered, ts.linetype = 'dashed', fitted.colour = 'blue')
-```
-
-`{ggfortify}` can plot `dlm::dlmSmooth` instance which returns a `list` instance using using class inference. Note that only smoothed result is plotted because `dlm::dlmSmooth` doesn't contain original `ts`.
-
-```{r, eval=FALSE}
-smoothed <- dlmSmooth(filtered)
-class(smoothed)
-autoplot(smoothed)
-```
-
-To plot original `ts`, filtered result and smoothed result, you can use`autoplot` as below. When `autoplot` accepts `ggplot` instance via `p` option, continuous plot is drawn on the passed `ggplot`. 
-
-```{r, eval=FALSE}
-p <- autoplot(filtered)
-autoplot(smoothed, ts.colour = 'blue', p = p)
-```
-
 # Plotting with `{KFAS}` package
 
 You can use `autoplot` in almost the same manner as `{dlm}`. Note that `autoplot` draws smoothed result if it exists in `KFAS::KFS` instance, and `KFAS::KFS` contains smoothed result by default. 

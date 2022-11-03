@@ -218,9 +218,6 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' @param y principal component number used in y axis
 #' @param variance_percentage show the variance explained by the principal component?
 #' @param ... other arguments passed to [ggbiplot()]
-#' @inheritParams ggbiplot
-#' @inheritParams plot_label
-#' @inheritParams post_autoplot
 #' @aliases autoplot.prcomp autoplot.princomp autoplot.factanal
 #' @examples
 #' autoplot(stats::prcomp(iris[-5]))

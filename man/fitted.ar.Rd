@@ -4,7 +4,7 @@
 \alias{fitted.ar}
 \title{Calculate fitted values for \code{stats::ar}}
 \usage{
-\method{fitted}{ar}(object, ...)
+fitted.ar(object, ...)
 }
 \arguments{
 \item{object}{\code{stats::ar} instance}

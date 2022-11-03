@@ -1,15 +1,17 @@
 ## Test environments
-* local OS X install, R 4.1.1
-* ubuntu 12.04 (on travis-ci), R 3.4.2
+* local OS X install, R 4.2.2
+* ubuntu 12.04, R 4.2.2
 * win-builder (devel and release)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 2 notes
+
+The notes can be ignored.
 
 ## Notes
 
 Notable changes are:
 
-* Switched to use range of leverages to check for constant leverage to be consistent with `plot.lm()`.
-* Switched to use MIT license.
+* Removed support from objects in `dlm` library.
+* Resolved warnings in `R CMD check`.

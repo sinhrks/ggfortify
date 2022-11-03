@@ -61,8 +61,6 @@ This covers following classes:
 - ``cluster::pam``
 - ``cluster::silhouette``
 - ``changepoint::cpt``
-- ``dlm::dlmFilter``
-- ``dlm::dlmSmooth`` (inference)
 - ``fGarch::fGARCH``
 - ``forecast::bats``
 - ``forecast::forecast``

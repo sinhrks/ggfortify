@@ -47,55 +47,6 @@ test_that('fortify works for MDS-likes', {
   expect_equal(nrow(fortified), 21)
 })
 
-# test_that('infer, fortify and autoplot works for dlm::dlmSmooth', {
-#   skip_on_cran()
-#   skip_on_travis()
-#   skip_if_not_installed("dlm")
-#   nile_fortified <- fortify(Nile)
-# 
-#   library(dlm)
-#   form <- function(theta){
-#     dlm::dlmModPoly(order=1, dV=exp(theta[1]), dW=exp(theta[2]))
-#   }
-#   model <- form(dlm::dlmMLE(Nile, parm=c(1, 1), form)$par)
-#   filtered <- dlm::dlmFilter(Nile, model)
-#   fortified <- fortify(filtered)
-#   expect_equal(colnames(fortified), c('Index', 'Data', 'Fitted', 'Residuals'))
-#   expect_equal(fortified$Index, nile_fortified$Index)
-# 
-#   smoothed <- dlm::dlmSmooth(filtered)
-#   expect_equal(infer(smoothed), 'dlmSmooth')
-# 
-#   fortified <- fortify(smoothed)
-#   expect_equal(colnames(fortified), c('Index', 'Data'))
-#   expect_equal(fortified$Index, nile_fortified$Index)
-# 
-#   autoplot(filtered)
-#   autoplot(smoothed)
-# 
-#   form <- function(parm){
-#     dlmModPoly(order = 2, dV = exp(parm[1]), dW = exp(parm[2:3]))
-#   }
-#   y <- log(Nile)
-#   model <- form(dlm::dlmMLE(y, parm=log(c(var(y), 0.001, 0.001)), form)$par)
-#   parm <- log(c(var(y), 0.001, 0.001))
-# 
-#   filtered <- dlm::dlmFilter(y, model)
-#   fortified <- fortify(filtered)
-#   expect_equal(colnames(fortified), c('Index', 'Data', 'Fitted', 'Residuals'))
-#   expect_equal(fortified$Index, nile_fortified$Index)
-# 
-#   smoothed <- dlm::dlmSmooth(filtered)
-#   expect_equal(infer(smoothed), 'dlmSmooth')
-# 
-#   fortified <- fortify(smoothed)
-#   expect_equal(colnames(fortified), c('Index', 'Data'))
-#   expect_equal(fortified$Index, nile_fortified$Index)
-# 
-#   autoplot(filtered)
-#   autoplot(smoothed)
-# })
-
 test_that('infer, fortify and autoplot works for KFAS::signal', {
   skip_on_cran()
   skip_on_travis()

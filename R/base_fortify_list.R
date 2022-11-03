@@ -8,15 +8,6 @@ fortify.list <- function(model, data = NULL, ...) {
   klass <- infer(model)
   if (klass == 'mds-like') {
     return(ggplot2::fortify(model$points))
-  } else if (klass == 'dlmSmooth') {
-    if (requireNamespace("dlm", quietly = TRUE)) {
-      s <- dlm::dropFirst(model$s)
-      if (!is.univariate(s, raise = FALSE)) {
-        s <- s[, 1]
-      }
-      return(ggplot2::fortify(s))
-    }
-    
   } else if (klass == 'KFASSignal') {
     return(ggplot2::fortify(model$signal))
   }
@@ -41,14 +32,6 @@ autoplot.list <- function(object, data = NULL,
   klass <- infer(object)
   if (klass == 'mds-like') {
     return(ggplot2::autoplot(object$points[, 1:2], geom = 'point', ...))
-  } else if (klass == 'dlmSmooth') {
-    if (requireNamespace("dlm", quietly = TRUE)) {
-      s <- dlm::dropFirst(object$s)
-      if (!is.univariate(s, raise = FALSE)) {
-        s <- s[, 1]
-      }
-      return(ggplot2::autoplot(s, ...))
-    }
   } else if (klass == 'KFASSignal') {
     return(ggplot2::autoplot(object$signal, ...))
   }

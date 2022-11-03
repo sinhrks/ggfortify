@@ -42,7 +42,6 @@ Suggests:
     testthat,
     cluster,
     changepoint,
-    dlm,
     fGarch,
     forecast,
     ggrepel,

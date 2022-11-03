@@ -77,6 +77,13 @@ autoplot.density <- function (object, p = NULL,
 #' @param linetype Line type
 #' @param fill Fill colour
 #' @param alpha Alpha
+#' @param xlim X axis limit
+#' @param ylim Y axis limit
+#' @param log log
+#' @param main main
+#' @param xlab xlab
+#' @param ylab ylab
+#' @param asp asp
 #' @param ... Keywords passed to PDC/CDF func
 #' @return ggplot
 #' @examples
