@@ -118,11 +118,13 @@ ggplot
 Autoplot \code{survival::survfit}
 }
 \examples{
+\dontrun{
 if (requireNamespace("survival", quietly = TRUE)) {
   autoplot(survfit(Surv(time, status) ~ sex, data = lung))
   autoplot(survfit(Surv(time, status) ~ sex, data = lung), facets = TRUE)
   autoplot(survfit(Surv(time, status) ~ 1, data = lung))
   autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
   autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
+}
 }
 }

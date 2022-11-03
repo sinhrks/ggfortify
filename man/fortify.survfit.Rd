@@ -25,11 +25,12 @@ data.frame
 Convert \code{survival::survfit} to \code{data.frame}
 }
 \examples{
+\dontrun{
 if (requireNamespace("survival", quietly = TRUE)) {
   fortify(survfit(Surv(time, status) ~ sex, data = lung))
   fortify(survfit(Surv(time, status) ~ 1, data = lung))
   fortify(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
   fortify(survfit(coxph(Surv(time, status) ~ 1, data = lung)))
 }
-
+}
 }

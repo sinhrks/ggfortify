@@ -33,8 +33,10 @@ data.frame
 Convert \code{survival::aareg} to \code{data.frame}
 }
 \examples{
+\dontrun{
 if (requireNamespace("survival", quietly = TRUE)) {
   fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
   fortify(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1), melt = TRUE)  
+}
 }
 }
