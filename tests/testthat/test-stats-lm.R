@@ -561,9 +561,9 @@ test_that('autoplot.lm can be used in ggsave()', {
   skip_on_cran()
   skip_on_travis()
   p <- autoplot(lm(Petal.Width~Petal.Length, data = iris), size = 5)
-  ggsave(p, file='temp.png', h = 6, w = 6, units = "in", dpi = 300)
-  expect_true(file.exists('temp.png'))
-  unlink('temp.png')
+  # ggsave(p, file='temp.png', h = 6, w = 6, units = "in", dpi = 300)
+  # expect_true(file.exists('temp.png'))
+  # unlink('temp.png')
 })
 
 test_that('fortify.lm works with AsIs response', {
@@ -573,7 +573,7 @@ test_that('fortify.lm works with AsIs response', {
   p <- autoplot(mdl_cars, which = 1:6)
   expect_true(is(p, 'ggmultiplot'))
   # Previous problems occurred when printing, so write to file
-  ggsave(p, file='temp-test-AsIs.png', h = 6, w = 6, units = "in", dpi = 50)
-  expect_true(file.exists('temp-test-AsIs.png'))
-  unlink('temp-test-AsIs.png')
+  # ggsave(p, file='temp-test-AsIs.png', h = 6, w = 6, units = "in", dpi = 50)
+  # expect_true(file.exists('temp-test-AsIs.png'))
+  # unlink('temp-test-AsIs.png')
 })

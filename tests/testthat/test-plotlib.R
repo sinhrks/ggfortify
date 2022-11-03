@@ -187,7 +187,7 @@ test_that('Check geom_factory works', {
 
   result <- ggfortify:::geom_factory(geom_line, iris)
   expected <- c("mapping:  ",
-                "geom_line: na.rm = FALSE",
+                "geom_line: na.rm = FALSE, orientation = NA",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
@@ -195,7 +195,7 @@ test_that('Check geom_factory works', {
 
   result <- ggfortify:::geom_factory(geom_line, iris, linetype = 'dashed')
   expected <- c("mapping:  ",
-                "geom_line: na.rm = FALSE",
+                "geom_line: na.rm = FALSE, orientation = NA",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
@@ -204,7 +204,7 @@ test_that('Check geom_factory works', {
   result <- ggfortify:::geom_factory(geom_line, iris, linetype = 'dashed',
                                      colour = 'Species')
   expected <- c("mapping: colour = ~Species ",
-                "geom_line: na.rm = FALSE",
+                "geom_line: na.rm = FALSE, orientation = NA",
                 "stat_identity: na.rm = FALSE",
                 "position_identity ")
 
