@@ -1,6 +1,7 @@
 context('test stats')
 
 test_that('fortify.stl works for AirPassengers', {
+  skip_if_not_installed("zoo")
   fortified <- ggplot2::fortify(stats::stl(AirPassengers, s.window = 'periodic'))
   expect_true(is.data.frame(fortified))
 
@@ -23,6 +24,7 @@ test_that('fortify.stl works for AirPassengers', {
 test_that('fortify.Arima works for AirPassengers', {
   skip_if_not_installed("forecast")
   skip_if_not_installed("fGarch")
+  skip_if_not_installed("zoo")
   fortified <- ggplot2::fortify(ar(AirPassengers))
   expect_true(is.data.frame(fortified))
   expected_names <- c('Index', 'Data', 'Fitted', 'Residuals')
