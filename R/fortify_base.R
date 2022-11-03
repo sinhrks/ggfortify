@@ -90,7 +90,7 @@ autoplot.matrix <- function (object, original = NULL, geom = 'tile',
     fortified <- ggplot2::fortify(object, original = original)
     fortified$Index <- rownames(fortified)
     cols <- colnames(fortified)
-    gathered <- tidyr::gather_(fortified, 'variable', 'value',
+    gathered <- tidyr::gather(fortified, 'variable', 'value',
                                cols[cols != 'Index'])
 
     if (is.null(scale)) {

@@ -64,7 +64,7 @@ autoplot.glmnet <- function (object,
   label.data <- plot.data[indexer, ]
 
   # preparing plot data
-  plot.data <- tidyr::gather_(plot.data, 'variable', 'value', cols)
+  plot.data <- tidyr::gather(plot.data, 'variable', 'value', cols)
   # preparing label data (no need to gather)
   label.data$label_y <- rep(max(plot.data$value), nrow(label.data))
 

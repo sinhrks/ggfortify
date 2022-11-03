@@ -12,6 +12,13 @@ ggdistribution(
   linetype = NULL,
   fill = NULL,
   alpha = NULL,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  log = "",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  asp = NULL,
   ...
 )
 }

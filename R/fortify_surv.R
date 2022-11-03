@@ -304,7 +304,7 @@ fortify.aareg <- function(model, data = NULL,
     if (surv.connect) {
       d <- rbind(0, d)
     }
-    d <- tidyr::gather_(d, 'variable', 'coef', cols)
+    d <- tidyr::gather(d, 'variable', 'coef', cols)
     d <- d %>%
       dplyr::group_by(variable) %>%
       dplyr::mutate(se = sqrt(cumsum(coef ^ 2)),

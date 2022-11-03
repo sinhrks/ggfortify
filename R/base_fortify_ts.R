@@ -79,7 +79,7 @@ fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
 
   # unpivot
   if (melt) {
-    d <- tidyr::gather_(d, 'variable', 'value', columns)
+    d <- tidyr::gather(d, 'variable', 'value', columns)
   }
   post_fortify(d)
 }
@@ -357,12 +357,14 @@ fortify.tsmodel <- function(model, data = NULL,
     }
   } else if (is(model, 'dlmFiltered')) {
     d <- ggplot2::fortify(model$y, is.date = is.date)
-    m <- dlm::dropFirst(model$m)
-    if (!is.univariate(m, raise = FALSE)) {
-      m <- m[, 1]
+    if (requireNamespace("dlm", quietly = TRUE)) {
+      m <- dlm::dropFirst(model$m)
+      if (!is.univariate(m, raise = FALSE)) {
+        m <- m[, 1]
+      }
+      fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
+      resid <- ggplot2::fortify(model$y - m, data.name = 'Residuals', is.date = is.date)
     }
-    fit <- ggplot2::fortify(m, data.name = 'Fitted', is.date = is.date)
-    resid <- ggplot2::fortify(model$y - m, data.name = 'Residuals', is.date = is.date)
   } else if (is(model, 'KFS')) {
     d <- ggplot2::fortify(model$model$y, is.date = is.date)
     m <- model$alphahat
