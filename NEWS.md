@@ -1,6 +1,6 @@
 ## ggfortify 0.4.15
 
-* Removed support from objects in `dlm` library.
+* Removed `autoplot()` support for objects in `dlm` library.
 * Resolved warnings in `R CMD check`.
 
 ## ggfortify 0.4.14

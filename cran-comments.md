@@ -5,13 +5,11 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 2 notes
-
-The notes can be ignored.
+0 errors | 0 warnings | 0 notes
 
 ## Notes
 
 Notable changes are:
 
-* Removed support from objects in `dlm` library.
+* Removed support for objects in `dlm` library.
 * Resolved warnings in `R CMD check`.

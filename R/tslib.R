@@ -178,7 +178,8 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' @return ts An time series of the one-step forecasts
 #' @examples
 #' fitted(ar(WWWusage))
-#' @export
+#' @exportS3Method fitted ar
+#' @method fitted ar
 fitted.ar <- function(object, ...) {
   x <- forecast::getResponse(object)
   return(x - stats::residuals(object))
