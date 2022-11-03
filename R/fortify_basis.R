@@ -15,11 +15,13 @@
 #'     dplyr to throw errors, so a special method is needed to avoid
 #'     copying the class attribute.
 #' @examples
+#' \dontrun{
 #' library(splines)
 #' library(tibble)
 #' x <- seq(0, 1, by=0.001)
 #' spl <- bs(x, df=6)
 #' as_tibble(spl)
+#' }
 #' @importFrom tibble as_tibble
 as_tibble.basis <- function(x, ...) {
     attr(x, "basis.class") <- attr(x, "class")
@@ -41,10 +43,12 @@ as_tibble.basis <- function(x, ...) {
 #'     and y (numeric); giving the interpolated x and y values for
 #'     each of the splines in the basis.
 #' @examples
+#' \dontrun{
 #' library(splines)
 #' x <- seq(0, 1, by=0.001)
 #' spl <- bs(x, df=6)
 #' fortify(spl)
+#' }
 #' @importFrom tibble as_tibble
 #' @importFrom stats predict
 #' @export
@@ -76,11 +80,13 @@ fortify.basis <- function(model, data, n=256, ...) {
 #' @param ... Ignored.
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' library(splines)
 #' x <- seq(0, 1, by=0.001)
 #' spl <- bs(x, df=6)
 #' autoplot(spl)
 #' autoplot(spl, n=5)
+#' }
 #' @export
 autoplot.basis <- function(object, data, n=256, ...) {
     fortified <- ggplot2::fortify(object, data, n)

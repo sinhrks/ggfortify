@@ -43,9 +43,11 @@ data.frame
 Convert time-series-like to data.frame
 }
 \examples{
+\dontrun{
 fortify(AirPassengers)
 fortify(timeSeries::as.timeSeries(AirPassengers))
 fortify(tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2)))
 fortify(stats::stl(UKgas, s.window = 'periodic'))
 fortify(stats::decompose(UKgas))
+}
 }

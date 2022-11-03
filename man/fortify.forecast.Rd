@@ -25,8 +25,10 @@ data.frame
 Convert \code{forecast::forecast} to \code{data.frame}
 }
 \examples{
+\dontrun{
 d.arima <- forecast::auto.arima(AirPassengers)
 d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 fortify(d.forecast)
 fortify(d.forecast, ts.connect = TRUE)
+}
 }

@@ -8,9 +8,11 @@
 #' @param melt Logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' data(Canada, package = 'vars')
 #' d.var <- vars::VAR(Canada, p = 3, type = 'const')
 #' fortify(stats::predict(d.var, n.ahead = 50))
+#' }
 #' @export
 fortify.varprd <- function(model, data = NULL, is.date = NULL,
                            ts.connect = FALSE, melt = FALSE, ...){
@@ -56,10 +58,12 @@ fortify.varprd <- function(model, data = NULL, is.date = NULL,
 #' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' data(Canada, package = 'vars')
 #' d.var <- vars::VAR(Canada, p = 3, type = 'const')
 #' autoplot(stats::predict(d.var, n.ahead = 50), is.date = TRUE)
 #' autoplot(stats::predict(d.var, n.ahead = 50), conf.int = FALSE)
+#' }
 #' @export
 autoplot.varprd <- function(object, is.date = NULL, ts.connect = TRUE,
                             scales = 'free_y',

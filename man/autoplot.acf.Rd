@@ -71,7 +71,9 @@ Autoplot \code{stats::acf}. Note to pass `plot = FALSE` to original function to 
 standard plot output
 }
 \examples{
+\dontrun{
 autoplot(stats::acf(AirPassengers, plot = FALSE))
 autoplot(stats::pacf(AirPassengers, plot = FALSE))
 autoplot(stats::ccf(AirPassengers, AirPassengers, plot = FALSE))
+}
 }

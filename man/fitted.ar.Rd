@@ -18,5 +18,7 @@ ts An time series of the one-step forecasts
 Calculate fitted values for \code{stats::ar}
 }
 \examples{
+\dontrun{
 fitted(ar(WWWusage))
+}
 }

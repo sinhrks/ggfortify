@@ -29,8 +29,10 @@ data.frame with 3 columns: Spline (character), x (numeric),
 Convert spline basis instances to \code{data.frame}
 }
 \examples{
+\dontrun{
 library(splines)
 x <- seq(0, 1, by=0.001)
 spl <- bs(x, df=6)
 fortify(spl)
+}
 }

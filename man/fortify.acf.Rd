@@ -33,9 +33,11 @@ data.frame
 Convert \code{stats::acf} to \code{data.frame}
 }
 \examples{
+\dontrun{
 fortify(stats::acf(AirPassengers))
 fortify(stats::pacf(AirPassengers))
 fortify(stats::ccf(AirPassengers, AirPassengers))
 
 fortify(stats::acf(AirPassengers), conf.int = TRUE)
+}
 }

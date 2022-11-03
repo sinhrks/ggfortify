@@ -42,5 +42,7 @@ ggplot
 Plots a cumulative periodogram
 }
 \examples{
+\dontrun{
 ggcpgram(AirPassengers)
+}
 }

@@ -21,9 +21,11 @@ data.frame
 Convert \code{stats::prcomp}, \code{stats::princomp} to \code{data.frame}
 }
 \examples{
+\dontrun{
 fortify(stats::prcomp(iris[-5]))
 fortify(stats::prcomp(iris[-5]), data = iris)
 
 fortify(stats::princomp(iris[-5]))
 fortify(stats::princomp(iris[-5]), data = iris)
+}
 }

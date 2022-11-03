@@ -7,6 +7,7 @@
 #' @return data.frame
 #' @aliases fortify.breakpointsfull fortify.breakpoints
 #' @examples
+#' \dontrun{
 #' library(changepoint)
 #' fortify(cpt.mean(AirPassengers))
 #' fortify(cpt.var(AirPassengers))
@@ -17,6 +18,7 @@
 #' fortify(bp.nile)
 #' fortify(breakpoints(bp.nile, breaks = 2))
 #' fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
+#' }
 #' @export
 fortify.cpt <- function(model, data = NULL,
                         is.date = NULL, ...) {
@@ -68,9 +70,11 @@ fortify.breakpointsfull <- fortify.cpt
 #' @param ... other arguments passed \code{autoplot.ts}
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' library(changepoint)
 #' autoplot(cpt.mean(AirPassengers))
 #' autoplot(cpt.meanvar(AirPassengers))
+#' }
 #' @export
 autoplot.cpt <- function(object, is.date = NULL,
                          cpt.colour = '#FF0000', cpt.linetype = 'dashed',
@@ -102,11 +106,13 @@ autoplot.cpt <- function(object, is.date = NULL,
 #' @return ggplot
 #' @aliases autoplot.breakpointsfull
 #' @examples
+#' \dontrun{
 #' library(strucchange)
 #' bp.nile <- breakpoints(Nile ~ 1)
 #' autoplot(bp.nile)
 #' autoplot(bp.nile, is.date = TRUE)
 #' autoplot(breakpoints(bp.nile, breaks = 2), data = Nile)
+#' }
 #' @export
 autoplot.breakpoints <- function(object, data = NULL,
                                  cpt.colour = '#FF0000', cpt.linetype = 'dashed',

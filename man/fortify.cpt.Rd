@@ -25,6 +25,7 @@ data.frame
 Convert \code{changepoint::cpt} and \code{strucchange::breakpoints} to \code{data.frame}
 }
 \examples{
+\dontrun{
 library(changepoint)
 fortify(cpt.mean(AirPassengers))
 fortify(cpt.var(AirPassengers))
@@ -35,4 +36,5 @@ bp.nile <- breakpoints(Nile ~ 1)
 fortify(bp.nile)
 fortify(breakpoints(bp.nile, breaks = 2))
 fortify(breakpoints(bp.nile, breaks = 2), data = Nile)
+}
 }

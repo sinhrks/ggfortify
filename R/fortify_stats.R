@@ -19,11 +19,13 @@ autoplot.decomposed.ts <- autoplot.ts
 #' @param conf.int.type Type of confidence interval, 'white' for white noise or 'ma' MA(k-1) model
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(stats::acf(AirPassengers))
 #' fortify(stats::pacf(AirPassengers))
 #' fortify(stats::ccf(AirPassengers, AirPassengers))
 #'
 #' fortify(stats::acf(AirPassengers), conf.int = TRUE)
+#' }
 #' @export
 fortify.acf <- function(model, data = NULL,
                         conf.int = TRUE, conf.int.value = 0.95,
@@ -50,9 +52,11 @@ fortify.acf <- function(model, data = NULL,
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' autoplot(stats::acf(AirPassengers, plot = FALSE))
 #' autoplot(stats::pacf(AirPassengers, plot = FALSE))
 #' autoplot(stats::ccf(AirPassengers, AirPassengers, plot = FALSE))
+#' }
 #' @export
 autoplot.acf <- function(object,
                          colour = '#000000', linetype = 'solid',
@@ -91,9 +95,11 @@ autoplot.acf <- function(object,
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(spectrum(AirPassengers))
 #' fortify(stats::spec.ar(AirPassengers))
 #' fortify(stats::spec.pgram(AirPassengers))
+#' }
 #' @export
 fortify.spec <- function(model, data = NULL, ...) {
   d <- data.frame(Frequency = model$freq,
@@ -108,8 +114,10 @@ fortify.spec <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' autoplot(stats::spec.ar(AirPassengers))
 #' autoplot(stats::spec.pgram(AirPassengers))
+#' }
 #' @export
 autoplot.spec <- function(object,
                           xlim = c(NA, NA), ylim = c(NA, NA), log = "y",
@@ -131,11 +139,13 @@ autoplot.spec <- function(object,
 #' @return data.frame
 #' @aliases fortify.princomp
 #' @examples
+#' \dontrun{
 #' fortify(stats::prcomp(iris[-5]))
 #' fortify(stats::prcomp(iris[-5]), data = iris)
 #'
 #' fortify(stats::princomp(iris[-5]))
 #' fortify(stats::princomp(iris[-5]), data = iris)
+#' }
 #' @export
 fortify.prcomp <- function(model, data = NULL, ...) {
 
@@ -165,9 +175,11 @@ fortify.princomp <- fortify.prcomp
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 #' fortify(d.factanal)
 #' fortify(d.factanal, data = state.x77)
+#' }
 #' @export
 fortify.factanal <- function(model, data = NULL, ...) {
 

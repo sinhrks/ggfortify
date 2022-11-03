@@ -64,12 +64,12 @@ ggplot
 Autoplot \code{forecast::forecast}
 }
 \examples{
+\dontrun{
 d.arima <- forecast::auto.arima(AirPassengers)
 autoplot(forecast::forecast(d.arima, h = 10))
 autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
 autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE, is.date = FALSE)
 autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
-\dontrun{
 autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 }
 }

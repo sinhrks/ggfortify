@@ -20,5 +20,7 @@ data.frame
 Convert \code{glmnet::glmnet} to \code{data.frame}
 }
 \examples{
+\dontrun{
 fortify(glmnet::glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+}
 }

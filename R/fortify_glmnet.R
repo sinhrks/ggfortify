@@ -4,7 +4,9 @@
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(glmnet::glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+#' }
 #' @export
 fortify.glmnet <- function(model, data = NULL, ...) {
   beta <- as.matrix(model$beta)
@@ -24,7 +26,9 @@ fortify.glmnet <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' autoplot(glmnet::glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+#' }
 #' @export
 autoplot.glmnet <- function (object,
                              xvar = c("norm", "lambda", "dev"),
@@ -90,7 +94,9 @@ autoplot.glmnet <- function (object,
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
-#' fortify(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+#' if (requireNamespace("survival", quietly = TRUE)) {
+#'   fortify(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+#' }
 #' @export
 fortify.cv.glmnet <- function(model, data = NULL, ...) {
   d <- data.frame('lambda' = log(model$lambda), 'cvm' = model$cvm,
@@ -109,7 +115,9 @@ fortify.cv.glmnet <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
-#' autoplot(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+#' if (requireNamespace("survival", quietly = TRUE)) {
+#'   autoplot(glmnet::cv.glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+#' }
 #' @export
 autoplot.cv.glmnet <- function (object,
                                 sign.lambda = 1,

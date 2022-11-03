@@ -54,5 +54,7 @@ ggplot
 Plots time-series diagnostics
 }
 \examples{
+\dontrun{
 ggtsdiag(arima(AirPassengers))
+}
 }

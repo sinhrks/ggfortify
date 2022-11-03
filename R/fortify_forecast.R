@@ -8,10 +8,12 @@
 #' @return data.frame
 #' @export
 #' @examples
+#' \dontrun{
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' d.forecast <- forecast::forecast(d.arima, level = c(95), h = 50)
 #' fortify(d.forecast)
 #' fortify(d.forecast, ts.connect = TRUE)
+#' }
 fortify.forecast <- function(model, data = NULL, is.date = NULL,
                              ts.connect = FALSE, ...) {
   forecasted <- as.data.frame(model)
@@ -32,12 +34,12 @@ fortify.forecast <- function(model, data = NULL, is.date = NULL,
 #' @param ... other arguments passed to \code{autoplot.ts}
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' d.arima <- forecast::auto.arima(AirPassengers)
 #' autoplot(forecast::forecast(d.arima, h = 10))
 #' autoplot(forecast::forecast(d.arima, level = c(85), h = 10))
 #' autoplot(forecast::forecast(d.arima, h = 5), conf.int = FALSE, is.date = FALSE)
 #' autoplot(forecast::forecast(stats::HoltWinters(UKgas), h = 10))
-#' \dontrun{
 #' autoplot(forecast::forecast(forecast::ets(UKgas), h = 5))
 #' }
 #' @export

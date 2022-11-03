@@ -81,5 +81,7 @@ ggplot
 Autoplot \code{glmnet::glmnet}
 }
 \examples{
+\dontrun{
 autoplot(glmnet::glmnet(data.matrix(Orange[-3]), data.matrix(Orange[3])))
+}
 }

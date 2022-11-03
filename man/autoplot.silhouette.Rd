@@ -33,6 +33,7 @@ ggplot
 Autoplot silhouette instances
 }
 \examples{
+\dontrun{
 model = cluster::pam(iris[-5], 3L)
 sil = cluster::silhouette(model)
 autoplot(sil)
@@ -43,4 +44,5 @@ autoplot(cluster::silhouette(cluster::fanny(iris[-5], 3)))
 model = stats::kmeans(iris[-5], 3)
 sil = cluster::silhouette(model$cluster, stats::dist(iris[-5]))
 autoplot(sil)
+}
 }

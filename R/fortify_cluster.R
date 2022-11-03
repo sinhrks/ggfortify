@@ -4,11 +4,13 @@
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(stats::kmeans(iris[-5], 3))
 #' fortify(stats::kmeans(iris[-5], 3), data = iris)
 #' fortify(cluster::clara(iris[-5], 3))
 #' fortify(cluster::fanny(iris[-5], 3))
 #' fortify(cluster::pam(iris[-5], 3), data = iris)
+#' }
 #' @export
 fortify.kmeans <- function(model, data = NULL, ...) {
 
@@ -33,12 +35,14 @@ fortify.kmeans <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to \code{autoplot::prcomp}
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' autoplot(stats::kmeans(iris[-5], 3), data = iris)
 #' autoplot(cluster::clara(iris[-5], 3), label = TRUE)
 #' autoplot(cluster::fanny(iris[-5], 3))
 #' autoplot(cluster::fanny(iris[-5], 3), frame = TRUE)
 #' autoplot(cluster::pam(iris[-5], 3), data = iris, colour = 'Species')
 #' autoplot(cluster::pam(iris[-5], 3), data = iris, frame = TRUE, frame.type = 't')
+#' }
 #' @export
 autoplot.kmeans <- function(object, data = NULL,
                             colour = 'cluster', ...) {
@@ -93,12 +97,14 @@ autoplot.pam <- autoplot.partition
 #' @inheritParams fortify_base
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(cluster::silhouette(cluster::pam(iris[-5], 3)))
 #' fortify(cluster::silhouette(cluster::clara(iris[-5], 3)))
 #' fortify(cluster::silhouette(cluster::fanny(iris[-5], 3)))
 #'
 #' mod = stats::kmeans(iris[-5], 3)
 #' fortify(cluster::silhouette(mod$cluster, stats::dist(iris[-5])))
+#' }
 #' @export
 fortify.silhouette <- function(model, data = NULL, ...) {
 
@@ -124,6 +130,7 @@ fortify.silhouette <- function(model, data = NULL, ...) {
 #' @param ... other arguments passed to methods
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' model = cluster::pam(iris[-5], 3L)
 #' sil = cluster::silhouette(model)
 #' autoplot(sil)
@@ -134,6 +141,7 @@ fortify.silhouette <- function(model, data = NULL, ...) {
 #' model = stats::kmeans(iris[-5], 3)
 #' sil = cluster::silhouette(model$cluster, stats::dist(iris[-5]))
 #' autoplot(sil)
+#' }
 #' @export
 autoplot.silhouette <- function(object, colour = "red",
                                 linetype = "dashed", size = 0.5,

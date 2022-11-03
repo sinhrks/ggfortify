@@ -41,6 +41,7 @@ data.frame
 Convert time series models (like AR, ARIMA) to \code{data.frame}
 }
 \examples{
+\dontrun{
 fortify(stats::ar(AirPassengers))
 fortify(stats::arima(UKgas))
 fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
@@ -53,4 +54,5 @@ data(LPP2005REC, package = 'timeSeries')
 x = timeSeries::as.timeSeries(LPP2005REC)
 d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
 fortify(d.Garch)
+}
 }

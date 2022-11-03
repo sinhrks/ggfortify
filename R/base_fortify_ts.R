@@ -11,11 +11,13 @@
 #' @param melt logical flag indicating whether to melt each timeseries as variable
 #' @return data.frame
 #' @examples
+#' \dontrun{
 #' fortify(AirPassengers)
 #' fortify(timeSeries::as.timeSeries(AirPassengers))
 #' fortify(tseries::irts(cumsum(rexp(10, rate = 0.1)), matrix(rnorm(20), ncol=2)))
 #' fortify(stats::stl(UKgas, s.window = 'periodic'))
 #' fortify(stats::decompose(UKgas))
+#' }
 #' @export
 fortify.ts <- function(model, data = NULL, columns = NULL, is.date = NULL,
                        index.name = 'Index', data.name = 'Data',
@@ -291,6 +293,7 @@ autoplot.irts <- autoplot.ts
 #' @aliases fortify.ar fortify.Arima fortify.fracdiff
 #' fortify.nnetar fortify.HoltWinters fortify.fGARCH
 #' @examples
+#' \dontrun{
 #' fortify(stats::ar(AirPassengers))
 #' fortify(stats::arima(UKgas))
 #' fortify(stats::arima(UKgas), data = UKgas, is.date = TRUE)
@@ -303,6 +306,7 @@ autoplot.irts <- autoplot.ts
 #' x = timeSeries::as.timeSeries(LPP2005REC)
 #' d.Garch = fGarch::garchFit(LPP40 ~ garch(1, 1), data = 100 * x, trace = FALSE)
 #' fortify(d.Garch)
+#' }
 fortify.tsmodel <- function(model, data = NULL,
                             predict = NULL,
                             is.date = NULL,
@@ -434,6 +438,7 @@ fortify.KFS <- fortify.tsmodel
 #' @return ggplot
 #' @aliases autoplot.ar autoplot.fracdiff autoplot.nnetar autoplot.HoltWinters autoplot.fGARCH
 #' @examples
+#' \dontrun{
 #' d.ar <- stats::ar(AirPassengers)
 #' autoplot(d.ar)
 #' autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
@@ -445,6 +450,7 @@ fortify.KFS <- fortify.tsmodel
 #' autoplot(d.holt)
 #' autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 #' autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
+#' }
 #' @export
 autoplot.tsmodel <- function(object, data = NULL,
                              predict = NULL,

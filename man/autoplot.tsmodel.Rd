@@ -97,6 +97,7 @@ ggplot
 Autoplot time series models (like AR, ARIMA)
 }
 \examples{
+\dontrun{
 d.ar <- stats::ar(AirPassengers)
 autoplot(d.ar)
 autoplot(d.ar, predict = predict(d.ar, n.ahead = 5))
@@ -108,4 +109,5 @@ d.holt <- stats::HoltWinters(USAccDeaths)
 autoplot(d.holt)
 autoplot(d.holt, predict = predict(d.holt, n.ahead = 5))
 autoplot(d.holt, predict = predict(d.holt, n.ahead = 5, prediction.interval = TRUE))
+}
 }

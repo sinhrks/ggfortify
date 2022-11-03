@@ -18,5 +18,7 @@ ts Residuals extracted from the object object.
 Calculate residuals for \code{stats::ar}
 }
 \examples{
+\dontrun{
 residuals(ar(WWWusage))
+}
 }

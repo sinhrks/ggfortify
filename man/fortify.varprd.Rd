@@ -34,7 +34,9 @@ data.frame
 Convert \code{vars::varprd} to \code{data.frame}
 }
 \examples{
+\dontrun{
 data(Canada, package = 'vars')
 d.var <- vars::VAR(Canada, p = 3, type = 'const')
 fortify(stats::predict(d.var, n.ahead = 50))
+}
 }

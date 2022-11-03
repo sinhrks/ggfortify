@@ -39,6 +39,7 @@ ggplot
 Autoplot \code{survival::aareg}
 }
 \examples{
-library(survival)
-autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
+if (requireNamespace("survival", quietly = TRUE)) {
+  autoplot(aareg(Surv(time, status) ~ age + sex + ph.ecog, data = lung, nmin = 1))
+}
 }

@@ -177,7 +177,9 @@ confint.acf <- function (x, ci = 0.95, ci.type = "white") {
 #' @param ... other keywords
 #' @return ts An time series of the one-step forecasts
 #' @examples
+#' \dontrun{
 #' fitted(ar(WWWusage))
+#' }
 #' @exportS3Method fitted ar
 #' @method fitted ar
 fitted.ar <- function(object, ...) {
@@ -191,7 +193,9 @@ fitted.ar <- function(object, ...) {
 #' @param ... other keywords
 #' @return ts Residuals extracted from the object object.
 #' @examples
+#' \dontrun{
 #' residuals(ar(WWWusage))
+#' }
 #' @export
 residuals.ar <- function(object, ...) {
   return(object$resid)
@@ -206,7 +210,9 @@ residuals.ar <- function(object, ...) {
 #' @inheritParams plot_confint
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' ggcpgram(AirPassengers)
+#' }
 #' @export
 ggcpgram <- function (ts, taper = 0.1,
                       colour = '#000000', linetype = 'solid',
@@ -261,7 +267,9 @@ ggcpgram <- function (ts, taper = 0.1,
 #' @param ... other keywords
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' ggtsdiag(arima(AirPassengers))
+#' }
 #' @export
 ggtsdiag <- function(object, gof.lag = 10,
                      conf.int = TRUE,
@@ -325,9 +333,11 @@ ggtsdiag <- function(object, gof.lag = 10,
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
 #' @examples
+#' \dontrun{
 #' ggfreqplot(AirPassengers)
 #' ggfreqplot(AirPassengers, freq = 4)
 #' ggfreqplot(AirPassengers, conf.int = TRUE)
+#' }
 #' @export
 ggfreqplot <- function(data, freq = NULL,
                        nrow = NULL, ncol = NULL,

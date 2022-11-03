@@ -20,7 +20,9 @@ data.frame
 Convert \code{stats::factanal} to \code{data.frame}
 }
 \examples{
+\dontrun{
 d.factanal <- stats::factanal(state.x77, factors = 3, scores = 'regression')
 fortify(d.factanal)
 fortify(d.factanal, data = state.x77)
+}
 }

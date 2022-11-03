@@ -20,10 +20,12 @@ data.frame
 Convert \code{cluster::silhouette} to \code{data.frame}
 }
 \examples{
+\dontrun{
 fortify(cluster::silhouette(cluster::pam(iris[-5], 3)))
 fortify(cluster::silhouette(cluster::clara(iris[-5], 3)))
 fortify(cluster::silhouette(cluster::fanny(iris[-5], 3)))
 
 mod = stats::kmeans(iris[-5], 3)
 fortify(cluster::silhouette(mod$cluster, stats::dist(iris[-5])))
+}
 }

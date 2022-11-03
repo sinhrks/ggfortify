@@ -20,7 +20,9 @@ data.frame
 Convert \code{stats::spec} to \code{data.frame}
 }
 \examples{
+\dontrun{
 fortify(spectrum(AirPassengers))
 fortify(stats::spec.ar(AirPassengers))
 fortify(stats::spec.pgram(AirPassengers))
+}
 }

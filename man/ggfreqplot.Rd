@@ -51,7 +51,9 @@ ggplot
 Plot seasonal subseries of time series, generalization of \code{stats::monthplot}
 }
 \examples{
+\dontrun{
 ggfreqplot(AirPassengers)
 ggfreqplot(AirPassengers, freq = 4)
 ggfreqplot(AirPassengers, conf.int = TRUE)
+}
 }
