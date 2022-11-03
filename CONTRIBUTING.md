@@ -43,4 +43,5 @@ We are following Google's R style guide that can be found [here](https://google.
 
 * Update version and date in `DESCRIPTION`.
 * Add release notes in `cran-comments.md` and `NEWS.md`.
+* Run `devtools::check(args = c("--no-build-vignettes"), env_vars = c(`_R_CHECK_DEPENDS_ONLY_` = "true"))` to test the package with the assumption that some packages may be missing.
 * Run `devtools::release(args = "--no-build-vignettes")`.
