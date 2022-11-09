@@ -14,7 +14,7 @@ This document explains plotting geospatial data using `ggplot2` and `{ggfortify}
 
 `{ggplot2}` can load map data provided by ``{maps}`` and ``{mapdata}`` package via ``map_data`` function. Loaded data is automatically converted to ``data.frame``, thus you can plot maps via ``ggplot`` as below.
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("mapdata", quietly = TRUE)}
 library(mapdata)
 library(ggplot2)
 
@@ -27,7 +27,7 @@ ggplot(jp, aes(x = long, y = lat, group = group)) +
 
 ``{ggfortify}`` additionally allows to ``autoplot`` ``map`` instances as it is. You can specify ``geom`` and other options to controll the outlooks.
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("mapdata", quietly = TRUE)}
 library(ggfortify)
 jp <-  map('world2', 'japan', plot = FALSE, fill = TRUE)
 class(jp)
@@ -40,7 +40,7 @@ p
 
 Also, ``maps`` package provides some geospatial data. Following example retrieves Japanese city locations from world's city locations. Then plot on the previous map.
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("mapdata", quietly = TRUE)}
 cities <- get('world.cities')
 cities <- cities[cities$country.etc == 'Japan', ]
 head(cities)
@@ -51,7 +51,7 @@ p + geom_point(data = cities, aes(x = long, y = lat),
 
 Because map plot created by ``{ggfortify}`` has a setting of ``aes(x = long, y = lat)``, you don't have to specify ``x`` and ``y`` aethetics in this case.
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("mapdata", quietly = TRUE)}
 p + geom_point(data = cities, colour = 'blue', size = 0.1)
 ```
 
@@ -74,7 +74,7 @@ class                          | ``fortify``     | ``autoplot``
 
 Following example creates ``SpatialPointsDataFrame`` of some Japanese city's populatios, then plot it via ``autoplot``. Note that you ``geom`` is specified by the original ``{sp}`` class. ``SpatialPoints`` is plot using ``geom_point`` for example.
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("sp", quietly = TRUE)}
 library(sp)
 df <- data.frame(long = c(139.691704, 135.519711),
                  lat = c(35.689521, 34.686316),
@@ -87,7 +87,7 @@ autoplot(df, p = p, colour = 'red', size = 10)
 
 Also, you can use other columns as aethetics.
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("sp", quietly = TRUE)}
 autoplot(df, p = p, colour = 'red', size = 'population') +
   scale_size_area()
 ```
@@ -96,7 +96,7 @@ autoplot(df, p = p, colour = 'red', size = 'population') +
 
 ``autoplot`` has ``p`` keyword to take existing ``ggplot`` instance. Below example plots ``SpatialPointsDataFrame`` on the ``ggmap``.
 
-```{r, message = FALSE, eval = FALSE}
+```{r, message = FALSE, eval = FALSE, eval=require("ggmap", quietly = TRUE)}
 library(ggmap)
 bbox <- c(130.0, 30.0, 145.0, 45.0)
 map <- get_openstreetmap(bbox = bbox, scale = 47500000)

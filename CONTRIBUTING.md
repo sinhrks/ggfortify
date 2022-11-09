@@ -44,5 +44,8 @@ We are following Google's R style guide that can be found [here](https://google.
 * Update version and date in `DESCRIPTION`.
 * Add release notes in `cran-comments.md` and `NEWS.md`.
 * Run `devtools::check(args = c("--no-build-vignettes"))` for regular CRAN checks without building vignettes.
-* Run `devtools::check(args = c("--no-build-vignettes"), env_vars = c(`_R_CHECK_DEPENDS_ONLY_` = "true"))` to test the package with the assumption that some suggested packages may be missing from CRAN.
+* Uninstall suggested packages and then run `devtools::check(args = c("--no-build-vignettes"), env_vars = c(`_R_CHECK_DEPENDS_ONLY_` = "true"))` to test the package with the assumption that some suggested packages may be missing from CRAN.
+```
+remove.packages(c('cluster', 'changepoint', 'fGarch', 'forecast', 'ggrepel', 'glmnet', 'KFAS', 'lintr', 'mapdata', 'MASS', 'MSwM', 'nlme', 'raster', 'ROCR', 'sp', 'strucchange', 'survival', 'timeSeries', 'vars', 'xts', 'zoo', 'lfda'))
+```
 * Run `devtools::release(args = "--no-build-vignettes")` to release.

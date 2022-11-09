@@ -18,5 +18,7 @@ logical
 Check if Validates number of \code{ts} variates
 }
 \examples{
+\dontrun{
 ggfortify:::is.univariate(AirPassengers)
+}
 }

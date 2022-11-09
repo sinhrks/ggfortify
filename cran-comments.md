@@ -12,4 +12,4 @@
 Notable changes are:
 
 * Removed support for objects in `dlm` library.
-* Resolved warnings in `R CMD check`.
+* Resolved warnings in `R CMD check` and made sure the checks succeeded without installing suggested packages.

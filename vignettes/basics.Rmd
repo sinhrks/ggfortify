@@ -3,7 +3,7 @@
 %\VignetteIndexEntry{Introduction to ggfortify package}
 -->
 
-```{r global_options, include=FALSE}
+```{r global_options, include=FALSE, eval=require("knitr", quietly = TRUE)}
 library(knitr)
 opts_chunk$set(fig.width=6, fig.height=4, fig.path='figures/basics-', warning=FALSE)
 ```
@@ -12,7 +12,7 @@ This document explains concepts and basics of `{ggfortify}`. `{ggfortify}` helps
 
 # Loading Package
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval=require("zoo", quietly = TRUE)}
 library(ggfortify)
 ```
 
@@ -20,7 +20,7 @@ library(ggfortify)
 
 This is the easiest way provided by `{ggfortify}`. Calling `autoplot` with supported instance should output appropriate plot based on its type, as standard `plot` function does.
 
-```{r}
+```{r, eval=require("zoo", quietly = TRUE)}
 autoplot(AirPassengers)
 ```
 
@@ -28,7 +28,7 @@ You can specify some options to control how plot looks. As is often the case wit
 
 These options can be used for the similar type of instances commonly. For example, `ts.colour` works for all time-series-likes (there is no separate options like `xts.colour` and `timeSeries.colour`, etc). To check available options, use `help(autoplot.ts)` or `help(autoplot.*)` for any other objects.
 
-```{r}
+```{r, eval=require("zoo", quietly = TRUE)}
 autoplot(AirPassengers, ts.colour = 'blue')
 ```
 
@@ -36,7 +36,7 @@ autoplot(AirPassengers, ts.colour = 'blue')
 
 `autoplot` returns `ggplot` instance. Thus, you can decorate as the same as in ``{ggplot2}``. To make `autoplot` API simple, `{ggfortify}` only offers some limited options which must be done during `ggplot` instance creation. Additional decoration should be done against the returned ``ggplot`` instance.
 
-```{r}
+```{r, eval=require("zoo", quietly = TRUE)}
 p <- autoplot(AirPassengers)
 class(p)
 # plot as it is
@@ -46,12 +46,12 @@ p
 p + ggtitle('AirPassengers') + xlab('Year') + ylab('Passengers')
 ```
 
-```{r}
+```{r, eval=require("zoo", quietly = TRUE)}
 # these common options are supported as keywords 
 autoplot(AirPassengers, title = 'AirPassengers', xlab = 'Year', ylab = 'Passengers')
 ```
 
-```{r}
+```{r, eval=require("zoo", quietly = TRUE)}
 set.seed(1)
 p <- autoplot(kmeans(iris[-5], 3), data = iris)
 # plot as it is
@@ -67,7 +67,7 @@ Internally, `autoplot` calls a generic function named `ggplot2::fortify` to conv
 
 Following example shows a bar plot counting records per k-means clusters.
 
-```{r}
+```{r, eval=require("zoo", quietly = TRUE)}
 df <- fortify(kmeans(iris[-5], 3), data = iris)
 head(df)
 
@@ -122,14 +122,14 @@ Assuming you want to plot multiple instances at once. ``{ggfortify}`` can accept
 
 Following example shows 3 ``kmeans`` plots changing number of clusters.
 
-```{r, message = FALSE, fig.width = 9, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 9, fig.height = 2.5, eval=require("zoo", quietly = TRUE)}
 res <- lapply(c(3, 4, 5), function(x) kmeans(iris[-5], x))
 autoplot(res, data = iris[-5], ncol = 3)
 ```
 
 Next example shows multiple survival curves as subplots.
 
-```{r, message = FALSE, fig.width = 8, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 8, fig.height = 2.5, eval=require("survival", quietly = TRUE)}
 library(survival)
 res <- list(a = survfit(Surv(time, status) ~ 1, data = lung),
             b = survfit(Surv(time, status) ~ sex, data = lung))
@@ -138,7 +138,7 @@ autoplot(res)
 
 You can pass a list contains different classes to ``autoplot``.
 
-```{r, message = FALSE, fig.width = 8, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 8, fig.height = 2.5, eval=require("vars", quietly = TRUE)}
 library(vars)
 data(Canada)
 res <- list(a = Canada, b = AirPassengers)
@@ -149,7 +149,7 @@ autoplot(res)
 
 You can instanciate ``ggmultiplot`` from a ``list`` of ``ggplot`` instances.
 
-```{r, message = FALSE, fig.width = 4.5, fig.height = 2.5}
+```{r, message = FALSE, fig.width = 4.5, fig.height = 2.5, eval=require("zoo", quietly = TRUE)}
 p1 <- ggplot(iris, aes(Petal.Width, Petal.Length)) + geom_point()
 p2 <- ggplot(iris, aes(Petal.Width, Petal.Length)) + geom_point()
 new('ggmultiplot', plots = list(p1, p2))
@@ -157,7 +157,7 @@ new('ggmultiplot', plots = list(p1, p2))
 
 Layout can be specified via ``nrow`` and ``ncol`` keywords.
 
-```{r, message = FALSE, fig.width = 2.25, fig.height = 5}
+```{r, message = FALSE, fig.width = 2.25, fig.height = 5, eval=require("zoo", quietly = TRUE)}
 new('ggmultiplot', plots = list(p1, p2), ncol = 1)
 ```
 

@@ -20,7 +20,9 @@ vector
 Calculate confidence interval for \code{stats::acf}
 }
 \examples{
+\dontrun{
 air.acf <- acf(AirPassengers, plot = FALSE)
 ggfortify:::confint.acf(air.acf)
 ggfortify:::confint.acf(air.acf, ci.type = 'ma')
+}
 }

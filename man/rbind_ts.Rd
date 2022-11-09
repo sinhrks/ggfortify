@@ -30,6 +30,8 @@ data.frame
 Rbind original and predicted time-series-like instances as fortified \code{data.frame}
 }
 \examples{
+\dontrun{
 predicted <- predict(stats::HoltWinters(UKgas), n.ahead = 5, prediction.interval = TRUE)
 rbind_ts(predicted, UKgas, ts.connect = TRUE)
+}
 }

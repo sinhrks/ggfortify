@@ -21,8 +21,10 @@ vector
 Convert \code{ts} index to \code{Date} \code{vector}
 }
 \examples{
+\dontrun{
 ggfortify:::get.dtindex(AirPassengers)
 ggfortify:::get.dtindex(UKgas)
 ggfortify:::get.dtindex(Nile, is.date = FALSE)
 ggfortify:::get.dtindex(Nile, is.date = TRUE)
+}
 }
