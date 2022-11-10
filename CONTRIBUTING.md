@@ -48,4 +48,5 @@ We are following Google's R style guide that can be found [here](https://google.
 ```
 remove.packages(c('cluster', 'changepoint', 'fGarch', 'forecast', 'ggrepel', 'glmnet', 'KFAS', 'lintr', 'mapdata', 'MASS', 'MSwM', 'nlme', 'raster', 'ROCR', 'sp', 'strucchange', 'survival', 'timeSeries', 'vars', 'xts', 'zoo', 'lfda'))
 ```
+These packages can be installed back via `devtools::install_dev_deps()`
 * Run `devtools::release(args = "--no-build-vignettes")` to release.

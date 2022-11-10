@@ -96,7 +96,7 @@ autoplot(df, p = p, colour = 'red', size = 'population') +
 
 ``autoplot`` has ``p`` keyword to take existing ``ggplot`` instance. Below example plots ``SpatialPointsDataFrame`` on the ``ggmap``.
 
-```{r, message = FALSE, eval = FALSE, eval=require("ggmap", quietly = TRUE)}
+```{r, message = FALSE, eval = FALSE, eval=FALSE}
 library(ggmap)
 bbox <- c(130.0, 30.0, 145.0, 45.0)
 map <- get_openstreetmap(bbox = bbox, scale = 47500000)
