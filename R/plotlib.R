@@ -395,9 +395,9 @@ setMethod('show', 'ggmultiplot', function(object) { print(object) })
 #' @method grid.draw ggmultiplot
 #' @importFrom grid grid.draw
 #' @importFrom gridExtra arrangeGrob
-#' @param plot \code{ggmultiplot}
-grid.draw.ggmultiplot <- function(plot) {
-  grid::grid.draw(gridExtra::arrangeGrob(grobs = plot@plots))
+#' @param x \code{ggmultiplot}
+grid.draw.ggmultiplot <- function(x, recording = TRUE) {
+  grid::grid.draw(gridExtra::arrangeGrob(grobs = x@plots), recording = recording)
 }
 
 #' Post process for fortify. Based on \code{ggplot2::qplot}

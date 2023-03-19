@@ -1,3 +1,7 @@
+## ggfortify 0.4.16
+
+* Resolved warnings in `R CMD check` related to S3 generic/method consistency.
+
 ## ggfortify 0.4.15
 
 * Removed `autoplot()` support for objects in `dlm` library.

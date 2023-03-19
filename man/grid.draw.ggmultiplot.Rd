@@ -5,10 +5,10 @@
 \title{The implemented grid.draw method for ggmultiplot, in order to work
 with ggsave() properly}
 \usage{
-\method{grid.draw}{ggmultiplot}(plot)
+\method{grid.draw}{ggmultiplot}(x, recording = TRUE)
 }
 \arguments{
-\item{plot}{\code{ggmultiplot}}
+\item{x}{\code{ggmultiplot}}
 }
 \description{
 The implemented grid.draw method for ggmultiplot, in order to work

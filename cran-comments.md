@@ -11,5 +11,4 @@
 
 Notable changes are:
 
-* Removed support for objects in `dlm` library.
-* Resolved warnings in `R CMD check` and made sure the checks succeeded without installing suggested packages.
+* Resolved warnings in `R CMD check` related to S3 generic/method consistency.
