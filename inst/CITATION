@@ -1,6 +1,7 @@
 citHeader("To cite ggfortify in publications, please use:")
 
-citEntry(entry = "article",
+bibentry(
+  bibtype = "Article",
   author = "Yuan Tang, Masaaki Horikoshi, and Wenxuan Li",
   title = "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages",
   journal = "The R Journal",
@@ -13,7 +14,7 @@ citEntry(entry = "article",
   textVersion = 'Yuan Tang, Masaaki Horikoshi, and Wenxuan Li. "ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages." The R Journal 8.2 (2016): 478-489.'
 )
 
-citEntry(entry = "manual",
+bibentry(bibtype = "Manual",
   author = "Masaaki Horikoshi and Yuan Tang",
   title = "ggfortify: Data Visualization Tools for Statistical Analysis Results",
   year = "2018",

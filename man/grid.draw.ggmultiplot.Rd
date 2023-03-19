@@ -9,6 +9,8 @@ with ggsave() properly}
 }
 \arguments{
 \item{x}{\code{ggmultiplot}}
+
+\item{recording}{\code{ggmultiplot}}
 }
 \description{
 The implemented grid.draw method for ggmultiplot, in order to work

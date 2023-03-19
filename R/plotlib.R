@@ -396,6 +396,7 @@ setMethod('show', 'ggmultiplot', function(object) { print(object) })
 #' @importFrom grid grid.draw
 #' @importFrom gridExtra arrangeGrob
 #' @param x \code{ggmultiplot}
+#' @param recording \code{ggmultiplot}
 grid.draw.ggmultiplot <- function(x, recording = TRUE) {
   grid::grid.draw(gridExtra::arrangeGrob(grobs = x@plots), recording = recording)
 }
