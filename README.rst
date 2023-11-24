@@ -1,3 +1,5 @@
+**Note**: This package has been maintained by `@terrytangyuan <https://github.com/terrytangyuan>`_ since 2015. Please `consider sponsoring <https://github.com/sponsors/terrytangyuan>`_!
+
 .. image:: http://www.r-pkg.org/badges/version/ggfortify
     :target: https://CRAN.R-project.org/package=ggfortify 
 .. image:: https://cranlogs.r-pkg.org/badges/grand-total/ggfortify
@@ -6,8 +8,6 @@
     :target: https://coveralls.io/github/sinhrks/ggfortify?branch=master
 .. image:: https://img.shields.io/badge/stackoverflow-ggfortify-green.svg
     :target: https://stackoverflow.com/questions/tagged/ggfortify
-
-**Note**: This package has been maintained by `@terrytangyuan <https://github.com/terrytangyuan>`_ since 2015. Please `consider sponsoring <https://github.com/sponsors/terrytangyuan>`_!
 
 ggfortify
 =========
