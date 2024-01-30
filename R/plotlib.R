@@ -485,6 +485,7 @@ autoplot.ggmultiplot <- function(object, ...) {
 #' @param loadings Logical value whether to display loadings arrows
 #' @param loadings.arrow An arrow definition
 #' @param loadings.colour Point colour for data
+#' @param loadings.linewidth Loading segment linewidth
 #' @param loadings.label Logical value whether to display loadings labels
 #' @param loadings.label.label Column name used for loadings text labels
 #' @param loadings.label.colour Colour for loadings text labels
@@ -619,7 +620,8 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
     p <- p + geom_segment(data = loadings.data,
                           mapping = loadings.mapping,
                           arrow = loadings.arrow,
-                          colour = loadings.colour)
+                          colour = loadings.colour,
+                          linewidth = loadings.linewidth)
     p <- plot_label(p = p, data = loadings.data, label = loadings.label,
                     label.label = loadings.label.label,
                     label.colour = loadings.label.colour,
