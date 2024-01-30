@@ -29,6 +29,7 @@ ggbiplot(
   loadings = FALSE,
   loadings.arrow = grid::arrow(length = grid::unit(8, "points")),
   loadings.colour = "#FF0000",
+  loadings.linewidth = 0.5,
   loadings.label = FALSE,
   loadings.label.label = "rownames",
   loadings.label.colour = "#FF0000",
@@ -105,6 +106,8 @@ ggbiplot(
 \item{loadings.arrow}{An arrow definition}
 
 \item{loadings.colour}{Point colour for data}
+
+\item{loadings.linewidth}{Segment linewidth for loadings}
 
 \item{loadings.label}{Logical value whether to display loadings labels}
 
