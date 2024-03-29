@@ -40,7 +40,7 @@ Examples
 * `一行R代码实现繁琐的可视化 <http://terrytangyuan.github.io/2015/11/24/ggfortify-intro/>`_
 
 Reference/Citation
-------------
+------------------
 
 To cite ggfortify in publications, please use (available via ``citation("ggfortify")``):
 
