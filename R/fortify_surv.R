@@ -18,10 +18,14 @@
 #' @export
 fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
                             fun = NULL, ...) {
+  # survival package >= v3.6.1
+  if (length(dim(model$n.censor)) == 2) {
+    model$n.censor <- rowSums(model$n.censor)
+  }
   d <- data.frame(time = model$time,
                   n.risk = model$n.risk,
                   n.event = model$n.event,
-                  n.censor = rowSums(model$n.censor),
+                  n.censor = model$n.censor,
                   std.err = model$std.err,
                   upper = model$upper,
                   lower = model$lower)
