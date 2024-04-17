@@ -5,7 +5,7 @@
 
 # ggfortify
 
-This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our [R Journal paper] (https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf) for more details on the overall architecture design and a gallery of visualizations created with this package. Also check out [autoplotly package](https://github.com/terrytangyuan/autoplotly) that could automatically generate interactive visualizations with [plotly.js](https://plot.ly/) style based on ``ggfortify``. The generated visualizations can also be easily extended using ``ggplot2`` syntax while staying interactive.
+This package offers ``fortify`` and ``autoplot`` functions to allow automatic ``ggplot2`` to visualize statistical result of popular R packages. Check out our [R Journal paper](https://journal.r-project.org/archive/2016-2/tang-horikoshi-li.pdf) for more details on the overall architecture design and a gallery of visualizations created with this package. Also check out [autoplotly package](https://github.com/terrytangyuan/autoplotly) that could automatically generate interactive visualizations with [plotly.js](https://plot.ly/) style based on ``ggfortify``. The generated visualizations can also be easily extended using ``ggplot2`` syntax while staying interactive.
 
 
 ## Installation
