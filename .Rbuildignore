@@ -2,7 +2,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-^README\.rst$
+^README\.md$
 ^vignettes/rsconnect/.*$
 ^\.httr-oauth$
 ^cran-comments\.md$
