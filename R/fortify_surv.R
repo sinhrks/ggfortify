@@ -21,7 +21,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
   d <- data.frame(time = model$time,
                   n.risk = model$n.risk,
                   n.event = model$n.event,
-                  n.censor = model$n.censor,
+                  n.censor = rowSums(model$n.censor),
                   std.err = model$std.err,
                   upper = model$upper,
                   lower = model$lower)

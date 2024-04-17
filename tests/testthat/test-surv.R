@@ -156,7 +156,7 @@ test_that('fortify.survfit works for simple multistate data', {
   library(survival)
   tdata <- data.frame(time = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
                       status = c(1, 0, 2, 1, 1, 2, 0, 0, 2, 1, 2, 2))
-  fit <- survfit(Surv(time, status, type='mstate') ~1, data = tdata)
+  fit <- suppressWarnings(survfit(Surv(time, status, type='mstate') ~1, data = tdata))
   fortified <- fortify(fit)
   expect_equal(names(fortified),
                c("time", "n.risk", "n.event", "n.censor", "pstate",

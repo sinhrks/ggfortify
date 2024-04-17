@@ -1,3 +1,7 @@
+## ggfortify 0.4.17
+
+* Fixed an issue with updated `n.censor` from `survfitms` output when using `survival` v3.6.1.
+
 ## ggfortify 0.4.16
 
 * Resolved warnings in `R CMD check` related to S3 generic/method consistency.
