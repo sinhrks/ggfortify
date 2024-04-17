@@ -11,4 +11,4 @@
 
 Notable changes are:
 
-* Resolved warnings in `R CMD check` related to S3 generic/method consistency.
+* Fixed an issue with updated `n.censor` from `survfitms` output when using `survival` v3.6.1.
