@@ -80,9 +80,8 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
       base[c('surv', 'upper', 'lower')] <- 1.0
     }
     if ('strata' %in% colnames(d)) {
-      strata <- levels(d$strata)
       rownames(base) <- NULL
-      base$strata <- strata
+      base$strata <- levels(d$strata)
       base$strata <- factor(base$strata, levels = base$strata)
     }
     if ('event' %in% colnames(d)) {
