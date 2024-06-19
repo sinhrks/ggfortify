@@ -79,19 +79,14 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     } else {
       base[c('surv', 'upper', 'lower')] <- 1.0
     }
-    if ('strata' %in% colnames(d)) {
-      rownames(base) <- NULL
-      base$strata <- levels(d$strata)
-      base$strata <- factor(base$strata, levels = base$strata)
-    }
     if ('event' %in% colnames(d)) {
       events <- levels(d$event)
       base <- base[rep(seq_len(nrow(base)), length(events)), ]
-      rownames(base) <- NULL
       base$event <- events
       base$event <- factor(base$event, levels = events)
       base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
     }
+    rownames(base) <- NULL
     d <- rbind(base, d)
   }
 
