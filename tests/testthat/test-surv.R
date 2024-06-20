@@ -264,13 +264,17 @@ test_that('fortify.survfit regular expression for renaming strata works with mul
 test_that('n.risk at time == 0 is correct in fortify.survfit(*, surv.connect = TRUE) (#229)', {
   skip_if_not_installed("survival")
   library(survival)
+
   fit <- survfit(Surv(time, status) ~ x, data = aml)
+  fit_surv <- summary(fit)
+  fit_surv <- fit_surv$n.risk[fit_surv$time == ave(fit_surv$time, fit_surv$strata, FUN = min)]
+  fit_gg <- fortify.survfit(fit, surv.connect = TRUE)
+  fit_gg <- fit_gg[fit_gg$time == 0, "n.risk"]
+  expect_equal(fit_surv, fit_gg)
   
-  sfit <- unclass(summary(fit))
-  sfit_n <- sfit$n.risk[sfit$time == ave(sfit$time, sfit$strata, FUN = min)]
-  
-  ggfit <- fortify.survfit2(fit, surv.connect = TRUE)
-  ggfit_n <- ggfit[ggfit$time == 0, "n.risk"]
-  
-  expect_equal(sfit_n, ggfit_n)
+  fitMS <- survfit(Surv(start, stop, event) ~ 1, id = id, data = mgus1)
+  fitMS_surv <- unname(fitMS$n.risk[1, ])
+  fitMS_gg <- fortify.survfit(fitMS, surv.connect = TRUE)
+  fitMS_gg <- fitMS_gg[fitMS_gg$time == 0, "n.risk"]
+  expect_equal(fitMS_surv, fitMS_gg)
 })
