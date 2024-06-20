@@ -70,7 +70,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
       base <- d[d$time == ave(d$time, d$strata, FUN = min), ]
     }
     if ('event' %in% colnames(d)) {
-      base <- d[1, ]
+      base <- d[d$time == ave(d$time, d$event, FUN = min), ]
     }
     # cumhaz is for survfit.cox cases
     base[intersect(c('time', 'n.event', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
@@ -80,11 +80,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
       base[c('surv', 'upper', 'lower')] <- 1.0
     }
     if ('event' %in% colnames(d)) {
-      events <- levels(d$event)
-      base <- base[rep(seq_len(nrow(base)), length(events)), ]
-      base$event <- events
-      base$event <- factor(base$event, levels = events)
-      base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
+     base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
     }
     rownames(base) <- NULL
     d <- rbind(base, d)
