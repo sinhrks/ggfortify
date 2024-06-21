@@ -18,30 +18,29 @@
 #' @export
 fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
                             fun = NULL, ...) {
-  # survival package >= v3.6.1
-  if (is.matrix(model$n.censor)) {
-    model$n.censor <- rowSums(model$n.censor)
+  if (inherits(model, 'survfitms')) {
+    d <- data.frame(time = model$time,
+                    n.risk = c(model$n.risk),
+                    n.event = c(model$n.event),
+                    n.censor = c(model$n.censor),
+                    pstate = c(model$pstate),
+                    std.err = c(model$std.err),
+                    upper = c(model$upper),
+                    lower = c(model$lower))
+  } else {
+    d <- data.frame(time = model$time,
+                    n.risk = model$n.risk,
+                    n.event = model$n.event,
+                    n.censor = model$n.censor,
+                    std.err = model$std.err,
+                    upper = model$upper,
+                    lower = model$lower)
   }
-  d <- data.frame(time = model$time,
-                  n.risk = model$n.risk,
-                  n.event = model$n.event,
-                  n.censor = model$n.censor,
-                  std.err = model$std.err,
-                  upper = model$upper,
-                  lower = model$lower)
-
+  
   if (inherits(model, 'survfit.cox')) {
     d <- cbind_wraps(d, data.frame(surv = model$surv, cumhaz = model$cumhaz))
   } else if (inherits(model, 'survfit')) {
     if (inherits(model, 'survfitms')) {
-      d <- cbind_wraps(d, data.frame(pstate = model$pstate))
-
-      varying.names <- c('n.risk', 'n.event', 'pstate', 'std.err', 'upper', 'lower')
-      varying.i <- lapply(varying.names, grep, colnames(d))
-      d <- reshape(d, varying = varying.i, v.names = varying.names, timevar = NULL, direction = 'long')
-      d <- d[!names(d) %in% "id"]
-      rownames(d) <- NULL
-
       if (length(model$states) > 1) {
         ev.names <- model$states
         ev.names[ev.names == ''] <- 'any'
