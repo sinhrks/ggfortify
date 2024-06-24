@@ -18,30 +18,29 @@
 #' @export
 fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
                             fun = NULL, ...) {
-  # survival package >= v3.6.1
-  if (length(dim(model$n.censor)) == 2) {
-    model$n.censor <- rowSums(model$n.censor)
+  if (inherits(model, 'survfitms')) {
+    d <- data.frame(time = model$time,
+                    n.risk = c(model$n.risk),
+                    n.event = c(model$n.event),
+                    n.censor = c(model$n.censor),
+                    pstate = c(model$pstate),
+                    std.err = c(model$std.err),
+                    upper = c(model$upper),
+                    lower = c(model$lower))
+  } else {
+    d <- data.frame(time = model$time,
+                    n.risk = model$n.risk,
+                    n.event = model$n.event,
+                    n.censor = model$n.censor,
+                    std.err = model$std.err,
+                    upper = model$upper,
+                    lower = model$lower)
   }
-  d <- data.frame(time = model$time,
-                  n.risk = model$n.risk,
-                  n.event = model$n.event,
-                  n.censor = model$n.censor,
-                  std.err = model$std.err,
-                  upper = model$upper,
-                  lower = model$lower)
-
-  if (is(model, 'survfit.cox')) {
+  
+  if (inherits(model, 'survfit.cox')) {
     d <- cbind_wraps(d, data.frame(surv = model$surv, cumhaz = model$cumhaz))
-  } else if (is(model, 'survfit')) {
-    if (is(model, 'survfitms')) {
-      d <- cbind_wraps(d, data.frame(pstate = model$pstate))
-
-      varying.names <- c('n.risk', 'n.event', 'pstate', 'std.err', 'upper', 'lower')
-      varying.i <- lapply(varying.names, function(x) which(startsWith(colnames(d), x)))
-      d <- reshape(d, varying = varying.i, v.names = varying.names, timevar = NULL, direction = 'long')
-      d <- suppressWarnings(subset(d, select = -c(id)))
-      rownames(d) <- NULL
-
+  } else if (inherits(model, 'survfit')) {
+    if (inherits(model, 'survfitms')) {
       if (length(model$states) > 1) {
         ev.names <- model$states
         ev.names[ev.names == ''] <- 'any'
@@ -66,7 +65,12 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 
   # connect to the origin for plotting
   if (surv.connect) {
-    base <- d[1, ]
+    if ('strata' %in% colnames(d)) {
+      base <- d[d$time == ave(d$time, d$strata, FUN = min), ]
+    }
+    if ('event' %in% colnames(d)) {
+      base <- d[d$time == ave(d$time, d$event, FUN = min), ]
+    }
     # cumhaz is for survfit.cox cases
     base[intersect(c('time', 'n.event', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
     if ('pstate' %in% colnames(d)) {
@@ -74,21 +78,10 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     } else {
       base[c('surv', 'upper', 'lower')] <- 1.0
     }
-    if ('strata' %in% colnames(d)) {
-      strata <- levels(d$strata)
-      base <- base[rep(seq_len(nrow(base)), length(strata)), ]
-      rownames(base) <- NULL
-      base$strata <- strata
-      base$strata <- factor(base$strata, levels = base$strata)
-    }
     if ('event' %in% colnames(d)) {
-      events <- levels(d$event)
-      base <- base[rep(seq_len(nrow(base)), length(events)), ]
-      rownames(base) <- NULL
-      base$event <- events
-      base$event <- factor(base$event, levels = events)
-      base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
+     base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
     }
+    rownames(base) <- NULL
     d <- rbind(base, d)
   }
 
