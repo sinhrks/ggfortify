@@ -15,7 +15,7 @@
   surv.alpha = NULL,
   surv.fill = NULL,
   surv.shape = NULL,
-  surv.connect = TRUE,
+  surv.connect = FALSE,
   conf.int = TRUE,
   conf.int.colour = "#0000FF",
   conf.int.linetype = "none",

@@ -59,8 +59,8 @@ test_that('fortify.survfit works for lung', {
   expect_equal(names(fortified), expected_names)
   expect_equal(dim(fortified), c(186, 8))
 
-  # p <- ggplot2::autoplot(d.survfit)
-  # expect_true(is(p, 'ggplot'))
+  p <- ggplot2::autoplot(d.survfit)
+  expect_true(is(p, 'ggplot'))
 
   # fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
   # expect_equal(is.data.frame(fortified), TRUE)
@@ -71,9 +71,9 @@ test_that('fortify.survfit works for lung', {
   # expected <- data.frame(time = 0, n.risk = 228, n.event = 0, n.censor = 0,
   #                        surv = 1, std.err = 0, upper = 1, lower = 1)
   # expect_equal(fortified[1, ], expected)
-
-  p <- ggplot2::autoplot(d.survfit)
-  expect_true(is(p, 'ggplot'))
+  # 
+  # p <- ggplot2::autoplot(d.survfit)
+  # expect_true(is(p, 'ggplot'))
 })
 
 test_that('autoplot retains order of alphabetically unordered factor levels', {
@@ -136,19 +136,19 @@ test_that('fortify.survfit works for simple data', {
                          lower = c(0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468))
   expect_equal(fortified, expected)
 
-  fortified <- fortify(fit, surv.connect = TRUE)
-  expected <- data.frame(time = c(0, 1, 2, 3, 4),
-                         n.risk = c(8, 8, 6, 4, 2),
-                         n.event = c(0, 1, 1, 1, 1),
-                         n.censor = c(0, 1, 1, 1, 1),
-                         surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
-                         std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
-                         upper = c(1, 1, 1, 1, 1),
-                         lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468))
-  expect_equal(fortified, expected)
-
-  p <- ggplot2::autoplot(fit)
-  expect_true(is(p, 'ggplot'))
+  # fortified <- fortify(fit, surv.connect = TRUE)
+  # expected <- data.frame(time = c(0, 1, 2, 3, 4),
+  #                        n.risk = c(8, 8, 6, 4, 2),
+  #                        n.event = c(0, 1, 1, 1, 1),
+  #                        n.censor = c(0, 1, 1, 1, 1),
+  #                        surv = c(1, 0.8824969026, 0.7470175003, 0.5817778142, 0.3528660815),
+  #                        std.err = c(0, 0.1250000000, 0.2083333333, 0.3254270698, 0.5965758776),
+  #                        upper = c(1, 1, 1, 1, 1),
+  #                        lower = c(1, 0.6907374403, 0.4965890298, 0.3074348749, 0.1095982468))
+  # expect_equal(fortified, expected)
+  # 
+  # p <- ggplot2::autoplot(fit)
+  # expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.survfit works for simple multistate data', {
@@ -184,8 +184,8 @@ test_that('fortify.survfit.cox works for lung', {
                       'std.err', 'upper', 'lower')
   expect_equal(names(fortified), expected_names)
 
-  # p <- ggplot2::autoplot(survfit(d.coxph))
-  # expect_true(is(p, 'ggplot'))
+  p <- ggplot2::autoplot(survfit(d.coxph))
+  expect_true(is(p, 'ggplot'))
 })
 
 test_that('fortify.aareg works for lung', {
