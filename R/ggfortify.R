@@ -9,4 +9,5 @@
 #' @importFrom utils installed.packages
 #' @importFrom stats complete.cases residuals weights as.formula reshape coef sd
 #' @importFrom stringr str_wrap
+#' @importFrom stats ave
 "_PACKAGE"

@@ -26,7 +26,6 @@ Description: Unified plotting tools for statistics commonly used, such as GLM,
     a single plotting interface for these analysis results and plots in a unified
     style using 'ggplot2'.
 License: MIT + file LICENSE
-VignetteBuilder: knitr
 Depends:
     methods,
     ggplot2 (>= 2.0.0)
@@ -68,4 +67,4 @@ Suggests:
     xts,
     zoo,
     lfda
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

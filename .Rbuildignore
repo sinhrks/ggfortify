@@ -12,3 +12,4 @@ ISSUE_TEMPLATE.md
 NEWS.html
 ^CRAN-SUBMISSION$
 ^\.github/FUNDING\.yml$
+^vignettes/.*$
