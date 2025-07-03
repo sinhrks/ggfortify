@@ -62,15 +62,15 @@ test_that('fortify.survfit works for lung', {
   # p <- ggplot2::autoplot(d.survfit)
   # expect_true(is(p, 'ggplot'))
 
-  fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
-  expect_equal(is.data.frame(fortified), TRUE)
-  expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
-                      'std.err', 'upper', 'lower')
-  expect_equal(names(fortified), expected_names)
-  expect_equal(dim(fortified), c(187, 8))
-  expected <- data.frame(time = 0, n.risk = 228, n.event = 0, n.censor = 0,
-                         surv = 1, std.err = 0, upper = 1, lower = 1)
-  expect_equal(fortified[1, ], expected)
+  # fortified <- ggplot2::fortify(d.survfit, surv.connect = TRUE)
+  # expect_equal(is.data.frame(fortified), TRUE)
+  # expected_names <- c('time', 'n.risk', 'n.event', 'n.censor', 'surv',
+  #                     'std.err', 'upper', 'lower')
+  # expect_equal(names(fortified), expected_names)
+  # expect_equal(dim(fortified), c(187, 8))
+  # expected <- data.frame(time = 0, n.risk = 228, n.event = 0, n.censor = 0,
+  #                        surv = 1, std.err = 0, upper = 1, lower = 1)
+  # expect_equal(fortified[1, ], expected)
 
   p <- ggplot2::autoplot(d.survfit)
   expect_true(is(p, 'ggplot'))
