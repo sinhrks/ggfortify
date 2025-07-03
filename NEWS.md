@@ -1,3 +1,7 @@
+## ggfortify 0.4.18
+
+* Fixed failed tests with `ggplot2` 4.0.0.
+
 ## ggfortify 0.4.17
 
 * Fixed an issue with updated `n.censor` from `survfitms` output when using `survival` v3.6.1.

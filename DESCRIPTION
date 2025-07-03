@@ -1,8 +1,8 @@
 Package: ggfortify
 Type: Package
 Title: Data Visualization Tools for Statistical Analysis Results
-Version: 0.4.17
-Date: 2024-04-16
+Version: 0.4.18
+Date: 2025-07-02
 Authors@R: c(
   person("Masaaki", "Horikoshi", role = c("aut"),
          email = "sinhrks@gmail.com"),
