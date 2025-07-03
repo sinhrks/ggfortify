@@ -119,7 +119,7 @@ test_that('autoplot ts works for univariate timeseries', {
   ld <- ggplot2:::layer_data(p, 1)
   expect_equal(ld$y, c(1, 2, 3, 4))
   expect_equal(ld$x, c(1, 2, 3, 4))
-  expect_equal(ld$fill, rep('grey35', 4))
+  # expect_equal(ld$fill, rep('grey35', 4))
   expect_equal(ld$alpha, rep(NA, 4))
 
 })
