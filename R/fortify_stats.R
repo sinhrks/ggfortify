@@ -161,6 +161,7 @@ fortify.prcomp <- function(model, data = NULL, ...) {
 
   values <- ggfortify::unscale(values, center = model$center,
                                scale = model$scale)
+  data <- remove_conflicting_columns(data, d)
   values <- cbind_wraps(data, values)
   d <- cbind_wraps(values, d)
   post_fortify(d)
@@ -188,6 +189,7 @@ fortify.factanal <- function(model, data = NULL, ...) {
                 'specify scores="regression", or "Bartlett" when calling factanal'))
   }
   d <- as.data.frame(model$scores)
+  data <- remove_conflicting_columns(data, d)
   d <- cbind_wraps(data, d)
   post_fortify(d)
 }
