@@ -216,6 +216,234 @@ test_that('fortify.princomp works for USArrests', {
   expect_equal(rownames(fortified), rownames(USArrests))
 })
 
+test_that('fortify.prcomp handles PC column name conflicts correctly', {
+  # Create test data
+  test_data <- iris[1:4]
+
+  # Create PCA model
+  pca_model <- stats::prcomp(test_data, center = TRUE, scale. = TRUE)
+
+  # Create conflicting data with PC column names containing different values
+  conflicting_data <- data.frame(
+    PC1 = rep(999, nrow(test_data)),  # Fake PC1 values
+    PC2 = rep(888, nrow(test_data)),  # Fake PC2 values
+    Species = iris$Species,
+    OtherVar = 1:nrow(test_data)
+  )
+
+  # Fortify with conflicting data
+  fortified <- ggplot2::fortify(pca_model, data = conflicting_data)
+
+  # The bug: PC columns should come from the model, not from the data
+  # Currently, the function incorrectly uses PC values from conflicting_data
+
+  # Test that PC columns match the model's principal components
+  model_pc1 <- pca_model$x[, "PC1"]
+  model_pc2 <- pca_model$x[, "PC2"]
+
+  # This test will FAIL with the current bug - PC columns come from conflicting_data
+  expect_equal(fortified$PC1, model_pc1, tolerance = 1e-10,
+               info = "PC1 should come from PCA model, not from data argument")
+
+  expect_equal(fortified$PC2, model_pc2, tolerance = 1e-10,
+               info = "PC2 should come from PCA model, not from data argument")
+
+  # Non-PC columns should come from the data argument
+  expect_equal(fortified$Species, conflicting_data$Species)
+  expect_equal(fortified$OtherVar, conflicting_data$OtherVar)
+
+  # Also test with partial PC conflicts (only some PC columns conflict)
+  partial_conflict_data <- data.frame(
+    PC1 = rep(777, nrow(test_data)),  # Only PC1 conflicts
+    Species = iris$Species,
+    ExtraCol = letters[1:nrow(test_data)]
+  )
+
+  fortified_partial <- ggplot2::fortify(pca_model, data = partial_conflict_data)
+
+  # All PC columns should come from model
+  expect_equal(fortified_partial$PC1, model_pc1, tolerance = 1e-10,
+               info = "PC1 should come from PCA model even with partial conflicts")
+  expect_equal(fortified_partial$PC2, model_pc2, tolerance = 1e-10,
+               info = "PC2 should come from PCA model even with partial conflicts")
+
+  # Non-PC columns should come from data
+  expect_equal(fortified_partial$Species, partial_conflict_data$Species)
+  expect_equal(fortified_partial$ExtraCol, partial_conflict_data$ExtraCol)
+})
+
+test_that('fortify.prcomp handles PC column name conflicts correctly', {
+  # Create test data
+  test_data <- iris[1:4]
+
+  # Create PCA model
+  pca_model <- stats::prcomp(test_data, center = TRUE, scale. = TRUE)
+
+  # Create conflicting data with PC column names containing different values
+  conflicting_data <- data.frame(
+    PC1 = rep(999, nrow(test_data)),  # Fake PC1 values
+    PC2 = rep(888, nrow(test_data)),  # Fake PC2 values
+    Species = iris$Species,
+    OtherVar = 1:nrow(test_data)
+  )
+
+  # Fortify with conflicting data
+  fortified <- ggplot2::fortify(pca_model, data = conflicting_data)
+
+  # The bug: PC columns should come from the model, not from the data
+  # Currently, the function incorrectly uses PC values from conflicting_data
+
+  # Test that PC columns match the model's principal components
+  model_pc1 <- pca_model$x[, "PC1"]
+  model_pc2 <- pca_model$x[, "PC2"]
+
+  # This test will FAIL with the current bug - PC columns come from conflicting_data
+  expect_equal(fortified$PC1, model_pc1, tolerance = 1e-10,
+               info = "PC1 should come from PCA model, not from data argument")
+
+  expect_equal(fortified$PC2, model_pc2, tolerance = 1e-10,
+               info = "PC2 should come from PCA model, not from data argument")
+
+  # Non-PC columns should come from the data argument
+  expect_equal(fortified$Species, conflicting_data$Species)
+  expect_equal(fortified$OtherVar, conflicting_data$OtherVar)
+
+  # Also test with partial PC conflicts (only some PC columns conflict)
+  partial_conflict_data <- data.frame(
+    PC1 = rep(777, nrow(test_data)),  # Only PC1 conflicts
+    Species = iris$Species,
+    ExtraCol = letters[1:nrow(test_data)]
+  )
+
+  fortified_partial <- ggplot2::fortify(pca_model, data = partial_conflict_data)
+
+  # All PC columns should come from model
+  expect_equal(fortified_partial$PC1, model_pc1, tolerance = 1e-10,
+               info = "PC1 should come from PCA model even with partial conflicts")
+  expect_equal(fortified_partial$PC2, model_pc2, tolerance = 1e-10,
+               info = "PC2 should come from PCA model even with partial conflicts")
+
+  # Non-PC columns should come from data
+  expect_equal(fortified_partial$Species, partial_conflict_data$Species)
+  expect_equal(fortified_partial$ExtraCol, partial_conflict_data$ExtraCol)
+})
+
+test_that('fortify.princomp handles component column name conflicts correctly', {
+  # Create test data
+  test_data <- iris[1:4]
+
+  # Create princomp model
+  princomp_model <- stats::princomp(test_data)
+
+  # Create conflicting data with component column names containing different values
+  conflicting_data <- data.frame(
+    Comp.1 = rep(999, nrow(test_data)),  # Fake Comp.1 values
+    Comp.2 = rep(888, nrow(test_data)),  # Fake Comp.2 values
+    Species = iris$Species,
+    OtherVar = 1:nrow(test_data)
+  )
+
+  # Fortify with conflicting data
+  fortified <- ggplot2::fortify(princomp_model, data = conflicting_data)
+
+  # The bug: Component columns should come from the model, not from the data
+  # Currently, the function incorrectly uses component values from conflicting_data
+
+  # Test that component columns match the model's principal components
+  model_comp1 <- princomp_model$scores[, "Comp.1"]
+  model_comp2 <- princomp_model$scores[, "Comp.2"]
+
+  # This test will FAIL with the current bug - component columns come from conflicting_data
+  expect_equal(fortified$Comp.1, model_comp1, tolerance = 1e-10,
+               info = "Comp.1 should come from princomp model, not from data argument")
+
+  expect_equal(fortified$Comp.2, model_comp2, tolerance = 1e-10,
+               info = "Comp.2 should come from princomp model, not from data argument")
+
+  # Non-component columns should come from the data argument
+  expect_equal(fortified$Species, conflicting_data$Species)
+  expect_equal(fortified$OtherVar, conflicting_data$OtherVar)
+
+  # Also test with partial component conflicts (only some component columns conflict)
+  partial_conflict_data <- data.frame(
+    Comp.1 = rep(777, nrow(test_data)),  # Only Comp.1 conflicts
+    Species = iris$Species,
+    ExtraCol = letters[1:nrow(test_data)]
+  )
+
+  fortified_partial <- ggplot2::fortify(princomp_model, data = partial_conflict_data)
+
+  # All component columns should come from model
+  expect_equal(fortified_partial$Comp.1, model_comp1, tolerance = 1e-10,
+               info = "Comp.1 should come from princomp model even with partial conflicts")
+  expect_equal(fortified_partial$Comp.2, model_comp2, tolerance = 1e-10,
+               info = "Comp.2 should come from princomp model even with partial conflicts")
+
+  # Non-component columns should come from data
+  expect_equal(fortified_partial$Species, partial_conflict_data$Species)
+  expect_equal(fortified_partial$ExtraCol, partial_conflict_data$ExtraCol)
+})
+
+test_that('fortify.factanal handles factor column name conflicts correctly', {
+  # Create factanal model
+  factanal_model <- stats::factanal(state.x77, factors = 3, scores = 'regression')
+
+  # Create conflicting data with factor column names containing different values
+  conflicting_data <- data.frame(
+    Factor1 = rep(999, nrow(state.x77)),  # Fake Factor1 values
+    Factor2 = rep(888, nrow(state.x77)),  # Fake Factor2 values
+    Factor3 = rep(777, nrow(state.x77)),  # Fake Factor3 values
+    State = rownames(state.x77),
+    ExtraVar = 1:nrow(state.x77)
+  )
+  rownames(conflicting_data) <- rownames(state.x77)
+
+  # Fortify with conflicting data
+  fortified <- ggplot2::fortify(factanal_model, data = conflicting_data)
+
+  # Test that factor columns match the model's factor scores
+  model_factor1 <- unname(factanal_model$scores[, "Factor1"])
+  model_factor2 <- unname(factanal_model$scores[, "Factor2"])
+  model_factor3 <- unname(factanal_model$scores[, "Factor3"])
+
+  # This test will FAIL with the current bug - factor columns come from conflicting_data
+  expect_equal(fortified$Factor1, model_factor1, tolerance = 1e-10,
+               info = "Factor1 should come from factanal model, not from data argument")
+
+  expect_equal(fortified$Factor2, model_factor2, tolerance = 1e-10,
+               info = "Factor2 should come from factanal model, not from data argument")
+
+  expect_equal(fortified$Factor3, model_factor3, tolerance = 1e-10,
+               info = "Factor3 should come from factanal model, not from data argument")
+
+  # Non-factor columns should come from the data argument
+  expect_equal(fortified$State, conflicting_data$State)
+  expect_equal(fortified$ExtraVar, conflicting_data$ExtraVar)
+
+  # Also test with partial factor conflicts (only some factor columns conflict)
+  partial_conflict_data <- data.frame(
+    Factor1 = rep(666, nrow(state.x77)),  # Only Factor1 conflicts
+    Factor2 = rep(555, nrow(state.x77)),  # Only Factor2 conflicts
+    State = rownames(state.x77),
+    AnotherCol = LETTERS[1:nrow(state.x77)]
+  )
+  rownames(partial_conflict_data) <- rownames(state.x77)
+
+  fortified_partial <- ggplot2::fortify(factanal_model, data = partial_conflict_data)
+
+  # All factor columns should come from model
+  expect_equal(fortified_partial$Factor1, model_factor1, tolerance = 1e-10,
+               info = "Factor1 should come from factanal model even with partial conflicts")
+  expect_equal(fortified_partial$Factor2, model_factor2, tolerance = 1e-10,
+               info = "Factor2 should come from factanal model even with partial conflicts")
+  expect_equal(fortified_partial$Factor3, model_factor3, tolerance = 1e-10,
+               info = "Factor3 should come from factanal model even with partial conflicts")
+
+  # Non-factor columns should come from data
+  expect_equal(fortified_partial$State, partial_conflict_data$State)
+  expect_equal(fortified_partial$AnotherCol, partial_conflict_data$AnotherCol)
+})
+
 test_that('autoplot.prcomp works for iris with scale (default)', {
 
   # fails on CRAN i386 because components are inversed.

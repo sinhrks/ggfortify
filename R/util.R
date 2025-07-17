@@ -118,3 +118,35 @@ post_fortify <- function(data, klass = NULL) {
   }
   as.data.frame(data)
 }
+
+#' Remove conflicting columns
+#'
+#' This function removes columns from the object if those column names
+#' are found in any of the subsequent objects.
+#'
+#' @param data Object from which columns may be removed
+#' @param ... Additional objects to check for conflicting column names
+#' @return The data dataframe with conflicting columns removed
+remove_conflicting_columns <- function(data, ...) {
+  if (is.null(data)) {
+    return(NULL)
+  }
+  ## Using ggplot2::fortify, cause cbind_wraps already uses it
+  if (!is.data.frame(data)) {
+    data <- ggplot2::fortify(data)
+  }
+  additional_data <- list(...)
+  if (length(additional_data) == 0) {
+    return(data)
+  }
+  additional_data <- lapply(additional_data, ggplot2::fortify)
+  all_other_cols <- unlist(lapply(additional_data, function(df) {
+    if (is.null(df)) return(character(0))
+    names(df)
+  }))
+  keep_cols <- setdiff(names(data), all_other_cols)
+  if (length(keep_cols) == 0) {
+    return(data.frame(row.names = rownames(data))[FALSE, , drop = FALSE])
+  }
+  return(data[, keep_cols, drop = FALSE])
+}
