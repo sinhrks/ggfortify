@@ -1,3 +1,7 @@
+## ggfortify 0.4.19
+
+* Fixed failed tests in test-stat and test-ts with `ggplot2` 4.0.0.
+
 ## ggfortify 0.4.18
 
 * Fixed failed tests with `ggplot2` 4.0.0.

@@ -11,4 +11,4 @@
 
 Notable changes are:
 
-* Fixed failed tests with `ggplot2` 4.0.0.
+* Fixed failed tests in test-stat and test-ts with `ggplot2` 4.0.0.
