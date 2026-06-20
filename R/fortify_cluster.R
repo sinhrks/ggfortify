@@ -152,7 +152,7 @@ autoplot.silhouette <- function(object, colour = "red",
   }
 
   plot.data <- ggplot2::fortify(object)
-  mapping <- aes_string(x = 'id', y = 'sil_width', fill = 'cluster')
+  mapping <- aes(x = .data[['id']], y = .data[['sil_width']], fill = .data[['cluster']])
 
   min.y <- if(min(plot.data$sil_width) < 0) min(plot.data$sil_width) else 0
   ylim <- c(min.y, 1)

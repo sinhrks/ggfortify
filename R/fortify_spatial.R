@@ -113,7 +113,7 @@ autoplot.SpatialCommon <- function(object, p = NULL, group = NULL,
 
   # create ggplot instance if not passed
   if (is.null(p)) {
-    mapping <- ggplot2::aes_string(x = 'long', y = 'lat')
+    mapping <- ggplot2::aes(x = .data[['long']], y = .data[['lat']])
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
     # ToDo: allow data to be none. ggplot instance should be
     # passed to factory to check its data

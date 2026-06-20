@@ -37,7 +37,7 @@ autoplot.density <- function (object, p = NULL,
     object <- ggplot2::fortify(object)
     object$ymin <- rep(0, nrow(object))
   }
-  mapping <- ggplot2::aes_string(x = 'x', y = 'y', ymin = 'ymin', ymax = 'y')
+  mapping <- ggplot2::aes(x = .data[['x']], y = .data[['y']], ymin = .data[['ymin']], ymax = .data[['y']])
   if (is.null(p)) {
     if (is.null(xlab)) {
       xlab = ''

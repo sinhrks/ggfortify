@@ -252,7 +252,7 @@ ggcpgram <- function (ts, taper = 0.1,
                   y = cumsum(y) / sum(y),
                   upper = 1 / xm * x + crit,
                   lower = 1 / xm * x - crit)
-  p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes_string(x = 'x', y = 'y')) +
+  p <- ggplot2::ggplot(data = d, mapping = ggplot2::aes(x = .data[['x']], y = .data[['y']])) +
     geom_line(colour = colour, linetype = linetype) +
     ggplot2::scale_x_continuous(name = '', limits = c(0, xm)) +
     ggplot2::scale_y_continuous(name = '', limits = c(0, 1))
@@ -317,8 +317,8 @@ ggtsdiag <- function(object, gof.lag = 10,
                       lower = -0.05, upper = 0.05)
   # Unnable to create column with space by above expression
   colnames(lb.df) <- c('Lag', 'p value', 'lower', 'upper')
-  p.lb <- ggplot2::ggplot(data = lb.df, mapping = ggplot2::aes_string(x = 'Lag')) +
-    ggplot2::geom_point(mapping = ggplot2::aes_string(y = '`p value`')) +
+  p.lb <- ggplot2::ggplot(data = lb.df, mapping = ggplot2::aes(x = .data[['Lag']])) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = .data[['p value']])) +
     ggplot2::scale_y_continuous(limits=c(0, 1)) +
     ggplot2::ggtitle('p values for Ljung-Box statistic')
   p.lb <- plot_confint(p = p.lb, data = lb.df, conf.int = conf.int,
@@ -387,7 +387,7 @@ ggfreqplot <- function(data, freq = NULL,
   d <- dplyr::left_join(d, summarised, by = 'Frequency')
 
   p <- autoplot.ts(d, columns = 'Data', ...)
-  p <- p + ggplot2::geom_line(mapping = ggplot2::aes_string(y = 'm'),
+  p <- p + ggplot2::geom_line(mapping = ggplot2::aes(y = .data[['m']]),
                        colour = conf.int.colour) +
     ggplot2::facet_wrap(~Frequency, nrow = nrow, ncol = ncol)
   p <- plot_confint(p = p, data = d, conf.int = conf.int,

@@ -78,7 +78,7 @@ autoplot.RasterCommon <- function(object, raster.layer = NULL, p = NULL,
   }
 
   if (is.null(p)) {
-    mapping <- ggplot2::aes_string(x = 'long', y = 'lat', fill = layer_names[1])
+    mapping <- ggplot2::aes(x = .data[['long']], y = .data[['lat']], fill = .data[[layer_names[1]]])
     p <- ggplot2::ggplot(data = plot.data, mapping = mapping)
     p <- p + geom_factory(ggplot2::geom_tile, data = plot.data, alpha = alpha)
   } else {

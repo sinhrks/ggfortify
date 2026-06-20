@@ -96,7 +96,7 @@ autoplot.basis <- function(object, data, n=256, ...) {
     knot.df <- ggplot2::fortify(object,
                                 data=all.knots)
     ggplot(fortified) +
-        aes_string(x="x", y="y", group="Spline", color="Spline") +
+        aes(x = .data[['x']], y = .data[['y']], group = .data[['Spline']], color = .data[['Spline']]) +
         geom_line() +
         geom_point(data=knot.df) +
         scale_color_discrete(guide=FALSE)

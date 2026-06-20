@@ -76,8 +76,8 @@ autoplot.acf <- function(object,
                               ymax = ifelse(ACF > 0, ACF, 0),
                               ymin = ifelse(ACF < 0, ACF, 0))
 
-  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes_string(x = 'Lag')) +
-    ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymin = 'ymin', ymax = 'ymax'),
+  p <- ggplot2::ggplot(data = plot.data, mapping = ggplot2::aes(x = .data[['Lag']])) +
+    ggplot2::geom_linerange(mapping = ggplot2::aes(ymin = .data[['ymin']], ymax = .data[['ymax']]),
                             colour = colour, linetype = linetype)
 
   p <- plot_confint(p = p, data = plot.data, conf.int = conf.int,
@@ -124,7 +124,7 @@ autoplot.spec <- function(object,
                           main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                           ...) {
   plot.data <- ggplot2::fortify(object)
-  mapping <- ggplot2::aes_string(x = 'Frequency', y = 'Spectrum')
+  mapping <- ggplot2::aes(x = .data[['Frequency']], y = .data[['Spectrum']])
   p <- ggplot2::ggplot(data = plot.data) +
     ggplot2::geom_line(mapping = mapping, stat = 'identity')
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
@@ -436,7 +436,7 @@ autoplot.stepfun <- function(object,
 
   plot.data <- ggplot2::fortify(object)
 
-  mapping <- ggplot2::aes_string(x = 'x', y = 'y')
+  mapping <- ggplot2::aes(x = .data[['x']], y = .data[['y']])
   p <- ggplot2::ggplot(plot.data, mapping = mapping) +
     geom_factory(ggplot2::geom_line, data = plot.data,
                 colour = colour, size = size, linetype = linetype,

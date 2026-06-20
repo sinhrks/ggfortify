@@ -172,11 +172,11 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       ggplot2::ggtitle(title)
   }
 
-  smoother_m <- ggplot2::aes_string(x = 'x', y = 'y')
+  smoother_m <- ggplot2::aes(x = .data[['x']], y = .data[['y']])
 
   if (show[1L]) {
     t1 <- 'Residuals vs Fitted'
-    mapping <- ggplot2::aes_string(x = '.fitted', y = '.resid')
+    mapping <- ggplot2::aes(x = .data[['.fitted']], y = .data[['.resid']])
     smoother <- .smooth(plot.data$.fitted, plot.data$.resid)
     smoother <- as.data.frame(smoother)
     p1 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
@@ -204,7 +204,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     slope <- diff(qy) / diff(qx)
     int <- qy[1L] - slope * qx[1L]
 
-    mapping <- ggplot2::aes_string(x = '.qqx', y = '.qqy')
+    mapping <- ggplot2::aes(x = .data[['.qqx']], y = .data[['.qqy']])
     p2 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
     if (!is.logical(shape) || shape) {
       # Do not use stat_qq here for labeling
@@ -222,7 +222,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   if (show[3L]) {
     t3 <- 'Scale-Location'
-    mapping <- ggplot2::aes_string(x = '.fitted', y = 'sqrt(abs(.wstdresid))')
+    mapping <- ggplot2::aes(x = .data[['.fitted']], y = sqrt(abs(.data[['.wstdresid']])))
     smoother <- .smooth(plot.data$.fitted, sqrt(abs(plot.data$.wstdresid)))
     smoother <- as.data.frame(smoother)
     p3 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
@@ -242,8 +242,8 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   if (show[4L]) {
     t4 <- "Cook's distance"
-    mapping <- ggplot2::aes_string(x = '.index', y = '.cooksd',
-                                   ymin = 0, ymax = '.cooksd')
+    mapping <- ggplot2::aes(x = .data[['.index']], y = .data[['.cooksd']],
+                                   ymin = 0, ymax = .data[['.cooksd']])
     p4 <-  ggplot2::ggplot(data = plot.data, mapping = mapping)
     if (!is.logical(shape) || shape) {
       p4 <- p4 + geom_factory(geom_linerange, plot.data,
@@ -258,7 +258,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   if (show[5L]) {
     if (is_const_lev & ncol(fs) > 0){
       t5 <- 'Constant Leverage:\nResiduals vs Factor Levels'
-      mapping <- ggplot2::aes_string(x = '.nf', y = '.stdresid')
+      mapping <- ggplot2::aes(x = .data[['.nf']], y = .data[['.stdresid']])
 
       p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
       if (!is.logical(shape) || shape) {
@@ -276,7 +276,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
                            ylab = label.y5, title = t5)
     } else {
       t5 <- 'Residuals vs Leverage'
-      mapping <- ggplot2::aes_string(x = '.hat', y = '.stdresid')
+      mapping <- ggplot2::aes(x = .data[['.hat']], y = .data[['.stdresid']])
       smoother <- .smooth(plot.data$.hat, plot.data$.stdresid)
       smoother <- as.data.frame(smoother)
       p5 <- ggplot2::ggplot(data = plot.data, mapping = mapping)
@@ -298,7 +298,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
 
   if (show[6L]) {
     t6 <- "Cook's dist vs Leverage"
-    mapping <- ggplot2::aes_string(x = '.hat', y = '.cooksd')
+    mapping <- ggplot2::aes(x = .data[['.hat']], y = .data[['.cooksd']])
     smoother <- .smooth(plot.data$.hat, plot.data$.cooksd)
     smoother <- as.data.frame(smoother)
     p6 <- ggplot2::ggplot(data = plot.data, mapping = mapping)

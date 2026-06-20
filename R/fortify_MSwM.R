@@ -70,7 +70,7 @@ autoplot.MSM.lm <- function(object, prob.colour = '#FF0000',
 
   y <- 'SmoProb'
   p <- autoplot.ts(plot.data, columns = y, group = 'Model', ...)
-  p <- p + ggplot2::geom_linerange(mapping = ggplot2::aes_string(ymax = 'FiltProb'), ymin = 0) +
+  p <- p + ggplot2::geom_linerange(mapping = ggplot2::aes(ymax = .data[['FiltProb']]), ymin = 0) +
     ggplot2::facet_wrap(~Model, ncol = 1) +
     ggplot2::scale_y_continuous(name = 'Smoothed Probabilities', labels = scales::percent)
 
