@@ -73,7 +73,7 @@ autoplot.glmnet <- function (object,
   label.data$label_y <- rep(max(plot.data$value), nrow(label.data))
 
   p <- ggplot2::ggplot(data = plot.data) +
-    ggplot2::geom_line(aes_string(x = 'index', y = 'value', colour = 'variable'), ...)
+    ggplot2::geom_line(aes(x = .data[['index']], y = .data[['value']], colour = .data[['variable']]), ...)
 
   p <- plot_label(p = p, data = label.data, x = 'index', y = 'label_y',
                   label = label,
@@ -154,9 +154,9 @@ autoplot.cv.glmnet <- function (object,
   plot.data$label <- rep(max(object$cvup), nrow(plot.data))
 
   p <- ggplot2::ggplot(plot.data) +
-    geom_point(aes_string('lambda', 'cvm'), ...)
+    geom_point(aes(x = .data[['lambda']], y = .data[['cvm']]), ...)
 
-  p <- p + ggplot2::geom_errorbar(aes_string(x = 'lambda', ymin = 'cvlo', ymax = 'cvup'), ...)
+  p <- p + ggplot2::geom_errorbar(aes(x = .data[['lambda']], ymin = .data[['cvlo']], ymax = .data[['cvup']]), ...)
 
   indexer <- seq(1, nrow(plot.data), length = label.n)
   p <- plot_label(p = p, data = plot.data[indexer, ], x = 'lambda', y = 'label',

@@ -173,7 +173,7 @@ autoplot.survfit <- function(object, fun = NULL,
   if (is_derived_from(object, 'aareg')) {
     # for autoplot.aareg, object must be a data.frame
     plot.data <- object
-    mapping <- aes_string(x = 'time', y = 'value')
+    mapping <- aes(x = .data[['time']], y = .data[['value']])
     strips_formula <- ~ variable
     if (is.null(surv.colour)) {
       surv.colour <- 'variable'
@@ -184,9 +184,9 @@ autoplot.survfit <- function(object, fun = NULL,
     plot.data <- fortify(object, surv.connect = surv.connect, fun = fun)
 
     if (is_derived_from(object, 'survfitms')) {
-      mapping <- aes_string(x = 'time', y = 'pstate')
+      mapping <- aes(x = .data[['time']], y = .data[['pstate']])
     } else {
-      mapping <- aes_string(x = 'time', y = 'surv')
+      mapping <- aes(x = .data[['time']], y = .data[['surv']])
     }
 
     group <- c()
