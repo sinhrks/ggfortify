@@ -11,4 +11,5 @@
 
 Notable changes are:
 
-* Fixed failed tests in test-stat and test-ts with `ggplot2` 4.0.0.
+* Replaced deprecated `ggplot2::aes_string()` calls with `ggplot2::aes()` and the `.data` pronoun.
+* Switched from the internal `ggplot2:::GeomRibbon` object to the exported `ggplot2::GeomRibbon` object.
