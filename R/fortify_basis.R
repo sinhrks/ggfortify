@@ -99,5 +99,5 @@ autoplot.basis <- function(object, data, n=256, ...) {
         aes(x = .data[['x']], y = .data[['y']], group = .data[['Spline']], color = .data[['Spline']]) +
         geom_line() +
         geom_point(data=knot.df) +
-        scale_color_discrete(guide=FALSE)
+        scale_color_discrete(guide="none")
 }

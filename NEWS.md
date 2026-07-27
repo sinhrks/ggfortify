@@ -1,3 +1,7 @@
+## ggfortify (development version)
+
+* Replaced the deprecated logical `guide` value in spline-basis plots.
+
 ## ggfortify 0.4.20
 
 * Replaced deprecated `ggplot2::aes_string()` calls with `ggplot2::aes()` and the `.data` pronoun.

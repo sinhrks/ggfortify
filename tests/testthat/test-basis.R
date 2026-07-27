@@ -24,3 +24,14 @@ test_that('fortify.basis and autoplot.basis work for ns and bs', {
     expect_true(is(p.bs, "ggplot"))
     expect_true(is(p.ns, "ggplot"))
 })
+
+test_that('autoplot.basis uses a supported guide value', {
+    old_options <- options(lifecycle_verbosity = "error")
+    on.exit(options(old_options), add = TRUE)
+
+    x <- seq(from = 100, to = 10000, length.out = 200)
+    basis <- ns(x, df = 6)
+    p <- autoplot(basis)
+
+    expect_error(ggplot2::ggplot_build(p), NA)
+})
