@@ -261,20 +261,34 @@ test_that('fortify.survfit regular expression for renaming strata works with mul
   expect_equal(names(fortified), expected_names)
 })
 
-test_that('n.risk at time == 0 is correct in fortify.survfit(*, surv.connect = TRUE) (#229)', {
+test_that('surv.connect uses the correct starting points (#229)', {
   skip_if_not_installed("survival")
   library(survival)
 
   fit <- survfit(Surv(time, status) ~ x, data = aml)
-  fit_surv <- summary(fit)
-  fit_surv <- fit_surv$n.risk[fit_surv$time == ave(fit_surv$time, fit_surv$strata, FUN = min)]
   fit_gg <- fortify.survfit(fit, surv.connect = TRUE)
-  fit_gg <- fit_gg[fit_gg$time == 0, "n.risk"]
-  expect_equal(fit_surv, fit_gg)
-  
-  fitMS <- survfit(Surv(start, stop, event) ~ 1, id = id, data = mgus1)
-  fitMS_surv <- unname(fitMS$n.risk[1, ])
-  fitMS_gg <- fortify.survfit(fitMS, surv.connect = TRUE)
-  fitMS_gg <- fitMS_gg[fitMS_gg$time == 0, "n.risk"]
-  expect_equal(fitMS_surv, fitMS_gg)
+  fit_gg <- fit_gg[fit_gg$time == 0, ]
+  expect_equal(fit_gg$n.risk, c(11, 12))
+
+  fit_ms <- survfit(Surv(start, stop, event) ~ sex, id = id, data = mgus1)
+  fit_ms_gg <- fortify.survfit(fit_ms, surv.connect = TRUE)
+  fit_ms_gg <- fit_ms_gg[fit_ms_gg$time == 0, ]
+  expect_equal(nrow(fit_ms_gg), 6)
+  expect_equal(fit_ms_gg$pstate, c(1, 1, 0, 0, 0, 0))
+  expect_equal(fit_ms_gg$n.risk, c(104, 137, 0, 0, 0, 0))
+
+  zero_event <- data.frame(time = c(0, 1, 2, 3),
+                           status = c(1, 0, 1, 0))
+  fit_zero <- survfit(Surv(time, status) ~ 1, data = zero_event)
+  fit_zero_gg <- fortify.survfit(fit_zero, surv.connect = TRUE)
+  expect_equal(sum(fit_zero_gg$time == 0), 1)
+  expect_equal(fit_zero_gg$surv[fit_zero_gg$time == 0], 0.75)
+
+  delayed <- data.frame(start = c(2, 3, 4, 4),
+                        stop = c(5, 6, 7, 8),
+                        status = c(1, 0, 1, 0))
+  fit_delayed <- survfit(Surv(start, stop, status) ~ 1,
+                         data = delayed, start.time = 2)
+  fit_delayed_gg <- fortify.survfit(fit_delayed, surv.connect = TRUE)
+  expect_equal(min(fit_delayed_gg$time), 2)
 })

@@ -18,6 +18,10 @@
 #' @export
 fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
                             fun = NULL, ...) {
+  if (surv.connect) {
+    model <- survival::survfit0(model)
+  }
+
   if (inherits(model, 'survfitms')) {
     d <- data.frame(time = model$time,
                     n.risk = c(model$n.risk),
@@ -61,28 +65,6 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
     }
   } else {
     stop(paste0('Unsupported class for fortify.survfit: ', class(model)))
-  }
-
-  # connect to the origin for plotting
-  if (surv.connect) {
-    if ('strata' %in% colnames(d)) {
-      base <- d[d$time == ave(d$time, d$strata, FUN = min), ]
-    }
-    if ('event' %in% colnames(d)) {
-      base <- d[d$time == ave(d$time, d$event, FUN = min), ]
-    }
-    # cumhaz is for survfit.cox cases
-    base[intersect(c('time', 'n.event', 'n.censor', 'std.err', 'cumhaz'), colnames(base))] <- 0
-    if ('pstate' %in% colnames(d)) {
-      base[c('pstate', 'upper', 'lower')] <- 0
-    } else {
-      base[c('surv', 'upper', 'lower')] <- 1.0
-    }
-    if ('event' %in% colnames(d)) {
-     base[base$event == 'any', c('pstate', 'upper', 'lower')] <- 1.0
-    }
-    rownames(base) <- NULL
-    d <- rbind(base, d)
   }
 
   if (!is.null(fun)) {
