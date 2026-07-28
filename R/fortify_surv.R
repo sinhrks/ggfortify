@@ -65,6 +65,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 
   # connect to the origin for plotting
   if (surv.connect) {
+    base <- d[d$time == min(d$time), , drop = FALSE]
     if ('strata' %in% colnames(d)) {
       base <- d[d$time == ave(d$time, d$strata, FUN = min), ]
     }
