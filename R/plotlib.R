@@ -483,6 +483,9 @@ autoplot.ggmultiplot <- function(object, ...) {
 #' @param label Logical value whether to display data labels
 #' @inheritParams plot_label
 #' @param loadings Logical value whether to display loadings arrows
+#' @param loadings.cutoff Minimum Euclidean length of the unscaled loading
+#'   vectors in the selected two-dimensional component space. Disabled when
+#'   \code{NULL}.
 #' @param loadings.arrow An arrow definition
 #' @param loadings.colour Point colour for data
 #' @param loadings.linewidth Segment linewidth for loadings
@@ -526,6 +529,7 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                      label.repel = FALSE,
                      label.position = "identity",
                      loadings = FALSE,
+                     loadings.cutoff = NULL,
                      loadings.arrow = grid::arrow(length = grid::unit(8, 'points')),
                      loadings.colour = '#FF0000',
                      loadings.linewidth = 0.5,
@@ -549,6 +553,12 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
                      main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                      ...) {
 #  print(label.position)
+
+  if (!is.null(loadings.cutoff) &&
+      (!is.numeric(loadings.cutoff) || length(loadings.cutoff) != 1L ||
+       !is.finite(loadings.cutoff) || loadings.cutoff < 0)) {
+    stop("'loadings.cutoff' must be NULL or a single finite, non-negative number")
+  }
 
   arguments <- list(...)
 
@@ -606,6 +616,15 @@ ggbiplot <- function(plot.data, loadings.data = NULL,
   if (loadings.label && !loadings) {
     # If loadings.label is TRUE, draw loadings
     loadings <- TRUE
+  }
+  if (!is.null(loadings.data) && !is.null(loadings.cutoff)) {
+    loading.length <- sqrt(rowSums(loadings.data[, 1L:2L, drop = FALSE]^2))
+    loadings.data <- loadings.data[
+      loading.length >= loadings.cutoff, , drop = FALSE
+    ]
+    if (nrow(loadings.data) == 0L) {
+      loadings.data <- NULL
+    }
   }
   if (loadings && !is.null(loadings.data)) {
 
