@@ -119,6 +119,8 @@ test_that('Check ggmultiplot multiple instances', {
   expect_true(is(p, 'ggmultiplot'))
   expect_equal(length(p), 8)
 
+  skip_if_not_installed("vars")
+  data(Canada, package = 'vars')
   p <- autoplot(list(a=Canada, b=AirPassengers))
   expect_true(is(p, 'ggmultiplot'))
   expect_equal(length(p), 2)
