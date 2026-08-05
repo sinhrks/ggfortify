@@ -27,6 +27,7 @@ ggbiplot(
   label.repel = FALSE,
   label.position = "identity",
   loadings = FALSE,
+  loadings.cutoff = NULL,
   loadings.arrow = grid::arrow(length = grid::unit(8, "points")),
   loadings.colour = "#FF0000",
   loadings.linewidth = 0.5,
@@ -102,6 +103,10 @@ ggbiplot(
 \item{label.position}{Character or a position function}
 
 \item{loadings}{Logical value whether to display loadings arrows}
+
+\item{loadings.cutoff}{Minimum Euclidean length of the unscaled loading
+vectors in the selected two-dimensional component space. Disabled when
+\code{NULL}.}
 
 \item{loadings.arrow}{An arrow definition}
 

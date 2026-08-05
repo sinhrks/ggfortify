@@ -541,6 +541,36 @@ test_that('autoplot.prcomp works for iris with scale (default)', {
   expect_equal(ld$alpha, rep(0.2, 6))
 })
 
+test_that('autoplot.pca_common filters loadings by vector length (#212)', {
+  obj <- stats::prcomp(iris[-5])
+
+  p <- ggplot2::autoplot(
+    obj, x = 2, y = 3, loadings = TRUE, loadings.label = TRUE,
+    loadings.cutoff = 0.7
+  )
+  expect_equal(length(p$layers), 3)
+  expect_equal(nrow(ggplot2:::layer_data(p, 2)), 2)
+  expect_setequal(
+    ggplot2:::layer_data(p, 3)$label,
+    c('Sepal.Length', 'Sepal.Width')
+  )
+
+  p <- ggplot2::autoplot(
+    obj, loadings = TRUE, loadings.label = TRUE,
+    loadings.cutoff = 2
+  )
+  expect_equal(length(p$layers), 1)
+
+  invalid <- list(-1, Inf, NA_real_, c(0.1, 0.2), '0.1')
+  for (cutoff in invalid) {
+    expect_error(
+      ggplot2::autoplot(obj, loadings.cutoff = cutoff),
+      "'loadings.cutoff' must be NULL or a single finite, non-negative number",
+      fixed = TRUE
+    )
+  }
+})
+
 test_that('autoplot.prcomp works for iris without scale', {
 
   # fails on CRAN i386 because components are inversed.

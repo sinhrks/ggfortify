@@ -238,6 +238,8 @@ fortify.lfda <- function(model, data = NULL, ...) {
 #' autoplot(stats::prcomp(iris[-5]), data = iris)
 #' autoplot(stats::prcomp(iris[-5]), data = iris, colour = 'Species')
 #' autoplot(stats::prcomp(iris[-5]), label = TRUE, loadings = TRUE, loadings.label = TRUE)
+#' autoplot(stats::prcomp(iris[-5]), loadings = TRUE, loadings.label = TRUE,
+#'          loadings.cutoff = 0.7)
 #' autoplot(stats::prcomp(iris[-5]), frame = TRUE)
 #' autoplot(stats::prcomp(iris[-5]), data = iris, frame = TRUE,
 #'          frame.colour = 'Species')
