@@ -1,3 +1,9 @@
+## ggfortify 0.4.21
+
+* Added `loadings.cutoff` for filtering PCA loading vectors.
+* Fixed `surv.connect = TRUE` for unstratified survival fits.
+* Replaced the deprecated `guide = FALSE` with `guide = "none"` in spline plots.
+
 ## ggfortify 0.4.20
 
 * Replaced deprecated `ggplot2::aes_string()` calls with `ggplot2::aes()` and the `.data` pronoun.
