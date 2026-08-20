@@ -1,3 +1,7 @@
+## ggfortify 0.4.22
+
+* Updated tests for compatibility with recent dependency behavior.
+
 ## ggfortify 0.4.21
 
 * Added `loadings.cutoff` for filtering PCA loading vectors.
