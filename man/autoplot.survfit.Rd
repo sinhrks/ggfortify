@@ -50,8 +50,9 @@
 \item{surv.geom}{geometric string for survival curve. 'step', 'line' or 'point'}
 
 \item{surv.colour}{Line colour for the survival curve. A plot-data column
-name maps colour and creates a legend; a colour value sets a fixed colour
-and does not create a legend.}
+name maps colour and creates a legend; a single colour value sets a fixed
+colour; and a vector supplies a manual palette for the automatically
+mapped grouping variable.}
 
 \item{surv.size}{point size for survival curve}
 
@@ -127,6 +128,8 @@ if (requireNamespace("survival", quietly = TRUE)) {
   autoplot(survfit(Surv(time, status) ~ 1, data = lung))
   autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
   autoplot(survfit(Surv(time, status) ~ sex, data=lung), surv.colour = 'red')
+  autoplot(survfit(Surv(time, status) ~ sex, data=lung),
+           surv.colour = c('red', 'blue'))
   autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 }
 }

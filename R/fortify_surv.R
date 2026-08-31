@@ -122,8 +122,9 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #' @param fun an arbitrary function defining a transformation of the survival curve
 #' @param surv.geom geometric string for survival curve. 'step', 'line' or 'point'
 #' @param surv.colour Line colour for the survival curve. A plot-data column
-#'   name maps colour and creates a legend; a colour value sets a fixed colour
-#'   and does not create a legend.
+#'   name maps colour and creates a legend; a single colour value sets a fixed
+#'   colour; and a vector supplies a manual palette for the automatically
+#'   mapped grouping variable.
 #' @param surv.size point size for survival curve
 #' @param surv.linetype line type for survival curve
 #' @param surv.alpha alpha for survival curve
@@ -152,6 +153,8 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #'   autoplot(survfit(Surv(time, status) ~ 1, data = lung))
 #'   autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
 #'   autoplot(survfit(Surv(time, status) ~ sex, data=lung), surv.colour = 'red')
+#'   autoplot(survfit(Surv(time, status) ~ sex, data=lung),
+#'            surv.colour = c('red', 'blue'))
 #'   autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 #' }
 #' }
@@ -173,6 +176,15 @@ autoplot.survfit <- function(object, fun = NULL,
                              xlim = c(NA, NA), ylim = c(NA, NA), log = "",
                              main = NULL, xlab = NULL, ylab = NULL, asp = NULL,
                              ...) {
+
+  # A colour vector represents one palette value per curve group, not one
+  # value per row in the fortified survival data. Keep it separate so the
+  # geometry can map the grouping variable and the scale can apply the colours.
+  surv.palette <- NULL
+  if (length(surv.colour) > 1L) {
+    surv.palette <- surv.colour
+    surv.colour <- NULL
+  }
 
   if (is_derived_from(object, 'aareg')) {
     # for autoplot.aareg, object must be a data.frame
@@ -207,6 +219,10 @@ autoplot.survfit <- function(object, fun = NULL,
       if (is.null(surv.linetype)) {
         surv.linetype <- 'event'
       }
+      # For multistate fits without strata, events identify the curve groups.
+      if (is.null(surv.colour) && !is.null(surv.palette)) {
+        surv.colour <- 'event'
+      }
     }
 
     if (length(group) == 1) {
@@ -237,6 +253,10 @@ autoplot.survfit <- function(object, fun = NULL,
     }
   }
 
+  if (!is.null(surv.palette) && is.null(surv.colour)) {
+    stop("A 'surv.colour' palette requires a grouped survival curve")
+  }
+
   if (missing(conf.int.fill) & !is.null(surv.colour)) {
     conf.int.fill <- surv.colour
   }
@@ -260,6 +280,14 @@ autoplot.survfit <- function(object, fun = NULL,
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
                     conf.int.fill = conf.int.fill, conf.int.alpha = conf.int.alpha)
+  # Apply the palette after mappings are established. When confidence fills
+  # use the same grouping variable, keep their colours aligned with the curves.
+  if (!is.null(surv.palette)) {
+    p <- p + ggplot2::scale_colour_manual(values = surv.palette)
+    if (conf.int && identical(conf.int.fill, surv.colour)) {
+      p <- p + ggplot2::scale_fill_manual(values = surv.palette)
+    }
+  }
   if (censor & 'n.censor' %in% colnames(plot.data)) {
     p <- p + geom_factory(geom_point, plot.data[plot.data$n.censor > 0, ],
                           colour = censor.colour, size = censor.size,

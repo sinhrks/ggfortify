@@ -106,6 +106,75 @@ test_that('fixed survival colour preserves strata grouping (#120)', {
   expect_null(p$layers[[1]]$mapping$colour)
 })
 
+test_that('survival colour vectors supply palettes for grouped curves (#120)', {
+  skip_if_not_installed('survival')
+  fit <- survival::survfit(
+    survival::Surv(time, status) ~ sex,
+    data = survival::lung
+  )
+
+  p <- ggplot2::autoplot(fit, surv.colour = c('red', 'blue'))
+  curve <- ggplot2::layer_data(p, 1)
+  interval <- ggplot2::layer_data(p, 2)
+
+  expect_setequal(unique(curve$colour), c('red', 'blue'))
+  expect_setequal(unique(interval$fill), c('red', 'blue'))
+  expect_equal(length(unique(curve$group)), 2L)
+  expect_equal(rlang::as_name(p$layers[[1]]$mapping$colour), 'strata')
+  expect_s3_class(p$scales$get_scales('colour'), 'ScaleDiscrete')
+
+  three.groups <- transform(
+    survival::lung,
+    group = factor(rep(c('first', 'second', 'third'),
+                       length.out = nrow(survival::lung)))
+  )
+  three.fit <- survival::survfit(
+    survival::Surv(time, status) ~ group,
+    data = three.groups
+  )
+  three.palette <- c(first = 'red', second = 'blue', third = 'green')
+  three.plot <- ggplot2::autoplot(
+    three.fit, conf.int = FALSE, surv.colour = three.palette
+  )
+  three.curves <- ggplot2::layer_data(three.plot, 1)
+
+  expect_setequal(unique(three.curves$colour), unname(three.palette))
+  expect_equal(length(unique(three.curves$group)), 3L)
+
+  expect_error(
+    ggplot2::ggplot_build(
+      ggplot2::autoplot(
+        three.fit, surv.colour = c('red', 'blue')
+      )
+    ),
+    'Insufficient values in manual scale'
+  )
+
+  unstratified <- survival::survfit(
+    survival::Surv(time, status) ~ 1,
+    data = survival::lung
+  )
+  expect_error(
+    ggplot2::autoplot(unstratified, surv.colour = c('red', 'blue')),
+    'requires a grouped survival curve'
+  )
+
+  multistate <- survival::survfit(
+    survival::Surv(start, stop, event) ~ 1,
+    id = id,
+    data = survival::mgus1
+  )
+  event.palette <- c('red', 'blue', 'green')
+  event.plot <- ggplot2::autoplot(
+    multistate, conf.int = FALSE, surv.colour = event.palette
+  )
+  event.curves <- ggplot2::layer_data(event.plot, 1)
+
+  expect_equal(rlang::as_name(event.plot$layers[[1]]$mapping$colour), 'event')
+  expect_setequal(unique(event.curves$colour), event.palette)
+  expect_equal(length(unique(event.curves$group)), 3L)
+})
+
 test_that('fortify.survfit works for simple data', {
   skip_if_not_installed("survival")
   library(survival)
