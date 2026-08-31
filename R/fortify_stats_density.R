@@ -47,6 +47,10 @@ autoplot.density <- function (object, p = NULL,
     }
     p <- ggplot2::ggplot(mapping = mapping)
   }
+  is.discrete <- isTRUE(attr(object, 'ggfortify.discrete_cdf'))
+  geomfunc <- if (is.discrete) geom_step else geom_line
+  ribbonfunc <- if (is.discrete) geom_confint else geom_ribbon
+
   if (!is.null(fill)) {
 
     if (is.null(alpha)) {
@@ -54,16 +58,25 @@ autoplot.density <- function (object, p = NULL,
       alpha <- 0.3
     }
 
-    p <- p + geom_factory(geom_ribbon, object, colour = colour,
+    p <- p + geom_factory(ribbonfunc, object, colour = colour,
                           linetype = linetype, fill = fill, alpha = alpha)
   } else {
     # not to draw bottom line
-    p <- p + geom_factory(geom_line, object, colour = colour,
+    p <- p + geom_factory(geomfunc, object, colour = colour,
                           linetype = linetype, alpha = alpha)
   }
   p <- post_autoplot(p = p, xlim = xlim, ylim = ylim, log = log,
                      main = main, xlab = xlab, ylab = ylab, asp = asp)
   p
+}
+
+is_discrete_cdf <- function(func) {
+  discrete_cdfs <- list(
+    stats::pbinom, stats::pgeom, stats::phyper, stats::pnbinom,
+    stats::ppois, stats::psignrank, stats::pwilcox
+  )
+  inherits(func, 'stepfun') ||
+    any(vapply(discrete_cdfs, identical, logical(1L), y = func))
 }
 
 #' Plot distribution
@@ -99,6 +112,7 @@ ggdistribution <- function (func, x, p = NULL,
                             asp = NULL, ...)  {
   data <- data.frame(x = x, y = func(x, ...),
                      ymin = rep(0, length(x)))
+  attr(data, 'ggfortify.discrete_cdf') <- is_discrete_cdf(func)
   p <- autoplot.density(data, p = p, colour = colour, linetype = linetype,
                         fill = fill, alpha = alpha, 
                         xlim = xlim, ylim = ylim, log = log,
