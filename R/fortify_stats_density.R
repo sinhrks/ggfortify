@@ -45,9 +45,7 @@ autoplot.density <- function (object, p = NULL,
     if (is.null(ylab)) {
       ylab = ''
     }
-    p <- ggplot2::ggplot(mapping = mapping) +
-      ggplot2::scale_x_continuous(name = xlab) +
-      ggplot2::scale_y_continuous(name = ylab)
+    p <- ggplot2::ggplot(mapping = mapping)
   }
   if (!is.null(fill)) {
 
