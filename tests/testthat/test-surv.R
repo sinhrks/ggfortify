@@ -88,6 +88,24 @@ test_that('autoplot retains order of alphabetically unordered factor levels', {
   expect_equal(levels(plotElements[["data"]][, "strata"]), c("Low", "High"))
 })
 
+test_that('fixed survival colour preserves strata grouping (#120)', {
+  skip_if_not_installed('survival')
+  fit <- survival::survfit(
+    survival::Surv(time, status) ~ sex,
+    data = survival::lung
+  )
+
+  p <- ggplot2::autoplot(
+    fit, conf.int = FALSE, censor = FALSE, surv.colour = 'red'
+  )
+  layer <- ggplot2::layer_data(p, 1)
+
+  expect_equal(length(unique(layer$group)), 2L)
+  expect_equal(p$layers[[1]]$aes_params$colour, 'red')
+  expect_equal(rlang::as_name(p$layers[[1]]$mapping$group), 'group')
+  expect_null(p$layers[[1]]$mapping$colour)
+})
+
 test_that('fortify.survfit works for simple data', {
   skip_if_not_installed("survival")
   library(survival)

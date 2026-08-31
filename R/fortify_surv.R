@@ -121,7 +121,9 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #' @param object \code{survival::survfit} instance
 #' @param fun an arbitrary function defining a transformation of the survival curve
 #' @param surv.geom geometric string for survival curve. 'step', 'line' or 'point'
-#' @param surv.colour line colour for survival curve
+#' @param surv.colour Line colour for the survival curve. A plot-data column
+#'   name maps colour and creates a legend; a colour value sets a fixed colour
+#'   and does not create a legend.
 #' @param surv.size point size for survival curve
 #' @param surv.linetype line type for survival curve
 #' @param surv.alpha alpha for survival curve
@@ -149,6 +151,7 @@ fortify.survfit <- function(model, data = NULL, surv.connect = FALSE,
 #'   autoplot(survfit(Surv(time, status) ~ sex, data = lung), facets = TRUE)
 #'   autoplot(survfit(Surv(time, status) ~ 1, data = lung))
 #'   autoplot(survfit(Surv(time, status) ~ sex, data=lung), conf.int = FALSE, censor = FALSE)
+#'   autoplot(survfit(Surv(time, status) ~ sex, data=lung), surv.colour = 'red')
 #'   autoplot(survfit(coxph(Surv(time, status) ~ sex, data = lung)))
 #' }
 #' }
@@ -243,6 +246,7 @@ autoplot.survfit <- function(object, fun = NULL,
   p <- ggplot(data = plot.data, mapping = mapping) +
     scale_y_continuous(labels = scale_labels)
   p <- p + geom_factory(geomfunc, plot.data,
+                        group = 'group',
                         colour = surv.colour, size = surv.size, linetype = surv.linetype,
                         alpha = surv.alpha, fill = surv.fill, shape = surv.shape)
   if (surv.geom == 'step') {
