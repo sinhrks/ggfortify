@@ -15,7 +15,14 @@ test_that('fortify.density works for rnorm', {
 
 test_that('ggdistribution', {
   p <- ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
+  expect_true(is(p$layers[[1]]$geom, 'GeomLine'))
+
   p <- ggdistribution(ppois, seq(0, 30), lambda = 20)
+  expect_true(is(p$layers[[1]]$geom, 'GeomStep'))
+
+  p <- ggdistribution(ppois, seq(0, 30), lambda = 20,
+                      fill = 'blue')
+  expect_true(is(p$layers[[1]]$geom, 'GeomConfint'))
 
   # repeast
   p <- ggdistribution(pchisq, 0:20, df = 7, fill = 'blue')
@@ -36,4 +43,14 @@ test_that('ggdistribution axis labels can be customized', {
   expect_equal(p$labels$y, 'later y')
   expect_null(p$scales$get_scales('x'))
   expect_null(p$scales$get_scales('y'))
+})
+
+test_that('standard discrete CDFs are detected', {
+  discrete_cdfs <- list(pbinom, pgeom, phyper, pnbinom,
+                        ppois, psignrank, pwilcox)
+  detected <- vapply(discrete_cdfs, ggfortify:::is_discrete_cdf, logical(1L))
+  expect_true(all(detected))
+  expect_true(ggfortify:::is_discrete_cdf(ecdf(0:3)))
+  expect_false(ggfortify:::is_discrete_cdf(pnorm))
+  expect_false('geom' %in% names(formals(ggdistribution)))
 })
