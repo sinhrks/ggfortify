@@ -339,7 +339,8 @@ ggtsdiag <- function(object, gof.lag = 10,
 #' @param ncol Number of plot columns
 #' @inheritParams plot_confint
 #' @param conf.int.value Coverage probability for confidence interval
-#' @param facet.labeller A vector used as facet labels
+#' @param facet.labeller A function mapping current facet labels to new labels,
+#'   or a vector with the same length as \code{freq} used as facet labels
 #' @param ... Keywords passed to autoplot.ts
 #' @return ggplot
 #' @examples
@@ -347,6 +348,8 @@ ggtsdiag <- function(object, gof.lag = 10,
 #' ggfreqplot(AirPassengers)
 #' ggfreqplot(AirPassengers, freq = 4)
 #' ggfreqplot(AirPassengers, conf.int = TRUE)
+#' ggfreqplot(AirPassengers,
+#'            facet.labeller = function(x) month.abb[as.integer(x)])
 #' }
 #' @export
 ggfreqplot <- function(data, freq = NULL,
@@ -367,12 +370,16 @@ ggfreqplot <- function(data, freq = NULL,
   }
 
   d <- ggplot2::fortify(data)
+  facet.labeller.function <- ggplot2::label_value
   if (is.null(facet.labeller)) {
     freqs <- 1:freq
+  } else if (is.function(facet.labeller)) {
+    freqs <- 1:freq
+    facet.labeller.function <- ggplot2::as_labeller(facet.labeller)
   } else if (length(facet.labeller)  == freq) {
     freqs <- factor(facet.labeller, levels = facet.labeller)
   } else {
-    stop('facet.labeller must be a vector which has the same length as freq')
+    stop('facet.labeller must be a function or a vector with length freq')
   }
   freqd <- data.frame(Frequency = rep(freqs, length.out = length(data)))
   d <- cbind(d, freqd)
@@ -389,7 +396,8 @@ ggfreqplot <- function(data, freq = NULL,
   p <- autoplot.ts(d, columns = 'Data', ...)
   p <- p + ggplot2::geom_line(mapping = ggplot2::aes(y = .data[['m']]),
                        colour = conf.int.colour) +
-    ggplot2::facet_wrap(~Frequency, nrow = nrow, ncol = ncol)
+    ggplot2::facet_wrap(~Frequency, nrow = nrow, ncol = ncol,
+                        labeller = facet.labeller.function)
   p <- plot_confint(p = p, data = d, conf.int = conf.int,
                     conf.int.colour = conf.int.colour,
                     conf.int.linetype = conf.int.linetype,
