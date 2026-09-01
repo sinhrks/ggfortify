@@ -40,7 +40,8 @@ ggfreqplot(
 
 \item{conf.int.value}{Coverage probability for confidence interval}
 
-\item{facet.labeller}{A vector used as facet labels}
+\item{facet.labeller}{A function mapping current facet labels to new labels,
+or a vector with the same length as \code{freq} used as facet labels}
 
 \item{...}{Keywords passed to autoplot.ts}
 }
@@ -55,5 +56,7 @@ Plot seasonal subseries of time series, generalization of \code{stats::monthplot
 ggfreqplot(AirPassengers)
 ggfreqplot(AirPassengers, freq = 4)
 ggfreqplot(AirPassengers, conf.int = TRUE)
+ggfreqplot(AirPassengers,
+           facet.labeller = function(x) month.abb[as.integer(x)])
 }
 }

@@ -91,8 +91,28 @@ test_that('ggfreqplot', {
   p <- ggfreqplot(AirPassengers)
   expect_true(inherits(p, 'ggplot'))
 
-  p <- ggfreqplot(AirPassengers, facet.labeller = c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2))
+  facet.labels <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2)
+  p <- ggfreqplot(AirPassengers, facet.labeller = facet.labels)
   expect_true(inherits(p, 'ggplot'))
+  expect_equal(levels(p$data$Frequency), as.character(facet.labels))
+
+  expect_error(
+    ggfreqplot(AirPassengers, facet.labeller = c('first', 'second')),
+    'must be a function or a vector with length freq'
+  )
+})
+
+test_that('ggfreqplot accepts facet labeller functions (#46)', {
+  skip_if_not_installed('zoo')
+  labels <- data.frame(Frequency = as.character(1:12))
+  attr(labels, 'type') <- 'cols'
+  attr(labels, 'facet') <- 'wrap'
+
+  mapper <- function(x) paste0('period-', x)
+  p <- ggfreqplot(AirPassengers, facet.labeller = mapper)
+  mapped <- p$facet$params$labeller(labels)
+  expect_equal(mapped$Frequency, paste0('period-', 1:12))
+  expect_equal(sort(unique(p$data$Frequency)), 1:12)
 })
 
 
