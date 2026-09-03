@@ -1,3 +1,10 @@
+## ggfortify 0.4.23
+
+* Fixed axis label overrides and added step geometry support in `ggdistribution`.
+* Added support for fixed and per-group colours in survival curves.
+* Added function facet labellers to `ggfreqplot`.
+* Updated tests and tidyselect usage for compatibility with current dependencies.
+
 ## ggfortify 0.4.22
 
 * Updated tests for compatibility with recent dependency behavior.
