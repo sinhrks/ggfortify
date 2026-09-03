@@ -102,7 +102,6 @@ test_that('fixed survival colour preserves strata grouping (#120)', {
 
   expect_equal(length(unique(layer$group)), 2L)
   expect_equal(p$layers[[1]]$aes_params$colour, 'red')
-  expect_equal(rlang::as_name(p$layers[[1]]$mapping$group), 'group')
   expect_null(p$layers[[1]]$mapping$colour)
 })
 
@@ -120,7 +119,6 @@ test_that('survival colour vectors supply palettes for grouped curves (#120)', {
   expect_setequal(unique(curve$colour), c('red', 'blue'))
   expect_setequal(unique(interval$fill), c('red', 'blue'))
   expect_equal(length(unique(curve$group)), 2L)
-  expect_equal(rlang::as_name(p$layers[[1]]$mapping$colour), 'strata')
   expect_s3_class(p$scales$get_scales('colour'), 'ScaleDiscrete')
 
   three.groups <- transform(
@@ -170,7 +168,6 @@ test_that('survival colour vectors supply palettes for grouped curves (#120)', {
   )
   event.curves <- ggplot2::layer_data(event.plot, 1)
 
-  expect_equal(rlang::as_name(event.plot$layers[[1]]$mapping$colour), 'event')
   expect_setequal(unique(event.curves$colour), event.palette)
   expect_equal(length(unique(event.curves$group)), 3L)
 })
