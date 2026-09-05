@@ -36,6 +36,7 @@ Imports:
     gridExtra,
     grid,
     scales,
+    stats,
     stringr,
     tibble
 Suggests:
@@ -58,7 +59,6 @@ Suggests:
     raster,
     ROCR,
     sp,
-    stats,
     strucchange,
     survival,
     timeSeries,
