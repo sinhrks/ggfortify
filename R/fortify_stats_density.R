@@ -48,10 +48,20 @@ autoplot.density <- function (object, p = NULL,
     p <- ggplot2::ggplot(mapping = mapping)
   }
   is.discrete <- isTRUE(attr(object, 'ggfortify.discrete_cdf'))
+  is.discrete.pmf <- isTRUE(attr(object, 'ggfortify.discrete_pmf'))
   geomfunc <- if (is.discrete) geom_step else geom_line
   ribbonfunc <- if (is.discrete) geom_confint else geom_ribbon
 
-  if (!is.null(fill)) {
+  if (is.discrete.pmf) {
+    bar.fill <- if (is.null(fill)) colour else fill
+
+    if (!is.null(fill) && is.null(alpha)) {
+      alpha <- 0.3
+    }
+
+    p <- p + geom_factory(geom_col, object, colour = colour,
+                          linetype = linetype, fill = bar.fill, alpha = alpha)
+  } else if (!is.null(fill)) {
 
     if (is.null(alpha)) {
       # specify default which should not affect to geom_line
@@ -79,9 +89,18 @@ is_discrete_cdf <- function(func) {
     any(vapply(discrete_cdfs, identical, logical(1L), y = func))
 }
 
+is_discrete_pmf <- function(func) {
+  discrete_pmfs <- list(
+    stats::dbinom, stats::dgeom, stats::dhyper, stats::dnbinom,
+    stats::dpois, stats::dsignrank, stats::dwilcox
+  )
+
+  any(vapply(discrete_pmfs, identical, logical(1L), y = func))
+}
+
 #' Plot distribution
 #'
-#' @param func PDF or CDF function
+#' @param func PDF, PMF, or CDF function
 #' @param x Numeric vector to be passed to func
 #' @param p \code{ggplot2::ggplot} instance to plot
 #' @param colour Line colour
@@ -99,6 +118,7 @@ is_discrete_cdf <- function(func) {
 #' @return ggplot
 #' @examples
 #' ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
+#' ggdistribution(dpois, 0:30, lambda = 20)
 #' ggdistribution(ppois, seq(0, 30), lambda = 20)
 #'
 #' p <- ggdistribution(pchisq, 0:20, df = 7, fill = 'blue')
@@ -113,6 +133,7 @@ ggdistribution <- function (func, x, p = NULL,
   data <- data.frame(x = x, y = func(x, ...),
                      ymin = rep(0, length(x)))
   attr(data, 'ggfortify.discrete_cdf') <- is_discrete_cdf(func)
+  attr(data, 'ggfortify.discrete_pmf') <- is_discrete_pmf(func)
   p <- autoplot.density(data, p = p, colour = colour, linetype = linetype,
                         fill = fill, alpha = alpha, 
                         xlim = xlim, ylim = ylim, log = log,

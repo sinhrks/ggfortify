@@ -24,6 +24,12 @@ test_that('ggdistribution', {
                       fill = 'blue')
   expect_true(is(p$layers[[1]]$geom, 'GeomConfint'))
 
+  p <- ggdistribution(dpois, 0:30, lambda = 20)
+  expect_true(is(p$layers[[1]]$geom, 'GeomBar'))
+
+  p <- ggdistribution(dpois, 0:30, lambda = 20, colour = 'red')
+  expect_equal(p$layers[[1]]$aes_params$fill, 'red')
+
   # repeast
   p <- ggdistribution(pchisq, 0:20, df = 7, fill = 'blue')
   expect_true(is(p, 'ggplot'))
@@ -53,4 +59,12 @@ test_that('standard discrete CDFs are detected', {
   expect_true(ggfortify:::is_discrete_cdf(ecdf(0:3)))
   expect_false(ggfortify:::is_discrete_cdf(pnorm))
   expect_false('geom' %in% names(formals(ggdistribution)))
+})
+
+test_that('standard discrete PMFs are detected', {
+  discrete_pmfs <- list(dbinom, dgeom, dhyper, dnbinom,
+                        dpois, dsignrank, dwilcox)
+  detected <- vapply(discrete_pmfs, ggfortify:::is_discrete_pmf, logical(1L))
+  expect_true(all(detected))
+  expect_false(ggfortify:::is_discrete_pmf(dnorm))
 })
