@@ -38,7 +38,8 @@ Imports:
     scales,
     stats,
     stringr,
-    tibble
+    tibble,
+    utils
 Suggests:
     testthat,
     cluster,
@@ -63,7 +64,6 @@ Suggests:
     survival,
     timeSeries,
     tseries,
-    utils,
     vars,
     xts,
     zoo,
