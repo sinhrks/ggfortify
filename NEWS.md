@@ -1,3 +1,8 @@
+## ggfortify 0.4.24
+
+* Added bar plots for standard discrete PMFs in `ggdistribution`.
+* Moved `utils` from Suggests to Imports to reflect its runtime use.
+
 ## ggfortify 0.4.23
 
 * Fixed axis label overrides and added step geometry support in `ggdistribution`.
