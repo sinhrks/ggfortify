@@ -1,3 +1,19 @@
+# Supplement model data with diagnostics without ggplot2's deprecated fortify.lm.
+lm_diagnostics <- function(model, data = NULL) {
+  if (is.null(data)) {
+    data <- model$model
+  }
+
+  infl <- stats::influence(model, do.coef = FALSE)
+  data$.hat <- infl$hat
+  data$.sigma <- infl$sigma
+  data$.cooksd <- stats::cooks.distance(model, infl)
+  data$.fitted <- stats::predict(model)
+  data$.resid <- stats::resid(model)
+  data$.stdresid <- stats::rstandard(model, infl)
+  data
+}
+
 #' Autoplot \code{stats::lm} and \code{stats::glm}
 #'
 #' @param object \code{stats::lm} instance
@@ -15,7 +31,7 @@
 #' @param smooth.linetype Line type for smoother lines
 #' @param ad.colour Line colour for additional lines
 #' @param ad.linetype Line type for additional lines
-#' @param ad.size Fill colour for additional lines
+#' @param ad.size Line width for additional lines
 #' @param nrow Number of facet/subplot rows
 #' @param ncol Number of facet/subplot columns
 #' @param ... other arguments passed to methods
@@ -60,12 +76,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
   # See https://github.com/sinhrks/ggfortify/issues/202
   class(object$residuals) <- NULL
 
-  if (is.null(data)) {
-    # ggplot2::fortify can't handle NULL properly
-    plot.data <- ggplot2::fortify(object)
-  } else {
-    plot.data <- ggplot2::fortify(object, data = data)
-  }
+  plot.data <- lm_diagnostics(object, data = data)
   n <- nrow(plot.data)
 
   plot.data$.index <- 1:n
@@ -189,7 +200,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       ggplot2::geom_line(data = smoother, mapping = smoother_m,
                          colour = smooth.colour, linetype = smooth.linetype) +
       ggplot2::geom_hline(yintercept = 0L, linetype = ad.linetype,
-                          size = ad.size, colour = ad.colour)
+                          linewidth = ad.size, colour = ad.colour)
     p1 <- .decorate.label(p1, r.data)
     p1 <- .decorate.plot(p1, xlab = label.fitted, ylab = 'Residuals', title = t1)
   }
@@ -213,7 +224,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
                               alpha = alpha, fill = fill, shape = shape)
     }
     p2 <- p2 + ggplot2::geom_abline(intercept=int, slope=slope,
-                                    linetype = ad.linetype, size = ad.size,
+                                    linetype = ad.linetype, linewidth = ad.size,
                                     colour = ad.colour)
     p2 <- .decorate.label(p2, wr.data)
     p2 <- .decorate.plot(p2, xlab = 'Theoretical Quantiles',
@@ -268,7 +279,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       }
       p5 <- p5 +
         ggplot2::geom_hline(yintercept = 0L, linetype = ad.linetype,
-                            size = ad.size, colour = ad.colour) +
+                            linewidth = ad.size, colour = ad.colour) +
         ggplot2::expand_limits(x = 0)
       p5 <- .decorate.label(p5, cd.data)
       label.y5 <- ifelse(is_glm, 'Std. Pearson resid.', 'Standardized Residuals')
@@ -288,7 +299,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
       p5 <- p5 + ggplot2::geom_line(data = smoother, mapping = smoother_m,
                                     colour = smooth.colour, linetype = smooth.linetype) +
         ggplot2::geom_hline(yintercept = 0L, linetype = ad.linetype,
-                            size = ad.size, colour = ad.colour) +
+                            linewidth = ad.size, colour = ad.colour) +
         ggplot2::expand_limits(x = 0)
       p5 <- .decorate.label(p5, cd.data)
       label.y5 <- ifelse(is_glm, 'Std. Pearson resid.', 'Standardized Residuals')
@@ -320,7 +331,7 @@ autoplot.lm <- function(object, which = c(1:3, 5), data = NULL,
     for (i in seq_along(bval)) {
       bi2 <- bval[i] ^ 2
       p6 <- p6 + ggplot2::geom_abline(intercept=0, slope=bi2,
-                                      linetype = ad.linetype, size = ad.size,
+                                      linetype = ad.linetype, linewidth = ad.size,
                                       colour = ad.colour)
     }
   }
