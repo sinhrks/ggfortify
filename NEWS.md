@@ -1,3 +1,7 @@
+## ggfortify 0.4.25
+
+* Removed ggplot2 deprecation warnings from `autoplot.lm()` and `autoplot.glm()` (#263).
+
 ## ggfortify 0.4.24
 
 * Added bar plots for standard discrete PMFs in `ggdistribution`.
@@ -5,7 +9,6 @@
 
 ## ggfortify 0.4.23
 
-* Removed ggplot2 deprecation warnings from `autoplot.lm()` and `autoplot.glm()` (#263).
 * Fixed axis label overrides and added step geometry support in `ggdistribution`.
 * Added support for fixed and per-group colours in survival curves.
 * Added function facet labellers to `ggfreqplot`.
