@@ -1,3 +1,7 @@
+## ggfortify 0.4.25
+
+* Removed ggplot2 deprecation warnings from `autoplot.lm()` and `autoplot.glm()` (#263).
+
 ## ggfortify 0.4.24
 
 * Added bar plots for standard discrete PMFs in `ggdistribution`.

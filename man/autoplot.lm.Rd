@@ -90,7 +90,7 @@
 
 \item{ad.linetype}{Line type for additional lines}
 
-\item{ad.size}{Fill colour for additional lines}
+\item{ad.size}{Line width for additional lines}
 
 \item{nrow}{Number of facet/subplot rows}
 

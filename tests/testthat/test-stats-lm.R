@@ -3,10 +3,10 @@ context('test stats lm')
 # Note the sort() here is to make sure the results match in CRAN MKL build
 expect_sorted_equal <- function(a, b) expect_equal(sort(a), sort(b))
 
-test_that('fortify.lm works for USArrests', {
+test_that('lm_diagnostics works for USArrests', {
   skip_on_cran()
   skip_on_travis()
-  fortified <- ggplot2::fortify(lm(Murder ~ Assault + UrbanPop, data = USArrests))
+  fortified <- lm_diagnostics(lm(Murder ~ Assault + UrbanPop, data = USArrests))
   expect_equal(is.data.frame(fortified), TRUE)
 
   expected_names <- c('Murder', 'Assault', 'UrbanPop', '.hat', '.sigma',
@@ -14,13 +14,66 @@ test_that('fortify.lm works for USArrests', {
   expect_equal(colnames(fortified), expected_names)
   expect_equal(rownames(fortified), rownames(USArrests))
 
-  fortified <- ggplot2::fortify(glm(Murder ~ Assault + UrbanPop, data = USArrests))
+  fortified <- lm_diagnostics(glm(Murder ~ Assault + UrbanPop, data = USArrests))
   expect_equal(is.data.frame(fortified), TRUE)
 
   expected_names <- c('Murder', 'Assault', 'UrbanPop', '.hat', '.sigma',
                       '.cooksd', '.fitted', '.resid', '.stdresid')
   expect_equal(colnames(fortified), expected_names)
   expect_equal(rownames(fortified), rownames(USArrests))
+})
+
+test_that('autoplot.lm and autoplot.glm avoid deprecated ggplot2 calls', {
+  old_options <- options(lifecycle_verbosity = 'error')
+  on.exit(options(old_options), add = TRUE)
+
+  models <- list(lm(mpg ~ wt, data = mtcars),
+                 glm(am ~ wt, family = binomial(), data = mtcars))
+  for (model in models) {
+    expect_error(p <- autoplot(model, which = 1:6), NA)
+    expect_equal(length(p@plots), 6)
+    for (plot in p@plots) {
+      expect_error(ggplot2::ggplot_build(plot), NA)
+    }
+  }
+})
+
+test_that('autoplot.lm preserves diagnostics and supplied data', {
+  models <- list(lm(mpg ~ wt, data = mtcars),
+                 lm(mpg ~ wt, weights = hp, data = mtcars),
+                 glm(am ~ wt, family = binomial(), data = mtcars))
+  for (model in models) {
+    p <- autoplot(model, data = mtcars, colour = 'cyl', which = 1)
+    plot.data <- p[[1]]$data
+    expect_equal(plot.data[names(mtcars)], mtcars)
+    expect_equal(plot.data$.label, rownames(mtcars))
+    expect_equal(plot.data$.hat, unname(stats::hatvalues(model)))
+    expect_equal(plot.data$.sigma, unname(stats::influence(model)$sigma))
+    expect_equal(plot.data$.cooksd, unname(stats::cooks.distance(model)))
+    expect_equal(plot.data$.fitted, unname(stats::predict(model)))
+    expect_equal(plot.data$.resid, unname(stats::residuals(model)))
+    expect_equal(plot.data$.stdresid, unname(stats::rstandard(model)))
+  }
+})
+
+test_that('ad.size controls the width of all diagnostic reference lines', {
+  old_options <- options(lifecycle_verbosity = 'error')
+  on.exit(options(old_options), add = TRUE)
+
+  expect_error(p <- autoplot(lm(mpg ~ wt, data = mtcars),
+                               which = c(1, 2, 5, 6), ad.size = 0.8), NA)
+  expect_error(p.factor <- autoplot(aov(Petal.Length ~ Species, data = iris),
+                                      which = 5, ad.size = 0.8), NA)
+  for (plot in c(p@plots, p.factor@plots)) {
+    reference.layers <- which(vapply(plot$layers, function(layer) {
+      inherits(layer$geom, 'GeomHline') || inherits(layer$geom, 'GeomAbline')
+    }, logical(1)))
+    expect_true(length(reference.layers) > 0)
+    for (i in reference.layers) {
+      layer.data <- ggplot2::layer_data(plot, i)
+      expect_equal(layer.data$linewidth, rep(0.8, nrow(layer.data)))
+    }
+  }
 })
 
 test_that('autoplot.lm can accept + operator', {
